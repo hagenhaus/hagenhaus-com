@@ -5,7 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "s1": "cd plugins/copy-fm-to-config && npm install",
+    "s2": "cd plugins/example && npm install",
+    "s3": "cd plugins/join-code-classes && npm install",
+    "s4": "cd plugins/prepend-toc-node && npm install"
   },
   "keywords": [],
   "author": "",

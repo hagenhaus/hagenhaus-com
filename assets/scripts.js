@@ -5,13 +5,170 @@ const currentPage = {
   src: null
 };
 
-let updateOtp = false;
-const github = 'https://github.com/hagenhaus/reach-lang/blob/master/dev';
+const github = 'https://github.com/reach-sh/reach-developer-portal/blob/master';
 
 const pathnameToId = (pathname) => { return pathname.replace(/^\/|\/$/g, '').replace(/\//g, '_'); }
 const idToPathName = (id) => { return id.replace(/_/g, '/'); }
 
-const homepage = '/pages/homepage/';
+let lang = window.navigator.language.split('-')[0];
+const homepage = `/${lang}/pages/homepage/`;
+
+const otpPreferences = { 'none': 'none', 'show': 'show', 'hide': 'hide' };
+Object.freeze(otpPreferences);
+let otpPreference = otpPreferences.none;
+
+/************************************************************************************************
+* getWinWidth
+************************************************************************************************/
+
+const getWinWidthStr = () => {
+  let s = window.innerWidth;
+  if (s >= 1200) { return 'xl' }
+  else if (s >= 992) { return 'lg' }
+  else if (s >= 768) { return 'md' }
+  else if (s >= 576) { return 'sm' }
+  else return 'xs'
+}
+
+const maxColWidth = '280px';
+let winWidth = getWinWidthStr();
+
+/************************************************************************************************
+* establishDisplay
+************************************************************************************************/
+
+const establishDisplay = () => {
+  if (currentPage.bookPath) {
+    const bookCol = document.getElementById('book-col');
+    const bookBtn = document.querySelector('div.show-book-col');
+    if (winWidth == 'xl' || winWidth == 'lg' || winWidth == 'md') {
+      bookCol.style.maxWidth = maxColWidth;
+      bookCol.style.display = 'block';
+      bookBtn.style.display = 'none';
+    } else if (winWidth == 'sm' || winWidth == 'xs') {
+      bookCol.style.maxWidth = 'none';
+      bookCol.style.display = 'none';
+      bookBtn.style.display = 'block';
+    }
+  }
+
+  if (currentPage.hasOtp) {
+    const otpCol = document.getElementById('otp-col');
+    const otpBtn = document.querySelector('button.show-otp-col');
+    if (winWidth == 'xl' || winWidth == 'lg') {
+      otpCol.style.maxWidth = maxColWidth;
+      if (otpPreference == otpPreferences.hide) {
+        otpCol.style.display = 'none';
+        otpBtn.style.display = 'block';
+      } else {
+        otpCol.style.display = 'block';
+        otpBtn.style.display = 'none';
+      }
+    } else if (winWidth == 'md') {
+      otpCol.style.maxWidth = maxColWidth;
+      if (otpPreference == otpPreferences.show) {
+        otpCol.style.display = 'block';
+        otpBtn.style.display = 'none';
+      } else {
+        otpCol.style.display = 'none';
+        otpBtn.style.display = 'block';
+      }
+    } else if (winWidth == 'sm' || winWidth == 'xs') {
+      otpCol.style.maxWidth = 'none';
+      otpCol.style.display = 'none';
+      otpBtn.style.display = 'block';
+    }
+  }
+}
+
+/************************************************************************************************
+* window horizontal resize
+************************************************************************************************/
+
+window.addEventListener('resize', () => {
+  let newWinWidth = getWinWidthStr();
+  if (winWidth != newWinWidth) {
+    winWidth = newWinWidth;
+    establishDisplay();
+  }
+});
+
+/************************************************************************************************
+* scrollHandler
+************************************************************************************************/
+
+const scrollHandler = (event) => {
+  if (document.querySelectorAll('#otp-col li.dynamic').length == false) {
+    event.target.onscroll = null;
+  } else {
+    let found = false;
+
+    let arr = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2');
+    if (arr.length) {
+      for (let i = arr.length - 1; i >= 0; i--) {
+        let rect = arr[i].getBoundingClientRect();
+        if (rect.y <= 80.0) {
+          found = true;
+          updateHistory(arr[i].id);
+          setOtpItemToActive(arr[i].id);
+          break;
+        }
+      }
+      if (found == false) {
+        updateHistory('on-this-page');
+        setOtpItemToActive('on-this-page');
+      }
+    }
+  }
+}
+
+/************************************************************************************************
+* scrollPage
+************************************************************************************************/
+
+const scrollPage = (id) => {
+  if (id == 'on-this-page') {
+    document.getElementById('page-col').scrollTo(0, 0);
+  }
+  else {
+    document.getElementById(id).scrollIntoView();
+  }
+}
+
+/************************************************************************************************
+* updateHistory
+************************************************************************************************/
+
+const updateHistory = (id) => {
+  if (id == 'on-this-page') {
+    window.history.pushState(null, null, `${window.location.origin}${currentPage.folder}`);
+  }
+  else {
+    window.history.pushState(null, null, `${window.location.origin}${currentPage.folder}#${id}`);
+  }
+}
+
+/************************************************************************************************
+* setOtpItemToActive
+************************************************************************************************/
+
+const setOtpItemToActive = (id) => {
+  let link = null;
+  if (id == 'on-this-page') {
+    link = document.querySelector('#otp-col ul li a[href="#on-this-page"]');
+    if (link.classList.contains('active') == false) {
+      document.querySelector('#otp-col a.active').classList.remove('active');
+      link.classList.add('active');
+    }
+  }
+  else {
+    link = document.querySelector('#otp-col ul li a[href="' + "#" + id + '"]');
+    if (link.classList.contains('active') == false) {
+      document.querySelector('#otp-col a.active').classList.remove('active');
+      link.classList.add('active');
+    }
+  }
+}
 
 /************************************************************************************************
 * getWebpage
@@ -22,9 +179,10 @@ const homepage = '/pages/homepage/';
 *   #create-a-project
 ************************************************************************************************/
 
-const getWebpage = async (folder, hash, updateHistory) => {
+const getWebpage = async (folder, hash, shallUpdateHistory) => {
+  console.log('getWebpage');
 
-  folder = folder == '/' ? homepage : folder;
+  folder = folder == '/' || folder == `/${lang}/` ? homepage : folder;
   const url = `${window.location.origin}${folder}`;
   const configJsonUrl = `${url}config.json`;
   const pageHtmlUrl = `${url}page.html`;
@@ -45,6 +203,9 @@ const getWebpage = async (folder, hash, updateHistory) => {
     //console.log(JSON.stringify(configJson, null, 2));
     //console.log(pageHtml);
     //console.log(otpHtml);
+
+    // Set body background color.
+    //document.querySelector('body').style.background = configJson.background;
 
     // Book or different book?
     if (configJson.bookPath && configJson.bookPath != currentPage.bookPath) {
@@ -82,8 +243,20 @@ const getWebpage = async (folder, hash, updateHistory) => {
     // Write page title.
     document.querySelector('div.hh-viewer-wrapper span.title').textContent = configJson.title;
 
-    // Update edit btn.
-    currentPage.src = `${github}${folder}/index.md`;
+    // Update and show/hide edit btn.
+    currentPage.src = `${github}${folder}index.md`;
+    if (configJson.hasEditBtn) {
+      document.querySelector('div.hh-page-header button.edit-btn').style.display = 'block';
+    } else {
+      document.querySelector('div.hh-page-header button.edit-btn').style.display = 'none';
+    }
+
+    // Show/hide refresh btn.
+    if (configJson.hasRefreshBtn) {
+      document.querySelector('div.hh-page-header button.refresh').style.display = 'block';
+    } else {
+      document.querySelector('div.hh-page-header button.refresh').style.display = 'none';
+    }
 
     // Write author
     if (configJson.author) {
@@ -179,9 +352,17 @@ const getWebpage = async (folder, hash, updateHistory) => {
       }
     }
 
+    // Establish correct display values.
+    establishDisplay();
+
     // Display book.
-    if (configJson.bookPath) { document.getElementById('book-col').style.display = 'block'; }
-    else { document.getElementById('book-col').style.display = 'none'; }
+    if (configJson.bookPath) {
+      document.getElementById('book-col').classList.remove('banish');
+      document.querySelector('div.show-book-col').classList.remove('banish');
+    } else {
+      document.getElementById('book-col').classList.add('banish');
+      document.querySelector('div.show-book-col').classList.add('banish');
+    }
 
     // Display page.
     if (configJson.hasPageHeader) { document.querySelector('div.hh-page-header').style.display = 'block'; }
@@ -189,17 +370,23 @@ const getWebpage = async (folder, hash, updateHistory) => {
     document.getElementById('page-col').style.display = 'block';
 
     // Display OTP.
-    if (configJson.hasOtp) { document.getElementById('otp-col').style.display = 'block'; }
-    else { document.getElementById('otp-col').style.display = 'none'; }
+    if (configJson.hasOtp) {
+      document.getElementById('otp-col').classList.remove('banish');
+      document.querySelector('button.show-otp-col').classList.remove('banish');
+    } else {
+      document.getElementById('otp-col').classList.add('banish');
+      document.querySelector('button.show-otp-col').classList.add('banish');
+    }
 
     // Scroll to proper place and update history
-    currentPage.folder = `${folder}`;
-    if (hash && hash !== '#on-this-page') {
-      document.getElementById(hash.substring(1)).scrollIntoView();
-      window.history.pushState(null, null, `${window.location.origin}${folder}${hash}`);
+    currentPage.folder = folder;
+    if (hash) {
+      scrollPage(hash.substring(1));
+      if (shallUpdateHistory) { updateHistory(hash.substring(1)); }
+      setOtpItemToActive(hash.substring(1));
     } else {
-      document.getElementById('page-col').scrollTo(0, 0);
-      window.history.pushState('{}', '', `${window.location.origin}${folder}`);
+      scrollPage('on-this-page');
+      window.history.pushState(null, null, `${window.location.origin}${currentPage.folder}`);
     }
 
   } catch (error) {
@@ -213,24 +400,28 @@ const getWebpage = async (folder, hash, updateHistory) => {
 ************************************************************************************************/
 
 const followLink = async (href) => {
-
-  console.log(href);
-
+  console.log('followLink');
   let a = document.createElement('a');
   a.href = href;
 
-  if (a.hostname === window.location.hostname) {
+  //console.log(a.pathname);
+  //if(a.hash) {console.log(a.hash)};
+
+  if (a.pathname.endsWith('.pdf')) {
+    window.open(a.href, '_blank').focus();
+  } else if (a.hostname === window.location.hostname) {
     if (currentPage.folder == a.pathname && a.hash) {
       if (a.hash === '#on-this-page') {
-        history.pushState(null, null, currentPage.folder);
-        document.getElementById('page-col').scrollTo(0, 0);
+        scrollPage('on-this-page');
+        updateHistory('on-this-page');
+        setOtpItemToActive('on-this-page');
       } else {
-        history.pushState(null, null, a.hash);
-        document.getElementById(a.hash.substring(1)).scrollIntoView();
+        scrollPage(a.hash.substring(1));
+        updateHistory(a.hash.substring(1));
+        setOtpItemToActive(a.hash.substring(1));
       }
-    }
-    else {
-      await getWebpage(a.pathname, null, true);
+    } else {
+      await getWebpage(a.pathname, a.hash, true);
     }
   } else {
     window.open(a.href, '_blank').focus();
@@ -273,6 +464,7 @@ document.querySelector('button.hide-otp-icon').addEventListener('click', (event)
   }
   document.getElementById('otp-col').style.display = 'none';
   document.querySelector('button.show-otp-col').style.display = 'block';
+  otpPreference = otpPreferences.hide;
 });
 
 document.querySelector('button.show-otp-col').addEventListener('click', (event) => {
@@ -281,61 +473,7 @@ document.querySelector('button.show-otp-col').addEventListener('click', (event) 
   }
   document.getElementById('otp-col').style.display = 'block';
   document.querySelector('button.show-otp-col').style.display = 'none';
-});
-
-/************************************************************************************************
-* window horizontal resizing
-************************************************************************************************/
-
-const getWinWidthStr = () => {
-  let s = window.innerWidth;
-  if (s >= 1200) { return 'xl' }
-  else if (s >= 992) { return 'lg' }
-  else if (s >= 768) { return 'md' }
-  else if (s >= 576) { return 'sm' }
-  else return 'xs'
-}
-let winWidth = getWinWidthStr();
-const maxColWidth = '280px';
-
-window.addEventListener('resize', () => {
-  let newWinWidth = getWinWidthStr();
-  if (winWidth != newWinWidth) {
-    winWidth = newWinWidth;
-
-    if (currentPage.bookPath) {
-      if (winWidth == 'xl') {
-        document.getElementById('book-col').style.display = 'block';
-        document.getElementById('book-col').style.maxWidth = maxColWidth;
-        document.querySelector('div.show-book-col').style.display = 'none';
-      } else if (winWidth == 'lg' || winWidth == 'md') {
-        document.getElementById('book-col').style.display = 'block';
-        document.getElementById('book-col').style.maxWidth = maxColWidth;
-        document.querySelector('div.show-book-col').style.display = 'none';
-      } else if (winWidth == 'sm' || winWidth == 'xs') {
-        document.getElementById('book-col').style.display = 'none';
-        document.getElementById('book-col').style.maxWidth = 'none';
-        document.querySelector('div.show-book-col').style.display = 'block';
-      }
-    }
-
-    if (currentPage.hasOtp) {
-      if (winWidth == 'xl') {
-        document.getElementById('otp-col').style.display = 'block';
-        document.getElementById('otp-col').style.maxWidth = maxColWidth;
-        document.querySelector('button.show-otp-col').style.display = 'none';
-      } else if (winWidth == 'lg' || winWidth == 'md') {
-        document.getElementById('otp-col').style.display = 'none';
-        document.getElementById('otp-col').style.maxWidth = maxColWidth;
-        document.querySelector('button.show-otp-col').style.display = 'block';
-      } else if (winWidth == 'sm' || winWidth == 'xs') {
-        document.getElementById('otp-col').style.display = 'none';
-        document.getElementById('otp-col').style.maxWidth = 'none';
-        document.querySelector('button.show-otp-col').style.display = 'block';
-      }
-    }
-
-  }
+  otpPreference = otpPreferences.show;
 });
 
 /************************************************************************************************
@@ -379,45 +517,24 @@ document.getElementById('about-this-book').addEventListener('click', (event) => 
 /************************************************************************************************
 * onPageColScroll
 ************************************************************************************************/
-
+/*
 document.getElementById('page-col').addEventListener('scroll', function (event) {
-  if (!document.querySelectorAll('#otp-col li.dynamic').length) {
-    event.target.onscroll = null;
-  } else if (updateOtp == false) {
-    updateOtp = true;
-  } else {
-    let found = false;
-
-    let a = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2');
-    if (a.length) {
-      for (let i = a.length - 1; i >= 0; i--) {
-        let rect = a[i].getBoundingClientRect();
-        if (rect.y <= 80.0) {
-          found = true;
-          let link = document.querySelector('#otp-col ul li a[href="' + "#" + a[i].id + '"]');
-          if (!link.classList.contains('active')) {
-            document.querySelector('#otp-col a.active').classList.remove('active');
-            link.classList.add('active');
-            window.history.pushState(null, null, `${window.location.origin}${currentPage.folder}#${a[i].id}`);
-          }
-          break;
-        }
-      }
-      if (found == false) {
-        if (!document.querySelector("#otp-col a[href='#on-this-page']").classList.contains('active')) {
-          document.querySelector('#otp-col a.active').classList.remove('active');
-          document.querySelector("#otp-col a[href='#on-this-page']").classList.add('active');
-        }
-      }
-    }
-  }
+  scrollHandler(event);
 });
+*/
+document.getElementById('page-col').addEventListener('scroll', scrollHandler);
 
 /************************************************************************************************
 * on load
 ************************************************************************************************/
 
+
 //console.log(window.location.origin);
 //console.log(window.location.href);
 //console.log(window.location.pathname);
 getWebpage(window.location.pathname, window.location.hash, true);
+
+//function callGetWebpage() {
+//  getWebpage(window.location.pathname, window.location.hash, true);
+//}
+//window.setTimeout(callGetWebpage, 500);

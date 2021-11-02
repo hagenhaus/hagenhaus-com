@@ -1,9 +1,6 @@
 {
-  "srcDir": "/Users/matt/repositories/reach-lang/dev",
   "iCssPath": "/assets/styles.css",
   "oCssPath": "/assets/styles.min.css",
-  "iHtmlPath": "/assets/base.html",
-  "oHtmlPath": "/index.html",
   "iJsPath": "/assets/scripts.js",
   "oJsPath": "/assets/scripts.min.js",
   "mdFile": "index.md",

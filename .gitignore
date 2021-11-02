@@ -1,7 +1,8 @@
 .DS_Store
-.vscode/
 *.html
+!/index.html
 !base.html
+!book.html
 scripts.min.js
 styles.min.css
 node_modules/

@@ -32,7 +32,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const cfg = fs.readJsonSync(`${__dirname}/generator.json`);
 
-const pathnameToId = (pathname) => { return pathname.replace(/^\/|\/$/g, '').replace(/\//g, '_'); }
+const srcDir = __dirname.replace('/tools', '');
 
 /************************************************************************************************
 * Parse command line
@@ -46,16 +46,34 @@ const argv = yargs(process.argv.slice(2))
     type: 'string',
     default: ''
   })
+  .option('edit', {
+    alias: 'e',
+    describe: 'Add edit button to page.',
+    type: 'boolean',
+    default: true
+  })
   .option('help', {
     alias: 'h',
     describe: 'Show help.',
     type: 'boolean'
   })
+  .option('language', {
+    alias: 'l',
+    describe: 'Specify language (e.g. en, zh).',
+    type: 'string',
+    default: 'en'
+  })
+  .option('refresh', {
+    alias: 'r',
+    describe: 'Add refresh button to page.',
+    type: 'boolean',
+    default: true
+  })
   .option('type', {
     alias: 't',
     describe: 'Specify file type.',
     type: 'string',
-    choices: ['all', 'book', 'css', 'html', 'folder', 'folders', 'js'],
+    choices: ['all', 'base', 'book', 'css', 'folder', 'folders', 'js'],
     demandOption: true
   })
   .option('version', {
@@ -69,12 +87,20 @@ const argv = yargs(process.argv.slice(2))
     ['$0 -t all'],
     ['$0 -t book -d books/demo'],
     ['$0 -t css'],
-    ['$0 -t html'],
-    ['$0 -t folder -d books/demo'],
-    ['$0 -t folders -d books/demo'],
+    ['$0 -t base -l en'],
+    ['$0 -t folder -d en/books/demo'],
+    ['$0 -t folders -d en/books/demo'],
     ['$0 -t js']
   ])
   .argv
+
+/************************************************************************************************
+* normalizeDir
+************************************************************************************************/
+
+const normalizeDir = (s) => {
+  return s.endsWith('/') ? s.slice(0, -1) : s;
+}
 
 /************************************************************************************************
 * processBook
@@ -88,8 +114,8 @@ const processBook = (baseDir, relDir) => {
 * processCss
 ************************************************************************************************/
 const processCss = () => {
-  let iPath = `${cfg.srcDir}${cfg.iCssPath}`;
-  let oPath = `${cfg.srcDir}${cfg.oCssPath}`;
+  let iPath = `${srcDir}${cfg.iCssPath}`;
+  let oPath = `${srcDir}${cfg.oCssPath}`;
   console.log(`Minifying ${cfg.iCssPath.slice(1)}`);
   try {
     let input = fs.readFileSync(iPath, 'utf8');
@@ -102,13 +128,13 @@ const processCss = () => {
 }
 
 /************************************************************************************************
-* processHtml
+* processBase
 ************************************************************************************************/
 
-const processHtml = () => {
-  let iPath = `${cfg.srcDir}${cfg.iHtmlPath}`;
-  let oPath = `${cfg.srcDir}${cfg.oHtmlPath}`;
-  console.log(`Minifying ${cfg.iHtmlPath.slice(1)}`);
+const processBase = (lang) => {
+  let iPath = `${srcDir}/${lang}/base.html`;
+  let oPath = `${srcDir}/${lang}/index.html`;
+  console.log(`Minifying ${iPath}`);
   let options = { html: {}, };
   minify(iPath, options)
     .then(output => { fs.writeFileSync(oPath, output); })
@@ -120,8 +146,8 @@ const processHtml = () => {
 ************************************************************************************************/
 
 const processJs = () => {
-  let iPath = `${cfg.srcDir}${cfg.iJsPath}`;
-  let oPath = `${cfg.srcDir}${cfg.oJsPath}`;
+  let iPath = `${srcDir}${cfg.iJsPath}`;
+  let oPath = `${srcDir}${cfg.oJsPath}`;
   console.log(`Minifying ${cfg.iJsPath.slice(1)}`);
   try {
     let input = fs.readFileSync(iPath, 'utf8');
@@ -161,7 +187,9 @@ const evaluateCodeSnippet = (code) => {
   if (arr.length > 0) {
     const line1 = arr[0].replace(/\s+/g, '');
     if (line1.slice(0, 5) == 'load:') {
-      spec.url = `${cfg.repoBase}${line1.slice(5)}`;
+      const url = line1.slice(5);
+      if (url.slice(0, 4) == 'http') { spec.url = url; }
+      else { spec.url = `${cfg.repoBase}${url}`; }
       if (arr.length > 1) {
         const line2 = arr[1].replace(/\s+/g, '');
         if (line2.slice(0, 6) == 'range:') {
@@ -238,6 +266,7 @@ const transformReachDoc = (md) => {
 
 const processFolder = async (baseDir, relDir) => {
 
+  let lang = relDir.split('/')[0];
   let folder = `${baseDir}/${relDir}`;
   let mdPath = `${folder}/${cfg.mdFile}`;
   let cfgPath = `${folder}/${cfg.cfgFile}`;
@@ -249,12 +278,16 @@ const processFolder = async (baseDir, relDir) => {
   // Create fresh config file with default values.
   let configJson = {};
   configJson.author = null;
+  configJson.background = 'white';
   configJson.bookPath = null;
   configJson.bookTitle = null;
   configJson.chapters = null;
   configJson.hasOtp = true;
+  configJson.hasCustomBase = false;
+  configJson.hasEditBtn = argv.e;
   configJson.hasPageHeader = true;
   configJson.hasPageScrollbar = true;
+  configJson.hasRefreshBtn = argv.r;
   configJson.menuItem = null;
   configJson.pages = null;
   configJson.pathname = null;
@@ -361,11 +394,18 @@ const processFolder = async (baseDir, relDir) => {
           if (pArray.includes('books')) {
             const bArray = pArray.slice(0, pArray.indexOf('books') + 2);
             const bPath = bArray.join('/');
-            const bIdArray = pArray.slice(pArray.indexOf('books'), pArray.indexOf('books') + 2);
+            const bIdArray = pArray.slice(pArray.indexOf('books') - 1, pArray.indexOf('books') + 2);
             configJson.bookPath = bIdArray.join('/');
             const bookConfigJsonFile = `${bPath}/config.json`;
             const bookConfigJson = fs.readJsonSync(bookConfigJsonFile);
             configJson.bookTitle = bookConfigJson.bookTitle;
+
+            //console.log(pArray);
+            //console.log(bArray);
+            //console.log(bPath);
+            //console.log(bIdArray);
+            //console.log(configJson.bookPath);
+
           }
         }
 
@@ -432,16 +472,25 @@ const processFolder = async (baseDir, relDir) => {
   }
 
   // Create soft link in this folder to index.html file at root.
-  try {
-    fs.unlinkSync(`${folder}/index.html`);
-  } catch (err) {
-    //console.log('Info: Old symlink does not exist.');
-  }
-
-  try {
-    fs.symlinkSync(`${baseDir}/index.html`, `${folder}/index.html`);
-  } catch (err) {
-    //console.log('Error: Could not create symlink to index.html.');
+  if(configJson.hasCustomBase == false) {
+    try {
+      fs.unlinkSync(`${folder}/index.html`);
+    } catch (err) {
+      //console.log('Info: Old symlink does not exist.');
+    }
+  
+    try {
+      let backstepCount = relDir.split('/').length - 1;
+      let backstepUrl = '';
+      for (let i=0; i < backstepCount; i++) {
+        backstepUrl = backstepUrl + '../';
+      }
+      let target = `${backstepUrl}index.html`;
+      let symlink = `${folder}/index.html`;
+      fs.symlinkSync(target, symlink);
+    } catch (err) {
+      //console.log('Error: Could not create symlink to index.html.');
+    }  
   }
 
   // Write DOM to file.
@@ -461,7 +510,7 @@ const findAndProcessFolder = async (folder) => {
   const fileArr = fs.readdirSync(folder);
   for (let i = 0; i < fileArr.length; i++) {
     if (fileArr[i] == 'index.md') {
-      let baseDir = normalizeDir(cfg.srcDir);
+      let baseDir = normalizeDir(srcDir);
       let relDir = normalizeDir(folder.replace(baseDir, ''));
       relDir = relDir.startsWith('/') ? relDir.slice(1) : relDir;
       let rval = await processFolder(baseDir, relDir);
@@ -493,51 +542,40 @@ const findAndProcessFolders = (folder) => {
 }
 
 /************************************************************************************************
-* normalizeDir
-************************************************************************************************/
-
-const normalizeDir = (s) => {
-  return s.endsWith('/') ? s.slice(0, -1) : s;
-}
-
-/************************************************************************************************
-* Process type argument
+* Process specified type.
 ************************************************************************************************/
 
 switch (argv.t) {
 
   case 'all':
     processCss();
-    //console.log('After processCss');
-    processHtml();
-    //console.log('After processHtml');
+    processBase('en');
     processJs();
-    //console.log('After processJs');
-    findAndProcessFolders(`${normalizeDir(cfg.srcDir)}`);
-    //console.log('After findAndProcessFolders');
+    // Need to add --ignore flag.
+    findAndProcessFolders(`${normalizeDir(srcDir)}`);
+    break;
+
+  case 'base':
+    processBase(argv.l);
     break;
 
   case 'book':
-    processBook(normalizeDir(cfg.srcDir), normalizeDir(argv.d));
+    processBook(normalizeDir(srcDir), normalizeDir(argv.d));
     break;
 
   case 'css':
     processCss();
     break;
 
-  case 'html':
-    processHtml();
-    break;
-
   case 'folder':
     (async () => {
-      const rval = await processFolder(normalizeDir(cfg.srcDir), normalizeDir(argv.d));
+      const rval = await processFolder(normalizeDir(srcDir), normalizeDir(argv.d));
       if (rval !== 'success') { console.log(rval); }
     })();
     break;
 
   case 'folders':
-    findAndProcessFolders(`${normalizeDir(cfg.srcDir)}/${normalizeDir(argv.d)}`);
+    findAndProcessFolders(`${normalizeDir(srcDir)}/${normalizeDir(argv.d)}`);
     break;
 
   case 'js':

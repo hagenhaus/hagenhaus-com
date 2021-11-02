@@ -34,3 +34,38 @@ find . -type f -name "*index.md" -print0 | xargs -0 sed -i '' -e 's/\/docs-md\/s
     Put transcript here.
   </div>
 </div>
+
+$mynewcolor:#77cccc;
+
+.btn-primary {
+    @include button-variant($mynewcolor, darken($mynewcolor, 7.5%), darken($mynewcolor, 10%), lighten($mynewcolor,5%), lighten($mynewcolor, 10%), darken($mynewcolor,30%));
+}
+    
+.btn-outline-primary {
+    @include button-outline-variant($mynewcolor, #222222, lighten($mynewcolor,5%), $mynewcolor);
+}
+
+```
+<div class="row mt-1 mt-lg-3">
+  <div class="col-12">
+    <div class="row justify-content-md-center gx-2">
+      <div class="col-12">
+        <p class="lead text-center">Reach is the ideal programming language for blockchain applications.</b></p>
+      </div>
+    </div>
+    <div class="row justify-content-center gx-2">
+      <div class="col-6 col-md-3 my-3"><a class="btn btn-success step" href="/en/books/essentials/" role="button" style="width:100%;">Overview</a></div>
+      <div class="col-6 col-md-3 my-3"><a class="btn btn-success step" href="/en/books/essentials/tutorials/" role="button" style="width:100%;">Tutorials</a></div>
+    </div>
+    <div class="row justify-content-center gx-2">
+      <div class="col-auto my-3 social-icons">
+        <a class="pe-3 follow" href="https://discord.com/invite/AZsgcXu"><i class="fab fa-discord fa-lg"></i></a>
+        <a class="pe-3 follow" href="https://github.com/reach-sh/reach-lang"><i class="fab fa-github fa-lg"></i></a>
+        <a class="pe-3 follow" href="https://twitter.com/reachlang"><i class="fab fa-twitter fa-lg"></i></a>
+        <a class="pe-3 follow" href="https://www.youtube.com/c/Reachsh"><i class="fab fa-youtube fa-lg"></i></a>
+        <a class="follow" href="https://www.reddit.com/r/reach_sh"><i class="fab fa-reddit-square fa-lg"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+```
