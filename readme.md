@@ -26,6 +26,15 @@ This repository contains the source files and site generator for the Reach Devel
 
     Hit CTRL-C to stop the server.
 
+    You can also run http-server in the background using [pm2](https://www.npmjs.com/package/pm2):
+
+    ```
+    $ npm install pm2 -g
+    $ pm2 start http-server --name http-server -- -c-1
+    ```
+
+    The `--` argument passes the `-c` flag to `http-server`.
+
 1. Browse to http://127.0.0.1:8080 or http://localhost:8080.
 
 ## Create a webpage
