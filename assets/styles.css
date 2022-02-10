@@ -3,6 +3,7 @@
 ************************************************/
 
 html, body {height: 100%;}
+body { overflow: hidden; }
 /* body {--bs-bg-opacity: 1; background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity));} */
 #book-col, #page-col, #otp-col { height: 100%; overflow-x: hidden; overflow-y: auto;}
 main {height: calc(100% - 56px);}
@@ -90,7 +91,7 @@ header div.navbar-nav a:hover span,
   color: white;
 }
 
-header a.active span {
+header div.navbar-nav a.active span {
   border-bottom: 2px solid white;
   color: white;
 }
@@ -244,19 +245,21 @@ i.fas:hover {cursor: pointer;}
 }
 
 #page-col div.hh-viewer h3 {
-  color: dodgerblue;
+  color: #6666ff;
   font-weight: bold;
+  font-style: normal;
+  text-decoration: normal;
   font-size: 16px;
 }
 
 #page-col div.hh-viewer h4 {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 #page-col div.hh-viewer h6 {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 #page-col a:not(.btn) {color: steelblue; text-decoration: none;}
@@ -269,14 +272,8 @@ i.fas:hover {cursor: pointer;}
 #page-col img.hh-halign-center {margin-left:auto;margin-right:auto;}
 #page-col img.hh-halign-right {margin-left:auto;margin-right:0;}
 
-#page-col.noscroll::-webkit-scrollbar {
-  display: none;
-}
-
-#page-col.noscroll {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
+.noscroll::-webkit-scrollbar { display: none; }
+.noscroll { -ms-overflow-style: none; scrollbar-width: none; }
 
 p.punch span {color:#F45747;}
 
@@ -296,10 +293,27 @@ p.punch span {color:#F45747;}
 ************************************************/
 
 #page-col div.hh-viewer blockquote {
-  border: 2px solid var(--soft1);
-  /*border-left: 5px solid red;*/
+  background: #fff6e6;
+  border-left: 5px solid orange;
   margin: 20px 0;
-  padding: 0 12px;
+  padding: 3px 12px;
+}
+
+#page-col div.hh-viewer blockquote h1,
+#page-col div.hh-viewer blockquote h2,
+#page-col div.hh-viewer blockquote h3,
+#page-col div.hh-viewer blockquote h4,
+#page-col div.hh-viewer blockquote h5,
+#page-col div.hh-viewer blockquote h6 {
+  margin-top: 16px; 
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#page-col div.hh-viewer blockquote h1:after {
+  content: ' ';
+  display: none;
 }
 
 /************************************************
@@ -325,7 +339,8 @@ iframe.gray-scale {
 #page-col div.hh-viewer td,
 #page-col div.hh-viewer th {
   border: 1px solid #ddd;
-  line-height: normal;
+  line-height: var(--bs-body-line-height);
+  /*line-height: normal;*/
   padding: 0.5rem;
   /*text-align: left;*/
   vertical-align: top;
@@ -374,7 +389,7 @@ iframe.gray-scale {
 
 #page-col div.hh-viewer pre:not(.snippet) code {
   font-family: var(--bs-font-monospace);
-  font-size: 92%;
+  font-size: 90%;
 }
 
 #page-col div.hh-viewer ol.snippet li:first-child {
@@ -408,7 +423,9 @@ iframe.gray-scale {
 }
 
 #page-col code {
-  color: #9f6314;
+  /*color: #009999;*/
+  color:#806600;
+  font-size: 13px;
 }
 
 /************************************************
@@ -471,10 +488,10 @@ iframe.gray-scale {
 */
 
 /************************************************
- Tutorial Cards
+ Module Cards
 ************************************************/
 
-#page-col div.card {background: #f9ebd2; border-color: #f9ebd2;}
+#page-col div.card {background: #cce7ff; border: 1px solid #cce7ff;}
 
 #page-col div.card a,
 #page-col div.card a:active,
@@ -484,10 +501,15 @@ iframe.gray-scale {
   color: var(--bs-body-color);
 }
 
-#page-col div.card small {color: #5a3f0c;}
+#page-col div.card small {color: #00294d;}
 
 #page-col div.card:hover,
-#page-col div.card:focus {background: wheat; border-color: wheat;}
+#page-col div.card:focus {
+  box-shadow: 0 0 4px #7ec2ff;
+  -moz-box-shadow: 0 0 4px #7ec2ff;
+  -webkit-box-shadow: 0 0 4px #7ec2ff;
+  -o-box-shadow: 0 0 4px #7ec2ff;
+}
 
 /************************************************
  banish
@@ -511,3 +533,53 @@ iframe.gray-scale {
 .angellist_jobs-title-link:active {font-weight: bold !important; }
 
 div.social-icons a i {color:#595959;}
+
+/************************************************
+ Search
+************************************************/
+
+#search-results-list li {
+  margin-top: 18px;
+}
+
+#search-results-list span em {
+  color: orange;
+  font-style: normal;
+}
+
+/* Notes */
+
+div.note {
+  background: #F5F5DC;
+  margin-left: 2em;
+  padding: 0em 0.5em;
+}
+
+div.q-and-a {
+  background: #F5F5DC;
+  margin-left: 2em;
+  padding: 0em 0.5em;
+  cursor: pointer;
+}
+
+a span.icon-link:after {
+  content:"#";
+  margin-left: 0.2em;
+}
+
+/* Guitar */
+
+.many-keys {width: auto; border-collapse: collapse;}
+.many-keys, .many-keys th, .many-keys td {border: 1px solid lightgray;}
+.many-keys th, .many-keys td {padding:4px;}
+.many-keys th:not(:first-child), .many-keys td:not(:first-child) {width: 40px; text-align: center; font-size: 90%}
+
+.many-keys th:nth-child( 4), .many-keys td:nth-child( 4) {background: linen;}
+.many-keys th:nth-child( 5), .many-keys td:nth-child( 5) {background: aliceblue;}
+.many-keys th:nth-child( 6), .many-keys td:nth-child( 6) {background: aliceblue;}
+.many-keys th:nth-child( 7), .many-keys td:nth-child( 7) {background: aliceblue;}
+.many-keys th:nth-child( 8), .many-keys td:nth-child( 8) {background: aliceblue;}
+.many-keys th:nth-child( 9), .many-keys td:nth-child( 9) {background: aliceblue;}
+.many-keys th:nth-child(10), .many-keys td:nth-child(10) {background: aliceblue;}
+.many-keys th:nth-child(11), .many-keys td:nth-child(11) {background: aliceblue;}
+.many-keys th:nth-child(12), .many-keys td:nth-child(12) {background: linen;}

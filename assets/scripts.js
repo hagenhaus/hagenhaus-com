@@ -1,3 +1,7 @@
+import algoliasearch from 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.esm.browser.js';
+const client = algoliasearch('ACB2H3EIYF', 'a68db1cd7dba243d4295be6ed2419435');
+const index = client.initIndex('rdp_en');
+
 const currentPage = {
   folder: null,
   bookPath: null,
@@ -5,13 +9,13 @@ const currentPage = {
   src: null
 };
 
-const github = 'https://github.com/reach-sh/reach-developer-portal/blob/master';
+const github = 'https://github.com/reach-sh/reach-lang/tree/master/docs/dev/src';
 
 const pathnameToId = (pathname) => { return pathname.replace(/^\/|\/$/g, '').replace(/\//g, '_'); }
 const idToPathName = (id) => { return id.replace(/_/g, '/'); }
 
 let lang = window.navigator.language.split('-')[0];
-const homepage = `/${lang}/pages/home/`;
+const homepage = `/${lang}/home/`;
 
 const otpPreferences = { 'none': 'none', 'show': 'show', 'hide': 'hide' };
 Object.freeze(otpPreferences);
@@ -172,15 +176,12 @@ const setOtpItemToActive = (id) => {
 
 /************************************************************************************************
 * getWebpage
-* folder examples:
-*   /pages/demo/
-*   /books/demo/birds/owls/
-* hash examples:
-*   #create-a-project
 ************************************************************************************************/
 
 const getWebpage = async (folder, hash, shallUpdateHistory) => {
-  console.log('getWebpage');
+  // console.log('getWebpage');
+
+  folder = folder.replace(/index\.html$/, '');
 
   folder = folder == '/' || folder == `/${lang}/` ? homepage : folder;
   const url = `${window.location.origin}${folder}`;
@@ -189,17 +190,16 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
   const otpHtmlUrl = `${url}otp.html`;
   const folderId = pathnameToId(folder);
 
-  //console.log(`${folder}${hash}`);
-  //console.log(configJsonUrl);
-  //console.log(pageHtmlUrl);
-  //console.log(otpHtmlUrl);
-  //console.log(folderId);
+  // console.log({ folder, hash, url, configJsonUrl, pageHtmlUrl, otpHtmlUrl, folderId });
 
   try {
+    let [configJson, pageHtml, otpHtml] =
+      (await Promise.all([
+        axios.get(configJsonUrl),
+        axios.get(pageHtmlUrl),
+        axios.get(otpHtmlUrl),
+      ])).map((x) => x.data);
 
-    let configJson = (await axios.get(configJsonUrl)).data;
-    let pageHtml = (await axios.get(pageHtmlUrl)).data;
-    let otpHtml = (await axios.get(otpHtmlUrl)).data;
     //console.log(JSON.stringify(configJson, null, 2));
     //console.log(pageHtml);
     //console.log(otpHtml);
@@ -233,8 +233,10 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
       // On click book-col chapter-title or page-title.
       document.querySelectorAll('#book-col div.chapter-title, #book-col div.page-title').forEach(el => {
-        el.addEventListener('click', (event) => {
-          followLink(`/${idToPathName(event.target.id)}/`);
+        el.addEventListener('click', (evt) => {
+          const t = evt.target;
+          const l = `/${idToPathName(t.id)}/`;
+          followLink(l);
         });
       });
     }
@@ -289,6 +291,34 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
       document.getElementById('page-col').classList.add('noscroll');
     }
 
+    // If search page.
+    let searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.focus();
+      searchInput.addEventListener('keyup', function (event) {
+        index.search(searchInput.value).then(({ hits }) => {
+          if(hits.length) {
+            let searchResultsList = document.getElementById('search-results-list');
+            searchResultsList.innerHTML = '';
+            hits.forEach((el, index) => {
+              console.log(JSON.stringify(el, null, 2));
+              let a = document.createElement('a');
+              a.href = el.url;
+              let anchorTextSpan = document.createElement('span');
+              anchorTextSpan.innerHTML = el._highlightResult.title.value;
+              a.append(anchorTextSpan);
+              let summarySpan = document.createElement('span');
+              summarySpan.innerHTML = ` - ${el._highlightResult.summary.value}`;
+              let li = document.createElement('li');
+              li.append(a);
+              li.append(summarySpan);
+              searchResultsList.append(li);
+            });
+          }
+        });
+      });
+    }
+
     // On click link on page.
     document.querySelectorAll('div.hh-viewer-wrapper div.hh-viewer a').forEach(el => {
       el.addEventListener('click', (event) => {
@@ -326,7 +356,8 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
     // Adjust navbar active indicator.
     if (configJson.menuItem) {
-      if (!document.getElementById(configJson.menuItem).classList.contains('active')) {
+      let el = document.getElementById(configJson.menuItem);
+      if (el && !el.classList.contains('active')) {
         document.querySelectorAll('header a').forEach(el => { el.classList.remove('active'); });
         document.getElementById(configJson.menuItem).classList.add('active');
       }
@@ -344,7 +375,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
       el.classList.add('active');
       let chapter = el.closest('div.chapter');
       let pages = chapter.querySelector('div.pages');
-      if (pages.hasChildNodes()) {
+      if (pages && pages.hasChildNodes()) {
         let icon = chapter.querySelector('i.chapter-icon');
         icon.classList.remove('fa-angle-right');
         icon.classList.add('fa-angle-down');
@@ -390,7 +421,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
     }
 
   } catch (error) {
-    console.log(error);
+    console.log('getWebPage', error);
   }
 }
 
@@ -400,7 +431,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 ************************************************************************************************/
 
 const followLink = async (href) => {
-  console.log('followLink');
+  // console.log('followLink');
   let a = document.createElement('a');
   a.href = href;
 

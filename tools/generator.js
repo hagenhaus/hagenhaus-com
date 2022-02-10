@@ -50,7 +50,7 @@ const argv = yargs(process.argv.slice(2))
     alias: 'e',
     describe: 'Add edit button to page.',
     type: 'boolean',
-    default: true
+    default: false
   })
   .option('help', {
     alias: 'h',
@@ -277,7 +277,7 @@ const processFolder = async (baseDir, relDir) => {
 
   // Create fresh config file with default values.
   let configJson = {};
-  configJson.author = null;
+  //configJson.author = 'Matthew J. Hagen';
   configJson.background = 'white';
   configJson.bookPath = null;
   configJson.bookTitle = null;
@@ -390,7 +390,21 @@ const processFolder = async (baseDir, relDir) => {
         if (configJson.bookTitle) {
           configJson.bookPath = relDir;
         } else {
-          const pArray = folder.split('/');
+          const pArray = relDir.split('/');
+          const bPath = pArray.slice(0, 2).join('/');
+          const bookConfigJsonFile = `${bPath}/config.json`;
+          const bookConfigJson = fs.readJsonSync(bookConfigJsonFile);
+          if (bookConfigJson.hasOwnProperty('bookTitle')) {
+            configJson.bookTitle = bookConfigJson.bookTitle;
+          }
+          if (bookConfigJson.hasOwnProperty('bookPath')) {
+            configJson.bookPath = bookConfigJson.bookPath;
+          }
+          if (bookConfigJson.hasOwnProperty('menuItem')) {
+            configJson.menuItem = bookConfigJson.menuItem;
+          }
+
+          /*
           if (pArray.includes('books')) {
             const bArray = pArray.slice(0, pArray.indexOf('books') + 2);
             const bPath = bArray.join('/');
@@ -399,14 +413,8 @@ const processFolder = async (baseDir, relDir) => {
             const bookConfigJsonFile = `${bPath}/config.json`;
             const bookConfigJson = fs.readJsonSync(bookConfigJsonFile);
             configJson.bookTitle = bookConfigJson.bookTitle;
-
-            //console.log(pArray);
-            //console.log(bArray);
-            //console.log(bPath);
-            //console.log(bIdArray);
-            //console.log(configJson.bookPath);
-
           }
+          */
         }
 
         // Write config.json.
@@ -472,17 +480,17 @@ const processFolder = async (baseDir, relDir) => {
   }
 
   // Create soft link in this folder to index.html file at root.
-  if(configJson.hasCustomBase == false) {
+  if (configJson.hasCustomBase == false) {
     try {
       fs.unlinkSync(`${folder}/index.html`);
     } catch (err) {
       //console.log('Info: Old symlink does not exist.');
     }
-  
+
     try {
       let backstepCount = relDir.split('/').length - 1;
       let backstepUrl = '';
-      for (let i=0; i < backstepCount; i++) {
+      for (let i = 0; i < backstepCount; i++) {
         backstepUrl = backstepUrl + '../';
       }
       let target = `${backstepUrl}index.html`;
@@ -490,7 +498,7 @@ const processFolder = async (baseDir, relDir) => {
       fs.symlinkSync(target, symlink);
     } catch (err) {
       //console.log('Error: Could not create symlink to index.html.');
-    }  
+    }
   }
 
   // Write DOM to file.
