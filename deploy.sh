@@ -5,6 +5,4 @@ install -D -m 644 ~/hagenhaus-com/assets/scripts.min.js ~/htdocs/assets/scripts.
 install -D -m 644 ~/hagenhaus-com/index.html ~/htdocs/index.html
 install -D -m 644 ~/hagenhaus-com/en/index.html ~/htdocs/en/index.html
 install -D -m 644 ~/hagenhaus-com/en/home/config.json ~/htdocs/en/home/config.json
-install -D -m 644 ~/hagenhaus-com/en/home/index.html ~/htdocs/en/home/index.html
-install -D -m 644 ~/hagenhaus-com/en/home/otp.html ~/htdocs/en/home/otp.html
-install -D -m 644 ~/hagenhaus-com/en/home/page.html ~/htdocs/en/home/page.html
+install -D -m 644 ~/hagenhaus-com/en/home/*.html ~/htdocs/en/home/
