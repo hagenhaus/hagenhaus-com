@@ -68,7 +68,7 @@ menuItem: mi-home
     (async () => {
       try {
         // Where Hagenhaus API is.
-        const origin =  window.location.hostname == 'localhost' ? 'http://localhost:8086' : 'https://hagenhaus:3002';
+        const origin =  window.location.hostname == 'localhost' ? 'http://localhost:8086' : 'https://hagenhaus.com:3002';
         const res = await axios({
           url: `${origin}/api/v1/messages`,
           method: 'post',
