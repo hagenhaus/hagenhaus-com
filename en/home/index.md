@@ -18,28 +18,69 @@ menuItem: mi-home
       <li>Provide webinar or in-person developer training.</li>
       <li>Engage in short-term and/or multi-month projects.</li>
     </ul>
-    <p>Please use the form to contact us. Thank you.</p>
   </div>
 
-  <div class="col-12 col-md-6">
+  <div id="contact-us-section" class="col-12 col-md-6">
     <h2>Contact Us</h2>
     <p>We do not share your information with anyone.</p>
-    <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" class="form-control" id="name" required>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="website" class="form-label">Website</label>
-      <input type="url" class="form-control" id="website" required>
-    </div>
-    <div class="mb-3">
-      <label for="message" class="form-label">Message</label>
-      <textarea class="form-control" id="message" rows="3" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-secondary">Send</button>
+    <form id="contact-us-form">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" value="Matt Hagen" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" value="matt@hagenhaus.com" required>
+      </div>
+      <div class="mb-3">
+        <label for="website" class="form-label">Website</label>
+        <input type="url" class="form-control" id="website" value="https://hagenhaus.com" required>
+      </div>
+      <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" id="message" rows="3" required>This is a message.</textarea>
+      </div>
+      <button type="submit" class="btn btn-secondary">Send</button>
+    </form>
   </div>
+
+  <div id="thank-you-section" class="col-12 col-md-6" style="display:none;">
+    <h2>Thank you</h2>
+    <p>We will follow up in a day or two.</p>
+  </div>
+
+  <div id="error-msg-section" class="col-12 col-md-6" style="display:none;">
+    <h2>Error Message</h2>
+    <p id="error-msg"></p>
+  </div>
+
 </div>
+
+<script>
+  document.getElementById('contact-us-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const data = {
+      "name": document.getElementById('name').value,
+      "email": document.getElementById('email').value,
+      "website": document.getElementById('website').value,
+      "message": document.getElementById('message').value
+    };
+    (async () => {
+      try {
+        const res = await axios({
+          url: `http://localhost:8086/api/v1/messages`,
+          method: 'post',
+          data: data
+        });
+        document.getElementById('contact-us-section').style.display = "none";
+        document.getElementById('thank-you-section').style.display = "block";
+      } catch (error) {
+        //document.getElementById('contact-us-section').style.display = "none";
+        //document.getElementById('thank-you-section').style.display = "block";
+        document.getElementById('error-msg').innerHTML = `${error.message}.`;
+        document.getElementById('contact-us-section').style.display = "none";
+        document.getElementById('error-msg-section').style.display = "block";
+      }
+    })();
+  });
+</script>
