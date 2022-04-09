@@ -1,1 +1,10 @@
-cp ./assets/favicon.png ../htdocs/assets/favicon.png
+cp ~/hagenhaus-com/assets/favicon.png ~/htdocs/assets/favicon.png
+cp ~/hagenhaus-com/assets/logo-transparent.png ~/htdocs/assets/logo-transparent.png
+cp ~/hagenhaus-com/assets/styles.min.css ~/htdocs/assets/styles.min.css
+cp ~/hagenhaus-com/assets/scripts.min.js ~/htdocs/assets/scripts.min.js
+cp ~/hagenhaus-com/index.html ~/htdocs/index.html
+cp ~/hagenhaus-com/en/index.html ~/htdocs/en/index.html
+cp ~/hagenhaus-com/en/home/config.json ~/htdocs/en/home/config.json
+cp ~/hagenhaus-com/en/home/index.html ~/htdocs/en/home/index.html
+cp ~/hagenhaus-com/en/home/otp.html ~/htdocs/en/home/otp.html
+cp ~/hagenhaus-com/en/home/page.html ~/htdocs/en/home/page.html
