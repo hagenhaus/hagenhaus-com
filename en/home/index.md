@@ -22,7 +22,6 @@ menuItem: mi-home
 
   <div id="contact-us-section" class="col-12 col-md-6">
     <h2>Contact Us</h2>
-    <p>We do not share your information with anyone.</p>
     <form id="contact-us-form">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
