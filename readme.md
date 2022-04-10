@@ -1,5 +1,7 @@
 # Hagenhaus
 
+# Set up database
+
 # Run the website
 
 ## Run on localhost
