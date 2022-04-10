@@ -19,10 +19,16 @@ export const postMessage = (req, res) => {
   record.website = req.body.website;
   record.message = req.body.message;
   record.userAgent = req.headers['user-agent'];
-  fs.appendFile('messages.log', JSON.stringify(record, null, 2), err => {
-    if (err) {
-      console.error(err);
+
+  try {
+    const stats = fs.statSync('messages.log');
+    if (stats.size < 1000000) {
+      fs.writeFileSync('messages.log', JSON.stringify(record, null, 2));
+      res.status(204).end();
+    } else {
+      res.status(429).end();
     }
-  });
-  res.status(204).end();
+  } catch (err) {
+    res.status(404).end();
+  }
 };
