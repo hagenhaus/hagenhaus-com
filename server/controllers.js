@@ -23,7 +23,7 @@ export const postMessage = (req, res) => {
   try {
     const stats = fs.statSync('messages.log');
     if (stats.size < 1000000) {
-      fs.writeFileSync('messages.log', JSON.stringify(record, null, 2));
+      fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
       res.status(204).end();
     } else {
       res.status(429).end();
