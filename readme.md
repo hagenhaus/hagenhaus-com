@@ -1,6 +1,8 @@
 # Hagenhaus
 
-## Run on localhost
+## Run the website
+
+Follow these steps to run the website on localhost:
 
 1. Clone the repository to your local machine.
 
@@ -50,7 +52,7 @@
     $ pm2 start server.js --name hagenhaus-server-8086 -- -c-1
     ```
 
-## Run on AWS
+Follow these steps to run the website on AWS:
 
 1. Clone the repository to your local machine.
 
