@@ -8,5 +8,6 @@ export const getApiInformation = (req, res) => {
 };
 
 export const postMessage = (req, res) => {
+  console.log(JSON.stringify(req.body, null, 2));
   res.status(204).end();
 };
