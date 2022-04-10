@@ -7,3 +7,5 @@ styles.min.css
 node_modules/
 output.txt
 config.json
+logs/
+.env

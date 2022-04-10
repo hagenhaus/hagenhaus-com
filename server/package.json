@@ -1,0 +1,22 @@
+{
+  "name": "hagenhaus-api",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^10.0.1",
+    "winston": "^3.3.3"
+  },
+  "private": true
+}
