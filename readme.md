@@ -2,6 +2,30 @@
 
 # Set up database
 
+The `mysql` password for user `root` is contained in `~/bitnami_application_password`.
+
+I created `.my.cnf` which specifies `user` and `password`.
+
+``` nonum
+$ mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.6.4-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+```
+
+I created a single database called `hh`:
+
+``` nonum
+drop database if exists hh;
+create database hh;
+use hh;
+```
+
 # Run the website
 
 ## Run on localhost
