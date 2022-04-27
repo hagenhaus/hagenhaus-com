@@ -1,5 +1,9 @@
 import fs from 'fs';
 
+/************************************************************************************************
+ * API Users
+************************************************************************************************/
+
 export const getApiInformation = (req, res) => {
   res.status(200).send({
     'name': 'Hagenhaus API',
@@ -31,4 +35,62 @@ export const postMessage = (req, res) => {
   } catch (err) {
     res.status(404).end();
   }
+};
+
+/************************************************************************************************
+ * ReadyRemit Users
+************************************************************************************************/
+
+export const getAccountFields = (req, res) => {
+  res.status(200).send([]);
+};
+
+export const getAccounts = (req, res) => {
+  res.status(200).send([
+    {
+      "accountName": "Account Name",
+      "accountId": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "accountName": "Account Name",
+      "accountId": "00000000-0000-0000-0000-000000000000"
+    }
+  ]);
+};
+
+export const getAccount = (req, res) => {
+  res.status(200).send({
+    "accountId": "00000000-0000-0000-0000-000000000000"
+  });
+};
+
+export const getOwnerFields = (req, res) => {
+  res.status(200).send([]);
+};
+
+export const getOwner = (req, res) => {
+  res.status(200).send({
+    "ownerId": "00000000-0000-0000-0000-000000000000",
+    "profile": {
+      "type": "person",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    },
+    "accounts": [
+      {
+        "type": "bank",
+        "countryCode": "IND",
+        "currencyCode": "INR",
+        "accountName": "Account Name",
+        "accountId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "type": "bank",
+        "countryCode": "IND",
+        "currencyCode": "INR",
+        "accountName": "Account Name",
+        "accountId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  });
 };

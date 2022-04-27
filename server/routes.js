@@ -3,7 +3,7 @@ import * as controllers from './controllers.js';
 export const routes = (app) => {
 
   /************************************************************************************************
-   * API information
+   * API Users
   ************************************************************************************************/
 
   app.route('')
@@ -15,15 +15,30 @@ export const routes = (app) => {
   app.route('/api/v1')
     .get(controllers.getApiInformation);
 
-  /************************************************************************************************
-   * User API
-  ************************************************************************************************/
-
   app.route('/api/v1/messages')
     .post(controllers.postMessage);
 
   /************************************************************************************************
-   * Admin API
+    * API Admins
   ************************************************************************************************/
 
+
+  /************************************************************************************************
+   * ReadyRemit Users
+  ************************************************************************************************/
+
+  app.route('/readyremit/v2/account-fields')
+    .get(controllers.getAccountFields);
+
+  app.route('/readyremit/v2/owners/:ownerId/accounts')
+    .get(controllers.getAccounts);
+
+  app.route('/readyremit/v2/owners/:ownerId/accounts/:accountId')
+    .get(controllers.getAccount);
+
+  app.route('/readyremit/v2/owner-fields')
+    .get(controllers.getAccountFields);
+
+  app.route('/readyremit/v2/owners/:ownerID')
+    .get(controllers.getOwner);
 };
