@@ -9,4 +9,5 @@ output.txt
 config.json
 logs/
 .env
-server/messages.log
+messages.log
+package-lock.json

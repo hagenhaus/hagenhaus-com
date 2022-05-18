@@ -15,30 +15,26 @@ export const routes = (app) => {
   app.route('/api/v1')
     .get(controllers.getApiInformation);
 
+  app.route('/api/v1/industries')
+    .get(controllers.getIndustries);
+
+  app.route('/api/v1/industry-groups')
+    .get(controllers.getIndustryGroups);
+
   app.route('/api/v1/messages')
     .post(controllers.postMessage);
 
+  app.route('/api/v1/portals')
+    .get(controllers.getPortals);
+
+  app.route('/api/v1/sectors')
+    .get(controllers.getSectors);
+
+  app.route('/api/v1/subindustries')
+    .get(controllers.getSubindustries);
+
   /************************************************************************************************
-    * API Admins
+   * API Admins
   ************************************************************************************************/
 
-
-  /************************************************************************************************
-   * ReadyRemit Users
-  ************************************************************************************************/
-
-  app.route('/readyremit/v2/account-fields')
-    .get(controllers.getAccountFields);
-
-  app.route('/readyremit/v2/owners/:ownerId/accounts')
-    .get(controllers.getAccounts);
-
-  app.route('/readyremit/v2/owners/:ownerId/accounts/:accountId')
-    .get(controllers.getAccount);
-
-  app.route('/readyremit/v2/owner-fields')
-    .get(controllers.getAccountFields);
-
-  app.route('/readyremit/v2/owners/:ownerID')
-    .get(controllers.getOwner);
 };
