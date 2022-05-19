@@ -103,21 +103,22 @@ export const getSectors = (req, res) => {
       (async () => {
         try {
           const data = {};
+          data.counts = {};
           const name = 'name' in req.query ? conn.escape(req.query.name) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const sortField = 'sortField' in req.query ? conn.escape(req.query.sortField) : null;
           const sortDirection = 'sortDirection' in req.query ? conn.escape(req.query.sortDirection) : null;
           const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : false;
-          data.totalRecords = (await query(`select count(*) as count from sectors`))[0].count;
+          data.counts.totalRecords = (await query(`select count(*) as count from sectors`))[0].count;
           if (name) {
-            data.totalFilteredRecords = (await query(`call selectSectorCount(${name})`))[0][0].count;
+            data.counts.totalFilteredRecords = (await query(`call selectSectorCount(${name})`))[0][0].count;
           } else {
-            data.totalFilteredRecords = data.totalRecords;
+            data.counts.totalFilteredRecords = data.counts.totalRecords;
           }
           if (countsOnly == false) {
             const records = (await query(`call selectSectors(${name}, ${limit}, ${offset}, ${sortField}, ${sortDirection})`))[0];
-            data.totalResponseRecords = records.length;
+            data.counts.totalResponseRecords = records.length;
             data.records = records;
           }
           res.status(200).send(data);
