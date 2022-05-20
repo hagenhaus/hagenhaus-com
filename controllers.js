@@ -46,15 +46,14 @@ export const getSectors = (req, res) => {
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const sortField = 'sortField' in req.query ? conn.escape(req.query.sortField) : null;
           const sortDirection = 'sortDirection' in req.query ? conn.escape(req.query.sortDirection) : null;
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : false;
-          console.log(typeof countsOnly);
+          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
           data.counts.totalRecords = (await query(`select count(*) as count from sectors`))[0].count;
           if (name) {
             data.counts.totalFilteredRecords = (await query(`call selectSectorCount(${name})`))[0][0].count;
           } else {
             data.counts.totalFilteredRecords = data.counts.totalRecords;
           }
-          if (countsOnly == false) {
+          if (countsOnly == 'false') {
             const records = (await query(`call selectSectors(${name}, ${limit}, ${offset}, ${sortField}, ${sortDirection})`))[0];
             data.counts.totalResponseRecords = records.length;
             data.records = records;
