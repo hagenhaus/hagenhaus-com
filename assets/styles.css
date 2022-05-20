@@ -245,7 +245,7 @@ i.fas:hover {cursor: pointer;}
 }
 
 #page-col div.hh-viewer h3 {
-  color: #6666ff;
+  color: orange;
   font-weight: bold;
   font-style: normal;
   text-decoration: normal;
@@ -591,3 +591,5 @@ a span.icon-link:after {
 #swagger-ui div.information-container {display: none;}
 #swagger-ui div.scheme-container {display: none;}
 #swagger-ui div.wrapper {padding: 0px;}
+#swagger-ui h3.opblock-tag {display: none;}
+#swagger-ui td.response-col_links {display: none;}

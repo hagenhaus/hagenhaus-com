@@ -19,16 +19,16 @@ export const routes = (app) => {
   * GICS
   ************************************************************************************************/
 
-  app.route('/api/v1/sectors')
+  app.route('/api/v1/industry-classifications/gics/sectors')
     .get(controllers.getSectors);
 
-  app.route('/api/v1/industry-groups')
+  app.route('/api/v1/industry-classifications/gics/industry-groups')
     .get(controllers.getIndustryGroups);
 
-  app.route('/api/v1/industries')
+  app.route('/api/v1/industry-classifications/gics/industries')
     .get(controllers.getIndustries);
 
-  app.route('/api/v1/subindustries')
+  app.route('/api/v1/industry-classifications/gics/subindustries')
     .get(controllers.getSubindustries);
 
   /************************************************************************************************
