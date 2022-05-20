@@ -2,7 +2,7 @@
 hasRefreshBtn: false
 ---
 
-# Classifications
+# Industry Classifications
 
 # GICS
 
