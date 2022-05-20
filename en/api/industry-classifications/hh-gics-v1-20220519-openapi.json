@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/sectors": {
+    "/industry-classifications/gics/sectors": {
       "get": {
         "tags": [
           "Operations"
@@ -129,7 +129,7 @@
         }
       }
     },
-    "/industry-groups": {
+    "/industry-classifications/gics/industry-groups": {
       "get": {
         "tags": [
           "Operations"
@@ -143,7 +143,7 @@
         }
       }
     },
-    "/industries": {
+    "/industry-classifications/gics/industries": {
       "get": {
         "tags": [
           "Operations"
@@ -157,7 +157,7 @@
         }
       }
     },
-    "/subindustries": {
+    "/industry-classifications/gics/subindustries": {
       "get": {
         "tags": [
           "Operations"
