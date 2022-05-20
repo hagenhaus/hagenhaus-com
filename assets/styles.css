@@ -583,3 +583,11 @@ a span.icon-link:after {
 .many-keys th:nth-child(10), .many-keys td:nth-child(10) {background: aliceblue;}
 .many-keys th:nth-child(11), .many-keys td:nth-child(11) {background: aliceblue;}
 .many-keys th:nth-child(12), .many-keys td:nth-child(12) {background: linen;}
+
+/************************************************
+ Swagger
+************************************************/
+
+#swagger-ui div.information-container {display: none;}
+#swagger-ui div.scheme-container {display: none;}
+#swagger-ui div.wrapper {padding: 0px;}
