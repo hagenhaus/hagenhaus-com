@@ -14,7 +14,7 @@
     "/ind-class/gics/sectors": {
       "get": {
         "tags": [
-          "Operations"
+          "Sectors"
         ],
         "description": "This operation returns an array of [GICS](https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard) sector records. Each record consists of an id and a name.",
         "operationId": "getSectors",
@@ -132,7 +132,7 @@
     "/ind-class/gics/industry-groups": {
       "get": {
         "tags": [
-          "Operations"
+          "Industry Groups"
         ],
         "description": "sss.",
         "operationId": "getIndustryGroups",
@@ -146,7 +146,7 @@
     "/ind-class/gics/industries": {
       "get": {
         "tags": [
-          "Operations"
+          "Industries"
         ],
         "description": "sss.",
         "operationId": "getIndustries",
@@ -160,7 +160,7 @@
     "/ind-class/gics/subindustries": {
       "get": {
         "tags": [
-          "Operations"
+          "Subindustries"
         ],
         "description": "sss.",
         "operationId": "getSubindustries",
