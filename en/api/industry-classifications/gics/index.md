@@ -29,13 +29,13 @@ See [Global Industry Classification Standard](https://en.wikipedia.org/wiki/Glob
   </div>
 </div>
 
-<div id="swagger-ui"></div>
+<div id="swagger-gics" class="swagger-ui"></div>
 <script>
   SwaggerUIBundle({
     defaultModelsExpandDepth: -1,
     // displayOperationId: true,
     // docExpansion: 'full',
-    dom_id: '#swagger-ui',
+    dom_id: '#swagger-gics',
     // filter: 'Sectors',
     plugins: [],
     requestSnippetsEnabled: true,

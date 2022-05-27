@@ -588,13 +588,13 @@ a span.icon-link:after {
  Swagger
 ************************************************/
 
-#swagger-ui div.information-container {display: none;}
-#swagger-ui div.scheme-container {display: none;}
-#swagger-ui div.wrapper {padding: 0px;}
-#swagger-ui h3.opblock-tag {display: none;}
-#swagger-ui td.response-col_links {display: none;}
-#swagger-ui div.filter-container {display: none;}
-#swagger-ui span.opblock-summary-path {max-width: 100%;}
-#swagger-ui div.opblock-summary-description {display: none;}
-#swagger-ui button.opblock-summary-control svg.arrow {display: none;}
-#swagger-ui button.opblock-summary-control:focus {outline: none;}
+div.swagger-ui div.information-container {display: none;}
+/*div.swagger-ui div.scheme-container {display: none;}*/
+div.swagger-ui div.wrapper {padding: 0px;}
+div.swagger-ui h3.opblock-tag {display: none;}
+div.swagger-ui td.response-col_links {display: none;}
+div.swagger-ui div.filter-container {display: none;}
+div.swagger-ui span.opblock-summary-path {max-width: 100%;}
+div.swagger-ui div.opblock-summary-description {display: none;}
+div.swagger-ui button.opblock-summary-control svg.arrow {display: none;}
+div.swagger-ui button.opblock-summary-control:focus {outline: none;}

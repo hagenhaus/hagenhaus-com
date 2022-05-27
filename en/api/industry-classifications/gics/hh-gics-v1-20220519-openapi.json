@@ -8,15 +8,18 @@
   "servers": [
     {
       "url": "https://hagenhaus.com:3002/api/v1"
+    },
+    {
+      "url": "http://localhost:8081/api/v1"
     }
   ],
   "paths": {
-    "/ind-class/gics/sectors": {
+    "/ind-cls/gics/sectors": {
       "get": {
         "tags": [
           "Sectors"
         ],
-        "description": "This operation returns an array of [GICS](https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard) sector records. Each record consists of an id and a name.",
+        "description": "This operation returns an array of [GICS](https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard) sector records. Each record consists of an *id* and a *name*. It also returns *numTotalRecords*, *numFilteredRecords*, and *numResponseRecords*.",
         "operationId": "getSectors",
         "parameters": [
           {
@@ -33,42 +36,44 @@
           {
             "name": "pageSize",
             "in": "query",
-            "description": "Specifies the max number of records per response.",
+            "description": "Specifies the max number of records per response. Default is 10.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "integer",
-              "default": 10
+              "type": "integer"
             }
           },
           {
             "name": "pageNumber",
             "in": "query",
-            "description": "Specifies which page of records to return. 1 means first page.",
+            "description": "Specifies which page of records to return. 1 means first page. Default is 1.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "integer",
-              "default": 1
+              "type": "integer"
             }
           },
           {
             "name": "sortField",
             "in": "query",
-            "description": "Specifies the field used to order response records. If not specified, the response records are ordered by *id*.",
+            "description": "Specifies the field used to order response records. Default is *id*.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "id",
+                "name"
+              ]
             }
           },
           {
             "name": "sortDirection",
             "in": "query",
-            "description": "Specifies the sort direction. If not specified, the response records are ordered *asc*.",
+            "description": "Specifies the sort direction. Default is *asc*.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -83,7 +88,7 @@
           {
             "name": "countsOnly",
             "in": "query",
-            "description": "If true, the operation returns counts, but no records.",
+            "description": "If true, the operation returns counts, but no records. Default is *false*.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -129,7 +134,7 @@
         }
       }
     },
-    "/ind-class/gics/industry-groups": {
+    "/ind-cls/gics/industry-groups": {
       "get": {
         "tags": [
           "Industry Groups"
@@ -143,7 +148,7 @@
         }
       }
     },
-    "/ind-class/gics/industries": {
+    "/ind-cls/gics/industries": {
       "get": {
         "tags": [
           "Industries"
@@ -157,7 +162,7 @@
         }
       }
     },
-    "/ind-class/gics/subindustries": {
+    "/ind-cls/gics/subindustries": {
       "get": {
         "tags": [
           "Subindustries"

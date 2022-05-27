@@ -27,10 +27,35 @@ export const getApiInformation = (req, res) => {
 };
 
 /************************************************************************************************
+* Companies
+************************************************************************************************/
+
+export const getCompanies = (req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) {
+        console.log('dbPool.getConnection error');
+      } else {
+        conn.query(`call selectCompanies()`, (error, results, fields) => {
+          conn.release();
+          if (error) {
+            res.status(422).send('conn.query error');
+          } else {
+            res.status(200).send(results[0]);
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
+/************************************************************************************************
 * GICS
 ************************************************************************************************/
 
-export const getSectors = (req, res) => {
+export const getGicsSectors = (req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
@@ -41,21 +66,21 @@ export const getSectors = (req, res) => {
         try {
           const data = {};
           data.counts = {};
-          const name = 'name' in req.query ? conn.escape(req.query.name) : null;
+          const filter = 'filter' in req.query ? conn.escape(req.query.filter) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const sortField = 'sortField' in req.query ? conn.escape(req.query.sortField) : null;
-          const sortDirection = 'sortDirection' in req.query ? conn.escape(req.query.sortDirection) : null;
+          const sortField = 'sortField' in req.query ? conn.escape(req.query.sortField) : conn.escape('id');
+          const sortDirection = 'sortDirection' in req.query ? conn.escape(req.query.sortDirection) : conn.escape('asc');
           const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.totalRecords = (await query(`select count(*) as count from sectors`))[0].count;
-          if (name) {
-            data.counts.totalFilteredRecords = (await query(`call selectSectorCount(${name})`))[0][0].count;
+          data.counts.numTotalRecords = (await query(`select count(*) as count from gicsSectors`))[0].count;
+          if (filter) {
+            data.counts.numFilteredRecords = (await query(`call selectGicsSectorCount(${filter})`))[0][0].count;
           } else {
-            data.counts.totalFilteredRecords = data.counts.totalRecords;
+            data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
           if (countsOnly == 'false') {
-            const records = (await query(`call selectSectors(${name}, ${limit}, ${offset}, ${sortField}, ${sortDirection})`))[0];
-            data.counts.totalResponseRecords = records.length;
+            const records = (await query(`call selectGicsSectors(${filter}, ${limit}, ${offset}, ${sortField}, ${sortDirection})`))[0];
+            data.counts.numResponseRecords = records.length;
             data.records = records;
           }
           res.status(200).send(data);
@@ -69,7 +94,7 @@ export const getSectors = (req, res) => {
   });
 };
 
-export const getIndustryGroups = (req, res) => {
+export const getGicsIndustryGroups = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
       if (err) {
@@ -77,7 +102,7 @@ export const getIndustryGroups = (req, res) => {
       } else {
         const name = 'name' in req.query ? conn.escape(req.query.name) : null;
         const sectorId = 'sectorId' in req.query ? conn.escape(req.query.sectorId) : null;
-        conn.query(`call selectIndustryGroups(${name}, ${sectorId})`, (error, results, fields) => {
+        conn.query(`call selectGicsIndustryGroups(${name}, ${sectorId})`, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
@@ -92,7 +117,7 @@ export const getIndustryGroups = (req, res) => {
   }
 };
 
-export const getIndustries = (req, res) => {
+export const getGicsIndustries = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
       if (err) {
@@ -100,7 +125,7 @@ export const getIndustries = (req, res) => {
       } else {
         const name = 'name' in req.query ? conn.escape(req.query.name) : null;
         const industryGroupId = 'industryGroupId' in req.query ? conn.escape(req.query.industryGroupId) : null;
-        conn.query(`call selectIndustries(${name}, ${industryGroupId})`, (error, results, fields) => {
+        conn.query(`call selectGicsIndustries(${name}, ${industryGroupId})`, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
@@ -115,7 +140,7 @@ export const getIndustries = (req, res) => {
   }
 };
 
-export const getSubindustries = (req, res) => {
+export const getGicsSubindustries = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
       if (err) {
@@ -123,7 +148,7 @@ export const getSubindustries = (req, res) => {
       } else {
         const name = 'name' in req.query ? conn.escape(req.query.name) : null;
         const industryId = 'industryId' in req.query ? conn.escape(req.query.industryId) : null;
-        conn.query(`call selectSubindustries(${name}, ${industryId})`, (error, results, fields) => {
+        conn.query(`call selectGicsSubindustries(${name}, ${industryId})`, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');

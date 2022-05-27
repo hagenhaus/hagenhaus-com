@@ -16,20 +16,27 @@ export const routes = (app) => {
     .get(controllers.getApiInformation);
 
   /************************************************************************************************
+  * Companies
+  ************************************************************************************************/
+
+  app.route('/api/v1/companies')
+    .get(controllers.getCompanies);
+
+  /************************************************************************************************
   * GICS
   ************************************************************************************************/
 
-  app.route('/api/v1/ind-cls/gics/sectors')
-    .get(controllers.getSectors);
+  app.route('/api/v1/gics/sectors')
+    .get(controllers.getGicsSectors);
 
-  app.route('/api/v1/ind-cls/gics/industry-groups')
-    .get(controllers.getIndustryGroups);
+  app.route('/api/v1/gics/industry-groups')
+    .get(controllers.getGicsIndustryGroups);
 
-  app.route('/api/v1/ind-cls/gics/industries')
-    .get(controllers.getIndustries);
+  app.route('/api/v1/gics/industries')
+    .get(controllers.getGicsIndustries);
 
-  app.route('/api/v1/ind-cls/gics/subindustries')
-    .get(controllers.getSubindustries);
+  app.route('/api/v1/gics/subindustries')
+    .get(controllers.getGicsSubindustries);
 
   /************************************************************************************************
   * Messages
