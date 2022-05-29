@@ -31,12 +31,76 @@ export const getApiInformation = (req, res) => {
 ************************************************************************************************/
 
 export const getCompanies = (req, res) => {
+  dbPool.getConnection((err, conn) => {
+    if (err) {
+      res.status(422).send('connection error');
+    }
+    else {
+      const query = util.promisify(conn.query).bind(conn);
+      (async () => {
+        try {
+          const data = {};
+          data.counts = {};
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
+          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
+          const page = conn.escape(`limit ${limit} offset ${offset}`);
+          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
+          data.counts.numTotalRecords = (await query(`select count(*) as count from companies`))[0].count;
+          if (filter) {
+            data.counts.numFilteredRecords = (await query(`call selectCompaniesCount(${filter})`))[0][0].count;
+          } else {
+            data.counts.numFilteredRecords = data.counts.numTotalRecords;
+          }
+          if (countsOnly == 'false') {
+            const records = (await query(`call selectCompanies(${filter}, ${order}, ${page})`))[0];
+            data.counts.numResponseRecords = records.length;
+            data.records = records;
+          }
+          res.status(200).send(data);
+        }
+        catch (error) {
+          res.status(422).send('query error');
+        }
+        finally { conn.release(); }
+      })();
+    }
+  });
+};
+
+export const getCompany = (req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectCompany(${req.params.id})`;
+        conn.query(proc, (error, results, fields) => {
+          conn.release();
+          if (error) {
+            res.status(422).send('conn.query error');
+          } else {
+            res.status(200).send(results[0][0]);
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
+/************************************************************************************************
+* Countries
+************************************************************************************************/
+
+export const getCountries = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
       if (err) {
         console.log('dbPool.getConnection error');
       } else {
-        conn.query(`call selectCompanies()`, (error, results, fields) => {
+        conn.query(`call selectCountries()`, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
