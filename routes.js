@@ -32,21 +32,18 @@ export const routes = (app) => {
   app.route('/api/v1/countries')
     .get(controllers.getCountries);
 
+  app.route('/api/v1/countries/:code')
+    .get(controllers.getCountry);
+
   /************************************************************************************************
-  * GICS
+  * Industries
   ************************************************************************************************/
 
-  app.route('/api/v1/gics/sectors')
-    .get(controllers.getGicsSectors);
+  app.route('/api/v1/industries')
+    .get(controllers.getIndustries);
 
-  app.route('/api/v1/gics/industry-groups')
-    .get(controllers.getGicsIndustryGroups);
-
-  app.route('/api/v1/gics/industries')
-    .get(controllers.getGicsIndustries);
-
-  app.route('/api/v1/gics/subindustries')
-    .get(controllers.getGicsSubindustries);
+  app.route('/api/v1/industries/:id')
+    .get(controllers.getIndustry);
 
   /************************************************************************************************
   * Messages
@@ -61,4 +58,17 @@ export const routes = (app) => {
 
   app.route('/api/v1/portals')
     .get(controllers.getPortals);
+
+  app.route('/api/v1/portals/:id')
+    .get(controllers.getPortal);
+
+  /************************************************************************************************
+  * Sectors
+  ************************************************************************************************/
+
+  app.route('/api/v1/sectors')
+    .get(controllers.getSectors);
+
+  app.route('/api/v1/sectors/:id')
+    .get(controllers.getSector);
 };

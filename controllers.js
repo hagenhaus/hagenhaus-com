@@ -43,13 +43,13 @@ export const getCompanies = (req, res) => {
           data.counts = {};
           const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
           const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
+          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
           const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
           data.counts.numTotalRecords = (await query(`select count(*) as count from companies`))[0].count;
           if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectCompaniesCount(${filter})`))[0][0].count;
+            data.counts.numFilteredRecords = (await query(`call selectCompanyCount(${filter})`))[0][0].count;
           } else {
             data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
@@ -74,7 +74,7 @@ export const getCompany = (req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const proc = `call selectCompany(${req.params.id})`;
+        const proc = `call selectCompany("${req.params.id}")`;
         conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
@@ -95,31 +95,6 @@ export const getCompany = (req, res) => {
 ************************************************************************************************/
 
 export const getCountries = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) {
-        console.log('dbPool.getConnection error');
-      } else {
-        conn.query(`call selectCountries()`, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            res.status(200).send(results[0]);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
-};
-
-/************************************************************************************************
-* GICS
-************************************************************************************************/
-
-export const getGicsSectors = (req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
@@ -130,20 +105,20 @@ export const getGicsSectors = (req, res) => {
         try {
           const data = {};
           data.counts = {};
-          const filter = 'filter' in req.query ? conn.escape(req.query.filter) : null;
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const sortField = 'sortField' in req.query ? conn.escape(req.query.sortField) : conn.escape('id');
-          const sortDirection = 'sortDirection' in req.query ? conn.escape(req.query.sortDirection) : conn.escape('asc');
+          const page = conn.escape(`limit ${limit} offset ${offset}`);
           const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from gicsSectors`))[0].count;
+          data.counts.numTotalRecords = (await query(`select count(*) as count from countries`))[0].count;
           if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectGicsSectorCount(${filter})`))[0][0].count;
+            data.counts.numFilteredRecords = (await query(`call selectCountryCount(${filter})`))[0][0].count;
           } else {
             data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
           if (countsOnly == 'false') {
-            const records = (await query(`call selectGicsSectors(${filter}, ${limit}, ${offset}, ${sortField}, ${sortDirection})`))[0];
+            const records = (await query(`call selectCountries(${filter}, ${order}, ${page})`))[0];
             data.counts.numResponseRecords = records.length;
             data.records = records;
           }
@@ -158,20 +133,18 @@ export const getGicsSectors = (req, res) => {
   });
 };
 
-export const getGicsIndustryGroups = (req, res) => {
+export const getCountry = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
-      if (err) {
-        console.log('dbPool.getConnection error');
-      } else {
-        const name = 'name' in req.query ? conn.escape(req.query.name) : null;
-        const sectorId = 'sectorId' in req.query ? conn.escape(req.query.sectorId) : null;
-        conn.query(`call selectGicsIndustryGroups(${name}, ${sectorId})`, (error, results, fields) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectCountry("${req.params.code}")`;
+        conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
           } else {
-            res.status(200).send(results[0]);
+            res.status(200).send(results[0][0]);
           }
         });
       }
@@ -181,43 +154,61 @@ export const getGicsIndustryGroups = (req, res) => {
   }
 };
 
-export const getGicsIndustries = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) {
-        console.log('dbPool.getConnection error');
-      } else {
-        const name = 'name' in req.query ? conn.escape(req.query.name) : null;
-        const industryGroupId = 'industryGroupId' in req.query ? conn.escape(req.query.industryGroupId) : null;
-        conn.query(`call selectGicsIndustries(${name}, ${industryGroupId})`, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
+/************************************************************************************************
+* Industries
+************************************************************************************************/
+
+export const getIndustries = (req, res) => {
+  dbPool.getConnection((err, conn) => {
+    if (err) {
+      res.status(422).send('connection error');
+    }
+    else {
+      const query = util.promisify(conn.query).bind(conn);
+      (async () => {
+        try {
+          const data = {};
+          data.counts = {};
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
+          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
+          const page = conn.escape(`limit ${limit} offset ${offset}`);
+          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
+          data.counts.numTotalRecords = (await query(`select count(*) as count from industries`))[0].count;
+          if (filter) {
+            data.counts.numFilteredRecords = (await query(`call selectIndustryCount(${filter})`))[0][0].count;
           } else {
-            res.status(200).send(results[0]);
+            data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+          if (countsOnly == 'false') {
+            const records = (await query(`call selectIndustries(${filter}, ${order}, ${page})`))[0];
+            data.counts.numResponseRecords = records.length;
+            data.records = records;
+          }
+          res.status(200).send(data);
+        }
+        catch (error) {
+          res.status(422).send('query error');
+        }
+        finally { conn.release(); }
+      })();
+    }
+  });
 };
 
-export const getGicsSubindustries = (req, res) => {
+export const getIndustry = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
-      if (err) {
-        console.log('dbPool.getConnection error');
-      } else {
-        const name = 'name' in req.query ? conn.escape(req.query.name) : null;
-        const industryId = 'industryId' in req.query ? conn.escape(req.query.industryId) : null;
-        conn.query(`call selectGicsSubindustries(${name}, ${industryId})`, (error, results, fields) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectIndustry("${req.params.id}")`;
+        conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
           } else {
-            res.status(200).send(results[0]);
+            res.status(200).send(results[0][0]);
           }
         });
       }
@@ -260,17 +251,120 @@ export const postMessage = (req, res) => {
 ************************************************************************************************/
 
 export const getPortals = (req, res) => {
+  dbPool.getConnection((err, conn) => {
+    if (err) {
+      res.status(422).send('connection error');
+    }
+    else {
+      const query = util.promisify(conn.query).bind(conn);
+      (async () => {
+        try {
+          const data = {};
+          data.counts = {};
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
+          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
+          const page = conn.escape(`limit ${limit} offset ${offset}`);
+          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
+          data.counts.numTotalRecords = (await query(`select count(*) as count from portals`))[0].count;
+          if (filter) {
+            data.counts.numFilteredRecords = (await query(`call selectPortalCount(${filter})`))[0][0].count;
+          } else {
+            data.counts.numFilteredRecords = data.counts.numTotalRecords;
+          }
+          if (countsOnly == 'false') {
+            const records = (await query(`call selectPortals(${filter}, ${order}, ${page})`))[0];
+            data.counts.numResponseRecords = records.length;
+            data.records = records;
+          }
+          res.status(200).send(data);
+        }
+        catch (error) {
+          res.status(422).send('query error');
+        }
+        finally { conn.release(); }
+      })();
+    }
+  });
+};
+
+export const getPortal = (req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
-      if (err) {
-        console.log('dbPool.getConnection error');
-      } else {
-        conn.query(`call selectPortals()`, (error, results, fields) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectPortal("${req.params.id}")`;
+        conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
           } else {
-            res.status(200).send(results[0]);
+            res.status(200).send(results[0][0]);
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
+/************************************************************************************************
+* Sectors
+************************************************************************************************/
+
+export const getSectors = (req, res) => {
+  dbPool.getConnection((err, conn) => {
+    if (err) {
+      res.status(422).send('connection error');
+    }
+    else {
+      const query = util.promisify(conn.query).bind(conn);
+      (async () => {
+        try {
+          const data = {};
+          data.counts = {};
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
+          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
+          const page = conn.escape(`limit ${limit} offset ${offset}`);
+          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
+          data.counts.numTotalRecords = (await query(`select count(*) as count from sectors`))[0].count;
+          if (filter) {
+            data.counts.numFilteredRecords = (await query(`call selectSectorCount(${filter})`))[0][0].count;
+          } else {
+            data.counts.numFilteredRecords = data.counts.numTotalRecords;
+          }
+          if (countsOnly == 'false') {
+            const records = (await query(`call selectSectors(${filter}, ${order}, ${page})`))[0];
+            data.counts.numResponseRecords = records.length;
+            data.records = records;
+          }
+          res.status(200).send(data);
+        }
+        catch (error) {
+          res.status(422).send('query error');
+        }
+        finally { conn.release(); }
+      })();
+    }
+  });
+};
+
+export const getSector = (req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectSector("${req.params.id}")`;
+        conn.query(proc, (error, results, fields) => {
+          conn.release();
+          if (error) {
+            res.status(422).send('conn.query error');
+          } else {
+            res.status(200).send(results[0][0]);
           }
         });
       }
