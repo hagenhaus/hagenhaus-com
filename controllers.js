@@ -41,6 +41,7 @@ export const getCompanies = (req, res) => {
         try {
           const data = {};
           data.counts = {};
+          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
           const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
           const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
@@ -54,7 +55,7 @@ export const getCompanies = (req, res) => {
             data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
           if (countsOnly == 'false') {
-            const records = (await query(`call selectCompanies(${filter}, ${order}, ${page})`))[0];
+            const records = (await query(`call selectCompanies(${fields}, ${filter}, ${order}, ${page})`))[0];
             data.counts.numResponseRecords = records.length;
             data.records = records;
           }
