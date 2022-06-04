@@ -139,7 +139,7 @@ export const getCountry = (req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const proc = `call selectCountry("${req.params.code}")`;
+        const proc = `call selectCountry("${req.params.id}")`;
         conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {

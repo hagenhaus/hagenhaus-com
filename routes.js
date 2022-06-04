@@ -32,7 +32,7 @@ export const routes = (app) => {
   app.route('/api/v1/countries')
     .get(controllers.getCountries);
 
-  app.route('/api/v1/countries/:code')
+  app.route('/api/v1/countries/:id')
     .get(controllers.getCountry);
 
   /************************************************************************************************
