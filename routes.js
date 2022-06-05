@@ -46,8 +46,18 @@ export const routes = (app) => {
     .get(controllers.getIndustry);
 
   /************************************************************************************************
-  * Messages
+  * Industry Groups
   ************************************************************************************************/
+
+  app.route('/api/v1/industry-groups')
+    .get(controllers.getIndustryGroups);
+
+  app.route('/api/v1/industry-groups/:id')
+    .get(controllers.getIndustryGroup);
+
+  /************************************************************************************************
+   * Messages
+   ************************************************************************************************/
 
   app.route('/api/v1/messages')
     .post(controllers.postMessage);
@@ -71,4 +81,14 @@ export const routes = (app) => {
 
   app.route('/api/v1/sectors/:id')
     .get(controllers.getSector);
+
+  /************************************************************************************************
+  * Subindustries
+  ************************************************************************************************/
+
+  app.route('/api/v1/subindustries')
+    .get(controllers.getSubindustries);
+
+  app.route('/api/v1/subindustries/:id')
+    .get(controllers.getSubindustry);
 };

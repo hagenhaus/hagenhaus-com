@@ -27,10 +27,10 @@ export const getApiInformation = (req, res) => {
 };
 
 /************************************************************************************************
-* Companies
+* Records
 ************************************************************************************************/
 
-export const getCompanies = (req, res) => {
+export const getRecords = (table, req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
@@ -48,14 +48,14 @@ export const getCompanies = (req, res) => {
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
           const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from companies`))[0].count;
+          data.counts.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
           if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectCompanyCount(${filter})`))[0][0].count;
+            data.counts.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
           } else {
             data.counts.numFilteredRecords = data.counts.numTotalRecords;
           }
           if (countsOnly == 'false') {
-            const records = (await query(`call selectCompanies(${fields}, ${filter}, ${order}, ${page})`))[0];
+            const records = (await query(`call selectRecords("${table}", ${fields}, ${filter}, ${order}, ${page})`))[0];
             data.counts.numResponseRecords = records.length;
             data.records = records;
           }
@@ -70,12 +70,13 @@ export const getCompanies = (req, res) => {
   });
 };
 
-export const getCompany = (req, res) => {
+export const getRecord = (table, req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const proc = `call selectCompany("${req.params.id}")`;
+        const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+        const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
         conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
@@ -89,6 +90,18 @@ export const getCompany = (req, res) => {
   } catch (err) {
     res.status(422).send('some error');
   }
+};
+
+/************************************************************************************************
+* Companies
+************************************************************************************************/
+
+export const getCompanies = (req, res) => {
+  getRecords('companies', req, res);
+};
+
+export const getCompany = (req, res) => {
+  getRecord('companies', req, res);
 };
 
 /************************************************************************************************
@@ -96,63 +109,11 @@ export const getCompany = (req, res) => {
 ************************************************************************************************/
 
 export const getCountries = (req, res) => {
-  dbPool.getConnection((err, conn) => {
-    if (err) {
-      res.status(422).send('connection error');
-    }
-    else {
-      const query = util.promisify(conn.query).bind(conn);
-      (async () => {
-        try {
-          const data = {};
-          data.counts = {};
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from countries`))[0].count;
-          if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectCountryCount(${filter})`))[0][0].count;
-          } else {
-            data.counts.numFilteredRecords = data.counts.numTotalRecords;
-          }
-          if (countsOnly == 'false') {
-            const records = (await query(`call selectCountries(${filter}, ${order}, ${page})`))[0];
-            data.counts.numResponseRecords = records.length;
-            data.records = records;
-          }
-          res.status(200).send(data);
-        }
-        catch (error) {
-          res.status(422).send('query error');
-        }
-        finally { conn.release(); }
-      })();
-    }
-  });
+  getRecords('countries', req, res);
 };
 
 export const getCountry = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call selectCountry("${req.params.id}")`;
-        conn.query(proc, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            res.status(200).send(results[0][0]);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+  getRecord('countries', req, res);
 };
 
 /************************************************************************************************
@@ -160,63 +121,23 @@ export const getCountry = (req, res) => {
 ************************************************************************************************/
 
 export const getIndustries = (req, res) => {
-  dbPool.getConnection((err, conn) => {
-    if (err) {
-      res.status(422).send('connection error');
-    }
-    else {
-      const query = util.promisify(conn.query).bind(conn);
-      (async () => {
-        try {
-          const data = {};
-          data.counts = {};
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from industries`))[0].count;
-          if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectIndustryCount(${filter})`))[0][0].count;
-          } else {
-            data.counts.numFilteredRecords = data.counts.numTotalRecords;
-          }
-          if (countsOnly == 'false') {
-            const records = (await query(`call selectIndustries(${filter}, ${order}, ${page})`))[0];
-            data.counts.numResponseRecords = records.length;
-            data.records = records;
-          }
-          res.status(200).send(data);
-        }
-        catch (error) {
-          res.status(422).send('query error');
-        }
-        finally { conn.release(); }
-      })();
-    }
-  });
+  getRecords('industries', req, res);
 };
 
 export const getIndustry = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call selectIndustry("${req.params.id}")`;
-        conn.query(proc, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            res.status(200).send(results[0][0]);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+  getRecord('industries', req, res);
+};
+
+/************************************************************************************************
+* Industry Groups
+************************************************************************************************/
+
+export const getIndustryGroups = (req, res) => {
+  getRecords('industryGroups', req, res);
+};
+
+export const getIndustryGroup = (req, res) => {
+  getRecord('industryGroups', req, res);
 };
 
 /************************************************************************************************
@@ -252,63 +173,11 @@ export const postMessage = (req, res) => {
 ************************************************************************************************/
 
 export const getPortals = (req, res) => {
-  dbPool.getConnection((err, conn) => {
-    if (err) {
-      res.status(422).send('connection error');
-    }
-    else {
-      const query = util.promisify(conn.query).bind(conn);
-      (async () => {
-        try {
-          const data = {};
-          data.counts = {};
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from portals`))[0].count;
-          if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectPortalCount(${filter})`))[0][0].count;
-          } else {
-            data.counts.numFilteredRecords = data.counts.numTotalRecords;
-          }
-          if (countsOnly == 'false') {
-            const records = (await query(`call selectPortals(${filter}, ${order}, ${page})`))[0];
-            data.counts.numResponseRecords = records.length;
-            data.records = records;
-          }
-          res.status(200).send(data);
-        }
-        catch (error) {
-          res.status(422).send('query error');
-        }
-        finally { conn.release(); }
-      })();
-    }
-  });
+  getRecords('portals', req, res);
 };
 
 export const getPortal = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call selectPortal("${req.params.id}")`;
-        conn.query(proc, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            res.status(200).send(results[0][0]);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+  getRecord('portals', req, res);
 };
 
 /************************************************************************************************
@@ -316,61 +185,21 @@ export const getPortal = (req, res) => {
 ************************************************************************************************/
 
 export const getSectors = (req, res) => {
-  dbPool.getConnection((err, conn) => {
-    if (err) {
-      res.status(422).send('connection error');
-    }
-    else {
-      const query = util.promisify(conn.query).bind(conn);
-      (async () => {
-        try {
-          const data = {};
-          data.counts = {};
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
-          const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from sectors`))[0].count;
-          if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectSectorCount(${filter})`))[0][0].count;
-          } else {
-            data.counts.numFilteredRecords = data.counts.numTotalRecords;
-          }
-          if (countsOnly == 'false') {
-            const records = (await query(`call selectSectors(${filter}, ${order}, ${page})`))[0];
-            data.counts.numResponseRecords = records.length;
-            data.records = records;
-          }
-          res.status(200).send(data);
-        }
-        catch (error) {
-          res.status(422).send('query error');
-        }
-        finally { conn.release(); }
-      })();
-    }
-  });
+  getRecords('sectors', req, res);
 };
 
 export const getSector = (req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call selectSector("${req.params.id}")`;
-        conn.query(proc, (error, results, fields) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            res.status(200).send(results[0][0]);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+  getRecord('sectors', req, res);
+};
+
+/************************************************************************************************
+* Subindustries
+************************************************************************************************/
+
+export const getSubindustries = (req, res) => {
+  getRecords('subindustries', req, res);
+};
+
+export const getSubindustry = (req, res) => {
+  getRecord('subindustries', req, res);
 };
