@@ -40,25 +40,32 @@ export const getRecords = (table, req, res) => {
       (async () => {
         try {
           const data = {};
-          data.counts = {};
-          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+          data.meta = {};
           const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
           const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const countsOnly = 'countsOnly' in req.query ? req.query.countsOnly : 'false';
-          data.counts.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
+          const metaOnly = 'metaOnly' in req.query ? req.query.metaOnly : 'false';
+          data.meta.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
           if (filter) {
-            data.counts.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
+            data.meta.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
           } else {
-            data.counts.numFilteredRecords = data.counts.numTotalRecords;
+            data.meta.numFilteredRecords = data.meta.numTotalRecords;
           }
-          if (countsOnly == 'false') {
-            const records = (await query(`call selectRecords("${table}", ${fields}, ${filter}, ${order}, ${page})`))[0];
-            data.counts.numResponseRecords = records.length;
-            data.records = records;
+          if (metaOnly == 'false') {
+            if(table == "portalsView") {
+              data.portals = (await query(`call selectRecords("${table}", ${filter}, ${fields}, ${order}, ${page})`))[0];
+              data.meta.numResponseRecords = data.portals.length;
+            } else {
+              data[table] = (await query(`call selectRecords("${table}", ${filter}, ${fields}, ${order}, ${page})`))[0];
+              data.meta.numResponseRecords = data[table].length;
+            }
           }
+          data.meta.pageNumber = parseInt('pageNumber' in req.query ? req.query.pageNumber : 1);
+          data.meta.pageSize = parseInt(limit);
+          data.meta.numTotalPages = Math.ceil(data.meta.numTotalRecords / data.meta.pageSize);
           res.status(200).send(data);
         }
         catch (error) {
@@ -173,11 +180,11 @@ export const postMessage = (req, res) => {
 ************************************************************************************************/
 
 export const getPortals = (req, res) => {
-  getRecords('portals', req, res);
+  getRecords('portalsView', req, res);
 };
 
 export const getPortal = (req, res) => {
-  getRecord('portals', req, res);
+  getRecord('portalsView', req, res);
 };
 
 /************************************************************************************************
