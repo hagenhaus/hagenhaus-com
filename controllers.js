@@ -30,7 +30,32 @@ export const getApiInformation = (req, res) => {
 * Records
 ************************************************************************************************/
 
-export const getRecords = (table, req, res) => {
+export const getRecordFields = (table, req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const proc = `call selectRecordFields("${table}")`;
+        conn.query(proc, (error, results, fields) => {
+          conn.release();
+          if (error) {
+            res.status(422).send('conn.query error');
+          } else {
+            const fa = [];
+            for (const f of results[0]) {
+              fa.push(f['Field']);
+            }
+            res.status(200).send(fa);
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
+export const getRecords = (endpoint, table, req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
@@ -40,32 +65,32 @@ export const getRecords = (table, req, res) => {
       (async () => {
         try {
           const data = {};
-          data.meta = {};
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          data.metadata = {};
+          const fieldList = 'fieldList' in req.query ? conn.escape(`${req.query.fieldList}`) : null;
+          const recordFilter = 'recordFilter' in req.query ? conn.escape(`where ${req.query.recordFilter}`) : null;
+          const recordOrder = 'recordOrder' in req.query ? conn.escape(`order by ${req.query.recordOrder}`) : null;
           const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
           const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
           const metaOnly = 'metaOnly' in req.query ? req.query.metaOnly : 'false';
-          data.meta.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
-          if (filter) {
-            data.meta.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
+
+          data.metadata.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
+
+          if (recordFilter) {
+            data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${recordFilter})`))[0][0].count;
           } else {
-            data.meta.numFilteredRecords = data.meta.numTotalRecords;
+            data.metadata.numFilteredRecords = data.metadata.numTotalRecords;
           }
+
           if (metaOnly == 'false') {
-            if(table == "portalsView") {
-              data.portals = (await query(`call selectRecords("${table}", ${filter}, ${fields}, ${order}, ${page})`))[0];
-              data.meta.numResponseRecords = data.portals.length;
-            } else {
-              data[table] = (await query(`call selectRecords("${table}", ${filter}, ${fields}, ${order}, ${page})`))[0];
-              data.meta.numResponseRecords = data[table].length;
-            }
+            data[endpoint] = (await query(`call selectRecords("${table}", ${fieldList}, ${recordFilter}, ${recordOrder}, ${page})`))[0];
+            data.metadata.numResponseRecords = data[endpoint].length;
           }
-          data.meta.pageNumber = parseInt('pageNumber' in req.query ? req.query.pageNumber : 1);
-          data.meta.pageSize = parseInt(limit);
-          data.meta.numTotalPages = Math.ceil(data.meta.numTotalRecords / data.meta.pageSize);
+
+          data.metadata.pageNumber = parseInt('pageNumber' in req.query ? req.query.pageNumber : 1);
+          data.metadata.pageSize = parseInt(limit);
+          data.metadata.numTotalPages = Math.ceil(data.metadata.numFilteredRecords / data.metadata.pageSize);
+          data.metadata.firstItemOnPage = ((data.metadata.pageNumber - 1) * data.metadata.pageSize) + 1;
           res.status(200).send(data);
         }
         catch (error) {
@@ -82,8 +107,8 @@ export const getRecord = (table, req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-        const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
+        const fieldList = 'fieldList' in req.query ? conn.escape(`${req.query.fieldList}`) : null;
+        const proc = `call selectRecord("${table}", "${req.params.id}", ${fieldList})`;
         conn.query(proc, (error, results, fields) => {
           conn.release();
           if (error) {
@@ -104,7 +129,7 @@ export const getRecord = (table, req, res) => {
 ************************************************************************************************/
 
 export const getCompanies = (req, res) => {
-  getRecords('companies', req, res);
+  getRecords('companies', 'companies', req, res);
 };
 
 export const getCompany = (req, res) => {
@@ -116,7 +141,7 @@ export const getCompany = (req, res) => {
 ************************************************************************************************/
 
 export const getCountries = (req, res) => {
-  getRecords('countries', req, res);
+  getRecords('countries', 'countries', req, res);
 };
 
 export const getCountry = (req, res) => {
@@ -128,7 +153,7 @@ export const getCountry = (req, res) => {
 ************************************************************************************************/
 
 export const getIndustries = (req, res) => {
-  getRecords('industries', req, res);
+  getRecords('industries', 'industries', req, res);
 };
 
 export const getIndustry = (req, res) => {
@@ -140,7 +165,7 @@ export const getIndustry = (req, res) => {
 ************************************************************************************************/
 
 export const getIndustryGroups = (req, res) => {
-  getRecords('industryGroups', req, res);
+  getRecords('industry-groups', 'industryGroups', req, res);
 };
 
 export const getIndustryGroup = (req, res) => {
@@ -179,8 +204,12 @@ export const postMessage = (req, res) => {
 * Portals
 ************************************************************************************************/
 
+export const getPortalFields = (req, res) => {
+  getRecordFields('portalsView', req, res);
+};
+
 export const getPortals = (req, res) => {
-  getRecords('portalsView', req, res);
+  getRecords('portals', 'portalsView', req, res);
 };
 
 export const getPortal = (req, res) => {
@@ -192,7 +221,7 @@ export const getPortal = (req, res) => {
 ************************************************************************************************/
 
 export const getSectors = (req, res) => {
-  getRecords('sectors', req, res);
+  getRecords('sectors', 'sectors', req, res);
 };
 
 export const getSector = (req, res) => {
@@ -204,7 +233,7 @@ export const getSector = (req, res) => {
 ************************************************************************************************/
 
 export const getSubindustries = (req, res) => {
-  getRecords('subindustries', req, res);
+  getRecords('subindustries', 'subindustries', req, res);
 };
 
 export const getSubindustry = (req, res) => {

@@ -66,6 +66,9 @@ export const routes = (app) => {
   * Portals
   ************************************************************************************************/
 
+  app.route('/api/v1/portal-fields')
+    .get(controllers.getPortalFields);
+
   app.route('/api/v1/portals')
     .get(controllers.getPortals);
 
