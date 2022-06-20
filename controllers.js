@@ -36,7 +36,7 @@ export const getRecordFields = (table, req, res) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
         const proc = `call selectRecordFields("${table}")`;
-        conn.query(proc, (error, results, fields) => {
+        conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
@@ -66,31 +66,31 @@ export const getRecords = (table, req, res) => {
         try {
           const data = {};
           data.metadata = {};
-          const fieldList = 'fieldList' in req.query ? conn.escape(`${req.query.fieldList}`) : null;
-          const recordFilter = 'recordFilter' in req.query ? conn.escape(`where ${req.query.recordFilter}`) : null;
-          const recordOrder = 'recordOrder' in req.query ? conn.escape(`order by ${req.query.recordOrder}`) : null;
-          const limit = 'pageSize' in req.query ? req.query.pageSize : 10;
-          const offset = 'pageNumber' in req.query ? (req.query.pageNumber - 1) * limit : 0;
+          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
+          const limit = 'limit' in req.query ? req.query.limit : 10;
+          const offset = 'page' in req.query ? (req.query.page - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
           const metaOnly = 'metaOnly' in req.query ? req.query.metaOnly : 'false';
 
           data.metadata.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
 
-          if (recordFilter) {
-            data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${recordFilter})`))[0][0].count;
+          if (filter) {
+            data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
           } else {
             data.metadata.numFilteredRecords = data.metadata.numTotalRecords;
           }
 
           if (metaOnly == 'false') {
-            data.records = (await query(`call selectRecords("${table}", ${fieldList}, ${recordFilter}, ${recordOrder}, ${page})`))[0];
+            data.records = (await query(`call selectRecords("${table}", ${fields}, ${filter}, ${order}, ${page})`))[0];
             data.metadata.numResponseRecords = data.records.length;
           }
 
-          data.metadata.pageNumber = parseInt('pageNumber' in req.query ? req.query.pageNumber : 1);
-          data.metadata.pageSize = parseInt(limit);
-          data.metadata.numTotalPages = Math.ceil(data.metadata.numFilteredRecords / data.metadata.pageSize);
-          data.metadata.firstItemOnPage = ((data.metadata.pageNumber - 1) * data.metadata.pageSize) + 1;
+          data.metadata.page = parseInt('page' in req.query ? req.query.page : 1);
+          data.metadata.limit = parseInt(limit);
+          data.metadata.numTotalPages = Math.ceil(data.metadata.numFilteredRecords / data.metadata.limit);
+          data.metadata.firstItemOnPage = ((data.metadata.page - 1) * data.metadata.limit) + 1;
           res.status(200).send(data);
         }
         catch (error) {
@@ -107,9 +107,9 @@ export const getRecord = (table, req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const fieldList = 'fieldList' in req.query ? conn.escape(`${req.query.fieldList}`) : null;
-        const proc = `call selectRecord("${table}", "${req.params.id}", ${fieldList})`;
-        conn.query(proc, (error, results, fields) => {
+        const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+        const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
+        conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) {
             res.status(422).send('conn.query error');
