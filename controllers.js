@@ -55,7 +55,7 @@ export const getRecordFields = (table, req, res) => {
   }
 };
 
-export const getRecords = (endpoint, table, req, res) => {
+export const getRecords = (table, req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
@@ -83,8 +83,8 @@ export const getRecords = (endpoint, table, req, res) => {
           }
 
           if (metaOnly == 'false') {
-            data[endpoint] = (await query(`call selectRecords("${table}", ${fieldList}, ${recordFilter}, ${recordOrder}, ${page})`))[0];
-            data.metadata.numResponseRecords = data[endpoint].length;
+            data.records = (await query(`call selectRecords("${table}", ${fieldList}, ${recordFilter}, ${recordOrder}, ${page})`))[0];
+            data.metadata.numResponseRecords = data.records.length;
           }
 
           data.metadata.pageNumber = parseInt('pageNumber' in req.query ? req.query.pageNumber : 1);
@@ -129,7 +129,7 @@ export const getRecord = (table, req, res) => {
 ************************************************************************************************/
 
 export const getCompanies = (req, res) => {
-  getRecords('companies', 'companies', req, res);
+  getRecords('companies', req, res);
 };
 
 export const getCompany = (req, res) => {
@@ -141,7 +141,7 @@ export const getCompany = (req, res) => {
 ************************************************************************************************/
 
 export const getCountries = (req, res) => {
-  getRecords('countries', 'countries', req, res);
+  getRecords('countries', req, res);
 };
 
 export const getCountry = (req, res) => {
@@ -153,7 +153,7 @@ export const getCountry = (req, res) => {
 ************************************************************************************************/
 
 export const getIndustries = (req, res) => {
-  getRecords('industries', 'industries', req, res);
+  getRecords('industries', req, res);
 };
 
 export const getIndustry = (req, res) => {
@@ -165,7 +165,7 @@ export const getIndustry = (req, res) => {
 ************************************************************************************************/
 
 export const getIndustryGroups = (req, res) => {
-  getRecords('industry-groups', 'industryGroups', req, res);
+  getRecords('industryGroups', req, res);
 };
 
 export const getIndustryGroup = (req, res) => {
@@ -209,7 +209,7 @@ export const getPortalFields = (req, res) => {
 };
 
 export const getPortals = (req, res) => {
-  getRecords('portals', 'portalsView', req, res);
+  getRecords('portalsView', req, res);
 };
 
 export const getPortal = (req, res) => {
@@ -221,7 +221,7 @@ export const getPortal = (req, res) => {
 ************************************************************************************************/
 
 export const getSectors = (req, res) => {
-  getRecords('sectors', 'sectors', req, res);
+  getRecords('sectors', req, res);
 };
 
 export const getSector = (req, res) => {
@@ -233,7 +233,7 @@ export const getSector = (req, res) => {
 ************************************************************************************************/
 
 export const getSubindustries = (req, res) => {
-  getRecords('subindustries', 'subindustries', req, res);
+  getRecords('subindustries', req, res);
 };
 
 export const getSubindustry = (req, res) => {
