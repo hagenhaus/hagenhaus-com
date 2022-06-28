@@ -66,11 +66,11 @@ export const getRecords = (table, req, res) => {
         try {
           const data = {};
           data.metadata = {};
-          const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-          const filter = 'filter' in req.query ? conn.escape(`where ${req.query.filter}`) : null;
-          const order = 'order' in req.query ? conn.escape(`order by ${req.query.order}`) : null;
-          const limit = 'limit' in req.query ? req.query.limit : 10;
-          const offset = 'page' in req.query ? (req.query.page - 1) * limit : 0;
+          const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(`${req.query.fields}`) : null;
+          const filter = 'filter' in req.query && req.query.filter.length ? conn.escape(`where ${req.query.filter}`) : null;
+          const order = 'order' in req.query && req.query.order.length ? conn.escape(`order by ${req.query.order}`) : null;
+          const limit = 'limit' in req.query && req.query.limit.length ? req.query.limit : 10;
+          const offset = 'page' in req.query && req.query.page.length ? (req.query.page - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
           const metaOnly = 'metaOnly' in req.query ? req.query.metaOnly : 'false';
 
@@ -115,6 +115,29 @@ export const getRecord = (table, req, res) => {
             res.status(422).send('conn.query error');
           } else {
             res.status(200).send(results[0][0]);
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
+export const deleteRecord = (table, req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        console.log(`call deleteRecord("${table}", "${req.params.id}")`);
+        const proc = `call deleteRecord("${table}", "${req.params.id}")`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) {
+            console.log(error);
+            res.status(422).send('conn.query error');
+          } else {
+            res.status(204).send();
           }
         });
       }
@@ -214,6 +237,10 @@ export const getPortals = (req, res) => {
 
 export const getPortal = (req, res) => {
   getRecord('portalsView', req, res);
+};
+
+export const deletePortal = (req, res) => {
+  deleteRecord('portals', req, res);
 };
 
 /************************************************************************************************

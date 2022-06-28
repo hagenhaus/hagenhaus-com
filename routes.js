@@ -73,7 +73,8 @@ export const routes = (app) => {
     .get(controllers.getPortals);
 
   app.route('/api/v1/portals/:id')
-    .get(controllers.getPortal);
+    .get(controllers.getPortal)
+    .delete(controllers.deletePortal);
 
   /************************************************************************************************
   * Sectors
