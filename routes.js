@@ -74,6 +74,7 @@ export const routes = (app) => {
 
   app.route('/api/v1/portals/:id')
     .get(controllers.getPortal)
+    .patch(controllers.patchPortal)
     .delete(controllers.deletePortal);
 
   /************************************************************************************************

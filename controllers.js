@@ -124,6 +124,28 @@ export const getRecord = (table, req, res) => {
   }
 };
 
+export const patchRecord = (table, req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
+        const proc = `call updateRecord("${table}", "${req.params.id}", ${updates})`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) {
+            res.status(422).send('conn.query error');
+          } else {
+            res.status(204).send();
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
 export const deleteRecord = (table, req, res) => {
   try {
     dbPool.getConnection((err, conn) => {
@@ -237,6 +259,10 @@ export const getPortals = (req, res) => {
 
 export const getPortal = (req, res) => {
   getRecord('portalsView', req, res);
+};
+
+export const patchPortal = (req, res) => {
+  patchRecord('portals', req, res);
 };
 
 export const deletePortal = (req, res) => {
