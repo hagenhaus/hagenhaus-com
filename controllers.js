@@ -151,12 +151,10 @@ export const deleteRecord = (table, req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        console.log(`call deleteRecord("${table}", "${req.params.id}")`);
         const proc = `call deleteRecord("${table}", "${req.params.id}")`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) {
-            console.log(error);
             res.status(422).send('conn.query error');
           } else {
             res.status(204).send();
