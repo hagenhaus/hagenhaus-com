@@ -30,31 +30,6 @@ export const getApiInformation = (req, res) => {
 * Records
 ************************************************************************************************/
 
-export const getRecordFields = (table, req, res) => {
-  try {
-    dbPool.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call selectRecordFields("${table}")`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
-          } else {
-            const fa = [];
-            for (const f of results[0]) {
-              fa.push(f['Field']);
-            }
-            res.status(200).send(fa);
-          }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
-};
-
 export const getRecords = (table, req, res) => {
   dbPool.getConnection((err, conn) => {
     if (err) {
@@ -64,33 +39,50 @@ export const getRecords = (table, req, res) => {
       const query = util.promisify(conn.query).bind(conn);
       (async () => {
         try {
-          const data = {};
-          data.metadata = {};
           const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(`${req.query.fields}`) : null;
           const filter = 'filter' in req.query && req.query.filter.length ? conn.escape(`where ${req.query.filter}`) : null;
           const order = 'order' in req.query && req.query.order.length ? conn.escape(`order by ${req.query.order}`) : null;
           const limit = 'limit' in req.query && req.query.limit.length ? req.query.limit : 10;
           const offset = 'page' in req.query && req.query.page.length ? (req.query.page - 1) * limit : 0;
           const page = conn.escape(`limit ${limit} offset ${offset}`);
-          const metaOnly = 'metaOnly' in req.query ? req.query.metaOnly : 'false';
 
-          data.metadata.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
+          const hasMetadata = 'hasMetadata' in req.query ? req.query.hasMetadata.toLowerCase() === 'true' : true;
+          const hasFieldList = 'hasFieldList' in req.query ? req.query.hasFieldList.toLowerCase() === 'true' : false;
+          const hasRecords = 'hasRecords' in req.query ? req.query.hasRecords.toLowerCase() === 'true' : true;
 
-          if (filter) {
-            data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
-          } else {
-            data.metadata.numFilteredRecords = data.metadata.numTotalRecords;
-          }
+          const data = {};
 
-          if (metaOnly == 'false') {
+          if (hasMetadata) { data.metadata = {}; }
+          if (hasFieldList) { data.fieldList = []; }
+          if (hasRecords) { data.records = []; }
+
+          if (hasRecords) {
             data.records = (await query(`call selectRecords("${table}", ${fields}, ${filter}, ${order}, ${page})`))[0];
-            data.metadata.numResponseRecords = data.records.length;
           }
 
-          data.metadata.page = parseInt('page' in req.query ? req.query.page : 1);
-          data.metadata.limit = parseInt(limit);
-          data.metadata.numTotalPages = Math.ceil(data.metadata.numFilteredRecords / data.metadata.limit);
-          data.metadata.firstItemOnPage = ((data.metadata.page - 1) * data.metadata.limit) + 1;
+          if (hasMetadata) {
+            data.metadata.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
+            if (filter) {
+              data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
+            } else {
+              data.metadata.numFilteredRecords = data.metadata.numTotalRecords;
+            }
+            if (hasRecords) {
+              data.metadata.numResponseRecords = data.records.length;
+            }
+            data.metadata.page = parseInt('page' in req.query ? req.query.page : 1);
+            data.metadata.limit = parseInt(limit);
+            data.metadata.numTotalPages = Math.ceil(data.metadata.numFilteredRecords / data.metadata.limit);
+            data.metadata.firstItemOnPage = ((data.metadata.page - 1) * data.metadata.limit) + 1;
+          }
+
+          if (hasFieldList) {
+            const array = (await query(`call selectRecordFields("${table}")`))[0];
+            for (const item of array) {
+              data.fieldList.push(item['Field']);
+            }
+          }
+
           res.status(200).send(data);
         }
         catch (error) {
@@ -247,16 +239,14 @@ export const postMessage = (req, res) => {
 * Portals
 ************************************************************************************************/
 
-export const getPortalFields = (req, res) => {
-  getRecordFields('portalsView', req, res);
-};
-
 export const getPortals = (req, res) => {
-  getRecords('portalsView', req, res);
+  const table = 'includeExtendedFields' in req.query && req.query.includeExtendedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  getRecords(table, req, res);
 };
 
 export const getPortal = (req, res) => {
-  getRecord('portalsView', req, res);
+  const table = 'includeExtendedFields' in req.query && req.query.includeExtendedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  getRecord(table, req, res);
 };
 
 export const patchPortal = (req, res) => {
