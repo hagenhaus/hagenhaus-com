@@ -67,6 +67,7 @@ export const routes = (app) => {
   ************************************************************************************************/
 
   app.route('/api/v1/portals')
+    .post(controllers.postPortal)
     .get(controllers.getPortals);
 
   app.route('/api/v1/portals/:id')

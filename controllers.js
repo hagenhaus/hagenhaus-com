@@ -239,6 +239,35 @@ export const postMessage = (req, res) => {
 * Portals
 ************************************************************************************************/
 
+export const postPortal = (req, res) => {
+  try {
+    dbPool.getConnection((err, conn) => {
+      if (err) { res.status(422).send('Unable to connect to database.'); }
+      else {
+        const name = 'name' in req.body ? mysql.escape(req.body.name) : null;
+        const url = 'url' in req.body ? mysql.escape(req.body.url) : null;
+        const companyId = 'companyid' in req.body ? mysql.escape(req.body.companyid) : null;
+        if (!name || !name.length) { res.status(422).send('Name is required.'); }
+        else if (!url || !url.length) { res.status(422).send('Url is required.'); }
+        else if (!companyId || !companyId.length) { res.status(422).send('Company ID is required.'); }
+        else {
+          const proc = `call insertPortal(${name},${url},${companyId})`;
+          conn.query(proc, (error, results, flds) => {
+            conn.release();
+            if (error) {
+              res.status(422).send('conn.query error');
+            } else {
+              res.status(201).send();
+            }
+          });
+        }
+      }
+    });
+  } catch (err) {
+    res.status(422).send('some error');
+  }
+};
+
 export const getPortals = (req, res) => {
   const table = 'includeExtendedFields' in req.query && req.query.includeExtendedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
   getRecords(table, req, res);
