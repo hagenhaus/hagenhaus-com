@@ -244,20 +244,22 @@ export const postPortal = (req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
+        const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(`${req.query.fields}`) : null;
+        const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields : false;
         const name = 'name' in req.body ? mysql.escape(req.body.name) : null;
         const url = 'url' in req.body ? mysql.escape(req.body.url) : null;
-        const companyId = 'companyid' in req.body ? mysql.escape(req.body.companyid) : null;
+        const companyId = 'companyId' in req.body ? mysql.escape(req.body.companyId) : null;
         if (!name || !name.length) { res.status(422).send('Name is required.'); }
         else if (!url || !url.length) { res.status(422).send('Url is required.'); }
         else if (!companyId || !companyId.length) { res.status(422).send('Company ID is required.'); }
         else {
-          const proc = `call insertPortal(${name},${url},${companyId})`;
+          const proc = `call insertPortal(${name},${url},${companyId},${fields},${allowJoinedFields})`;
           conn.query(proc, (error, results, flds) => {
             conn.release();
             if (error) {
               res.status(422).send('conn.query error');
             } else {
-              res.status(201).send();
+              res.status(201).send(results[0][0]);
             }
           });
         }
@@ -269,12 +271,12 @@ export const postPortal = (req, res) => {
 };
 
 export const getPortals = (req, res) => {
-  const table = 'includeExtendedFields' in req.query && req.query.includeExtendedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
   getRecords(table, req, res);
 };
 
 export const getPortal = (req, res) => {
-  const table = 'includeExtendedFields' in req.query && req.query.includeExtendedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
   getRecord(table, req, res);
 };
 
