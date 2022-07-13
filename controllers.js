@@ -244,8 +244,8 @@ export const postPortal = (req, res) => {
     dbPool.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
-        const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(`${req.query.fields}`) : null;
-        const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields : false;
+        const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+        const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
         const name = 'name' in req.body ? mysql.escape(req.body.name) : null;
         const url = 'url' in req.body ? mysql.escape(req.body.url) : null;
         const companyId = 'companyId' in req.body ? mysql.escape(req.body.companyId) : null;
@@ -271,12 +271,12 @@ export const postPortal = (req, res) => {
 };
 
 export const getPortals = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
   getRecords(table, req, res);
 };
 
 export const getPortal = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'true' ? 'portalsView' : 'portals';
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
   getRecord(table, req, res);
 };
 
