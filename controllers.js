@@ -2,7 +2,7 @@ import fs from 'fs';
 import mysql from 'mysql';
 import util from 'util';
 
-const dbConfig = {
+const portalsDb = mysql.createPool({
   connectionLimit: process.env.dbConnectionLimit,
   host: process.env.dbHost,
   user: process.env.dbUser,
@@ -10,8 +10,17 @@ const dbConfig = {
   database: process.env.dbDatabase,
   charset: 'utf8mb4',
   dateStrings: true
-};
-const dbPool = mysql.createPool(dbConfig);
+});
+
+const baseballDb = mysql.createPool({
+  connectionLimit: process.env.dbConnectionLimit,
+  host: process.env.dbHost,
+  user: process.env.dbUser,
+  password: process.env.dbPassword,
+  database: 'lahmansbaseballdb',
+  charset: 'utf8mb4',
+  dateStrings: true
+});
 
 /************************************************************************************************
 * API Information
@@ -27,11 +36,39 @@ export const getApiInformation = (req, res) => {
 };
 
 /************************************************************************************************
+* Messages
+************************************************************************************************/
+
+export const postMessage = (req, res) => {
+  const record = {};
+  record.timestamp = new Date().toISOString();
+  record.method = req.method;
+  record.endpoint = req.url;
+  record.name = req.body.name;
+  record.email = req.body.email;
+  record.website = req.body.website;
+  record.message = req.body.message;
+  record.userAgent = req.headers['user-agent'];
+
+  try {
+    const stats = fs.statSync('messages.log');
+    if (stats.size < 1000000) {
+      fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
+      res.status(204).end();
+    } else {
+      res.status(429).end();
+    }
+  } catch (err) {
+    res.status(404).end();
+  }
+};
+
+/************************************************************************************************
 * Records
 ************************************************************************************************/
 
-export const getRecords = (table, req, res) => {
-  dbPool.getConnection((err, conn) => {
+export const getRecords = (db, table, req, res) => {
+  db.getConnection((err, conn) => {
     if (err) {
       res.status(422).send('connection error');
     }
@@ -94,9 +131,9 @@ export const getRecords = (table, req, res) => {
   });
 };
 
-export const getRecord = (table, req, res) => {
+export const getRecord = (db, table, req, res) => {
   try {
-    dbPool.getConnection((err, conn) => {
+    db.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
         const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
@@ -118,7 +155,7 @@ export const getRecord = (table, req, res) => {
 
 export const patchRecord = (table, req, res) => {
   try {
-    dbPool.getConnection((err, conn) => {
+    portalsDb.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
         const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
@@ -140,7 +177,7 @@ export const patchRecord = (table, req, res) => {
 
 export const deleteRecord = (table, req, res) => {
   try {
-    dbPool.getConnection((err, conn) => {
+    portalsDb.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
         const proc = `call deleteRecord("${table}", "${req.params.id}")`;
@@ -160,88 +197,44 @@ export const deleteRecord = (table, req, res) => {
 };
 
 /************************************************************************************************
-* Companies
-************************************************************************************************/
-
-export const getCompanies = (req, res) => {
-  getRecords('companies', req, res);
-};
-
-export const getCompany = (req, res) => {
-  getRecord('companies', req, res);
-};
-
-/************************************************************************************************
-* Countries
-************************************************************************************************/
-
-export const getCountries = (req, res) => {
-  getRecords('countries', req, res);
-};
-
-export const getCountry = (req, res) => {
-  getRecord('countries', req, res);
-};
-
-/************************************************************************************************
-* Industries
-************************************************************************************************/
-
-export const getIndustries = (req, res) => {
-  getRecords('industries', req, res);
-};
-
-export const getIndustry = (req, res) => {
-  getRecord('industries', req, res);
-};
-
-/************************************************************************************************
-* Industry Groups
-************************************************************************************************/
-
-export const getIndustryGroups = (req, res) => {
-  getRecords('industryGroups', req, res);
-};
-
-export const getIndustryGroup = (req, res) => {
-  getRecord('industryGroups', req, res);
-};
-
-/************************************************************************************************
-* Messages
-************************************************************************************************/
-
-export const postMessage = (req, res) => {
-  const record = {};
-  record.timestamp = new Date().toISOString();
-  record.method = req.method;
-  record.endpoint = req.url;
-  record.name = req.body.name;
-  record.email = req.body.email;
-  record.website = req.body.website;
-  record.message = req.body.message;
-  record.userAgent = req.headers['user-agent'];
-
-  try {
-    const stats = fs.statSync('messages.log');
-    if (stats.size < 1000000) {
-      fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
-      res.status(204).end();
-    } else {
-      res.status(429).end();
-    }
-  } catch (err) {
-    res.status(404).end();
-  }
-};
-
-/************************************************************************************************
 * Portals
 ************************************************************************************************/
 
+export const getCompanies = (req, res) => {
+  getRecords(portalsDb, 'companies', req, res);
+};
+
+export const getCompany = (req, res) => {
+  getRecord(portalsDb, 'companies', req, res);
+};
+
+export const getCountries = (req, res) => {
+  getRecords(portalsDb, 'countries', req, res);
+};
+
+export const getCountry = (req, res) => {
+  getRecord(portalsDb, 'countries', req, res);
+};
+
+export const getIndustries = (req, res) => {
+  getRecords(portalsDb, 'industries', req, res);
+};
+
+export const getIndustry = (req, res) => {
+  getRecord(portalsDb, 'industries', req, res);
+};
+
+export const getIndustryGroups = (req, res) => {
+  getRecords(portalsDb, 'industryGroups', req, res);
+};
+
+export const getIndustryGroup = (req, res) => {
+  getRecord(portalsDb, 'industryGroups', req, res);
+};
+
 export const postPortal = (req, res) => {
   try {
-    dbPool.getConnection((err, conn) => {
+    portalsDb.getConnection((err, conn) => {
       if (err) { res.status(422).send('Unable to connect to database.'); }
       else {
         const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
@@ -272,12 +265,12 @@ export const postPortal = (req, res) => {
 
 export const getPortals = (req, res) => {
   const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecords(table, req, res);
+  getRecords(portalsDb, table, req, res);
 };
 
 export const getPortal = (req, res) => {
   const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecord(table, req, res);
+  getRecord(portalsDb, table, req, res);
 };
 
 export const patchPortal = (req, res) => {
@@ -288,26 +281,30 @@ export const deletePortal = (req, res) => {
   deleteRecord('portals', req, res);
 };
 
-/************************************************************************************************
-* Sectors
-************************************************************************************************/
-
 export const getSectors = (req, res) => {
-  getRecords('sectors', req, res);
+  getRecords(portalsDb, 'sectors', req, res);
 };
 
 export const getSector = (req, res) => {
-  getRecord('sectors', req, res);
+  getRecord(portalsDb, 'sectors', req, res);
 };
 
-/************************************************************************************************
-* Subindustries
-************************************************************************************************/
-
 export const getSubindustries = (req, res) => {
-  getRecords('subindustries', req, res);
+  getRecords(portalsDb, 'subindustries', req, res);
 };
 
 export const getSubindustry = (req, res) => {
-  getRecord('subindustries', req, res);
+  getRecord(portalsDb, 'subindustries', req, res);
+};
+
+/************************************************************************************************
+* Baseball
+************************************************************************************************/
+
+export const getBaseballPlayers = (req, res) => {
+  getRecords(baseballDb, 'people', req, res);
+};
+
+export const getBaseballPlayer = (req, res) => {
+  getRecord(baseballDb, 'people', req, res);
 };

@@ -16,7 +16,14 @@ export const routes = (app) => {
     .get(controllers.getApiInformation);
 
   /************************************************************************************************
-  * Companies
+  * Messages
+  ************************************************************************************************/
+
+  app.route('/api/v1/messages')
+    .post(controllers.postMessage);
+
+  /************************************************************************************************
+  * Portals
   ************************************************************************************************/
 
   app.route('/api/v1/companies')
@@ -25,19 +32,11 @@ export const routes = (app) => {
   app.route('/api/v1/companies/:id')
     .get(controllers.getCompany);
 
-  /************************************************************************************************
-  * Countries
-  ************************************************************************************************/
-
   app.route('/api/v1/countries')
     .get(controllers.getCountries);
 
   app.route('/api/v1/countries/:id')
     .get(controllers.getCountry);
-
-  /************************************************************************************************
-  * Industries
-  ************************************************************************************************/
 
   app.route('/api/v1/industries')
     .get(controllers.getIndustries);
@@ -45,26 +44,11 @@ export const routes = (app) => {
   app.route('/api/v1/industries/:id')
     .get(controllers.getIndustry);
 
-  /************************************************************************************************
-  * Industry Groups
-  ************************************************************************************************/
-
   app.route('/api/v1/industry-groups')
     .get(controllers.getIndustryGroups);
 
   app.route('/api/v1/industry-groups/:id')
     .get(controllers.getIndustryGroup);
-
-  /************************************************************************************************
-   * Messages
-   ************************************************************************************************/
-
-  app.route('/api/v1/messages')
-    .post(controllers.postMessage);
-
-  /************************************************************************************************
-  * Portals
-  ************************************************************************************************/
 
   app.route('/api/v1/portals')
     .post(controllers.postPortal)
@@ -75,23 +59,25 @@ export const routes = (app) => {
     .patch(controllers.patchPortal)
     .delete(controllers.deletePortal);
 
-  /************************************************************************************************
-    * Sectors
-    ************************************************************************************************/
-
   app.route('/api/v1/sectors')
     .get(controllers.getSectors);
 
   app.route('/api/v1/sectors/:id')
     .get(controllers.getSector);
 
-  /************************************************************************************************
-  * Subindustries
-  ************************************************************************************************/
-
   app.route('/api/v1/subindustries')
     .get(controllers.getSubindustries);
 
   app.route('/api/v1/subindustries/:id')
     .get(controllers.getSubindustry);
+
+  /************************************************************************************************
+  * Baseball
+  ************************************************************************************************/
+
+  app.route('/api/v1/players')
+    .get(controllers.getBaseballPlayers);
+
+  app.route('/api/v1/players/:id')
+    .get(controllers.getBaseballPlayer);
 };
