@@ -1,0 +1,252 @@
+/*********************************
+* GENERAL
+**********************************/
+
+div.hh-data-list details {
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  padding: .5em .5em 0;
+}
+
+div.hh-data-list details>summary {
+  border-radius: 4px;
+  display: flex;
+  list-style: none;
+  margin: -.5em -.5em 0;
+}
+
+div.hh-data-list details[open]>summary {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: .5em;
+}
+
+div.hh-data-list details>summary::-webkit-details-marker {
+  display: none;
+}
+
+div.hh-data-list details>summary div.title {
+  font-size: 96%;
+  font-weight: bold;
+  line-height: 2;
+}
+
+div.hh-data-list details>summary div.title,
+div.hh-data-list details>summary div.hh-buttons {
+  padding: .3em .5em;
+}
+
+div.hh-data-list details label {
+  font-weight: bold;
+}
+
+div.hh-data-list label.form-label,
+div.hh-data-list label.form-check-label {
+  font-size: 88%;
+}
+
+div.hh-data-list label.form-label {
+  margin-bottom: 0.2rem;
+}
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+div.hh-data-list input.form-control::placeholder {
+  color: #cccccc;
+  opacity: 1;
+}
+
+/* Internet Explorer 10-11 */
+div.hh-data-list input.form-control:-ms-input-placeholder {
+  color: #cccccc;
+}
+
+/* Microsoft Edge */
+div.hh-data-list input.form-control::-ms-input-placeholder {
+  color: #cccccc;
+}
+
+div.hh-data-list .hh-ms-sm {
+  margin-left: 2px;
+}
+
+/*********************************
+* CONTROL ROW
+**********************************/
+
+div.hh-data-list ul.hh-tabs button.nav-link {
+  border-color: transparent !important;
+  color: #495057;
+}
+
+div.hh-data-list ul.hh-tabs button.nav-link.active {
+  border-color: #dee2e6 #dee2e6 #fff !important;
+}
+
+div.hh-data-list div.hh-records-are-expanded {
+  margin-top:0;
+}
+
+div.hh-data-list a.hh-refresh-records {
+  color: steelblue;
+  text-decoration: none;
+}
+
+div.hh-data-list div.hh-fields-wrapper {
+  border: 1px solid #d9d9d9;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  max-height: 200px;
+  overflow-y: scroll;
+  padding: 12px;
+}
+
+div.hh-data-list div.tab-content div.tab-pane div.hh-tab-description {
+  font-size: 92%;
+  margin-left: 2px;
+}
+
+div.hh-data-list div.tab-content div.hh-home-pane button:not(:hover),
+div.hh-data-list div.tab-content div.hh-search-pane button:not(:hover),
+div.hh-data-list div.tab-content div.hh-new-pane button:not(:hover),
+div.hh-data-list div.hh-navigation-row button:not(:hover) {
+  border-color: #d9d9d9;
+}
+
+div.hh-data-list div.hh-all-fields {
+  padding-left:13px;
+}
+
+div.hh-data-list div.hh-all-fields label {
+  color:black;
+  font-size:88%;
+}
+
+/*********************************
+* COUNTERS ROW
+**********************************/
+
+div.hh-data-list div.hh-counters {
+  font-size: 82%;
+  margin-left: 2px;
+}
+
+/*********************************
+* NEW RECORD - GoldenRod
+**********************************/
+
+div.hh-data-list div.hh-new-record details {
+  border-color: #e8c264;
+}
+
+div.hh-data-list div.hh-new-record details>summary {
+  background-color: #f8eed3;
+  border-bottom-color: #e8c264;
+  color: #856514;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn {
+  border-color: transparent !important;
+  color: #856514;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons label:hover,
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button:hover {
+  border-color: #856514;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.hh-edit-mode {
+  background: white;
+  border-color: #856514;
+}
+
+div.hh-data-list div.hh-new-record details input.form-control:not(disabled) {
+  background: white;
+  border-color: #6c757d;
+}
+
+div.hh-data-list div.hh-new-record details label {
+  color: #856514;
+}
+
+/*********************************
+* CREATED RECORD - GoldenRod
+**********************************/
+
+div.hh-data-list div.hh-created-record details {
+  border-color: #008000;
+}
+
+div.hh-data-list div.hh-created-record details>summary {
+  background-color: #008000;
+  border-bottom-color: #008000;
+  color: white;
+}
+
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
+  border-color:  #008000 !important;
+  color: white;
+}
+
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label:hover,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button:hover {
+  border-color: #008000;
+}
+
+div.hh-data-list div.hh-created-record details input.form-control:disabled {
+  background: #ecf9f1;
+  border-color: #ecf9f1;
+}
+
+div.hh-data-list div.hh-created-record details label {
+  color: #008000;
+}
+
+/*********************************
+* RECORDS ROW - DodgerBlue
+**********************************/
+
+div.hh-data-list div.hh-records details {
+  border-color: #b3d9ff;
+  margin-bottom: 0.3rem;
+}
+
+div.hh-data-list div.hh-records details>summary {
+  background-color: #e6f2ff;
+  border-bottom-color: #b3d9ff;
+  color: #004d99;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
+  border-color: transparent !important;
+  color: #004d99;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons label:hover,
+div.hh-data-list div.hh-records details>summary div.hh-buttons button:hover {
+  border-color: #004d99;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons label.hh-edit-mode {
+  background: white;
+  border-color: #004d99;
+}
+
+div.hh-data-list div.hh-records details input.form-control:disabled {
+  background: #f5faff;
+  border-color: #f5faff;
+}
+
+div.hh-data-list div.hh-records details input.form-control:not(disabled) {
+  background: white;
+  border-color: #6c757d;
+}
+
+div.hh-data-list div.hh-records details label {
+  color: #3399ff;
+}

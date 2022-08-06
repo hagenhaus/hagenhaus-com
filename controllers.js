@@ -70,7 +70,7 @@ export const postMessage = (req, res) => {
 export const getRecords = (db, table, req, res) => {
   db.getConnection((err, conn) => {
     if (err) {
-      res.status(422).send('connection error');
+      res.status(422).send('Cannot connect to database.');
     }
     else {
       const query = util.promisify(conn.query).bind(conn);
@@ -123,7 +123,7 @@ export const getRecords = (db, table, req, res) => {
           res.status(200).send(data);
         }
         catch (error) {
-          res.status(422).send('query error');
+          res.status(422).send(error);
         }
         finally { conn.release(); }
       })();
