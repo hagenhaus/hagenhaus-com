@@ -360,7 +360,7 @@ iframe.gray-scale {
   margin-bottom: 0;
 }
 
-#page-col div.hh-viewer pre:not(.snippet) {
+#page-col div.hh-viewer pre:not(.snippet):not(.microlight) {
   background-color: var(--soft6);
   padding: .5rem .5rem;
   overflow-x: none;
@@ -589,12 +589,27 @@ a span.icon-link:after {
 ************************************************/
 
 div.swagger-ui div.information-container {display: none;}
-/*div.swagger-ui div.scheme-container {display: none;}*/
+div.swagger-ui div.scheme-container {display: none;}
 div.swagger-ui div.wrapper {padding: 0px;}
 div.swagger-ui h3.opblock-tag {display: none;}
 div.swagger-ui td.response-col_links {display: none;}
 div.swagger-ui div.filter-container {display: none;}
-div.swagger-ui span.opblock-summary-path {max-width: 100%;}
+div.swagger-ui span.opblock-summary-path {max-width: 100% !important;}
 div.swagger-ui div.opblock-summary-description {display: none;}
 div.swagger-ui button.opblock-summary-control svg.arrow {display: none;}
 div.swagger-ui button.opblock-summary-control:focus {outline: none;}
+div.swagger-ui div.download-contents {right: 20px;}
+div.swagger-ui button.opblock-summary-control span.opblock-summary-operation-id {margin-left: auto;}
+div.swagger-ui .opblock {box-shadow: none;}
+
+/*#page-col div.hh-viewer div.opblock-body p {margin: 0px;}*/
+#page-col div.hh-viewer table.parameters {margin: 0px;}
+#page-col div.hh-viewer table.responses-table {margin: 0px;}
+#page-col div.hh-viewer table.parameters td,
+#page-col div.hh-viewer table.parameters th,
+#page-col div.hh-viewer table.responses-table td,
+#page-col div.hh-viewer table.responses-table th {
+    border: none;
+}
+
+#page-col div.hh-viewer div.model-example ul {list-style: none; list-style-type: none;}
