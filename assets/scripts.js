@@ -11,8 +11,8 @@ const currentPage = {
 
 const github = 'https://github.com/reach-sh/reach-lang/tree/master/docs/dev/src';
 
-const pathnameToId = (pathname) => { return pathname.replace(/^\/|\/$/g, '').replace(/\//g, '_'); }
-const idToPathName = (id) => { return id.replace(/_/g, '/'); }
+const pathnameToId = (pathname) => { return pathname.replace(/^\/|\/$/g, '').replace(/\//g, '_'); };
+const idToPathName = (id) => { return id.replace(/_/g, '/'); };
 
 let lang = window.navigator.language.split('-')[0];
 const homepage = `/${lang}/home/`;
@@ -27,12 +27,12 @@ let otpPreference = otpPreferences.none;
 
 const getWinWidthStr = () => {
   let s = window.innerWidth;
-  if (s >= 1200) { return 'xl' }
-  else if (s >= 992) { return 'lg' }
-  else if (s >= 768) { return 'md' }
-  else if (s >= 576) { return 'sm' }
-  else return 'xs'
-}
+  if (s >= 1200) { return 'xl'; }
+  else if (s >= 992) { return 'lg'; }
+  else if (s >= 768) { return 'md'; }
+  else if (s >= 576) { return 'sm'; }
+  else return 'xs';
+};
 
 const maxColWidth = '280px';
 let winWidth = getWinWidthStr();
@@ -83,7 +83,7 @@ const establishDisplay = () => {
       otpBtn.style.display = 'block';
     }
   }
-}
+};
 
 /************************************************************************************************
 * window horizontal resize
@@ -124,7 +124,7 @@ const scrollHandler = (event) => {
       }
     }
   }
-}
+};
 
 /************************************************************************************************
 * scrollPage
@@ -137,7 +137,7 @@ const scrollPage = (id) => {
   else {
     document.getElementById(id).scrollIntoView();
   }
-}
+};
 
 /************************************************************************************************
 * updateHistory
@@ -150,7 +150,7 @@ const updateHistory = (id) => {
   else {
     window.history.pushState(null, null, `${window.location.origin}${currentPage.folder}#${id}`);
   }
-}
+};
 
 /************************************************************************************************
 * setOtpItemToActive
@@ -160,19 +160,21 @@ const setOtpItemToActive = (id) => {
   let link = null;
   if (id == 'on-this-page') {
     link = document.querySelector('#otp-col ul li a[href="#on-this-page"]');
-    if (link.classList.contains('active') == false) {
-      document.querySelector('#otp-col a.active').classList.remove('active');
+    if (link && link.classList.contains('active') == false) {
+      const el = document.querySelector('#otp-col a.active');
+      if (el && el.classList.contains('active')) { el.classList.remove('active'); }
       link.classList.add('active');
     }
   }
   else {
     link = document.querySelector('#otp-col ul li a[href="' + "#" + id + '"]');
-    if (link.classList.contains('active') == false) {
-      document.querySelector('#otp-col a.active').classList.remove('active');
+    if (link && link.classList.contains('active') == false) {
+      const el = document.querySelector('#otp-col a.active');
+      if (el && el.classList.contains('active')) { el.classList.remove('active'); }
       link.classList.add('active');
     }
   }
-}
+};
 
 /************************************************************************************************
 * getWebpage
@@ -269,7 +271,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
     // Write published data
     if (configJson.publishedDate) {
-      let date = new Date(configJson.publishedDate)
+      let date = new Date(configJson.publishedDate);
       if (document.querySelector('div.hh-viewer-wrapper span.author').innerHTML) {
         document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = `on ${date.toLocaleDateString()}`;
       } else {
@@ -297,7 +299,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
       searchInput.focus();
       searchInput.addEventListener('keyup', function (event) {
         index.search(searchInput.value).then(({ hits }) => {
-          if(hits.length) {
+          if (hits.length) {
             let searchResultsList = document.getElementById('search-results-list');
             searchResultsList.innerHTML = '';
             hits.forEach((el, index) => {
@@ -342,7 +344,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
         } else {
           otpUl.append(el);
         }
-      })
+      });
     }
     currentPage.hasOtp = configJson.hasOtp;
 
@@ -423,7 +425,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
   } catch (error) {
     console.log('getWebPage', error);
   }
-}
+};
 
 /************************************************************************************************
 * followLink
@@ -457,7 +459,7 @@ const followLink = async (href) => {
   } else {
     window.open(a.href, '_blank').focus();
   }
-}
+};
 
 /************************************************************************************************
 * window onpopstate
@@ -558,7 +560,6 @@ document.getElementById('page-col').addEventListener('scroll', scrollHandler);
 /************************************************************************************************
 * on load
 ************************************************************************************************/
-
 
 //console.log(window.location.origin);
 //console.log(window.location.href);

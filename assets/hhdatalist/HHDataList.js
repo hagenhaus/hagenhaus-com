@@ -6,8 +6,8 @@ class HHDataList {
 
   constructor(options) {
 
-    console.log(window.navigator.language);
-    console.log(window.navigator.language.split('-')[0]);
+    // console.log(window.navigator.language);
+    // console.log(window.navigator.language.split('-')[0]);
 
     // Set default values for absent options.
     options.filterPlaceholder = 'filterPlaceholder' in options ? options.filterPlaceholder : '';

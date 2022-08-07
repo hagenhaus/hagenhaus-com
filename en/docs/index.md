@@ -7,6 +7,7 @@ menuItem: mi-docs
 
 Here is my to-do list:
 
+1. Create a hagenhaus-press repository. Use by hagenhaus.com and genesis.
 1. For getPortals and getPortal, push `allowJoinedFields` into stored procedure like insertPortal.
 1. Make updatePortal the same as insertPortal.
 1. List categories to customize. Then, customize each.

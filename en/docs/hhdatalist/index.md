@@ -1,6 +1,6 @@
 # HHDataList
 
-HHDataList is a configurable website UI component that enables site visitors to access REST APIs.
+HHDataList is a UI component that enables website users to access REST APIs.
 
 # User Interface
 
