@@ -42,7 +42,7 @@ class HHApi {
   ************************************************************************************************/
 
   async getRecords(queryObject) {
-    console.log(`getRecords`);
+    // console.log(`getRecords`);
     const queryString = this.toQueryStr(queryObject);
     return (await axios({ url: `${this.urls.getRecords}?${queryString}`, method: 'get' }));
   }
@@ -52,7 +52,7 @@ class HHApi {
   ************************************************************************************************/
 
   async getRecord(id, queryObject) {
-    console.log(`getRecord`);
+    // console.log(`getRecord`);
     const queryString = this.toQueryStr({ fields: queryObject.fields });
     return (await axios({ url: `${this.urls.getRecord}/${id}?${queryString}`, method: 'get' }));
   }

@@ -502,7 +502,7 @@ class HHDataList {
               createdForm.appendChild(div);
             }
 
-            //this.reportInfo(`Record "${title}" was created.`);
+            this.reportInfo(`Record "${title}" was created.`);
             this.displayCreatedRecordPane();
             this.getAndProcessRecords();
           } catch (error) {
@@ -589,8 +589,10 @@ class HHDataList {
     checkRow.appendChild(this.createConfigCheckboxCol('Records are numbered.', 'hh-records-are-numbered', options.recordsAreNumbered,
       (event) => {
         let display = event.target.checked ? 'inline' : 'none';
-        let recordNumbers = this.el.querySelectorAll('span.hh-record-number');
-        for (let recordNumber of recordNumbers) { recordNumber.style.display = display; }
+        let numbers = this.el.querySelectorAll('span.hh-record-number');
+        for (let number of numbers) { number.style.display = display; }
+        let periods = this.el.querySelectorAll('span.hh-record-number-period');
+        for (let period of periods) { period.style.display = display; }
       }
     ));
 
@@ -877,9 +879,8 @@ class HHDataList {
 
       let summary = document.createElement('summary');
 
-      const title = this.recordTitleFormat(this.recordTitleFields, record);
       let summaryTitleCol = document.createElement('div');
-      summaryTitleCol.setAttribute('id', fi + i);
+      let title = this.recordTitleFormat(this.recordTitleFields, record);
       summaryTitleCol.innerHTML = this.createRecordTitle(fi + i, title);
       summaryTitleCol.classList.add('col', 'title');
       summary.appendChild(summaryTitleCol);
@@ -1029,7 +1030,7 @@ class HHDataList {
     let currentTitle = titleEl.querySelector('span.hh-record-title').innerHTML;
     let newTitle = this.recordTitleFormat(this.recordTitleFields, record);
     if (currentTitle !== newTitle) {
-      titleEl.innerHTML = this.createRecordTitle(titleEl.id, newTitle);
+      titleEl.querySelector('span.hh-record-title').innerHTML = newTitle;
     }
 
     for (const property in record) {
@@ -1084,6 +1085,7 @@ class HHDataList {
         btn.setAttribute('disabled', '');
         btn.innerHTML = '<i class="fas fa-database"></i>';
 
+        // Update btn
         btn.addEventListener('click', (event) => {
           const details = event.target.closest('details');
           const row = event.target.closest('div.record-field');
@@ -1097,14 +1099,10 @@ class HHDataList {
               btn.disabled = true;
               btn.classList.remove('btn-danger');
               btn.classList.add('btn-secondary');
-              if (input.classList.contains('hh-is-foreign-key')) {
+              if (input.classList.contains('hh-is-foreign-key') || this.recordTitleFields.includes(title)) {
                 this.getAndProcessRecord(details.id);
               } else {
                 input.defaultValue = value;
-                if (title == this.recordTitleFormat(this.recordTitleFields, record)) {
-                  const el = details.querySelector('summary div.title');
-                  el.innerHTML = this.createRecordTitle(el.id, input.value);
-                }
               }
             } catch (error) {
               this.reportError(error);
@@ -1221,6 +1219,6 @@ class HHDataList {
 
   createRecordTitle(number, title) {
     let display = this.el.querySelector('input.hh-records-are-numbered').checked ? 'inline' : 'none';
-    return `<span class="hh-record-number" style="display:${display};">${number}. </span><span class="hh-record-title">${title}</span>`;
+    return `<span class="hh-record-number" style="display:${display};">${number}</span><span class="hh-record-number-period" style="display:${display};">. </span><span class="hh-record-title">${title}</span>`;
   }
 }

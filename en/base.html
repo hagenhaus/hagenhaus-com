@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css">
   <link rel="stylesheet" type="text/css" href="/assets/hhdatalist/HHDataList.css">
-  <link rel="stylesheet" type="text/css" href="/assets/styles.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/styles.min.css?v=54">
 </head>
 
 <body class="container-fluid">
@@ -117,26 +117,14 @@
     </div>
   </div>
 
-  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <!-- <img src="..." class="rounded me-2" alt="..."> -->
-        <strong class="me-auto">Bootstrap</strong>
-        <small>11 mins ago</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        Hello, world! This is a toast message.
-      </div>
-    </div>
-  </div>
+  <div id="toast-list" class="toast-container position-fixed bottom-0 end-0 p-2" style="z-index: 11;overflow: auto;"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui-bundle.js" crossorigin></script>
   <script src="/assets/hhdatalist/HHApi.js"></script>
   <script src="/assets/hhdatalist/HHDataList.js"></script>
-  <script src="/assets/scripts.js" type="module"></script>
+  <script src="/assets/scripts.js?v=54" type="module"></script>
 
   <script>
     const modalDefaultYesCb = () => { console.log('Default yesCb'); };
@@ -148,6 +136,47 @@
       modalYesCb();
       modalYesCb = modalDefaultYesCb;
     });
+
+    const showToast = (level, title, message) => {
+      let toast = document.createElement('div');
+      toast.classList.add('toast', 'fade', 'text-dark', 'bg-light', 'border-0');
+      toast.setAttribute('data-bs-autohide', 'false');
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', 'true');
+      toast.setAttribute('solid', 'true');
+      toast.addEventListener('hidden.bs.toast', (event) => {
+        event.target.remove();
+      });
+
+      let header = document.createElement('div');
+      header.classList.add('toast-header', 'text-white', level == 'error' ? 'bg-danger' : 'bg-success');
+
+      let strong = document.createElement('strong');
+      strong.classList.add('me-auto');
+      strong.innerHTML = title;
+
+      let btn = document.createElement('button');
+      btn.type = 'button';
+      btn.classList.add('btn', 'btn-sm','btn-outline-light');
+      btn.setAttribute('data-bs-dismiss', 'toast');
+
+      let i = document.createElement('i');
+      i.classList.add('fas');
+      i.classList.add('fa-times');
+
+      let body = document.createElement('div');
+      body.classList.add('toast-body');
+      body.innerHTML = message;
+
+      btn.appendChild(i);
+      header.appendChild(strong);
+      header.appendChild(btn);
+      toast.appendChild(header);
+      toast.appendChild(body);
+      document.getElementById('toast-list').appendChild(toast);
+      new bootstrap.Toast(toast, {}).show();
+    };
   </script>
 
 </body>

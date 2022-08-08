@@ -102,12 +102,17 @@ window.addEventListener('resize', () => {
 ************************************************************************************************/
 
 const scrollHandler = (event) => {
+  console.log('scrollHandler');
   if (document.querySelectorAll('#otp-col li.dynamic').length == false) {
     event.target.onscroll = null;
   } else {
     let found = false;
 
     let arr = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2');
+
+    // TEMPORARY
+    for (let item of arr) { console.log(item); }
+
     if (arr.length) {
       for (let i = arr.length - 1; i >= 0; i--) {
         let rect = arr[i].getBoundingClientRect();
@@ -181,7 +186,7 @@ const setOtpItemToActive = (id) => {
 ************************************************************************************************/
 
 const getWebpage = async (folder, hash, shallUpdateHistory) => {
-  // console.log('getWebpage');
+  console.log('getWebpage');
 
   folder = folder.replace(/index\.html$/, '');
 
@@ -433,7 +438,6 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 ************************************************************************************************/
 
 const followLink = async (href) => {
-  // console.log('followLink');
   let a = document.createElement('a');
   a.href = href;
 
@@ -444,15 +448,9 @@ const followLink = async (href) => {
     window.open(a.href, '_blank').focus();
   } else if (a.hostname === window.location.hostname) {
     if (currentPage.folder == a.pathname && a.hash) {
-      if (a.hash === '#on-this-page') {
-        scrollPage('on-this-page');
-        updateHistory('on-this-page');
-        setOtpItemToActive('on-this-page');
-      } else {
-        scrollPage(a.hash.substring(1));
-        updateHistory(a.hash.substring(1));
-        setOtpItemToActive(a.hash.substring(1));
-      }
+      scrollPage(a.hash.substring(1));
+      //updateHistory(a.hash.substring(1));
+      //setOtpItemToActive(a.hash.substring(1));
     } else {
       await getWebpage(a.pathname, a.hash, true);
     }
