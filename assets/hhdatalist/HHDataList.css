@@ -28,13 +28,13 @@ div.hh-data-list details>summary::-webkit-details-marker {
   display: none;
 }
 
-div.hh-data-list details>summary div.title {
+div.hh-data-list details>summary div.hh-title-col {
   font-size: 96%;
   font-weight: bold;
   line-height: 2;
 }
 
-div.hh-data-list details>summary div.title,
+div.hh-data-list details>summary div.hh-title-col,
 div.hh-data-list details>summary div.hh-buttons {
   padding: .3em .5em;
 }
@@ -229,7 +229,15 @@ div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
 
 div.hh-data-list div.hh-records details>summary div.hh-buttons label:hover,
 div.hh-data-list div.hh-records details>summary div.hh-buttons button:hover {
-  border-color: #004d99;
+  background: #004d99 !important;;
+  border-color: #004d99 !important;
+  color: white;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.active {
+  background: white !important;;
+  border-color: #004d99 !important;
+  color: #004d99;
 }
 
 div.hh-data-list div.hh-records details>summary div.hh-buttons label.hh-edit-mode {

@@ -102,16 +102,12 @@ window.addEventListener('resize', () => {
 ************************************************************************************************/
 
 const scrollHandler = (event) => {
-  console.log('scrollHandler');
   if (document.querySelectorAll('#otp-col li.dynamic').length == false) {
     event.target.onscroll = null;
   } else {
     let found = false;
 
     let arr = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2');
-
-    // TEMPORARY
-    for (let item of arr) { console.log(item); }
 
     if (arr.length) {
       for (let i = arr.length - 1; i >= 0; i--) {
@@ -137,9 +133,11 @@ const scrollHandler = (event) => {
 
 const scrollPage = (id) => {
   if (id == 'on-this-page') {
+    //console.log('scrollPage: on-this-page');
     document.getElementById('page-col').scrollTo(0, 0);
   }
   else {
+    //console.log(`scrollPage: ${id}`);
     document.getElementById(id).scrollIntoView();
   }
 };
@@ -186,7 +184,7 @@ const setOtpItemToActive = (id) => {
 ************************************************************************************************/
 
 const getWebpage = async (folder, hash, shallUpdateHistory) => {
-  console.log('getWebpage');
+  //console.log('getWebpage');
 
   folder = folder.replace(/index\.html$/, '');
 
@@ -308,7 +306,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
             let searchResultsList = document.getElementById('search-results-list');
             searchResultsList.innerHTML = '';
             hits.forEach((el, index) => {
-              console.log(JSON.stringify(el, null, 2));
+              //console.log(JSON.stringify(el, null, 2));
               let a = document.createElement('a');
               a.href = el.url;
               let anchorTextSpan = document.createElement('span');
@@ -548,11 +546,7 @@ document.getElementById('about-this-book').addEventListener('click', (event) => 
 /************************************************************************************************
 * onPageColScroll
 ************************************************************************************************/
-/*
-document.getElementById('page-col').addEventListener('scroll', function (event) {
-  scrollHandler(event);
-});
-*/
+
 document.getElementById('page-col').addEventListener('scroll', scrollHandler);
 
 /************************************************************************************************

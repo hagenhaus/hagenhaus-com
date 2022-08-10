@@ -1,6 +1,6 @@
 h2 {font-size: 18px;}
 
-nav.navbar {background:white;}
+header.navbar {background-image: linear-gradient(to right, #359585 , #3578cb);}
 
 div.messages-widget {
   background: white;

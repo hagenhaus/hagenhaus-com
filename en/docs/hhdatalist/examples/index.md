@@ -8,7 +8,7 @@ This page showcases the HHDataList UI component.
 
 <div id="players-datalist" class="hh-data-list"></div>
 
-<!-- <script>
+<script>
   new HHDataList({
     confirm: (title, body, yesBtn, yesCb) => {
       modalEl.querySelector('h5.modal-title').textContent = title;
@@ -35,19 +35,18 @@ This page showcases the HHDataList UI component.
     recordsAreNumbered: true,
     recordTitleFields: ['nameFirst', 'nameLast', 'birthYear'],
     recordTitleFormat: (f, r) => { return `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`; },
-    showTabDescriptions: false,
-    url: 'http://localhost:8081/api/v1/players',
-
-    reportInfo: (msg) => { showToast('info', 'Information', msg); },
     reportError: (error) => {
       if ('response' in error) {
         showToast('error', `Status Code: ${error.response.status}`, JSON.stringify(error.response.data));
       } else {
         showToast('error', `Error`, error);
       }
-    }
+    },
+    reportInfo: (msg) => { showToast('info', 'Information', msg); },
+    showTabDescriptions: false,
+    url: 'http://localhost:8081/api/v1/players',
   });
-</script> -->
+</script>
 
 # Portals API
 
@@ -92,6 +91,14 @@ This page showcases the HHDataList UI component.
     recordsAreNumbered: true,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => { return r[f[0]]; },
+    reportError: (error) => {
+      if ('response' in error) {
+        showToast('error', `Status Code: ${error.response.status}`, JSON.stringify(error.response.data));
+      } else {
+        showToast('error', `Error`, error);
+      }
+    },
+    reportInfo: (msg) => { showToast('info', 'Information', msg); },
     showTabDescriptions: false,
     urls: {
       deleteRecord: 'http://localhost:8081/api/v1/portals',
@@ -100,15 +107,6 @@ This page showcases the HHDataList UI component.
       patchRecord: 'http://localhost:8081/api/v1/portals',
       postRecord: 'http://localhost:8081/api/v1/portals',
       putRecord: 'http://localhost:8081/api/v1/portals'
-    },
-
-    reportInfo: (msg) => { showToast('info', 'Information', msg); },
-    reportError: (error) => {
-      if ('response' in error) {
-        showToast('error', `Status Code: ${error.response.status}`, JSON.stringify(error.response.data));
-      } else {
-        showToast('error', `Error`, error);
-      }
     }
   });
 </script>

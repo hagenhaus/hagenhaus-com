@@ -234,7 +234,7 @@ class HHDataList {
     clearBtn.type = 'button';
     clearBtn.classList.add('btn', 'btn-outline-secondary');
     if (this.controlsAreSmall) { clearBtn.classList.add('btn-sm'); }
-    clearBtn.innerHTML = '<i class="fas fa-times"></i>';
+    clearBtn.innerHTML = '<i class="fas fa-broom"></i>';
     clearBtn.addEventListener('click', clearListener);
 
     group.appendChild(label);
@@ -378,7 +378,7 @@ class HHDataList {
     let summary = document.createElement('summary');
 
     let title = document.createElement('div');
-    title.classList.add('col', 'title');
+    title.classList.add('col', 'hh-title-col');
     title.innerHTML = 'New Record';
 
     let buttons = document.createElement('div');
@@ -386,7 +386,7 @@ class HHDataList {
 
     let btn = document.createElement('button');
     btn.type = 'button';
-    btn.classList.add('btn', 'btn-sm', 'hh-cancel-create-record');
+    btn.classList.add('btn', 'btn-sm', 'hh-clear-create-record');
     btn.innerHTML = '<i class="fas fa-broom"></i>';
 
     let form = document.createElement('form');
@@ -479,7 +479,7 @@ class HHDataList {
             let createdForm = this.el.querySelector('form.hh-created-record-form');
             let details = createdForm.closest('details');
             let title = this.recordTitleFormat(this.recordTitleFields, record);
-            details.querySelector('div.title').innerHTML = title;
+            details.querySelector('div.hh-title-col').innerHTML = title;
 
             for (const property in record) {
               let label = document.createElement('label');
@@ -502,7 +502,7 @@ class HHDataList {
               createdForm.appendChild(div);
             }
 
-            this.reportInfo(`Record "${title}" was created.`);
+            //this.reportInfo(`Record "${title}" was created.`);
             this.displayCreatedRecordPane();
             this.getAndProcessRecords();
           } catch (error) {
@@ -540,7 +540,7 @@ class HHDataList {
     let summary = document.createElement('summary');
 
     let title = document.createElement('div');
-    title.classList.add('col', 'title');
+    title.classList.add('col', 'hh-title-col');
 
     let buttons = document.createElement('div');
     buttons.classList.add('col-auto', 'hh-buttons');
@@ -589,10 +589,8 @@ class HHDataList {
     checkRow.appendChild(this.createConfigCheckboxCol('Records are numbered.', 'hh-records-are-numbered', options.recordsAreNumbered,
       (event) => {
         let display = event.target.checked ? 'inline' : 'none';
-        let numbers = this.el.querySelectorAll('span.hh-record-number');
-        for (let number of numbers) { number.style.display = display; }
-        let periods = this.el.querySelectorAll('span.hh-record-number-period');
-        for (let period of periods) { period.style.display = display; }
+        let spans = this.el.querySelectorAll('span.hh-record-number, span.hh-record-number-punc');
+        for (let span of spans) { span.style.display = display; }
       }
     ));
 
@@ -801,14 +799,14 @@ class HHDataList {
     let input = document.createElement('input');
     input.type = 'checkbox';
     input.classList.add('form-check-input', 'hh-records-are-expanded');
-    input.value = options.recordsAreExpanded;
+    input.checked = options.recordsAreExpanded;
     input.addEventListener('change', (event) => {
       if (event.target.checked) {
         this.getAndProcessRecords();
       } else {
         this.recordsRowEl.querySelectorAll('details').forEach(details => {
           details.removeAttribute('open');
-          details.querySelector('div.row').innerHTML = '';
+          details.querySelector('div.hh-record-fields').innerHTML = '';
         });
       }
     });
@@ -860,119 +858,38 @@ class HHDataList {
 
     // Update counters.
 
-    document.querySelector('div.hh-counters span.hh-page-number').innerHTML = this.metadata.page;
-    document.querySelector('div.hh-counters span.hh-num-total-pages').innerHTML = this.metadata.numTotalPages;
-    document.querySelector('div.hh-counters span.hh-num-returned-records').innerHTML = this.metadata.numResponseRecords;
-    document.querySelector('div.hh-counters span.hh-singular-plural').innerHTML = this.metadata.numResponseRecords == 1 ? 'record' : 'records';
-    document.querySelector('div.hh-counters span.hh-num-filtered-records').innerHTML = this.metadata.numFilteredRecords;
-    document.querySelector('div.hh-counters span.hh-num-total-records').innerHTML = this.metadata.numTotalRecords;
+    this.el.querySelector('div.hh-counters span.hh-page-number').innerHTML = this.metadata.page;
+    this.el.querySelector('div.hh-counters span.hh-num-total-pages').innerHTML = this.metadata.numTotalPages;
+    this.el.querySelector('div.hh-counters span.hh-num-returned-records').innerHTML = this.metadata.numResponseRecords;
+    this.el.querySelector('div.hh-counters span.hh-singular-plural').innerHTML = this.metadata.numResponseRecords == 1 ? 'record' : 'records';
+    this.el.querySelector('div.hh-counters span.hh-num-filtered-records').innerHTML = this.metadata.numFilteredRecords;
+    this.el.querySelector('div.hh-counters span.hh-num-total-records').innerHTML = this.metadata.numTotalRecords;
 
     // Create DIV to contain records.
 
     let recordsEl = document.createElement('div');
     recordsEl.classList.add('col-12', 'hh-records');
 
-    // Display each record.
+    // Create details element with summary element for each record.
 
-    let fi = this.metadata.firstItemOnPage;
     data.records.forEach((record, i) => {
 
-      let summary = document.createElement('summary');
+      let details = document.createElement('details');
+      details.setAttribute('id', record[this.recordIdField]);
 
-      let summaryTitleCol = document.createElement('div');
-      let title = this.recordTitleFormat(this.recordTitleFields, record);
-      summaryTitleCol.innerHTML = this.createRecordTitle(fi + i, title);
-      summaryTitleCol.classList.add('col', 'title');
-      summary.appendChild(summaryTitleCol);
+      // On Click Details
 
-      let summaryRefreshBtn = document.createElement('button');
-      summaryRefreshBtn.type = 'button';
-      summaryRefreshBtn.classList.add('btn', 'btn-sm', 'hh-refresh-record');
-      summaryRefreshBtn.style.display = 'none';
-      summaryRefreshBtn.innerHTML = '<i class="fas fa-sync"></i>';
-
-      summaryRefreshBtn.addEventListener('click', (event) => {
-        const details = event.target.closest('details');
-        if (this.getCheckedRecordFields().count) {
-          this.getAndProcessRecord(details.id);
-        } else {
-          details.querySelector('div.row').innerHTML = '';
-        }
-      });
-
-      let summaryEditCheckbox = document.createElement('input');
-      summaryEditCheckbox.id = `edit-${record[this.recordIdField]}`;
-      summaryEditCheckbox.type = 'checkbox';
-      summaryEditCheckbox.classList.add('btn-check');
-      summaryEditCheckbox.setAttribute('autocomplete', 'off');
-
-      let summaryEditLabel = document.createElement('label');
-      summaryEditLabel.setAttribute('for', `edit-${record[this.recordIdField]}`);
-      summaryEditLabel.classList.add('btn', 'btn-sm', 'hh-btn-edit');
-      summaryEditLabel.innerHTML = '<i class="fas fa-pen"></i>';
-
-      summaryEditLabel.addEventListener('click', (event) => {
-        const details = event.target.closest('details');
-        const label = details.querySelector('label');
-        const input = details.querySelector('input');
-        const displayEditMode = !input.checked;
-        if (displayEditMode) {
-          label.classList.add('hh-edit-mode');
-          if (!details.open) {
-            details.setAttribute('open', '');
-          } else {
-            const editables = details.querySelectorAll('input.hh-is-editable');
-            editables.forEach(editable => {
-              editable.disabled = false;
-              editable.parentNode.nextSibling.style.display = 'inline-block';
-            });
-          }
-        } else {
-          label.classList.remove('hh-edit-mode');
-          const editables = details.querySelectorAll('input.hh-is-editable');
-          editables.forEach(editable => {
-            editable.disabled = true;
-            editable.parentNode.nextSibling.style.display = 'none';
+      details.addEventListener('click', (event) => {
+        // USE event.currentTarget (the one with the listener).
+        if (details.open && details.querySelectorAll('button.btn-danger').length) {
+          event.preventDefault();
+          this.confirm('Close without Saving ?', title, 'Close', () => {
+            details.open = false;
           });
         }
       });
 
-      let summaryTrashBtn = document.createElement('button');
-      summaryTrashBtn.type = 'button';
-      summaryTrashBtn.classList.add('btn', 'btn-sm');
-      summaryTrashBtn.innerHTML = '<i class="fas fa-trash"></i>';
-
-      summaryTrashBtn.addEventListener('click', (event) => {
-        this.confirm('Delete Record', title, 'Delete', () => {
-          (async () => {
-            try {
-              await this.dataSrc.deleteRecord(event.target.closest('details').id);
-              this.reportInfo(`Record "${title}" was deleted.`);
-              this.getAndProcessRecords();
-            } catch (error) {
-              this.reportError(error);
-            }
-          })();
-        });
-      });
-
-      let summaryButtonsCol = document.createElement('div');
-      summaryButtonsCol.classList.add('col-auto', 'hh-buttons');
-      summaryButtonsCol.appendChild(summaryRefreshBtn);
-      summaryButtonsCol.appendChild(summaryEditCheckbox);
-      summaryButtonsCol.appendChild(summaryEditLabel);
-      summaryButtonsCol.appendChild(summaryTrashBtn);
-      summary.appendChild(summaryButtonsCol);
-
-      let row = document.createElement('div');
-      row.classList.add('row', 'gx-2');
-
-      let details = document.createElement('details');
-      details.setAttribute('id', record[this.recordIdField]);
-      if (this.el.querySelector('input.hh-records-are-expanded').checked) {
-        details.classList.add('new');
-        details.open = true;
-      }
+      // On Toggle Details
 
       details.addEventListener('toggle', (event) => {
         let details = document.getElementById(event.target.id);
@@ -984,28 +901,124 @@ class HHDataList {
             if (!this.recordFields.length || this.getCheckedRecordFields().count) {
               this.getAndProcessRecord(details.id);
             } else {
-              details.querySelector('div.row').innerHTML = '';
+              details.querySelector('div.hh-record-fields').innerHTML = '';
             }
           } else {
             details.querySelector('button.hh-refresh-record').style.display = 'none';
-            let label = details.querySelector('label.hh-btn-edit');
-            if (label.classList.contains('hh-edit-mode')) {
-              details.querySelector('input').checked = false;
-              label.classList.remove('hh-edit-mode');
+            const btn = details.querySelector('button.hh-edit-record');
+            if (btn.classList.contains('active')) {
+              btn.classList.remove('active');
             }
+            details.querySelector('div.hh-record-fields').innerHTML = '';
           }
         }
       });
 
-      details.appendChild(summary);
-      details.appendChild(row);
+      details.appendChild(this.createSummary(this.metadata.firstItemOnPage + i, record))
+
+      let recordFieldsRow = document.createElement('div');
+      recordFieldsRow.classList.add('row', 'gx-2', 'hh-record-fields');
+      details.appendChild(recordFieldsRow);
+
       recordsEl.appendChild(details);
-      this.displayRecord(record, details);
+
+      if (this.el.querySelector('input.hh-records-are-expanded').checked) {
+        this.displayRecord(record, details);
+        details.classList.add('new');
+        details.open = true;
+      }
 
     });
 
     this.recordsRowEl.innerHTML = '';
     this.recordsRowEl.appendChild(recordsEl);
+  }
+
+  /************************************************************************************************
+  * createSummary
+  ************************************************************************************************/
+
+  createSummary(number, record) {
+    let summary = document.createElement('summary');
+
+    let titleCol = document.createElement('div');
+    let title = this.recordTitleFormat(this.recordTitleFields, record);
+    titleCol.innerHTML = this.createRecordTitle(number, title);
+    titleCol.classList.add('col', 'hh-title-col');
+
+    let buttonsCol = document.createElement('div');
+    buttonsCol.classList.add('col-auto', 'hh-buttons');
+
+    let refreshBtn = document.createElement('button');
+    refreshBtn.type = 'button';
+    refreshBtn.classList.add('btn', 'btn-sm', 'hh-refresh-record');
+    refreshBtn.style.display = 'none';
+    refreshBtn.innerHTML = '<i class="fas fa-sync"></i>';
+
+    refreshBtn.addEventListener('click', (event) => {
+      const details = event.target.closest('details');
+      if (this.getCheckedRecordFields().count) {
+        this.getAndProcessRecord(details.id);
+      } else {
+        details.querySelector('div.hh-record-fields').innerHTML = '';
+      }
+    });
+
+    let editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.classList.add('btn', 'btn-sm', 'hh-edit-record');
+    editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+
+    editBtn.addEventListener('click', (event) => {
+      const details = event.target.closest('details');
+      const btn = details.querySelector('button.hh-edit-record');
+      if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        const editables = details.querySelectorAll('input.hh-is-editable');
+        editables.forEach(editable => {
+          editable.disabled = true;
+          editable.parentNode.nextSibling.style.display = 'none';
+        });
+      } else {
+        btn.classList.add('active');
+        if (!details.open) {
+          details.setAttribute('open', '');
+        } else {
+          const editables = details.querySelectorAll('input.hh-is-editable');
+          editables.forEach(editable => {
+            editable.disabled = false;
+            editable.parentNode.nextSibling.style.display = 'inline-block';
+          });
+        }
+      }
+    });
+
+    let trashBtn = document.createElement('button');
+    trashBtn.type = 'button';
+    trashBtn.classList.add('btn', 'btn-sm', 'hh-delete-record');
+    trashBtn.innerHTML = '<i class="fas fa-trash"></i>';
+
+    trashBtn.addEventListener('click', (event) => {
+      this.confirm('Delete Record ?', title, 'Delete', () => {
+        event.preventDefault();
+        (async () => {
+          try {
+            await this.dataSrc.deleteRecord(event.target.closest('details').id);
+            this.reportInfo(`Record "${title}" was deleted.`);
+            this.getAndProcessRecords();
+          } catch (error) {
+            this.reportError(error);
+          }
+        })();
+      });
+    });
+
+    summary.appendChild(titleCol);
+    buttonsCol.appendChild(refreshBtn);
+    buttonsCol.appendChild(editBtn);
+    buttonsCol.appendChild(trashBtn);
+    summary.appendChild(buttonsCol);
+    return summary;
   }
 
   /************************************************************************************************
@@ -1021,12 +1034,12 @@ class HHDataList {
   ************************************************************************************************/
 
   displayRecord(record, details) {
-    const inEditMode = details.querySelector('label').classList.contains('hh-edit-mode');
+    const inEditMode = details.querySelector('button.hh-edit-record').classList.contains('active');
     const row = details.querySelector('div.row');
     row.innerHTML = '';
     let fieldsArray = this.getCheckedRecordFields().array;
 
-    const titleEl = details.querySelector('div.title');
+    const titleEl = details.querySelector('div.hh-title-col');
     let currentTitle = titleEl.querySelector('span.hh-record-title').innerHTML;
     let newTitle = this.recordTitleFormat(this.recordTitleFields, record);
     if (currentTitle !== newTitle) {
@@ -1055,7 +1068,7 @@ class HHDataList {
         if (isForeignKey) { input.classList.add('hh-is-foreign-key'); }
 
         input.addEventListener('input', (event) => {
-          const btn = event.target.closest('div.record-field').querySelector('div.data-row button');
+          const btn = event.target.closest('div.hh-record-field').querySelector('div.data-row button');
           if (event.target.value !== event.target.defaultValue) {
             btn.disabled = false;
             btn.classList.remove('btn-secondary');
@@ -1087,8 +1100,9 @@ class HHDataList {
 
         // Update btn
         btn.addEventListener('click', (event) => {
+          event.preventDefault();
           const details = event.target.closest('details');
-          const row = event.target.closest('div.record-field');
+          const row = event.target.closest('div.hh-record-field');
           const title = row.querySelector('div.label-row label').title;
           const input = row.querySelector('div.data-row input');
           const value = input.value;
@@ -1120,7 +1134,7 @@ class HHDataList {
         dataRow.appendChild(dataBtnCol);
 
         let col = document.createElement('div');
-        col.classList.add('col-12', `col-xl-${this.recordColSize}`, 'mt-1', 'mb-2', 'record-field');
+        col.classList.add('col-12', `col-xl-${this.recordColSize}`, 'mt-1', 'mb-2', 'hh-record-field');
         col.appendChild(labelRow);
         col.appendChild(dataRow);
 
@@ -1158,7 +1172,7 @@ class HHDataList {
       if (this.getCheckedRecordFields().count) {
         this.getAndProcessRecord(details.id);
       } else {
-        details.querySelector('div.row').innerHTML = '';
+        details.querySelector('div.hh-record-fields').innerHTML = '';
       }
     });
   }
@@ -1219,6 +1233,6 @@ class HHDataList {
 
   createRecordTitle(number, title) {
     let display = this.el.querySelector('input.hh-records-are-numbered').checked ? 'inline' : 'none';
-    return `<span class="hh-record-number" style="display:${display};">${number}</span><span class="hh-record-number-period" style="display:${display};">. </span><span class="hh-record-title">${title}</span>`;
+    return `<span class="hh-record-number" style="display:${display};">${number}</span><span class="hh-record-number-punc" style="display:${display};">. </span><span class="hh-record-title">${title}</span>`;
   }
 }
