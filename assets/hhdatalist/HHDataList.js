@@ -11,12 +11,14 @@ class HHDataList {
 
     // Set default values for absent options.
     options.filterPlaceholder = 'filterPlaceholder' in options ? options.filterPlaceholder : '';
+    options.hasTabDescriptions = 'tabDescriptions' in options;
     options.limits = 'limits' in options && options.limits.length ? options.limits : [5, 10, 20, 50, 100];
     options.limit = 'limit' in options && options.limits.includes(options.limit) ? options.limit : limits[0];
     options.orderPlaceholder = 'orderPlaceholder' in options ? options.orderPlaceholder : '';
     options.recordsAreExpanded = 'recordsAreExpanded' in options ? options.recordsAreExpanded : false;
     options.recordsAreNumbered = 'recordsAreNumbered' in options ? options.recordsAreNumbered : true;
-    options.showTabDescriptions = 'showTabDescriptions' in options ? options.showTabDescriptions : true;
+    options.showTabDescriptions = 'showTabDescriptions' in options ? options.showTabDescriptions : false;
+    options.tabDescriptions = 'tabDescriptions' in options ? options.tabDescriptions : {};
 
     this.dataSrc = new HHApi('url' in options ? options.url : null, 'urls' in options ? options.urls : null);
     this.id = options.id;
@@ -28,6 +30,7 @@ class HHDataList {
     this.essentialFields = [this.recordIdField].concat(this.recordTitleFields);
     this.metadata = null;
     this.controlsAreSmall = 'controlsAreSmall' in options ? options.controlsAreSmall : false;
+    this.filterById = 'filterById' in options ? options.filterById : null;
     this.queryObject = {};
     this.queryObject.page = 1;
     this.queryObject.filter = 'filter' in options ? options.filter : '';
@@ -44,6 +47,14 @@ class HHDataList {
     this.recordColMap.set(6, 2);
     this.getRecordColSize = (count) => this.recordColMap.has(count) ? this.recordColMap.get(count) : 6;
     this.recordColSize = this.getRecordColSize('recordColumnCount' in options ? options.recordColumnCount : 2);
+
+    this.tabDescriptions = {};
+    this.tabDescriptions.home = 'home' in options.tabDescriptions ? options.tabDescriptions.home : null;
+    this.tabDescriptions.search = 'search' in options.tabDescriptions ? options.tabDescriptions.search : null;
+    this.tabDescriptions.fields = 'fields' in options.tabDescriptions ? options.tabDescriptions.fields : null;
+    this.tabDescriptions.newCreate = 'newCreate' in options.tabDescriptions ? options.tabDescriptions.newCreate : null;
+    this.tabDescriptions.newCreated = 'newCreated' in options.tabDescriptions ? options.tabDescriptions.newCreated : null;
+    this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));
@@ -153,8 +164,9 @@ class HHDataList {
 
   createHomePane(options) {
     let pane = this.createPane('home', true);
-    let description = 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur';
-    pane.appendChild(this.createTabDescription(description, options.showTabDescriptions));
+    if (this.tabDescriptions.home) {
+      pane.appendChild(this.createTabDescription(this.tabDescriptions.home, options.showTabDescriptions));
+    }
     return pane;
   }
 
@@ -193,8 +205,9 @@ class HHDataList {
       }
     ));
 
-    let description = 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.';
-    pane.appendChild(this.createTabDescription(description, options.showTabDescriptions));
+    if (this.tabDescriptions.search) {
+      pane.appendChild(this.createTabDescription(this.tabDescriptions.search, options.showTabDescriptions));
+    }
     pane.appendChild(row);
 
     return pane;
@@ -292,8 +305,11 @@ class HHDataList {
     col.appendChild(checkDiv);
     row.appendChild(col);
     wrapper.appendChild(fields);
-    let description = 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.';
-    pane.appendChild(this.createTabDescription(description, options.showTabDescriptions));
+
+    if (this.tabDescriptions.fields) {
+      pane.appendChild(this.createTabDescription(this.tabDescriptions.fields, options.showTabDescriptions));
+    }
+
     pane.appendChild(row);
     pane.appendChild(wrapper);
     return pane;
@@ -408,8 +424,11 @@ class HHDataList {
     details.appendChild(form);
     col.appendChild(details);
     row.appendChild(col);
-    let description = 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.';
-    wrapper.appendChild(this.createTabDescription(description, options.showTabDescriptions));
+
+    if (this.tabDescriptions.newCreate) {
+      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.newCreate, options.showTabDescriptions));
+    }
+
     wrapper.appendChild(row);
     return wrapper;
   }
@@ -478,6 +497,7 @@ class HHDataList {
             let record = (await this.dataSrc.createRecord(data, this.getCheckedRecordFields().string, true)).data;
             let createdForm = this.el.querySelector('form.hh-created-record-form');
             let details = createdForm.closest('details');
+            details.setAttribute('id', `new-${record[this.recordIdField]}`);
             let title = this.recordTitleFormat(this.recordTitleFields, record);
             details.querySelector('div.hh-title-col').innerHTML = title;
 
@@ -528,6 +548,10 @@ class HHDataList {
     wrapper.classList.add('hh-created-record-wrapper', 'mb-3');
     wrapper.style.display = 'none';
 
+    if (this.tabDescriptions.newCreated) {
+      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.newCreated, options.showTabDescriptions));
+    }
+
     let row = document.createElement('div');
     row.classList.add('row');
 
@@ -539,40 +563,48 @@ class HHDataList {
 
     let summary = document.createElement('summary');
 
+    let form = document.createElement('form');
+    form.classList.add('row', 'gx-2', 'hh-created-record-form');
+
     let title = document.createElement('div');
     title.classList.add('col', 'hh-title-col');
+    summary.appendChild(title);
 
     let buttons = document.createElement('div');
     buttons.classList.add('col-auto', 'hh-buttons');
 
-    let findBtn = document.createElement('button');
-    findBtn.type = 'button';
-    findBtn.classList.add('btn', 'btn-sm', 'hh-find-created-record');
-    findBtn.innerHTML = '<i class="fas fa-search"></i>';
+    if (this.filterById) {
+      let findBtn = document.createElement('button');
+      findBtn.type = 'button';
+      findBtn.classList.add('btn', 'btn-sm', 'hh-find-created-record');
+      findBtn.innerHTML = '<i class="fas fa-search"></i>';
+      findBtn.addEventListener('click', (event) => {
+        let details = event.currentTarget.closest('details');
+        let newId = details.id.substring(4);
+        let filterStr = this.filterById(this.recordIdField, newId);
+        console.log(filterStr);
+        this.el.querySelector('input.hh-filter').value = filterStr;
+        this.queryObject.filter = filterStr;
+        this.getAndProcessRecords();
+      });
+      buttons.appendChild(findBtn);
+    }
 
     let closeBtn = document.createElement('button');
     closeBtn.type = 'button';
     closeBtn.classList.add('btn', 'btn-sm', 'hh-close-created-record');
     closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-
-    let form = document.createElement('form');
-    form.classList.add('row', 'gx-2', 'hh-created-record-form');
-
     closeBtn.addEventListener('click', (event) => {
       form.innerHTML = '';
       this.displayNewRecordPane();
     });
-
-    buttons.appendChild(findBtn);
     buttons.appendChild(closeBtn);
-    summary.appendChild(title);
+
     summary.appendChild(buttons);
     details.appendChild(summary);
     details.appendChild(form);
     col.appendChild(details);
     row.appendChild(col);
-    let description = 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.';
-    wrapper.appendChild(this.createTabDescription(description, options.showTabDescriptions));
     wrapper.appendChild(row);
     return wrapper;
   }
@@ -594,19 +626,24 @@ class HHDataList {
       }
     ));
 
-    checkRow.appendChild(this.createConfigCheckboxCol('Show tab descriptions.', 'hh-show-tab-descriptions', options.showTabDescriptions,
-      (event) => {
-        const display = event.target.checked ? 'block' : 'none';
-        const descRows = this.el.querySelectorAll('div.hh-tab-description-row');
-        for (let descRow of descRows) {
-          descRow.style.display = display;
+    if (options.hasTabDescriptions) {
+      checkRow.appendChild(this.createConfigCheckboxCol('Show tab descriptions.', 'hh-show-tab-descriptions', options.showTabDescriptions,
+        (event) => {
+          const display = event.target.checked ? 'block' : 'none';
+          const descRows = this.el.querySelectorAll('div.hh-tab-description-row');
+          for (let descRow of descRows) {
+            descRow.style.display = display;
+          }
         }
-      }
-    ));
+      ));
+    }
 
     let pane = this.createPane('config', false);
-    let description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    pane.appendChild(this.createTabDescription(description, options.showTabDescriptions));
+
+    if (this.tabDescriptions.config) {
+      pane.appendChild(this.createTabDescription(this.tabDescriptions.config, options.showTabDescriptions));
+    }
+
     pane.appendChild(checkRow);
     return pane;
   }
@@ -877,20 +914,6 @@ class HHDataList {
       let details = document.createElement('details');
       details.setAttribute('id', record[this.recordIdField]);
 
-      // On Click Details
-
-      details.addEventListener('click', (event) => {
-        // USE event.currentTarget (the one with the listener).
-        if (details.open && details.querySelectorAll('button.btn-danger').length) {
-          event.preventDefault();
-          this.confirm('Close without Saving ?', title, 'Close', () => {
-            details.open = false;
-          });
-        }
-      });
-
-      // On Toggle Details
-
       details.addEventListener('toggle', (event) => {
         let details = document.getElementById(event.target.id);
         if (details.classList.contains('new')) {
@@ -914,7 +937,7 @@ class HHDataList {
         }
       });
 
-      details.appendChild(this.createSummary(this.metadata.firstItemOnPage + i, record))
+      details.appendChild(this.createSummary(this.metadata.firstItemOnPage + i, record));
 
       let recordFieldsRow = document.createElement('div');
       recordFieldsRow.classList.add('row', 'gx-2', 'hh-record-fields');
@@ -941,6 +964,17 @@ class HHDataList {
   createSummary(number, record) {
     let summary = document.createElement('summary');
 
+    summary.addEventListener('click', (event) => {
+      const details = event.target.closest('details');
+      let unsavedProps = details.querySelectorAll('button.btn-danger');
+      if (details.open && unsavedProps.length) {
+        event.preventDefault();
+        this.confirm('Collapse without Saving?', `The record has ${unsavedProps.length} unsaved ${unsavedProps.length == 1 ? ' field.' : ' fields.'}`, 'Collapse', () => {
+          details.open = false;
+        });
+      }
+    });
+
     let titleCol = document.createElement('div');
     let title = this.recordTitleFormat(this.recordTitleFields, record);
     titleCol.innerHTML = this.createRecordTitle(number, title);
@@ -956,6 +990,7 @@ class HHDataList {
     refreshBtn.innerHTML = '<i class="fas fa-sync"></i>';
 
     refreshBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
       const details = event.target.closest('details');
       if (this.getCheckedRecordFields().count) {
         this.getAndProcessRecord(details.id);
@@ -970,6 +1005,7 @@ class HHDataList {
     editBtn.innerHTML = '<i class="fas fa-pen"></i>';
 
     editBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
       const details = event.target.closest('details');
       const btn = details.querySelector('button.hh-edit-record');
       if (btn.classList.contains('active')) {
@@ -999,7 +1035,8 @@ class HHDataList {
     trashBtn.innerHTML = '<i class="fas fa-trash"></i>';
 
     trashBtn.addEventListener('click', (event) => {
-      this.confirm('Delete Record ?', title, 'Delete', () => {
+      event.stopPropagation();
+      this.confirm('Delete Record?', title, 'Delete', () => {
         event.preventDefault();
         (async () => {
           try {
@@ -1100,20 +1137,20 @@ class HHDataList {
 
         // Update btn
         btn.addEventListener('click', (event) => {
-          event.preventDefault();
+          event.stopPropagation();
           const details = event.target.closest('details');
           const row = event.target.closest('div.hh-record-field');
-          const title = row.querySelector('div.label-row label').title;
+          const propName = row.querySelector('div.label-row label').title;
           const input = row.querySelector('div.data-row input');
           const value = input.value;
           const btn = row.querySelector('div.data-row button');
           (async () => {
             try {
-              await this.dataSrc.patchRecord(details.id, { updates: `${title}="${value}"` });
+              await this.dataSrc.patchRecord(details.id, { updates: `${propName}="${value}"` });
               btn.disabled = true;
               btn.classList.remove('btn-danger');
               btn.classList.add('btn-secondary');
-              if (input.classList.contains('hh-is-foreign-key') || this.recordTitleFields.includes(title)) {
+              if (input.classList.contains('hh-is-foreign-key') || this.recordTitleFields.includes(propName)) {
                 this.getAndProcessRecord(details.id);
               } else {
                 input.defaultValue = value;

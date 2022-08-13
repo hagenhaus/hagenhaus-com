@@ -7,7 +7,8 @@ const portalsDb = mysql.createPool({
   host: process.env.dbHost,
   user: process.env.dbUser,
   password: process.env.dbPassword,
-  database: process.env.dbDatabase,
+  // database: process.env.dbDatabase,
+  database: 'hagenhaus',
   charset: 'utf8mb4',
   dateStrings: true
 });
@@ -70,7 +71,7 @@ export const postMessage = (req, res) => {
 export const getRecords = (db, table, req, res) => {
   db.getConnection((err, conn) => {
     if (err) {
-      res.status(422).send('Cannot connect to database.');
+      res.status(500).send(serverError('get records'));
     }
     else {
       const query = util.promisify(conn.query).bind(conn);
@@ -123,7 +124,13 @@ export const getRecords = (db, table, req, res) => {
           res.status(200).send(data);
         }
         catch (error) {
-          res.status(422).send(error);
+          if (error.code === 'ER_BAD_FIELD_ERROR') {
+            res.status(400).send(invalidField(error.sqlMessage));
+          } else if (error.code == 'ER_PARSE_ERROR') {
+            res.status(400).send(invalidValue('page or limit'));
+          } else {
+            res.status(400).send(miscError());
+          }
         }
         finally { conn.release(); }
       })();
@@ -132,68 +139,74 @@ export const getRecords = (db, table, req, res) => {
 };
 
 export const getRecord = (db, table, req, res) => {
-  try {
-    db.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-        const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
+  db.getConnection((err, conn) => {
+    if (err) {
+      res.status(500).send(serverError('get a record'));
+    }
+    else {
+      const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+      const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
+      conn.query(proc, (error, results, flds) => {
+        conn.release();
+        if (error) {
+          if (error.code === 'ER_BAD_FIELD_ERROR') {
+            res.status(400).send(invalidField(error.sqlMessage));
           } else {
-            res.status(200).send(results[0][0]);
+            res.status(400).send(miscError());
           }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+        } else {
+          res.status(200).send(results[0][0]);
+        }
+      });
+    }
+  });
 };
 
 export const patchRecord = (table, req, res) => {
-  try {
-    portalsDb.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
-        const proc = `call updateRecord("${table}", "${req.params.id}", ${updates})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
+  portalsDb.getConnection((err, conn) => {
+    if (err) {
+      res.status(500).send(serverError('modify a record'));
+    }
+    else {
+      const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
+      const proc = `call updateRecord("${table}", "${req.params.id}", ${updates})`;
+      conn.query(proc, (error, results, flds) => {
+        conn.release();
+        if (error) {
+          if (error.code === 'ER_BAD_FIELD_ERROR') {
+            res.status(400).send(invalidField(error.sqlMessage));
           } else {
-            res.status(204).send();
+            res.status(400).send(miscError());
           }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+        } else {
+          res.status(204).send();
+        }
+      });
+    }
+  });
 };
 
 export const deleteRecord = (table, req, res) => {
-  try {
-    portalsDb.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const proc = `call deleteRecord("${table}", "${req.params.id}")`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) {
-            res.status(422).send('conn.query error');
+  portalsDb.getConnection((err, conn) => {
+    if (err) {
+      res.status(500).send(serverError('delete a record'));
+    }
+    else {
+      const proc = `call deleteRecord("${table}", "${req.params.id}")`;
+      conn.query(proc, (error, results, flds) => {
+        conn.release();
+        if (error) {
+          if (error.code === 'ER_BAD_FIELD_ERROR') {
+            res.status(400).send(invalidField(error.sqlMessage));
           } else {
-            res.status(204).send();
+            res.status(400).send(miscError());
           }
-        });
-      }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+        } else {
+          res.status(204).send();
+        }
+      });
+    }
+  });
 };
 
 /************************************************************************************************
@@ -233,34 +246,41 @@ export const getIndustryGroup = (req, res) => {
 };
 
 export const postPortal = (req, res) => {
-  try {
-    portalsDb.getConnection((err, conn) => {
-      if (err) { res.status(422).send('Unable to connect to database.'); }
-      else {
-        const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-        const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
-        const name = 'name' in req.body ? mysql.escape(req.body.name) : null;
-        const url = 'url' in req.body ? mysql.escape(req.body.url) : null;
-        const companyId = 'companyId' in req.body ? mysql.escape(req.body.companyId) : null;
-        if (!name || !name.length) { res.status(422).send('Name is required.'); }
-        else if (!url || !url.length) { res.status(422).send('Url is required.'); }
-        else if (!companyId || !companyId.length) { res.status(422).send('Company ID is required.'); }
-        else {
-          const proc = `call insertPortal(${name},${url},${companyId},${fields},${allowJoinedFields})`;
-          conn.query(proc, (error, results, flds) => {
-            conn.release();
-            if (error) {
-              res.status(422).send('conn.query error');
+  portalsDb.getConnection((err, conn) => {
+    if (err) {
+      res.status(500).send(serverError('create a record'));
+    }
+    else {
+      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+
+      const name = 'name' in req.body ? req.body.name : null;
+      const url = 'url' in req.body ? req.body.url : null;
+      const companyId = 'companyId' in req.body ? req.body.companyId : null;
+
+      if (!name || !name.length) {
+        res.status(422).send(requiredField('name'));
+      } else if (!url || !url.length) {
+        res.status(422).send(requiredField('url'));
+      } else if (!companyId || !companyId.length) {
+        res.status(422).send(requiredField('companyId'));
+      } else {
+        const proc = `call insertPortal(${mysql.escape(name)},${mysql.escape(url)},${mysql.escape(companyId)},${fields},${allowJoinedFields})`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) {
+            if (error.code === 'ER_BAD_FIELD_ERROR') {
+              res.status(400).send(invalidField(error.sqlMessage));
             } else {
-              res.status(201).send(results[0][0]);
+              res.status(400).send(miscError());
             }
-          });
-        }
+          } else {
+            res.status(201).send(results[0][0]);
+          }
+        });
       }
-    });
-  } catch (err) {
-    res.status(422).send('some error');
-  }
+    }
+  });
 };
 
 export const getPortals = (req, res) => {
@@ -308,3 +328,52 @@ export const getBaseballPlayers = (req, res) => {
 export const getBaseballPlayer = (req, res) => {
   getRecord(baseballDb, 'people', req, res);
 };
+
+/************************************************************************************************
+* Problem Objects
+************************************************************************************************/
+
+function invalidField(msg) {
+  return {
+    "status": "400",
+    "type": "invalid-field",
+    "title": "Invalid Field",
+    "detail": `${msg}.`
+  };
+}
+
+function invalidValue(msg) {
+  return {
+    "status": "400",
+    "type": "invalid-value",
+    "title": "Invalid Value",
+    "detail": `A ${msg} value in the request is invalid.`
+  };
+}
+
+function miscError() {
+  return {
+    "status": "400",
+    "type": "misc-error",
+    "title": "Misc Error",
+    "detail": `This error is not documented yet.`
+  };
+}
+
+function requiredField(msg) {
+  return {
+    "status": "422",
+    "type": "required-field",
+    "title": "Required Field",
+    "detail": `${msg} is a required field.`
+  };
+}
+
+function serverError(msg) {
+  return {
+    "status": "500",
+    "type": "server-error",
+    "title": "Server Error",
+    "detail": `The server could not access the underlying database while attempting to ${msg}.`
+  };
+}

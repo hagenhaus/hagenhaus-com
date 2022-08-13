@@ -5,7 +5,7 @@ menuItem: mi-docs
 
 # Documentation
 
-Here is my to-do list:
+# Tasks
 
 1. Create a hagenhaus-press repository. Use by hagenhaus.com and genesis.
 1. For getPortals and getPortal, push `allowJoinedFields` into stored procedure like insertPortal.
@@ -41,3 +41,11 @@ Here is my to-do list:
 1. Consider using typescript instead of javascript.
 1. Consider adding tab for logs.
 1. Add support for keyboard users and assistive tech users.
+
+# Links
+
+* [Understanding Problem JSON](https://lakitna.medium.com/understanding-problem-json-adf68e5cf1f8)
+* https://www.rfc-editor.org/rfc/rfc7807.html
+* https://codeopinion.com/problem-details-for-better-rest-http-api-errors/
+* https://www.youtube.com/watch?v=MfTLob6teJE
+* https://restfulapi.net/http-status-codes/

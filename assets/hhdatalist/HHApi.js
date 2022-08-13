@@ -42,7 +42,6 @@ class HHApi {
   ************************************************************************************************/
 
   async getRecords(queryObject) {
-    // console.log(`getRecords`);
     const queryString = this.toQueryStr(queryObject);
     return (await axios({ url: `${this.urls.getRecords}?${queryString}`, method: 'get' }));
   }

@@ -613,3 +613,11 @@ div.swagger-ui .opblock {box-shadow: none;}
 }
 
 #page-col div.hh-viewer div.model-example ul {list-style: none; list-style-type: none;}
+
+/************************************************
+ Toast
+************************************************/
+
+div.toast {
+  box-shadow: -0.2rem 0.3rem 0.3rem rgb(0 0 0 / 40%);
+}
