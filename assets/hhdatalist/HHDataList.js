@@ -475,7 +475,7 @@ class HHDataList {
 
       let createBtn = document.createElement('button');
       createBtn.type = 'submit';
-      createBtn.classList.add('btn', 'btn-outline-secondary');
+      createBtn.classList.add('btn', 'btn-secondary');
       if (this.controlsAreSmall) { createBtn.classList.add('btn-sm'); }
       createBtn.innerHTML = 'Create';
 

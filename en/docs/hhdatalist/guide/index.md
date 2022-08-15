@@ -1,10 +1,20 @@
 # Guide
 
+# User Interface
+
+<p><img src="ui.png" class="img-fluid d-block" width=900 height=432 loading="lazy"></p>
+
 # Assistive Technology
 
 # Authentication
 
-# Error Handling
+# Error Messages
+
+HHDataList passes *error* messages from underlying REST API responses to the specified website handler without processing the messages in any way. 
+
+# Information Messages
+
+HHDataList generates an *information* message when a request returns successfully (200, 201, 204). The website specifies *for which method(s)* the website wants to receive *information* messages from HHDataList.
 
 # Interfaces
 
@@ -17,4 +27,3 @@
 # Tab Descriptions
 
 # Themes
-

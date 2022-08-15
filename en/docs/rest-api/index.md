@@ -1,4 +1,4 @@
-# Swagger
+# Hagenhaus REST API
 
 # Baseball API
 
@@ -106,3 +106,7 @@
     url: 'hagenhaus-hagenhaus-api-1-resolved.json'
   });
 </script>
+
+# Soccer API
+
+* https://www.kaggle.com/datasets/hugomathien/soccer

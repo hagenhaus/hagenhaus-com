@@ -70,9 +70,7 @@ export const postMessage = (req, res) => {
 
 export const getRecords = (db, table, req, res) => {
   db.getConnection((err, conn) => {
-    if (err) {
-      res.status(500).send(serverError('get records'));
-    }
+    if (err) { sendError(res, err); }
     else {
       const query = util.promisify(conn.query).bind(conn);
       (async () => {
@@ -123,15 +121,7 @@ export const getRecords = (db, table, req, res) => {
 
           res.status(200).send(data);
         }
-        catch (error) {
-          if (error.code === 'ER_BAD_FIELD_ERROR') {
-            res.status(400).send(invalidField(error.sqlMessage));
-          } else if (error.code == 'ER_PARSE_ERROR') {
-            res.status(400).send(invalidValue('page or limit'));
-          } else {
-            res.status(400).send(miscError());
-          }
-        }
+        catch (error) { sendError(res, error); }
         finally { conn.release(); }
       })();
     }
@@ -140,23 +130,14 @@ export const getRecords = (db, table, req, res) => {
 
 export const getRecord = (db, table, req, res) => {
   db.getConnection((err, conn) => {
-    if (err) {
-      res.status(500).send(serverError('get a record'));
-    }
+    if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
       const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) {
-          if (error.code === 'ER_BAD_FIELD_ERROR') {
-            res.status(400).send(invalidField(error.sqlMessage));
-          } else {
-            res.status(400).send(miscError());
-          }
-        } else {
-          res.status(200).send(results[0][0]);
-        }
+        if (error) { sendError(res, error); }
+        else { res.status(200).send(results[0][0]); }
       });
     }
   });
@@ -164,23 +145,14 @@ export const getRecord = (db, table, req, res) => {
 
 export const patchRecord = (table, req, res) => {
   portalsDb.getConnection((err, conn) => {
-    if (err) {
-      res.status(500).send(serverError('modify a record'));
-    }
+    if (err) { sendError(res, err); }
     else {
       const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
       const proc = `call updateRecord("${table}", "${req.params.id}", ${updates})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) {
-          if (error.code === 'ER_BAD_FIELD_ERROR') {
-            res.status(400).send(invalidField(error.sqlMessage));
-          } else {
-            res.status(400).send(miscError());
-          }
-        } else {
-          res.status(204).send();
-        }
+        if (error) { sendError(res, error); }
+        else { res.status(204).send(); }
       });
     }
   });
@@ -188,22 +160,13 @@ export const patchRecord = (table, req, res) => {
 
 export const deleteRecord = (table, req, res) => {
   portalsDb.getConnection((err, conn) => {
-    if (err) {
-      res.status(500).send(serverError('delete a record'));
-    }
+    if (err) { sendError(res, err); }
     else {
       const proc = `call deleteRecord("${table}", "${req.params.id}")`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) {
-          if (error.code === 'ER_BAD_FIELD_ERROR') {
-            res.status(400).send(invalidField(error.sqlMessage));
-          } else {
-            res.status(400).send(miscError());
-          }
-        } else {
-          res.status(204).send();
-        }
+        if (error) { sendError(res, error); }
+        else { res.status(204).send(); }
       });
     }
   });
@@ -247,9 +210,7 @@ export const getIndustryGroup = (req, res) => {
 
 export const postPortal = (req, res) => {
   portalsDb.getConnection((err, conn) => {
-    if (err) {
-      res.status(500).send(serverError('create a record'));
-    }
+    if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
       const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
@@ -258,25 +219,15 @@ export const postPortal = (req, res) => {
       const url = 'url' in req.body ? req.body.url : null;
       const companyId = 'companyId' in req.body ? req.body.companyId : null;
 
-      if (!name || !name.length) {
-        res.status(422).send(requiredField('name'));
-      } else if (!url || !url.length) {
-        res.status(422).send(requiredField('url'));
-      } else if (!companyId || !companyId.length) {
-        res.status(422).send(requiredField('companyId'));
-      } else {
+      if (!name || !name.length) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
+      else if (!url || !url.length) { sendError(res, { code: 'required-field', subMessage: 'url' }); }
+      else if (!companyId || !companyId.length) { sendError(res, { code: 'required-field', subMessage: 'companyId' }); }
+      else {
         const proc = `call insertPortal(${mysql.escape(name)},${mysql.escape(url)},${mysql.escape(companyId)},${fields},${allowJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) {
-            if (error.code === 'ER_BAD_FIELD_ERROR') {
-              res.status(400).send(invalidField(error.sqlMessage));
-            } else {
-              res.status(400).send(miscError());
-            }
-          } else {
-            res.status(201).send(results[0][0]);
-          }
+          if (error) { sendError(res, error); }
+          else { res.status(201).send(results[0][0]); }
         });
       }
     }
@@ -330,50 +281,77 @@ export const getBaseballPlayer = (req, res) => {
 };
 
 /************************************************************************************************
-* Problem Objects
+* sendError
+* 
+* This function translates internal error formats to a single standard message format that requesting 
+* apps understand. 
 ************************************************************************************************/
 
-function invalidField(msg) {
-  return {
-    "status": "400",
-    "type": "invalid-field",
-    "title": "Invalid Field",
-    "detail": `${msg}.`
-  };
-}
+function sendError(res, error) {
+  console.log(JSON.stringify(error, null, 2));
 
-function invalidValue(msg) {
-  return {
-    "status": "400",
-    "type": "invalid-value",
-    "title": "Invalid Value",
-    "detail": `A ${msg} value in the request is invalid.`
-  };
-}
+  let status = null;
+  let message = null;
 
-function miscError() {
-  return {
-    "status": "400",
-    "type": "misc-error",
-    "title": "Misc Error",
-    "detail": `This error is not documented yet.`
-  };
-}
+  switch (error.code) {
+    case 'ER_BAD_FIELD_ERROR':
+      status = 400;
+      let detail = error.sqlMessage
+        .replace('column', 'field')
+        .replace("'where clause'", "filter")
+        .replace("'order clause'", "order");
+      message = {
+        "type": "unknown-field",
+        "title": "Unknown Field",
+        "detail": `${detail}.`
+      };
+      break;
 
-function requiredField(msg) {
-  return {
-    "status": "422",
-    "type": "required-field",
-    "title": "Required Field",
-    "detail": `${msg} is a required field.`
-  };
-}
+    case 'ER_DBACCESS_DENIED_ERROR':
+      status = 500;
+      message = {
+        "type": "server-data-access",
+        "title": "Server Data Access",
+        "detail": `The server could not access an underlying database.`
+      };
+      break;
 
-function serverError(msg) {
-  return {
-    "status": "500",
-    "type": "server-error",
-    "title": "Server Error",
-    "detail": `The server could not access the underlying database while attempting to ${msg}.`
-  };
+    case 'ER_NO_REFERENCED_ROW_2':
+      status = 400;
+      message = {
+        "type": "invalid-value",
+        "title": "Invalid Value",
+        "detail": `A value in the request is invalid.`
+      };
+      break;
+
+    case 'ER_PARSE_ERROR':
+      status = 400;
+      message = {
+        "type": "invalid-value",
+        "title": "Invalid Value",
+        "detail": `A value in the request is invalid.`
+      };
+      break;
+
+    case 'required-field':
+      status = 422;
+      message = {
+        "type": "required-field",
+        "title": "Required Field",
+        "detail": `The required field '${error.subMessage}' is missing from the request.`
+      };
+      break;
+
+    default:
+      status = 400;
+      message = {
+        "type": "miscellaneous",
+        "title": "Miscellaneous",
+        "detail": `An error occurred, but it is not documented yet.`
+      };
+  }
+
+  message.status = status;
+  res.status(status).send(message);
 }
