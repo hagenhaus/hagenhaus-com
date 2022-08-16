@@ -95,6 +95,7 @@ class HHApi {
   ************************************************************************************************/
 
   getAndProcessRecord(id, queryObject, success, failure) {
+    console.log(id);
     (async () => {
       try {
         success(await this.getRecord(id, queryObject), id);

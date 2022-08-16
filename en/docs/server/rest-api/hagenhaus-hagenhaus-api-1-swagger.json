@@ -6,10 +6,60 @@
     "version" : "1"
   },
   "servers" : [ {
-    "url" : "http://localhost:8081/api/v1"
+    "url" : "http://localhost:8081/api"
   } ],
   "paths" : {
-    "/companies" : {
+    "/baseball/v1/players" : {
+      "get" : {
+        "tags" : [ "Players" ],
+        "description" : "This operation returns an array of baseball player objects.",
+        "operationId" : "getBaseballPlayers",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/Fields"
+        }, {
+          "$ref" : "#/components/parameters/AllowJoinedFields"
+        }, {
+          "$ref" : "#/components/parameters/Filter"
+        }, {
+          "$ref" : "#/components/parameters/Order"
+        }, {
+          "$ref" : "#/components/parameters/Page"
+        }, {
+          "$ref" : "#/components/parameters/Limit"
+        }, {
+          "$ref" : "#/components/parameters/HasMetadata"
+        }, {
+          "$ref" : "#/components/parameters/HasFieldList"
+        }, {
+          "$ref" : "#/components/parameters/HasRecords"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/baseball/v1/players/{id}" : {
+      "get" : {
+        "tags" : [ "Players" ],
+        "description" : "This operation returns a baseball player object.",
+        "operationId" : "getBaseballPlayer",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/IdInPath"
+        }, {
+          "$ref" : "#/components/parameters/Fields"
+        }, {
+          "$ref" : "#/components/parameters/AllowJoinedFields"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/devportals/v1/companies" : {
       "get" : {
         "tags" : [ "Companies" ],
         "description" : "This operation returns an array of company objects.",
@@ -70,7 +120,7 @@
         }
       }
     },
-    "/companies/{id}" : {
+    "/devportals/v1/companies/{id}" : {
       "get" : {
         "tags" : [ "Companies" ],
         "description" : "This operation returns a company object.",
@@ -102,7 +152,7 @@
         }
       }
     },
-    "/countries" : {
+    "/devportals/v1/countries" : {
       "get" : {
         "tags" : [ "Countries" ],
         "description" : "This operation returns an array of [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) objects.",
@@ -151,7 +201,7 @@
         }
       }
     },
-    "/countries/{id}" : {
+    "/devportals/v1/countries/{id}" : {
       "get" : {
         "tags" : [ "Countries" ],
         "description" : "This operation returns a [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) object.",
@@ -179,57 +229,7 @@
         }
       }
     },
-    "/players" : {
-      "get" : {
-        "tags" : [ "Players" ],
-        "description" : "This operation returns an array of baseball player objects.",
-        "operationId" : "getBaseballPlayers",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/Fields"
-        }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
-        }, {
-          "$ref" : "#/components/parameters/Filter"
-        }, {
-          "$ref" : "#/components/parameters/Order"
-        }, {
-          "$ref" : "#/components/parameters/Page"
-        }, {
-          "$ref" : "#/components/parameters/Limit"
-        }, {
-          "$ref" : "#/components/parameters/HasMetadata"
-        }, {
-          "$ref" : "#/components/parameters/HasFieldList"
-        }, {
-          "$ref" : "#/components/parameters/HasRecords"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success"
-          }
-        }
-      }
-    },
-    "/players/{id}" : {
-      "get" : {
-        "tags" : [ "Players" ],
-        "description" : "This operation returns a baseball player object.",
-        "operationId" : "getBaseballPlayer",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/IdInPath"
-        }, {
-          "$ref" : "#/components/parameters/Fields"
-        }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success"
-          }
-        }
-      }
-    },
-    "/portals" : {
+    "/devportals/v1/portals" : {
       "post" : {
         "tags" : [ "Portals" ],
         "description" : "This operation creates a portal record.",
@@ -326,7 +326,7 @@
         }
       }
     },
-    "/portals/{id}" : {
+    "/devportals/v1/portals/{id}" : {
       "get" : {
         "tags" : [ "Portals" ],
         "description" : "This operation returns a developer portal object.",
@@ -399,7 +399,7 @@
         }
       }
     },
-    "/sectors" : {
+    "/devportals/v1/sectors" : {
       "get" : {
         "tags" : [ "Sectors" ],
         "description" : "This operation returns an array of sector objects.",
@@ -431,7 +431,7 @@
         }
       }
     },
-    "/sectors/{id}" : {
+    "/devportals/v1/sectors/{id}" : {
       "get" : {
         "tags" : [ "Sectors" ],
         "description" : "This operation returns a sector object.",

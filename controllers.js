@@ -133,7 +133,7 @@ export const getRecord = (db, table, idField, req, res) => {
     if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-      const proc = `call selectRecord2("${table}", "${idField}", "${req.params.id}", ${fields})`;
+      const proc = `call selectRecord("${table}", "${idField}", "${req.params.id}", ${fields})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
         if (error) { sendError(res, error); }
@@ -143,8 +143,8 @@ export const getRecord = (db, table, idField, req, res) => {
   });
 };
 
-export const patchRecord = (table, idField, req, res) => {
-  portalsDb.getConnection((err, conn) => {
+export const patchRecord = (db, table, idField, req, res) => {
+  db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
       const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
@@ -158,8 +158,8 @@ export const patchRecord = (table, idField, req, res) => {
   });
 };
 
-export const deleteRecord = (table, idField, req, res) => {
-  portalsDb.getConnection((err, conn) => {
+export const deleteRecord = (db, table, idField, req, res) => {
+  db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
       const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
@@ -176,37 +176,14 @@ export const deleteRecord = (table, idField, req, res) => {
 * Portals
 ************************************************************************************************/
 
-export const getCompanies = (req, res) => {
-  getRecords(portalsDb, 'companies', req, res);
-};
-
-export const getCompany = (req, res) => {
-  getRecord(portalsDb, 'companies', 'id', req, res);
-};
-
-export const getCountries = (req, res) => {
-  getRecords(portalsDb, 'countries', req, res);
-};
-
-export const getCountry = (req, res) => {
-  getRecord(portalsDb, 'countries', 'id', req, res);
-};
-
-export const getIndustries = (req, res) => {
-  getRecords(portalsDb, 'industries', req, res);
-};
-
-export const getIndustry = (req, res) => {
-  getRecord(portalsDb, 'industries', 'id', req, res);
-};
-
-export const getIndustryGroups = (req, res) => {
-  getRecords(portalsDb, 'industryGroups', req, res);
-};
-
-export const getIndustryGroup = (req, res) => {
-  getRecord(portalsDb, 'industryGroups', 'id', req, res);
-};
+export const getCompanies = (req, res) => { getRecords(portalsDb, 'companies', req, res); };
+export const getCompany = (req, res) => { getRecord(portalsDb, 'companies', 'id', req, res); };
+export const getCountries = (req, res) => { getRecords(portalsDb, 'countries', req, res); };
+export const getCountry = (req, res) => { getRecord(portalsDb, 'countries', 'id', req, res); };
+export const getIndustries = (req, res) => { getRecords(portalsDb, 'industries', req, res); };
+export const getIndustry = (req, res) => { getRecord(portalsDb, 'industries', 'id', req, res); };
+export const getIndustryGroups = (req, res) => { getRecords(portalsDb, 'industryGroups', req, res); };
+export const getIndustryGroup = (req, res) => { getRecord(portalsDb, 'industryGroups', 'id', req, res); };
 
 export const postPortal = (req, res) => {
   portalsDb.getConnection((err, conn) => {
@@ -244,49 +221,27 @@ export const getPortal = (req, res) => {
   getRecord(portalsDb, table, 'id', req, res);
 };
 
-export const patchPortal = (req, res) => {
-  patchRecord('portals', 'id', req, res);
-};
-
-export const deletePortal = (req, res) => {
-  deleteRecord('portals', 'id', req, res);
-};
-
-export const getSectors = (req, res) => {
-  getRecords(portalsDb, 'sectors', req, res);
-};
-
-export const getSector = (req, res) => {
-  getRecord(portalsDb, 'sectors', 'id', req, res);
-};
-
-export const getSubindustries = (req, res) => {
-  getRecords(portalsDb, 'subindustries', req, res);
-};
-
-export const getSubindustry = (req, res) => {
-  getRecord(portalsDb, 'subindustries', 'id', req, res);
-};
+export const patchPortal = (req, res) => { patchRecord(portalsDb, 'portals', 'id', req, res); };
+export const deletePortal = (req, res) => { deleteRecord(portalsDb, 'portals', 'id', req, res); };
+export const getSectors = (req, res) => { getRecords(portalsDb, 'sectors', req, res); };
+export const getSector = (req, res) => { getRecord(portalsDb, 'sectors', 'id', req, res); };
+export const getSubindustries = (req, res) => { getRecords(portalsDb, 'subindustries', req, res); };
+export const getSubindustry = (req, res) => { getRecord(portalsDb, 'subindustries', 'id', req, res); };
 
 /************************************************************************************************
 * Baseball
 ************************************************************************************************/
 
-export const getBaseballParks = (req, res) => {
-  getRecords(baseballDb, 'parks', req, res);
-};
-
-export const getBaseballPark = (req, res) => {
-  getRecord(baseballDb, 'parks', 'id', req, res);
-};
-
-export const getBaseballPlayers = (req, res) => {
-  getRecords(baseballDb, 'people', req, res);
-};
-
-export const getBaseballPlayer = (req, res) => {
-  getRecord(baseballDb, 'people', 'playerId', req, res);
-};
+export const getBaseballLeagues = (req, res) => { getRecords(baseballDb, 'leagues', req, res); };
+export const getBaseballLeague = (req, res) => { getRecord(baseballDb, 'leagues', 'lgID', req, res); };
+export const getBaseballManagers = (req, res) => { getRecords(baseballDb, 'managers', req, res); };
+export const getBaseballManager = (req, res) => { getRecord(baseballDb, 'managers', 'ID', req, res); };
+export const getBaseballParks = (req, res) => { getRecords(baseballDb, 'parks', req, res); };
+export const getBaseballPark = (req, res) => { getRecord(baseballDb, 'parks', 'id', req, res); };
+export const getBaseballPlayers = (req, res) => { getRecords(baseballDb, 'people', req, res); };
+export const getBaseballPlayer = (req, res) => { getRecord(baseballDb, 'people', 'playerId', req, res); };
+export const getBaseballTeams = (req, res) => { getRecords(baseballDb, 'teams', req, res); };
+export const getBaseballTeam = (req, res) => { getRecord(baseballDb, 'teams', 'ID', req, res); };
 
 /************************************************************************************************
 * sendError

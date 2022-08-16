@@ -9,7 +9,7 @@ class HHDataList {
     // console.log(window.navigator.language);
     // console.log(window.navigator.language.split('-')[0]);
 
-    // Set default values for absent options.
+    // Set default values for transient options.
     options.filterPlaceholder = 'filterPlaceholder' in options ? options.filterPlaceholder : '';
     options.hasTabDescriptions = 'tabDescriptions' in options;
     options.limits = 'limits' in options && options.limits.length ? options.limits : [5, 10, 20, 50, 100];
@@ -582,7 +582,6 @@ class HHDataList {
         let details = event.currentTarget.closest('details');
         let newId = details.id.substring(4);
         let filterStr = this.filterById(this.recordIdField, newId);
-        console.log(filterStr);
         this.el.querySelector('input.hh-filter').value = filterStr;
         this.queryObject.filter = filterStr;
         this.getAndProcessRecords();
@@ -912,7 +911,7 @@ class HHDataList {
     data.records.forEach((record, i) => {
 
       let details = document.createElement('details');
-      details.setAttribute('id', record[this.recordIdField]);
+      details.setAttribute('id', this.toUniqueId(record[this.recordIdField]));
 
       details.addEventListener('toggle', (event) => {
         let details = document.getElementById(event.target.id);
@@ -922,7 +921,7 @@ class HHDataList {
           if (details.open) {
             details.querySelector('button.hh-refresh-record').style.display = 'inline-block';
             if (!this.recordFields.length || this.getCheckedRecordFields().count) {
-              this.getAndProcessRecord(details.id);
+              this.getAndProcessRecord(this.toRealId(details.id));
             } else {
               details.querySelector('div.hh-record-fields').innerHTML = '';
             }
@@ -993,7 +992,7 @@ class HHDataList {
       event.stopPropagation();
       const details = event.target.closest('details');
       if (this.getCheckedRecordFields().count) {
-        this.getAndProcessRecord(details.id);
+        this.getAndProcessRecord(this.toRealId(details.id));
       } else {
         details.querySelector('div.hh-record-fields').innerHTML = '';
       }
@@ -1040,7 +1039,7 @@ class HHDataList {
         event.preventDefault();
         (async () => {
           try {
-            await this.dataSrc.deleteRecord(event.target.closest('details').id);
+            await this.dataSrc.deleteRecord(this.toRealId(event.target.closest('details').id));
             this.reportInfo(`Record "${title}" was deleted.`);
             this.getAndProcessRecords();
           } catch (error) {
@@ -1063,7 +1062,7 @@ class HHDataList {
   ************************************************************************************************/
 
   processRecord(res, id) {
-    this.displayRecord(res.data, document.getElementById(id));
+    this.displayRecord(res.data, document.getElementById(this.toUniqueId(id)));
   }
 
   /************************************************************************************************
@@ -1146,12 +1145,12 @@ class HHDataList {
           const btn = row.querySelector('div.data-row button');
           (async () => {
             try {
-              await this.dataSrc.patchRecord(details.id, { updates: `${propName}="${value}"` });
+              await this.dataSrc.patchRecord(this.toRealId(details.id), { updates: `${propName}="${value}"` });
               btn.disabled = true;
               btn.classList.remove('btn-danger');
               btn.classList.add('btn-secondary');
               if (input.classList.contains('hh-is-foreign-key') || this.recordTitleFields.includes(propName)) {
-                this.getAndProcessRecord(details.id);
+                this.getAndProcessRecord(this.toRealId(details.id));
               } else {
                 input.defaultValue = value;
               }
@@ -1207,7 +1206,7 @@ class HHDataList {
   updateExpandedRecords() {
     this.recordsRowEl.querySelectorAll('details[open]').forEach(details => {
       if (this.getCheckedRecordFields().count) {
-        this.getAndProcessRecord(details.id);
+        this.getAndProcessRecord(this.toRealId(details.id));
       } else {
         details.querySelector('div.hh-record-fields').innerHTML = '';
       }
@@ -1272,4 +1271,16 @@ class HHDataList {
     let display = this.el.querySelector('input.hh-records-are-numbered').checked ? 'inline' : 'none';
     return `<span class="hh-record-number" style="display:${display};">${number}</span><span class="hh-record-number-punc" style="display:${display};">. </span><span class="hh-record-title">${title}</span>`;
   }
+
+  /************************************************************************************************
+  * toUniqueId
+  ************************************************************************************************/
+
+  toUniqueId(id) { return `${this.id}-${id}`; }
+
+  /************************************************************************************************
+  * toRealId
+  ************************************************************************************************/
+
+  toRealId(uniqueId) { return uniqueId.replace(`${this.id}-`, ''); }
 }
