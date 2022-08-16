@@ -75,6 +75,12 @@ export const routes = (app) => {
   * Baseball
   ************************************************************************************************/
 
+  app.route('/api/v1/parks')
+    .get(controllers.getBaseballParks);
+
+  app.route('/api/v1/parks/:id')
+    .get(controllers.getBaseballPark);
+
   app.route('/api/v1/players')
     .get(controllers.getBaseballPlayers);
 

@@ -27,3 +27,6 @@ HHDataList generates an *information* message when a request returns successfull
 # Tab Descriptions
 
 # Themes
+
+* [What is Website Theming?](https://www.freecodecamp.org/news/website-theming-with-css-custom-properties-and-gatsbyjs/)
+* [Custom properties (--*): CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)

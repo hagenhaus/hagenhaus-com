@@ -13,7 +13,7 @@ class HHDataList {
     options.filterPlaceholder = 'filterPlaceholder' in options ? options.filterPlaceholder : '';
     options.hasTabDescriptions = 'tabDescriptions' in options;
     options.limits = 'limits' in options && options.limits.length ? options.limits : [5, 10, 20, 50, 100];
-    options.limit = 'limit' in options && options.limits.includes(options.limit) ? options.limit : limits[0];
+    options.limit = 'limit' in options && options.limits.includes(options.limit) ? options.limit : options.limits[0];
     options.orderPlaceholder = 'orderPlaceholder' in options ? options.orderPlaceholder : '';
     options.recordsAreExpanded = 'recordsAreExpanded' in options ? options.recordsAreExpanded : false;
     options.recordsAreNumbered = 'recordsAreNumbered' in options ? options.recordsAreNumbered : true;

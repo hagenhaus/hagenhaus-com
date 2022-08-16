@@ -1,6 +1,14 @@
 # HHDataList
 
 <script>
+  function confirm(title, body, yesBtn, yesCb) {
+    modalEl.querySelector('h5.modal-title').textContent = title;
+    modalEl.querySelector('div.modal-body').textContent = body;
+    modalEl.querySelector('button.yes').innerHTML = yesBtn;
+    modalYesCb = yesCb;
+    modal.show();
+  }
+
   const errorPage = `${window.location.origin}/en/docs/website/errors`;
 
   function reportError(error) {
@@ -9,34 +17,48 @@
   }
 
   function reportInfo(info) { 
-    showToast('info', 'Success', info); 
+    showToast('info', 'Success', info);
   }
 </script>
 
 HHDataList is a UI component that maps to any underlying REST API.
 
-# For the Baseball API
+# Baseball API
 
 The Baseball API is a Hagenhaus REST API ...
 
-## Players
+## Leagues
 
-<div id="players-datalist" class="hh-data-list"></div>
+## Managers
+
+## Parks
+
+<div id="baseball-parks-datalist" class="hh-data-list"></div>
 
 <script>
   new HHDataList({
-    confirm: (title, body, yesBtn, yesCb) => {
-      modalEl.querySelector('h5.modal-title').textContent = title;
-      modalEl.querySelector('div.modal-body').textContent = body;
-      modalEl.querySelector('button.yes').innerHTML = yesBtn;
-      modalYesCb = yesCb;
-      modal.show();
-    },
+    confirm: confirm,
+    id: 'baseball-parks-datalist',
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (error) => { reportError(error); },
+    reportInfo: (info) => { reportInfo(info); },
+    url: 'http://localhost:8081/api/v1/parks',
+  });
+</script>
+
+## Players
+
+<div id="baseball-players-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
     controlsAreSmall: false,
     filter: 'birthYear is not null',
     filterById: (idField, idValue) => `${idField} like "${idValue}"`,
     filterPlaceholder: 'birthYear is not null and nameLast like "b%"',
-    id: 'players-datalist',
+    id: 'baseball-players-datalist',
     limit: 5,
     limits: [5, 10, 20, 50, 100],
     order: 'birthYear desc',
@@ -66,7 +88,9 @@ The Baseball API is a Hagenhaus REST API ...
   });
 </script>
 
-# For the Portals API
+## Teams
+
+# Portals API
 
 ## Portals
 
@@ -74,13 +98,7 @@ The Baseball API is a Hagenhaus REST API ...
 
 <script>
   new HHDataList({
-    confirm: (title, body, yesBtn, yesCb) => {
-      modalEl.querySelector('h5.modal-title').textContent = title;
-      modalEl.querySelector('div.modal-body').textContent = body;
-      modalEl.querySelector('button.yes').innerHTML = yesBtn;
-      modalYesCb = yesCb;
-      modal.show();
-    },
+    confirm: confirm,
     controlsAreSmall: false,
     filter: 'name like "test%"',
     filterById: (idField, idValue) => `${idField} like "${idValue}"`,
@@ -124,7 +142,7 @@ The Baseball API is a Hagenhaus REST API ...
   });
 </script>
 
-# For the Soccer API
+# Soccer API
 
 # Test 1
 

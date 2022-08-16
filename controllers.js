@@ -128,12 +128,12 @@ export const getRecords = (db, table, req, res) => {
   });
 };
 
-export const getRecord = (db, table, req, res) => {
+export const getRecord = (db, table, idField, req, res) => {
   db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
-      const proc = `call selectRecord("${table}", "${req.params.id}", ${fields})`;
+      const proc = `call selectRecord2("${table}", "${idField}", "${req.params.id}", ${fields})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
         if (error) { sendError(res, error); }
@@ -143,12 +143,12 @@ export const getRecord = (db, table, req, res) => {
   });
 };
 
-export const patchRecord = (table, req, res) => {
+export const patchRecord = (table, idField, req, res) => {
   portalsDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
       const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
-      const proc = `call updateRecord("${table}", "${req.params.id}", ${updates})`;
+      const proc = `call updateRecord("${table}", "${idField}", "${req.params.id}", ${updates})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
         if (error) { sendError(res, error); }
@@ -158,11 +158,11 @@ export const patchRecord = (table, req, res) => {
   });
 };
 
-export const deleteRecord = (table, req, res) => {
+export const deleteRecord = (table, idField, req, res) => {
   portalsDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const proc = `call deleteRecord("${table}", "${req.params.id}")`;
+      const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
         if (error) { sendError(res, error); }
@@ -181,7 +181,7 @@ export const getCompanies = (req, res) => {
 };
 
 export const getCompany = (req, res) => {
-  getRecord(portalsDb, 'companies', req, res);
+  getRecord(portalsDb, 'companies', 'id', req, res);
 };
 
 export const getCountries = (req, res) => {
@@ -189,7 +189,7 @@ export const getCountries = (req, res) => {
 };
 
 export const getCountry = (req, res) => {
-  getRecord(portalsDb, 'countries', req, res);
+  getRecord(portalsDb, 'countries', 'id', req, res);
 };
 
 export const getIndustries = (req, res) => {
@@ -197,7 +197,7 @@ export const getIndustries = (req, res) => {
 };
 
 export const getIndustry = (req, res) => {
-  getRecord(portalsDb, 'industries', req, res);
+  getRecord(portalsDb, 'industries', 'id', req, res);
 };
 
 export const getIndustryGroups = (req, res) => {
@@ -205,7 +205,7 @@ export const getIndustryGroups = (req, res) => {
 };
 
 export const getIndustryGroup = (req, res) => {
-  getRecord(portalsDb, 'industryGroups', req, res);
+  getRecord(portalsDb, 'industryGroups', 'id', req, res);
 };
 
 export const postPortal = (req, res) => {
@@ -241,15 +241,15 @@ export const getPortals = (req, res) => {
 
 export const getPortal = (req, res) => {
   const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecord(portalsDb, table, req, res);
+  getRecord(portalsDb, table, 'id', req, res);
 };
 
 export const patchPortal = (req, res) => {
-  patchRecord('portals', req, res);
+  patchRecord('portals', 'id', req, res);
 };
 
 export const deletePortal = (req, res) => {
-  deleteRecord('portals', req, res);
+  deleteRecord('portals', 'id', req, res);
 };
 
 export const getSectors = (req, res) => {
@@ -257,7 +257,7 @@ export const getSectors = (req, res) => {
 };
 
 export const getSector = (req, res) => {
-  getRecord(portalsDb, 'sectors', req, res);
+  getRecord(portalsDb, 'sectors', 'id', req, res);
 };
 
 export const getSubindustries = (req, res) => {
@@ -265,19 +265,27 @@ export const getSubindustries = (req, res) => {
 };
 
 export const getSubindustry = (req, res) => {
-  getRecord(portalsDb, 'subindustries', req, res);
+  getRecord(portalsDb, 'subindustries', 'id', req, res);
 };
 
 /************************************************************************************************
 * Baseball
 ************************************************************************************************/
 
+export const getBaseballParks = (req, res) => {
+  getRecords(baseballDb, 'parks', req, res);
+};
+
+export const getBaseballPark = (req, res) => {
+  getRecord(baseballDb, 'parks', 'id', req, res);
+};
+
 export const getBaseballPlayers = (req, res) => {
   getRecords(baseballDb, 'people', req, res);
 };
 
 export const getBaseballPlayer = (req, res) => {
-  getRecord(baseballDb, 'people', req, res);
+  getRecord(baseballDb, 'people', 'playerId', req, res);
 };
 
 /************************************************************************************************
