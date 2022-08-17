@@ -275,7 +275,7 @@ function sendError(res, error) {
       message = {
         "type": "server-data-access",
         "title": "Server Data Access",
-        "detail": `The server could not access an underlying database.`
+        "detail": `The server could not access the database.`
       };
       break;
 
@@ -294,6 +294,15 @@ function sendError(res, error) {
         "type": "invalid-value",
         "title": "Invalid Value",
         "detail": `A value in the request is invalid.`
+      };
+      break;
+
+    case 'ER_SP_WRONG_NO_OF_ARGS':
+      status = 500;
+      message = {
+        "type": "wrong-number-of-arguments",
+        "title": "Wrong Number of Arguments",
+        "detail": `The server passed the wrong number of arguments to the database.`
       };
       break;
 

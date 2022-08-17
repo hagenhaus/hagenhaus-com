@@ -186,7 +186,7 @@
       modal.show();
     }
 
-    const errorPageUrl = `${window.location.origin}/en/docs/server/errors`;
+    const errorPageUrl = `${window.location.origin}/en/docs/website/errors`;
 
     function reportError(error) {
       showToast(`error`, `Error`, `${error.response.data.detail} <a href='${errorPageUrl}/#${error.response.data.type}' target='_blank'>Details</a>.`

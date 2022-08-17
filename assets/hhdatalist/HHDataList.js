@@ -9,7 +9,7 @@ class HHDataList {
     // console.log(window.navigator.language);
     // console.log(window.navigator.language.split('-')[0]);
 
-    // Set default values for transient options.
+    // Set default values for unspecified options.
     options.filterPlaceholder = 'filterPlaceholder' in options ? options.filterPlaceholder : '';
     options.hasTabDescriptions = 'tabDescriptions' in options;
     options.limits = 'limits' in options && options.limits.length ? options.limits : [5, 10, 20, 50, 100];
@@ -19,7 +19,9 @@ class HHDataList {
     options.recordsAreNumbered = 'recordsAreNumbered' in options ? options.recordsAreNumbered : true;
     options.showTabDescriptions = 'showTabDescriptions' in options ? options.showTabDescriptions : false;
     options.tabDescriptions = 'tabDescriptions' in options ? options.tabDescriptions : {};
+    options.theme = 'theme' in options ? options.theme : {};
 
+    // Set class options.
     this.dataSrc = new HHApi('url' in options ? options.url : null, 'urls' in options ? options.urls : null);
     this.id = options.id;
     this.el = document.getElementById(options.id);
@@ -55,6 +57,13 @@ class HHDataList {
     this.tabDescriptions.newCreate = 'newCreate' in options.tabDescriptions ? options.tabDescriptions.newCreate : null;
     this.tabDescriptions.newCreated = 'newCreated' in options.tabDescriptions ? options.tabDescriptions.newCreated : null;
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
+
+    // Set theme values.
+    // this.el.style.setProperty('--hh-color-1', '#b3d9ff');
+    this.el.style.setProperty('--hh-color-1', 'color1' in options.theme ? options.theme.color1 : '#b3d9ff');
+    this.el.style.setProperty('--hh-color-2', 'color2' in options.theme ? options.theme.color2 : '#e6f2ff');
+    this.el.style.setProperty('--hh-color-3', 'color3' in options.theme ? options.theme.color3 : '#004d99');
+    this.el.style.setProperty('--hh-color-4', 'color4' in options.theme ? options.theme.color4 : '#f5faff');
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));
@@ -222,7 +231,7 @@ class HHDataList {
     col.classList.add('col-12', 'col-lg-6', 'mb-3');
 
     let group = document.createElement('div');
-    group.classList.add('input-group');
+    group.classList.add('input-group', `${inputClass}-group`);
     if (this.controlsAreSmall) { group.classList.add('input-group-sm'); }
 
     let label = document.createElement('label');
@@ -462,7 +471,6 @@ class HHDataList {
         input.setAttribute('title', field.name);
         input.classList.add('form-control');
         if (this.controlsAreSmall) { input.classList.add('form-control-sm'); }
-        input.style.borderColor = '#d9d9d9';
         input.required = field.isRequired;
 
         let div = document.createElement('div');
@@ -475,7 +483,7 @@ class HHDataList {
 
       let createBtn = document.createElement('button');
       createBtn.type = 'submit';
-      createBtn.classList.add('btn', 'btn-secondary');
+      createBtn.classList.add('btn');
       if (this.controlsAreSmall) { createBtn.classList.add('btn-sm'); }
       createBtn.innerHTML = 'Create';
 
@@ -780,7 +788,7 @@ class HHDataList {
     col.classList.add('col-auto', 'mb-3');
 
     let group = document.createElement('div');
-    group.classList.add('input-group');
+    group.classList.add('input-group', 'hh-limiter');
     if (this.controlsAreSmall) { group.classList.add('input-group-sm'); }
 
     let label = document.createElement('label');
@@ -822,7 +830,7 @@ class HHDataList {
     col.classList.add('col-auto', 'mb-3');
 
     let group = document.createElement('div');
-    group.classList.add('input-group');
+    group.classList.add('input-group', 'hh-expander');
     if (this.controlsAreSmall) { group.classList.add('input-group-sm'); }
 
     let label = document.createElement('label');
@@ -830,7 +838,7 @@ class HHDataList {
     label.innerHTML = 'Expanded';
 
     let text = document.createElement('div');
-    text.classList.add('input-group-text');
+    text.classList.add('input-group-text', 'hh-expander-checkbox-group');
 
     let input = document.createElement('input');
     input.type = 'checkbox';
@@ -965,7 +973,7 @@ class HHDataList {
 
     summary.addEventListener('click', (event) => {
       const details = event.target.closest('details');
-      let unsavedProps = details.querySelectorAll('button.btn-danger');
+      let unsavedProps = details.querySelectorAll('div.hh-col-btn button:not(:disabled)');
       if (details.open && unsavedProps.length) {
         event.preventDefault();
         this.confirm('Collapse without Saving?', `The record has ${unsavedProps.length} unsaved ${unsavedProps.length == 1 ? ' field.' : ' fields.'}`, 'Collapse', () => {
@@ -1104,15 +1112,11 @@ class HHDataList {
         if (isForeignKey) { input.classList.add('hh-is-foreign-key'); }
 
         input.addEventListener('input', (event) => {
-          const btn = event.target.closest('div.hh-record-field').querySelector('div.data-row button');
+          const btn = event.target.closest('div.hh-record-field').querySelector('div.hh-data-row button');
           if (event.target.value !== event.target.defaultValue) {
             btn.disabled = false;
-            btn.classList.remove('btn-secondary');
-            btn.classList.add('btn-danger');
           } else {
             btn.disabled = true;
-            btn.classList.remove('btn-danger');
-            btn.classList.add('btn-secondary');
           }
         });
 
@@ -1121,16 +1125,17 @@ class HHDataList {
         labelCol.appendChild(label);
 
         let labelRow = document.createElement('div');
-        labelRow.classList.add('row', 'label-row');
+        labelRow.classList.add('row', 'hh-label-row');
         labelRow.appendChild(labelCol);
 
         let dataElCol = document.createElement('div');
-        dataElCol.classList.add('col', 'col-data');
+        dataElCol.classList.add('col', 'hh-col-data');
         dataElCol.append(input);
 
         let btn = document.createElement('button');
         btn.type = 'button';
-        btn.classList.add('btn', 'btn-secondary', 'btn-sm');
+        btn.classList.add('btn');
+        if (this.controlsAreSmall) { btn.classList.add('btn-sm'); }
         btn.setAttribute('disabled', '');
         btn.innerHTML = '<i class="fas fa-database"></i>';
 
@@ -1139,16 +1144,14 @@ class HHDataList {
           event.stopPropagation();
           const details = event.target.closest('details');
           const row = event.target.closest('div.hh-record-field');
-          const propName = row.querySelector('div.label-row label').title;
-          const input = row.querySelector('div.data-row input');
+          const propName = row.querySelector('div.hh-label-row label').title;
+          const input = row.querySelector('div.hh-data-row input');
           const value = input.value;
-          const btn = row.querySelector('div.data-row button');
+          const btn = row.querySelector('div.hh-data-row button');
           (async () => {
             try {
               await this.dataSrc.patchRecord(this.toRealId(details.id), { updates: `${propName}="${value}"` });
               btn.disabled = true;
-              btn.classList.remove('btn-danger');
-              btn.classList.add('btn-secondary');
               if (input.classList.contains('hh-is-foreign-key') || this.recordTitleFields.includes(propName)) {
                 this.getAndProcessRecord(this.toRealId(details.id));
               } else {
@@ -1161,11 +1164,11 @@ class HHDataList {
         });
 
         let dataBtnCol = document.createElement('div');
-        dataBtnCol.classList.add('col-auto', 'col-btn');
+        dataBtnCol.classList.add('col-auto', 'hh-col-btn');
         dataBtnCol.append(btn);
 
         let dataRow = document.createElement('div');
-        dataRow.classList.add('row', 'gx-1', 'data-row');
+        dataRow.classList.add('row', 'gx-1', 'hh-data-row');
         dataRow.appendChild(dataElCol);
         dataRow.appendChild(dataBtnCol);
 

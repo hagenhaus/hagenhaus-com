@@ -35,6 +35,12 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
+    theme: {
+      color1: '#ffb3b3',
+      color2: '#ffe6e6',
+      color3: '#660000',
+      color4: '#fffafa'
+    },
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
 </script>
