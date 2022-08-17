@@ -1,11 +1,5 @@
 # Options
 
-Ideas for other options:
-
-### displayRecord 
-
-This option enables the developer to replace the standard method with a custom method. Remember to use `this.toUniqueId` and `this.toRealId`.
-
 # confirm
 
 # controlsAreSmall
@@ -74,6 +68,10 @@ Users cannot override.
 # reportInfo
 
 # showTabDescriptions
+
+# theme
+
+# themes
 
 # url
 

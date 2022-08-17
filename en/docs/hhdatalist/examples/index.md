@@ -35,11 +35,11 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: {
-      color1: '#ffb3b3',
+    theme: { // Red
+      color1: '#fffafa',
       color2: '#ffe6e6',
-      color3: '#660000',
-      color4: '#fffafa'
+      color3: '#ffb3b3',
+      color4: '#660000'
     },
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
@@ -57,6 +57,12 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['parkname'],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
+    theme: { // ForestGreen
+      color1: '#eafaea',
+      color2: '#c1f0c1',
+      color3: '#98e698',
+      color4: '#196719'
+    },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
@@ -97,6 +103,12 @@ The Baseball API is a Hagenhaus REST API ...
       newCreate: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
       newCreated: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    theme: { // Orange
+      color1: '#fff6e6',
+      color2: '#ffe4b3',
+      color3: '#ffd280',
+      color4: '#805300'
     },
     url: 'http://localhost:8081/api/baseball/v1/players',
   });

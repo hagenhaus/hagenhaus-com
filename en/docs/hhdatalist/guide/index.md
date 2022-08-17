@@ -30,5 +30,4 @@ HHDataList generates an *information* message when a request returns successfull
 
 # Themes
 
-* [What is Website Theming?](https://www.freecodecamp.org/news/website-theming-with-css-custom-properties-and-gatsbyjs/)
-* [Custom properties (--*): CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)
+<p><img src="theme-colors.png" class="img-fluid d-block" width=800 height=569 loading="lazy"></p>
