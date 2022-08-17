@@ -59,7 +59,6 @@ class HHDataList {
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
     // Set theme values.
-    // this.el.style.setProperty('--hh-color-1', '#b3d9ff');
     this.el.style.setProperty('--hh-color-1', 'color1' in options.theme ? options.theme.color1 : '#b3d9ff');
     this.el.style.setProperty('--hh-color-2', 'color2' in options.theme ? options.theme.color2 : '#e6f2ff');
     this.el.style.setProperty('--hh-color-3', 'color3' in options.theme ? options.theme.color3 : '#004d99');

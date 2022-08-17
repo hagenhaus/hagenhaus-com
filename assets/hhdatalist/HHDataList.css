@@ -199,27 +199,33 @@ div.hh-data-list div.hh-counters {
 }
 
 /*********************************
-* NEW RECORD
+* NEW AND CREATED RECORD
 **********************************/
 
-div.hh-data-list div.hh-new-record details {
+div.hh-data-list div.hh-new-record details,
+div.hh-data-list div.hh-created-record details {
   border-color: var(--hh-color-3);
 }
 
-div.hh-data-list div.hh-new-record details>summary {
+div.hh-data-list div.hh-new-record details>summary,
+div.hh-data-list div.hh-created-record details>summary {
   background-color: var(--hh-color-3);
   border-color: var(--hh-color-3);
   color: white;
 }
 
 div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn,
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn {
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
   border-color: transparent !important;
   color: white;
 }
 
 div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn:hover,
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover {
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn:hover,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
   background: white;
   color: var(--hh-color-3);
 }
@@ -229,7 +235,13 @@ div.hh-data-list div.hh-new-record details input.form-control {
   border-color: var(--hh-color-3);
 }
 
-div.hh-data-list div.hh-new-record details label {
+div.hh-data-list div.hh-created-record details input.form-control {
+  background: var(--hh-color-4);
+  border-color: var(--hh-color-4);
+}
+
+div.hh-data-list div.hh-new-record details label,
+div.hh-data-list div.hh-created-record details label {
   color: var(--hh-color-3);
 }
 
@@ -237,40 +249,6 @@ div.hh-data-list form.hh-new-record-form button {
   background: var(--hh-color-3);
   border-color: var(--hh-color-3) !important;
   color: white;
-}
-
-/*********************************
-* CREATED RECORD - GoldenRod
-**********************************/
-
-div.hh-data-list div.hh-created-record details {
-  border-color: #008000;
-}
-
-div.hh-data-list div.hh-created-record details>summary {
-  background-color: #008000;
-  border-bottom-color: #008000;
-  color: white;
-}
-
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
-  border-color:  #008000 !important;
-  color: white;
-}
-
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons label:hover,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons button:hover {
-  border-color: #008000;
-}
-
-div.hh-data-list div.hh-created-record details input.form-control:disabled {
-  background: #ecf9f1;
-  border-color: #ecf9f1;
-}
-
-div.hh-data-list div.hh-created-record details label {
-  color: #008000;
 }
 
 /*********************************
