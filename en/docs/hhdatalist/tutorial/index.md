@@ -33,3 +33,7 @@
     ``` nonum
     let dataList = new HHDataList(options);
     ```
+
+# Notes
+
+1. It is useful to use swagger to get a field list. Use the field list to define recordFields.

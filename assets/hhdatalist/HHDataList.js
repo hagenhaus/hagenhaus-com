@@ -1,3 +1,15 @@
+const hhDataListThemes = new Map();
+hhDataListThemes.set('blue', { color1: '#f5faff', color2: '#e6f2ff', color3: '#b3d9ff', color4: '#004d99' });
+hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#adebad', color4: '#196719' });
+hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffdb99', color4: '#805300' });
+hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000' });
+hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#d9d9d9', color4: '#4d4d4d' });
+
+const keys = hhDataListThemes.keys();
+for (const key of keys) {
+  console.log(key);
+}
+
 class HHDataList {
 
   /************************************************************************************************
@@ -19,7 +31,6 @@ class HHDataList {
     options.recordsAreNumbered = 'recordsAreNumbered' in options ? options.recordsAreNumbered : true;
     options.showTabDescriptions = 'showTabDescriptions' in options ? options.showTabDescriptions : false;
     options.tabDescriptions = 'tabDescriptions' in options ? options.tabDescriptions : {};
-    options.theme = 'theme' in options ? options.theme : {};
 
     // Set class options.
     this.dataSrc = new HHApi('url' in options ? options.url : null, 'urls' in options ? options.urls : null);
@@ -59,10 +70,27 @@ class HHDataList {
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
     // Set theme values.
-    this.el.style.setProperty('--hh-color-1', 'color1' in options.theme ? options.theme.color1 : '#f5faff');
-    this.el.style.setProperty('--hh-color-2', 'color2' in options.theme ? options.theme.color2 : '#e6f2ff');
-    this.el.style.setProperty('--hh-color-3', 'color3' in options.theme ? options.theme.color3 : '#b3d9ff');
-    this.el.style.setProperty('--hh-color-4', 'color4' in options.theme ? options.theme.color4 : '#004d99');
+    let theme = hhDataListThemes.get('blue');
+    if ('theme' in options) {
+      if (typeof options.theme === 'object') {
+        // Need to validate this object.
+        theme = options.theme;
+      } else if (typeof options.theme === 'string') {
+        let value = hhDataListThemes.get(options.theme.toLowerCase());
+        if (value) {
+          theme = value;
+        } else {
+          // Use default theme. Tell user.
+        }
+      } else {
+        // Use default theme. Tell user.
+      }
+    }
+
+    this.el.style.setProperty('--hh-color-1', theme.color1);
+    this.el.style.setProperty('--hh-color-2', theme.color2);
+    this.el.style.setProperty('--hh-color-3', theme.color3);
+    this.el.style.setProperty('--hh-color-4', theme.color4);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));

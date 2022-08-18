@@ -88,7 +88,7 @@ div.hh-data-list .form-check-input {
 **********************************/
 
 div.hh-data-list ul.hh-tabs {
-  border-color: var(--hh-color-3) !important;
+  border-bottom-color: var(--hh-color-3) !important;
 }
 
 div.hh-data-list ul.hh-tabs button.nav-link {

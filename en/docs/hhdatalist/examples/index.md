@@ -35,12 +35,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: { // Red
-      color1: '#fffafa',
-      color2: '#ffe6e6',
-      color3: '#ffb3b3',
-      color4: '#660000'
-    },
+    theme: 'Red',
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
 </script>
@@ -57,12 +52,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['parkname'],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: { // ForestGreen
-      color1: '#eafaea',
-      color2: '#c1f0c1',
-      color3: '#98e698',
-      color4: '#196719'
-    },
+    theme: 'green',
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
@@ -84,10 +74,21 @@ The Baseball API is a Hagenhaus REST API ...
     order: 'birthYear desc',
     orderPlaceholder: 'birthYear asc, nameLast asc',
     recordColumnCount: 4,
-    // recordFields: [
-    //   { name: 'playerID', label: 'ID' },
-    //   { name: 'nameGiven', label: 'Name', isEditable: true, isRequired: true },
-    // ],
+    recordFields: [
+      { name: 'playerID', label: 'ID' },
+      { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
+      { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
+      { name: 'birthDay', label: 'Birth Day', isEditable: true, isRequired: false },
+      { name: 'birthMonth', label: 'Birth Month', isEditable: true, isRequired: false },
+      { name: 'birthYear', label: 'Birth Year', isEditable: true, isRequired: false },
+      { name: 'birthCity', label: 'Birth City', isEditable: true, isRequired: false },
+      { name: 'birthState', label: 'Birth State', isEditable: true, isRequired: false },
+      { name: 'birthCountry', label: 'Birth Country', isEditable: true, isRequired: false },
+      { name: 'weight', label: 'Weight', isEditable: true, isRequired: false },
+      { name: 'height', label: 'Height', isEditable: true, isRequired: false },
+      { name: 'bats', label: 'Bats', isEditable: true, isRequired: false },
+      { name: 'throws', label: 'Throws', isEditable: true, isRequired: false },
+    ],
     recordIdField: 'playerID',
     recordsAreExpanded: false,
     recordsAreNumbered: true,
@@ -104,12 +105,7 @@ The Baseball API is a Hagenhaus REST API ...
       newCreated: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     },
-    theme: { // Orange
-      color1: '#fff6e6',
-      color2: '#ffe4b3',
-      color3: '#ffd280',
-      color4: '#805300'
-    },
+    theme: 'orange',
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
@@ -128,6 +124,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
+    theme: 'silver',
     url: 'http://localhost:8081/api/baseball/v1/teams',
   });
 </script>
