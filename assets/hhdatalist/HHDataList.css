@@ -87,17 +87,20 @@ div.hh-data-list .form-check-input {
 * CONTROL ROW
 **********************************/
 
-div.hh-data-list ul.hh-tabs {
-  border-bottom-color: var(--hh-color-3) !important;
+div.hh-data-list ul.nav-tabs {
+  border-bottom: 1px solid var(--hh-color-4);
 }
 
-div.hh-data-list ul.hh-tabs button.nav-link {
-  border-color: transparent !important;
+div.hh-data-list ul.nav-tabs>li>button {
+  border: 1px solid transparent !important;
   color: var(--hh-color-4);
 }
 
-div.hh-data-list ul.hh-tabs button.nav-link.active {
-  border-color: var(--hh-color-3) var(--hh-color-3) #fff !important;
+div.hh-data-list ul.nav-tabs>li>button.active {
+  border-top-color: var(--hh-color-4) !important;
+  border-right-color: var(--hh-color-4) !important;
+  border-left-color: var(--hh-color-4) !important;
+  color: var(--hh-color-4);
 }
 
 div.hh-data-list div.hh-paginator,
@@ -105,6 +108,7 @@ div.hh-data-list div.hh-limiter,
 div.hh-data-list div.hh-expander,
 div.hh-data-list div.hh-filter-group,
 div.hh-data-list div.hh-order-group {
+  background: var(--hh-color-2);
   border: 1px solid var(--hh-color-3);
   border-radius: .25rem;
 }
@@ -171,6 +175,11 @@ div.hh-data-list div.hh-fields-wrapper {
 div.hh-data-list div.tab-content div.tab-pane div.hh-tab-description {
   font-size: 92%;
   margin-left: 2px;
+}
+
+div.hh-data-list div.tab-content div.tab-pane div.hh-tab-description>a {
+  color: var(--hh-color-4) !important;
+  font-weight: 500;
 }
 
 div.hh-data-list div.tab-content div.hh-home-pane button:not(:hover),

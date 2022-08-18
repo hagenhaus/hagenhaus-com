@@ -37,3 +37,5 @@
 # Notes
 
 1. It is useful to use swagger to get a field list. Use the field list to define recordFields.
+1. Clear fields and then add them in the order you want to see them. Like, for Baseball Players, add first name, last name, birth year, death year. 
+1. Find all the players where playerID != bbrefID.

@@ -4,59 +4,6 @@
 
 The Baseball API is a Hagenhaus REST API ...
 
-## Leagues
-
-<div id="baseball-leagues-datalist" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'baseball-leagues-datalist',
-    recordColumnCount: 3,
-    recordIdField: 'lgID',
-    recordTitleFields: ['league'],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
-    url: 'http://localhost:8081/api/baseball/v1/leagues',
-  });
-</script>
-
-## Managers
-
-<div id="baseball-managers-datalist" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'baseball-managers-datalist',
-    recordColumnCount: 4,
-    recordIdField: 'ID',
-    recordTitleFields: ['playerID','yearID'],
-    recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
-    theme: 'Red',
-    url: 'http://localhost:8081/api/baseball/v1/managers',
-  });
-</script>
-
-## Parks
-
-<div id="baseball-parks-datalist" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'baseball-parks-datalist',
-    recordIdField: 'ID',
-    recordTitleFields: ['parkname'],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
-    theme: 'green',
-    url: 'http://localhost:8081/api/baseball/v1/parks',
-  });
-</script>
-
 ## Players
 
 <div id="baseball-players-datalist" class="hh-data-list"></div>
@@ -78,16 +25,27 @@ The Baseball API is a Hagenhaus REST API ...
       { name: 'playerID', label: 'ID' },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
       { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
+      { name: 'nameGiven', label: 'Given Name', isEditable: true, isRequired: true, isChecked: false },
       { name: 'birthDay', label: 'Birth Day', isEditable: true, isRequired: false },
       { name: 'birthMonth', label: 'Birth Month', isEditable: true, isRequired: false },
       { name: 'birthYear', label: 'Birth Year', isEditable: true, isRequired: false },
       { name: 'birthCity', label: 'Birth City', isEditable: true, isRequired: false },
       { name: 'birthState', label: 'Birth State', isEditable: true, isRequired: false },
       { name: 'birthCountry', label: 'Birth Country', isEditable: true, isRequired: false },
+      { name: 'deathDay', label: 'Death Day', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'deathMonth', label: 'Death Month', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'deathYear', label: 'Death Year', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'deathCity', label: 'Death City', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'deathState', label: 'Death State', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'deathCountry', label: 'Death Country', isEditable: true, isRequired: false, isChecked: false },
       { name: 'weight', label: 'Weight', isEditable: true, isRequired: false },
       { name: 'height', label: 'Height', isEditable: true, isRequired: false },
       { name: 'bats', label: 'Bats', isEditable: true, isRequired: false },
       { name: 'throws', label: 'Throws', isEditable: true, isRequired: false },
+      { name: 'debut', label: 'Debut Date', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'finalGame', label: 'Final Game Date', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'retroID', label: 'retroID', isEditable: true, isRequired: false, isChecked: false },
+      { name: 'bbrefID', label: 'bbrefID', isEditable: true, isRequired: false, isChecked: false },    
     ],
     recordIdField: 'playerID',
     recordsAreExpanded: false,
@@ -96,16 +54,16 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    showTabDescriptions: false,
+    showTabDescriptions: true,
     tabDescriptions: {
       home: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur',
-      search: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.',
+      search: 'See the <a href="/en/docs/rest-api/query-parameters/" target="_blank">Query Parameters</a> page for more information about filtering and ordering records. Clicking the link opens a new tab.',
       fields: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.',
       newCreate: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
       newCreated: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     },
-    theme: 'orange',
+    theme: 'blue',
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
@@ -126,6 +84,60 @@ The Baseball API is a Hagenhaus REST API ...
     reportInfo: (info) => { reportInfo(info); },
     theme: 'silver',
     url: 'http://localhost:8081/api/baseball/v1/teams',
+  });
+</script>
+
+## Leagues
+
+<div id="baseball-leagues-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'baseball-leagues-datalist',
+    recordColumnCount: 3,
+    recordIdField: 'lgID',
+    recordTitleFields: ['league'],
+    reportError: (error) => { reportError(error); },
+    reportInfo: (info) => { reportInfo(info); },
+    theme: 'orange',
+    url: 'http://localhost:8081/api/baseball/v1/leagues',
+  });
+</script>
+
+## Parks
+
+<div id="baseball-parks-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'baseball-parks-datalist',
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (error) => { reportError(error); },
+    reportInfo: (info) => { reportInfo(info); },
+    theme: 'green',
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
+## Managers
+
+<div id="baseball-managers-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'baseball-managers-datalist',
+    recordColumnCount: 4,
+    recordIdField: 'ID',
+    recordTitleFields: ['playerID','yearID'],
+    recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
+    reportError: (error) => { reportError(error); },
+    reportInfo: (info) => { reportInfo(info); },
+    theme: 'Red',
+    url: 'http://localhost:8081/api/baseball/v1/managers',
   });
 </script>
 
@@ -169,7 +181,16 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => r[f[0]],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    showTabDescriptions: false,
+    showTabDescriptions: true,
+    tabDescriptions: {
+      home: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur',
+      search: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.',
+      fields: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.',
+      newCreate: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
+      newCreated: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    theme: 'blue',
     urls: {
       deleteRecord: 'http://localhost:8081/api/devportals/v1/portals',
       getRecord: 'http://localhost:8081/api/devportals/v1/portals',

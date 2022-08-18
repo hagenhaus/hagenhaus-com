@@ -1,5 +1,5 @@
 const hhDataListThemes = new Map();
-hhDataListThemes.set('blue', { color1: '#f5faff', color2: '#e6f2ff', color3: '#b3d9ff', color4: '#004d99' });
+hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#b6cee2', color4: '#325d81' });
 hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#adebad', color4: '#196719' });
 hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffdb99', color4: '#805300' });
 hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000' });

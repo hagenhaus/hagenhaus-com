@@ -2,7 +2,7 @@
 
 # User Interface
 
-<p><img src="ui.png" class="img-fluid d-block" width=900 height=432 loading="lazy"></p>
+<p><img src="ui.png" class="img-fluid d-block" width=800 height=567 loading="lazy"></p>
 
 # Assistive Technology
 
@@ -32,4 +32,4 @@ HHDataList generates an *information* message when a request returns successfull
 
 # Themes
 
-<p><img src="theme-colors.png" class="img-fluid d-block" width=800 height=569 loading="lazy"></p>
+<p><img src="theme-colors.png" class="img-fluid d-block" width=685 height=512 loading="lazy"></p>
