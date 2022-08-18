@@ -5,10 +5,10 @@ hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '
 hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000' });
 hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#d9d9d9', color4: '#4d4d4d' });
 
-const keys = hhDataListThemes.keys();
-for (const key of keys) {
-  console.log(key);
-}
+// const keys = hhDataListThemes.keys();
+// for (const key of keys) {
+//   console.log(key);
+// }
 
 class HHDataList {
 
@@ -384,7 +384,7 @@ class HHDataList {
       label.innerHTML = field.name;
 
       let div = document.createElement('div');
-      div.classList.add('col-12', 'col-lg-6', 'form-check');
+      div.classList.add('col-12', `col-xl-${this.recordColSize}`, 'form-check');
 
       div.appendChild(input);
       div.appendChild(label);
@@ -1267,14 +1267,10 @@ class HHDataList {
 
   getAndProcessRecords() {
     if (this.el.querySelector('input.hh-records-are-expanded').checked) {
-      if (this.recordFields.length) {
-        let arr = this.essentialFields;
-        for (let field of this.getCheckedRecordFields().array) {
-          if (!this.essentialFields.includes(field)) { arr.push(field); }
-        }
-        this.queryObject.fields = arr.join(',');
-      } else { this.queryObject.fields = '*'; }
-    } else { this.queryObject.fields = this.essentialFields.join(','); }
+      this.setFields();
+    } else {
+      this.queryObject.fields = this.essentialFields.join(',');
+    }
     this.dataSrc.getAndProcessRecords(this.queryObject, this.processRecords.bind(this), this.reportError.bind(this));
   }
 
@@ -1283,14 +1279,26 @@ class HHDataList {
   ************************************************************************************************/
 
   getAndProcessRecord(id) {
+    this.setFields();
+    this.dataSrc.getAndProcessRecord(id, this.queryObject, this.processRecord.bind(this), this.reportError.bind(this));
+  }
+
+  /************************************************************************************************
+  * setFields
+  ************************************************************************************************/
+
+  setFields() {
     if (this.recordFields.length) {
-      let arr = this.essentialFields;
-      for (let field of this.getCheckedRecordFields().array) {
-        if (!this.essentialFields.includes(field)) { arr.push(field); }
+      let arr = this.getCheckedRecordFields().array;
+      for (let field of this.essentialFields) {
+        if (!arr.includes(field)) {
+          arr.push(field);
+        }
       }
       this.queryObject.fields = arr.join(',');
-    } else { this.queryObject.fields = '*'; }
-    this.dataSrc.getAndProcessRecord(id, this.queryObject, this.processRecord.bind(this), this.reportError.bind(this));
+    } else {
+      this.queryObject.fields = '*';
+    }
   }
 
   /************************************************************************************************

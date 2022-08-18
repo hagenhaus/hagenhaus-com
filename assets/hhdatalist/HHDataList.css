@@ -2,6 +2,16 @@
 * GENERAL
 **********************************/
 
+/* .revert * { all: revert; } */
+
+/* 
+So, I can revert per property.
+*/
+
+/* div.hh-data-list button {
+  border: revert;
+} */
+
 div.hh-data-list details {
   border-radius: 5px;
   border-style: solid;
@@ -88,7 +98,7 @@ div.hh-data-list .form-check-input {
 **********************************/
 
 div.hh-data-list ul.nav-tabs {
-  border-bottom: 1px solid var(--hh-color-4);
+  border-bottom: 1px solid var(--hh-color-3);
 }
 
 div.hh-data-list ul.nav-tabs>li>button {
@@ -97,9 +107,9 @@ div.hh-data-list ul.nav-tabs>li>button {
 }
 
 div.hh-data-list ul.nav-tabs>li>button.active {
-  border-top-color: var(--hh-color-4) !important;
-  border-right-color: var(--hh-color-4) !important;
-  border-left-color: var(--hh-color-4) !important;
+  border-top-color: var(--hh-color-3) !important;
+  border-right-color: var(--hh-color-3) !important;
+  border-left-color: var(--hh-color-3) !important;
   color: var(--hh-color-4);
 }
 
