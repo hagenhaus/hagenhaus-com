@@ -1,4 +1,4 @@
-# Release Notes
+# HHDataList Release Notes
 
 Each release should do the following:
 

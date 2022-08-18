@@ -1,4 +1,4 @@
-# Hagenhaus REST API
+# REST API Examples
 
 # Baseball API
 

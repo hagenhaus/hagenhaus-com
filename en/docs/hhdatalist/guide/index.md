@@ -1,4 +1,4 @@
-# Guide
+# HHDataList Guide
 
 # User Interface
 
@@ -27,6 +27,8 @@ HHDataList generates an *information* message when a request returns successfull
 # Logging
 
 # Tab Descriptions
+
+# Tables vs Views
 
 # Themes
 

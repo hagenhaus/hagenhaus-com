@@ -1,4 +1,4 @@
-# Tutorial
+# HHDataList Tutorial
 
 1. Include `HHDataList.min.css` on the page:
 
