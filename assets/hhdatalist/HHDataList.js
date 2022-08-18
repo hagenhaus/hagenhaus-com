@@ -491,7 +491,8 @@ class HHDataList {
       for (let field of newRecordFields) {
         let label = document.createElement('label');
         label.classList.add('form-label');
-        label.innerHTML = field.label;
+        // label.innerHTML = field.label;
+        label.innerHTML = field.isRequired ? `${field.label}*` : field.label;
 
         let input = document.createElement('input');
         input.type = 'text';
