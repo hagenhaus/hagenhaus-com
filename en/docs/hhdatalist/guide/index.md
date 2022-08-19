@@ -32,4 +32,4 @@ HHDataList generates an *information* message when a request returns successfull
 
 # Themes
 
-<p><img src="theme-colors.png" class="img-fluid d-block" width=685 height=512 loading="lazy"></p>
+<p><img src="theme-colors.png" class="img-fluid d-block" width=685 height=293 loading="lazy"></p>

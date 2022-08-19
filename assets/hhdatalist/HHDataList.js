@@ -1,9 +1,14 @@
 const hhDataListThemes = new Map();
-hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#b6cee2', color4: '#325d81' });
-hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#adebad', color4: '#196719' });
-hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffdb99', color4: '#805300' });
-hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000' });
-hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#d9d9d9', color4: '#4d4d4d' });
+hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#b6cee2', color4: '#325d81', color5: '#325d81' });
+hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#adebad', color4: '#196719', color5: '#196719' });
+hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffdb99', color4: '#805300', color5: '#805300' });
+hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000', color5: '#660000' });
+hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#d9d9d9', color4: '#4d4d4d', color5: '#4d4d4d' });
+// hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#dae7f1', color4: '#325d81', color5: '#325d81' });
+// hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#eafaea', color4: '#196719', color5: '#196719' });
+// hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffedcc', color4: '#805300', color5: '#805300' });
+// hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffe6e6', color4: '#660000', color5: '#660000' });
+// hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#f2f2f2', color4: '#4d4d4d', color5: '#4d4d4d' });
 
 // const keys = hhDataListThemes.keys();
 // for (const key of keys) {
@@ -65,8 +70,8 @@ class HHDataList {
     this.tabDescriptions.home = 'home' in options.tabDescriptions ? options.tabDescriptions.home : null;
     this.tabDescriptions.search = 'search' in options.tabDescriptions ? options.tabDescriptions.search : null;
     this.tabDescriptions.fields = 'fields' in options.tabDescriptions ? options.tabDescriptions.fields : null;
-    this.tabDescriptions.newCreate = 'newCreate' in options.tabDescriptions ? options.tabDescriptions.newCreate : null;
-    this.tabDescriptions.newCreated = 'newCreated' in options.tabDescriptions ? options.tabDescriptions.newCreated : null;
+    this.tabDescriptions.new = 'new' in options.tabDescriptions ? options.tabDescriptions.new : null;
+    this.tabDescriptions.created = 'created' in options.tabDescriptions ? options.tabDescriptions.created : null;
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
     // Set theme values.
@@ -91,6 +96,7 @@ class HHDataList {
     this.el.style.setProperty('--hh-color-2', theme.color2);
     this.el.style.setProperty('--hh-color-3', theme.color3);
     this.el.style.setProperty('--hh-color-4', theme.color4);
+    this.el.style.setProperty('--hh-color-5', theme.color5);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));
@@ -461,8 +467,8 @@ class HHDataList {
     col.appendChild(details);
     row.appendChild(col);
 
-    if (this.tabDescriptions.newCreate) {
-      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.newCreate, options.showTabDescriptions));
+    if (this.tabDescriptions.new) {
+      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.new, options.showTabDescriptions));
     }
 
     wrapper.appendChild(row);
@@ -584,8 +590,8 @@ class HHDataList {
     wrapper.classList.add('hh-created-record-wrapper', 'mb-3');
     wrapper.style.display = 'none';
 
-    if (this.tabDescriptions.newCreated) {
-      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.newCreated, options.showTabDescriptions));
+    if (this.tabDescriptions.created) {
+      wrapper.appendChild(this.createTabDescription(this.tabDescriptions.created, options.showTabDescriptions));
     }
 
     let row = document.createElement('div');

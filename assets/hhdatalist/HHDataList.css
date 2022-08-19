@@ -98,7 +98,7 @@ div.hh-data-list .form-check-input {
 **********************************/
 
 div.hh-data-list ul.nav-tabs {
-  border-bottom: 1px solid var(--hh-color-3);
+  border-bottom: 1px solid var(--hh-color-4);
 }
 
 div.hh-data-list ul.nav-tabs>li>button {
@@ -107,9 +107,9 @@ div.hh-data-list ul.nav-tabs>li>button {
 }
 
 div.hh-data-list ul.nav-tabs>li>button.active {
-  border-top-color: var(--hh-color-3) !important;
-  border-right-color: var(--hh-color-3) !important;
-  border-left-color: var(--hh-color-3) !important;
+  border-top-color: var(--hh-color-4) !important;
+  border-right-color: var(--hh-color-4) !important;
+  border-left-color: var(--hh-color-4) !important;
   color: var(--hh-color-4);
 }
 
@@ -120,16 +120,40 @@ div.hh-data-list div.hh-filter-group,
 div.hh-data-list div.hh-order-group {
   background: var(--hh-color-2);
   border: 1px solid var(--hh-color-3);
-  border-radius: .25rem;
+  border-radius: 5px;
 }
+
+/* HERE */
+/* div.hh-data-list div.hh-paginator {
+  pointer-events: none;
+  &:hover {
+    border: 1px solid var(--hh-color-4);
+  }
+  button {
+    pointer-events: auto;
+    &:hover {
+      color: red; // this hover only for the a 
+    }
+  }
+} */
 
 div.hh-data-list div.hh-paginator button,
 div.hh-data-list div.hh-filter-group button,
 div.hh-data-list div.hh-order-group button {
   border-color: transparent !important;
-  color: var(--hh-color-4) !important;
+  color: var(--hh-color-5) !important;
 }
 
+/* TRYING THIS */
+/* div.hh-data-list div.hh-paginator button:not(:disabled):hover,
+div.hh-data-list div.hh-filter-group button:hover,
+div.hh-data-list div.hh-order-group button:hover {
+  background: var(--hh-color-5) !important;
+  border-color: var(--hh-color-5) !important;
+  color: var(--hh-color-2) !important;
+} */
+
+/* INSTEAD OF THIS */
 div.hh-data-list div.hh-paginator button:not(:disabled):hover,
 div.hh-data-list div.hh-filter-group button:hover,
 div.hh-data-list div.hh-order-group button:hover {
@@ -143,7 +167,7 @@ div.hh-data-list div.hh-filter-group label,
 div.hh-data-list div.hh-order-group label {
   background: var(--hh-color-2);
   border-color: transparent !important;
-  color: var(--hh-color-4) !important;
+  color: var(--hh-color-5) !important;
 }
 
 div.hh-data-list div.hh-limiter select,
@@ -282,20 +306,20 @@ div.hh-data-list div.hh-records details {
 div.hh-data-list div.hh-records details>summary {
   background-color: var(--hh-color-2);
   border-bottom-color: var(--hh-color-3);
-  color: var(--hh-color-4);
+  color: var(--hh-color-5);
 }
 
 div.hh-data-list div.hh-records details>summary div.hh-buttons label.btn,
 div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
   border-color: transparent !important;
-  color: var(--hh-color-4);
+  color: var(--hh-color-5);
 }
 
 div.hh-data-list div.hh-records details>summary div.hh-buttons label:hover,
 div.hh-data-list div.hh-records details>summary div.hh-buttons button:hover {
-  background: var(--hh-color-4) !important;
-  border-color: var(--hh-color-4) !important;
-  color: white;
+  background: var(--hh-color-5) !important;
+  border-color: var(--hh-color-5) !important;
+  color: var(--hh-color-2);
 }
 
 div.hh-data-list div.hh-records details>summary div.hh-buttons button.active {
