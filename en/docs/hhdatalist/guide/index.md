@@ -31,5 +31,3 @@ HHDataList generates an *information* message when a request returns successfull
 # Tables vs Views
 
 # Themes
-
-<p><img src="theme-colors.png" class="img-fluid d-block" width=685 height=293 loading="lazy"></p>

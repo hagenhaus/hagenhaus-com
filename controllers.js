@@ -200,7 +200,12 @@ export const postPortal = (req, res) => {
       else if (!url || !url.length) { sendError(res, { code: 'required-field', subMessage: 'url' }); }
       else if (!companyId || !companyId.length) { sendError(res, { code: 'required-field', subMessage: 'companyId' }); }
       else {
-        const proc = `call insertPortal(${mysql.escape(name)},${mysql.escape(url)},${mysql.escape(companyId)},${fields},${allowJoinedFields})`;
+        const proc = `call insertPortal(
+          ${mysql.escape(name)},
+          ${mysql.escape(url)},
+          ${mysql.escape(companyId)},
+          ${fields},
+          ${allowJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) { sendError(res, error); }
@@ -242,6 +247,63 @@ export const getBaseballPlayers = (req, res) => { getRecords(baseballDb, 'people
 export const getBaseballPlayer = (req, res) => { getRecord(baseballDb, 'people', 'playerId', req, res); };
 export const getBaseballTeams = (req, res) => { getRecords(baseballDb, 'teams', req, res); };
 export const getBaseballTeam = (req, res) => { getRecord(baseballDb, 'teams', 'ID', req, res); };
+
+export const postBaseballPlayer = (req, res) => {
+  baseballDb.getConnection((err, conn) => {
+    if (err) { sendError(res, err); }
+    else {
+      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+
+      const playerID = 'playerID' in req.body ? req.body.playerID : null;
+      const birthYear = 'birthYear' in req.body ? req.body.birthYear : null;
+      const birthMonth = 'birthMonth' in req.body ? req.body.birthMonth : null;
+      const birthDay = 'birthDay' in req.body ? req.body.birthDay : null;
+      const birthCountry = 'birthCountry' in req.body ? req.body.birthCountry : null;
+      const birthState = 'birthState' in req.body ? req.body.birthState : null;
+      const birthCity = 'birthCity' in req.body ? req.body.birthCity : null;
+      const deathYear = 'deathYear' in req.body ? req.body.deathYear : null;
+      const deathMonth = 'deathMonth' in req.body ? req.body.deathMonth : null;
+      const deathDay = 'deathDay' in req.body ? req.body.deathDay : null;
+      const deathCountry = 'deathCountry' in req.body ? req.body.deathCountry : null;
+      const deathState = 'deathState' in req.body ? req.body.deathState : null;
+      const deathCity = 'deathCity' in req.body ? req.body.deathCity : null;
+      const nameFirst = 'nameFirst' in req.body ? req.body.nameFirst : null;
+      const nameLast = 'nameLast' in req.body ? req.body.nameLast : null;
+      const nameGiven = 'nameGiven' in req.body ? req.body.nameGiven : null;
+      const weight = 'weight' in req.body ? req.body.weight : null;
+      const height = 'height' in req.body ? req.body.height : null;
+      const bats = 'bats' in req.body ? req.body.bats : null;
+      const throws = 'throws' in req.body ? req.body.throws : null;
+      const debut = 'debut' in req.body ? req.body.debut : null;
+      const finalGame = 'finalGame' in req.body ? req.body.finalGame : null;
+      const retroID = 'retroID' in req.body ? req.body.retroID : null;
+      const bbrefID = 'bbrefID' in req.body ? req.body.bbrefID : null;
+      const birth_date = 'birth_date' in req.body ? req.body.birth_date : null;
+      const debut_date = 'debut_date' in req.body ? req.body.debut_date : null;
+      const finalgame_date = 'finalgame_date' in req.body ? req.body.finalgame_date : null;
+      const death_date = 'death_date' in req.body ? req.body.death_date : null;
+
+      if (!playerID || !playerID.length) { sendError(res, { code: 'required-field', subMessage: 'playerID' }); }
+      else if (!nameFirst || !nameFirst.length) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
+      else if (!nameLast || !nameLast.length) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
+      else {
+        // Replace with player fields.
+        const proc = `call insertPortal(
+          ${mysql.escape(name)},
+          ${mysql.escape(url)},
+          ${mysql.escape(companyId)},
+          ${fields},
+          ${allowJoinedFields})`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) { sendError(res, error); }
+          else { res.status(201).send(results[0][0]); }
+        });
+      }
+    }
+  });
+};
 
 /************************************************************************************************
 * sendError

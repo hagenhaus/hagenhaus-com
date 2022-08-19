@@ -1,14 +1,83 @@
 const hhDataListThemes = new Map();
-hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#b6cee2', color4: '#325d81', color5: '#325d81' });
-hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#adebad', color4: '#196719', color5: '#196719' });
-hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffdb99', color4: '#805300', color5: '#805300' });
-hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffb3b3', color4: '#660000', color5: '#660000' });
-hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#d9d9d9', color4: '#4d4d4d', color5: '#4d4d4d' });
-// hhDataListThemes.set('blue', { color1: '#edf3f8', color2: '#dae7f1', color3: '#dae7f1', color4: '#325d81', color5: '#325d81' });
-// hhDataListThemes.set('green', { color1: '#eafaea', color2: '#eafaea', color3: '#eafaea', color4: '#196719', color5: '#196719' });
-// hhDataListThemes.set('orange', { color1: '#fff6e6', color2: '#ffedcc', color3: '#ffedcc', color4: '#805300', color5: '#805300' });
-// hhDataListThemes.set('red', { color1: '#fef8f7', color2: '#ffe6e6', color3: '#ffe6e6', color4: '#660000', color5: '#660000' });
-// hhDataListThemes.set('silver', { color1: '#f2f2f2', color2: '#f2f2f2', color3: '#f2f2f2', color4: '#4d4d4d', color5: '#4d4d4d' });
+
+hhDataListThemes.set(
+  'blue-light', {
+  mode: 'hh-light',
+  color1: '#edf3f8',
+  color2: '#dae7f1',
+  color3: '#b6cee2',
+  color4: '#325d81',
+  color5: '#325d81',
+  color6: '#325d81',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
+hhDataListThemes.set(
+  'green-light', {
+  mode: 'hh-light',
+  color1: '#eafaea',
+  color2: '#eafaea',
+  color3: '#adebad',
+  color4: '#196719',
+  color5: '#ff1a40',
+  color6: '#196719',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
+hhDataListThemes.set(
+  'orange-light', {
+  mode: 'hh-light',
+  color1: '#fff6e6',
+  color2: '#ffedcc',
+  color3: '#ffdb99',
+  color4: '#805300',
+  color5: '#ff1a40',
+  color6: '#805300',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
+hhDataListThemes.set(
+  'red-light', {
+  mode: 'hh-light',
+  color1: '#fef8f7',
+  color2: '#ffe6e6',
+  color3: '#ffb3b3',
+  color4: '#660000',
+  color5: '#ff1a40',
+  color6: '#660000',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
+hhDataListThemes.set(
+  'silver-light', {
+  mode: 'hh-light',
+  color1: '#f2f2f2',
+  color2: '#f2f2f2',
+  color3: '#d9d9d9',
+  color4: '#4d4d4d',
+  color5: '#ff1a40',
+  color6: '#4d4d4d',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
+hhDataListThemes.set(
+  'teal-dark', {
+  mode: 'hh-dark',
+  color1: '#eef7f7', 
+  color2: '#008080', 
+  color3: '#008080', 
+  color4: '#004d4d',
+  color5: '#ff1a40' ,
+  color6: '#004d4d',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+});
 
 // const keys = hhDataListThemes.keys();
 // for (const key of keys) {
@@ -97,6 +166,10 @@ class HHDataList {
     this.el.style.setProperty('--hh-color-3', theme.color3);
     this.el.style.setProperty('--hh-color-4', theme.color4);
     this.el.style.setProperty('--hh-color-5', theme.color5);
+    this.el.style.setProperty('--hh-color-6', theme.color6);
+    this.el.style.setProperty('--hh-color-7', theme.color7);
+    this.el.style.setProperty('--hh-color-8', theme.color8);
+    this.el.style.setProperty('--hh-color-9', theme.color9);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));

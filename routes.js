@@ -94,6 +94,7 @@ export const routes = (app) => {
     .get(controllers.getBaseballPark);
 
   app.route('/api/baseball/v1/players')
+    .post(controllers.postBaseballPlayer)
     .get(controllers.getBaseballPlayers);
 
   app.route('/api/baseball/v1/players/:id')
