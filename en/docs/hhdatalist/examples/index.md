@@ -22,7 +22,7 @@ The Baseball API is a Hagenhaus REST API ...
     orderPlaceholder: 'birthYear asc, nameLast asc',
     recordColumnCount: 4,
     recordFields: [
-      { name: 'playerID', label: 'ID', isEditable: true, isRequired: true },
+      { name: 'playerID', label: 'ID', isChecked: false },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
       { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
       { name: 'nameGiven', label: 'Given Name', isEditable: true, isChecked: false },
@@ -67,6 +67,32 @@ The Baseball API is a Hagenhaus REST API ...
   });
 </script>
 
+## Parks
+
+<div id="baseball-parks-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'baseball-parks-datalist',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (error) => { reportError(error); },
+    reportInfo: (info) => { reportInfo(info); },
+    theme: 'teal-dark',
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
 ## Teams
 
 <div id="baseball-teams-datalist" class="hh-data-list"></div>
@@ -81,7 +107,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'teal-dark',
+    theme: 'green-light',
     url: 'http://localhost:8081/api/baseball/v1/teams',
   });
 </script>
@@ -101,23 +127,6 @@ The Baseball API is a Hagenhaus REST API ...
     reportInfo: (info) => { reportInfo(info); },
     theme: 'orange-light',
     url: 'http://localhost:8081/api/baseball/v1/leagues',
-  });
-</script>
-
-## Parks
-
-<div id="baseball-parks-datalist" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'baseball-parks-datalist',
-    recordIdField: 'ID',
-    recordTitleFields: ['parkname'],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
-    theme: 'green-light',
-    url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
 

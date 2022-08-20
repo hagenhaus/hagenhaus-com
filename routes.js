@@ -88,17 +88,22 @@ export const routes = (app) => {
     .get(controllers.getBaseballManager);
 
   app.route('/api/baseball/v1/parks')
+    .post(controllers.postBaseballPark)
     .get(controllers.getBaseballParks);
 
   app.route('/api/baseball/v1/parks/:id')
-    .get(controllers.getBaseballPark);
+    .get(controllers.getBaseballPark)
+    .patch(controllers.patchBaseballPark)
+    .delete(controllers.deleteBaseballPark);
 
   app.route('/api/baseball/v1/players')
     .post(controllers.postBaseballPlayer)
     .get(controllers.getBaseballPlayers);
 
   app.route('/api/baseball/v1/players/:id')
-    .get(controllers.getBaseballPlayer);
+    .get(controllers.getBaseballPlayer)
+    .patch(controllers.patchBaseballPlayer)
+    .delete(controllers.deleteBaseballPlayer);
 
   app.route('/api/baseball/v1/teams')
     .get(controllers.getBaseballTeams);

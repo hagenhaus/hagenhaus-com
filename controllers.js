@@ -184,6 +184,20 @@ export const getIndustries = (req, res) => { getRecords(portalsDb, 'industries',
 export const getIndustry = (req, res) => { getRecord(portalsDb, 'industries', 'id', req, res); };
 export const getIndustryGroups = (req, res) => { getRecords(portalsDb, 'industryGroups', req, res); };
 export const getIndustryGroup = (req, res) => { getRecord(portalsDb, 'industryGroups', 'id', req, res); };
+export const getPortals = (req, res) => {
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
+  getRecords(portalsDb, table, req, res);
+};
+export const getPortal = (req, res) => {
+  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
+  getRecord(portalsDb, table, 'id', req, res);
+};
+export const patchPortal = (req, res) => { patchRecord(portalsDb, 'portals', 'id', req, res); };
+export const deletePortal = (req, res) => { deleteRecord(portalsDb, 'portals', 'id', req, res); };
+export const getSectors = (req, res) => { getRecords(portalsDb, 'sectors', req, res); };
+export const getSector = (req, res) => { getRecord(portalsDb, 'sectors', 'id', req, res); };
+export const getSubindustries = (req, res) => { getRecords(portalsDb, 'subindustries', req, res); };
+export const getSubindustry = (req, res) => { getRecord(portalsDb, 'subindustries', 'id', req, res); };
 
 export const postPortal = (req, res) => {
   portalsDb.getConnection((err, conn) => {
@@ -216,22 +230,7 @@ export const postPortal = (req, res) => {
   });
 };
 
-export const getPortals = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecords(portalsDb, table, req, res);
-};
 
-export const getPortal = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecord(portalsDb, table, 'id', req, res);
-};
-
-export const patchPortal = (req, res) => { patchRecord(portalsDb, 'portals', 'id', req, res); };
-export const deletePortal = (req, res) => { deleteRecord(portalsDb, 'portals', 'id', req, res); };
-export const getSectors = (req, res) => { getRecords(portalsDb, 'sectors', req, res); };
-export const getSector = (req, res) => { getRecord(portalsDb, 'sectors', 'id', req, res); };
-export const getSubindustries = (req, res) => { getRecords(portalsDb, 'subindustries', req, res); };
-export const getSubindustry = (req, res) => { getRecord(portalsDb, 'subindustries', 'id', req, res); };
 
 /************************************************************************************************
 * Baseball
@@ -247,6 +246,10 @@ export const getBaseballPlayers = (req, res) => { getRecords(baseballDb, 'people
 export const getBaseballPlayer = (req, res) => { getRecord(baseballDb, 'people', 'playerId', req, res); };
 export const getBaseballTeams = (req, res) => { getRecords(baseballDb, 'teams', req, res); };
 export const getBaseballTeam = (req, res) => { getRecord(baseballDb, 'teams', 'ID', req, res); };
+export const patchBaseballPlayer = (req, res) => { patchRecord(baseballDb, 'people', 'playerId', req, res); };
+export const deleteBaseballPlayer = (req, res) => { deleteRecord(baseballDb, 'people', 'playerId', req, res); };
+export const patchBaseballPark = (req, res) => { patchRecord(baseballDb, 'parks', 'ID', req, res); };
+export const deleteBaseballPark = (req, res) => { deleteRecord(baseballDb, 'parks', 'ID', req, res); };
 
 export const postBaseballPlayer = (req, res) => {
   baseballDb.getConnection((err, conn) => {
@@ -255,44 +258,67 @@ export const postBaseballPlayer = (req, res) => {
       const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
       const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
 
-      const playerID = 'playerID' in req.body ? req.body.playerID : null;
-      const birthYear = 'birthYear' in req.body ? req.body.birthYear : null;
-      const birthMonth = 'birthMonth' in req.body ? req.body.birthMonth : null;
-      const birthDay = 'birthDay' in req.body ? req.body.birthDay : null;
-      const birthCountry = 'birthCountry' in req.body ? req.body.birthCountry : null;
-      const birthState = 'birthState' in req.body ? req.body.birthState : null;
-      const birthCity = 'birthCity' in req.body ? req.body.birthCity : null;
-      const deathYear = 'deathYear' in req.body ? req.body.deathYear : null;
-      const deathMonth = 'deathMonth' in req.body ? req.body.deathMonth : null;
-      const deathDay = 'deathDay' in req.body ? req.body.deathDay : null;
-      const deathCountry = 'deathCountry' in req.body ? req.body.deathCountry : null;
-      const deathState = 'deathState' in req.body ? req.body.deathState : null;
-      const deathCity = 'deathCity' in req.body ? req.body.deathCity : null;
-      const nameFirst = 'nameFirst' in req.body ? req.body.nameFirst : null;
-      const nameLast = 'nameLast' in req.body ? req.body.nameLast : null;
-      const nameGiven = 'nameGiven' in req.body ? req.body.nameGiven : null;
-      const weight = 'weight' in req.body ? req.body.weight : null;
-      const height = 'height' in req.body ? req.body.height : null;
-      const bats = 'bats' in req.body ? req.body.bats : null;
-      const throws = 'throws' in req.body ? req.body.throws : null;
-      const debut = 'debut' in req.body ? req.body.debut : null;
-      const finalGame = 'finalGame' in req.body ? req.body.finalGame : null;
-      const retroID = 'retroID' in req.body ? req.body.retroID : null;
-      const bbrefID = 'bbrefID' in req.body ? req.body.bbrefID : null;
-      const birth_date = 'birth_date' in req.body ? req.body.birth_date : null;
-      const debut_date = 'debut_date' in req.body ? req.body.debut_date : null;
-      const finalgame_date = 'finalgame_date' in req.body ? req.body.finalgame_date : null;
-      const death_date = 'death_date' in req.body ? req.body.death_date : null;
+      const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
+      const nameFirst = getValue('nameFirst', req);
+      const nameLast = getValue('nameLast', req);
+      const birthYear = getValue('birthYear', req);
+      const birthMonth = getValue('birthMonth', req);
+      const birthDay = getValue('birthDay', req);
+      const birthCountry = getValue('birthCountry', req);
+      const birthState = getValue('birthState', req);
+      const birthCity = getValue('birthCity', req);
+      const deathYear = getValue('deathYear', req);
+      const deathMonth = getValue('deathMonth', req);
+      const deathDay = getValue('deathDay', req);
+      const deathCountry = getValue('deathCountry', req);
+      const deathState = getValue('deathState', req);
+      const deathCity = getValue('deathCity', req);
+      const nameGiven = getValue('nameGiven', req);
+      const weight = getValue('weight', req);
+      const height = getValue('height', req);
+      const bats = getValue('bats', req);
+      const throws = getValue('throws', req);
+      const debut = getValue('debut', req);
+      const finalGame = getValue('finalGame', req);
+      const retroID = getValue('retroID', req);
+      const bbrefID = getValue('bbrefID', req);
+      const birth_date = getValue('birth_date', req);
+      const debut_date = getValue('debut_date', req);
+      const finalgame_date = getValue('finalgame_date', req);
+      const death_date = getValue('death_date', req);
 
-      if (!playerID || !playerID.length) { sendError(res, { code: 'required-field', subMessage: 'playerID' }); }
-      else if (!nameFirst || !nameFirst.length) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
-      else if (!nameLast || !nameLast.length) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
+      if (!nameFirst) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
+      else if (!nameLast) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
       else {
-        // Replace with player fields.
-        const proc = `call insertPortal(
-          ${mysql.escape(name)},
-          ${mysql.escape(url)},
-          ${mysql.escape(companyId)},
+        const proc = `call insertPlayer(
+          ${playerID},
+          ${nameFirst},
+          ${nameLast},
+          ${birthYear},
+          ${birthMonth},
+          ${birthDay},
+          ${birthCountry},
+          ${birthState},
+          ${birthCity},
+          ${deathYear},
+          ${deathMonth},
+          ${deathDay},
+          ${deathCountry},
+          ${deathState},
+          ${deathCity},
+          ${nameGiven},
+          ${weight},
+          ${height},
+          ${bats},
+          ${throws},
+          ${debut},
+          ${finalGame},
+          ${retroID},
+          ${bbrefID},
+          ${birth_date},
+          ${debut_date},
+          ${finalgame_date},
+          ${death_date},
           ${fields},
           ${allowJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
@@ -304,6 +330,58 @@ export const postBaseballPlayer = (req, res) => {
     }
   });
 };
+
+export const postBaseballPark = (req, res) => {
+  baseballDb.getConnection((err, conn) => {
+    if (err) { sendError(res, err); }
+    else {
+      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+
+
+      const parkalias = getValue('parkalias', req);
+      const parkkey = getValue('parkkey', req);
+      const parkname = getValue('parkname', req);
+      const city = getValue('city', req);
+      const state = getValue('state', req);
+      const country = getValue('country', req);
+
+      if (!parkname) { sendError(res, { code: 'required-field', subMessage: 'parkname' }); }
+      else {
+        const proc = `call insertPark(
+          ${parkalias},
+          ${parkkey},
+          ${parkname},
+          ${city},
+          ${state},
+          ${country},
+          ${fields},
+          ${allowJoinedFields})`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) { sendError(res, error); }
+          else { res.status(201).send(results[0][0]); }
+        });
+      }
+    }
+  });
+};
+
+/************************************************************************************************
+* getValue
+************************************************************************************************/
+
+function getValue(field, req) {
+  let value = null;
+  if(field in req.body && req.body[field].length) {
+    if(typeof field == 'string') {
+      value = mysql.escape(req.body[field]);
+    } else {
+      value = req.body[field];
+    }
+  }
+  return value;
+}
 
 /************************************************************************************************
 * sendError
@@ -365,6 +443,15 @@ function sendError(res, error) {
         "type": "wrong-number-of-arguments",
         "title": "Wrong Number of Arguments",
         "detail": `The server passed the wrong number of arguments to the database.`
+      };
+      break;
+
+    case 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD':
+      status = 500;
+      message = {
+        "type": "wrong-value-for-field",
+        "title": "Wrong Value for Field",
+        "detail": `The server passed the wrong type of value to the database for a field.`
       };
       break;
 

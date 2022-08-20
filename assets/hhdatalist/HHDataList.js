@@ -68,11 +68,11 @@ hhDataListThemes.set(
 hhDataListThemes.set(
   'teal-dark', {
   mode: 'hh-dark',
-  color1: '#eef7f7', 
-  color2: '#008080', 
-  color3: '#008080', 
+  color1: '#eef7f7',
+  color2: '#008080',
+  color3: '#008080',
   color4: '#004d4d',
-  color5: '#ff1a40' ,
+  color5: '#ff1a40',
   color6: '#004d4d',
   color7: '#ff0000',
   color8: '#ff0000',
