@@ -1,82 +1,251 @@
 const hhDataListThemes = new Map();
 
 hhDataListThemes.set(
-  'blue-light', {
+  'dodger-light', {
   mode: 'hh-light',
-  color1: '#edf3f8',
-  color2: '#dae7f1',
-  color3: '#b6cee2',
-  color4: '#325d81',
-  color5: '#325d81',
-  color6: '#325d81',
-  color7: '#ff0000',
-  color8: '#ff0000',
-  color9: '#ff0000',
+  color1: '#0059b3',
+  color2: '#0059b3',
+  color3: '#4da6ff',
+  color4: '#004080',
+  color5: '#004080',
+  color6: '#0073e6',
+  color7: '#0059b3',
+  color8: '#0073e6',
+  color9: '#0059b3',
+  color10: 'white',
+  color11: 'white',
+  color12: '#0073e6',
+  color13: '#0073e6',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#f2f2f2',
+  colorOld2: '#f2f2f2',
+  colorOld3: '#f2f2f2',
+  colorOld4: '#f2f2f2',
+  colorOld5: '#f2f2f2',
+  colorOld6: '#f2f2f2'
 });
+
 hhDataListThemes.set(
-  'green-light', {
+  'rainbow-light', {
   mode: 'hh-light',
-  color1: '#eafaea',
-  color2: '#eafaea',
-  color3: '#adebad',
-  color4: '#196719',
-  color5: '#ff1a40',
-  color6: '#196719',
-  color7: '#ff0000',
-  color8: '#ff0000',
-  color9: '#ff0000',
+  color1: 'orange',
+  color2: 'green',
+  color3: 'pink',
+  color4: 'red',
+  color5: 'deeppink',
+  color6: '#0a290a',
+  color7: 'red',
+  color8: '#228b22',
+  color9: '#ffff00',
+  color10: 'blue',
+  color11: 'black',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#f2f2f2',
+  colorOld2: '#f2f2f2',
+  colorOld3: '#f2f2f2',
+  colorOld4: '#f2f2f2',
+  colorOld5: '#f2f2f2',
+  colorOld6: '#f2f2f2'
 });
+
 hhDataListThemes.set(
-  'orange-light', {
+  'steelblue-light', {
   mode: 'hh-light',
-  color1: '#fff6e6',
-  color2: '#ffedcc',
-  color3: '#ffdb99',
-  color4: '#805300',
-  color5: '#ff1a40',
-  color6: '#805300',
+  color1: '#325d81',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
   color7: '#ff0000',
   color8: '#ff0000',
   color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#edf3f8',
+  colorOld2: '#dae7f1',
+  colorOld3: '#b6cee2',
+  colorOld4: '#325d81',
+  colorOld5: '#325d81',
+  colorOld6: '#325d81'
 });
-hhDataListThemes.set(
-  'red-light', {
-  mode: 'hh-light',
-  color1: '#fef8f7',
-  color2: '#ffe6e6',
-  color3: '#ffb3b3',
-  color4: '#660000',
-  color5: '#ff1a40',
-  color6: '#660000',
-  color7: '#ff0000',
-  color8: '#ff0000',
-  color9: '#ff0000',
-});
-hhDataListThemes.set(
-  'silver-light', {
-  mode: 'hh-light',
-  color1: '#f2f2f2',
-  color2: '#f2f2f2',
-  color3: '#d9d9d9',
-  color4: '#4d4d4d',
-  color5: '#ff1a40',
-  color6: '#4d4d4d',
-  color7: '#ff0000',
-  color8: '#ff0000',
-  color9: '#ff0000',
-});
+
 hhDataListThemes.set(
   'teal-dark', {
   mode: 'hh-dark',
-  color1: '#eef7f7',
-  color2: '#008080',
-  color3: '#008080',
-  color4: '#004d4d',
-  color5: '#ff1a40',
-  color6: '#004d4d',
+  color1: '#008080',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
   color7: '#ff0000',
   color8: '#ff0000',
   color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#eef7f7',
+  colorOld2: '#008080',
+  colorOld3: '#008080',
+  colorOld4: '#004d4d',
+  colorOld5: '#ff1a40',
+  colorOld6: '#004d4d'
+});
+
+hhDataListThemes.set(
+  'green-light', {
+  mode: 'hh-light',
+  color1: '#ff0000',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#eafaea',
+  colorOld2: '#eafaea',
+  colorOld3: '#adebad',
+  colorOld4: '#196719',
+  colorOld5: '#ff1a40',
+  colorOld6: '#196719'
+});
+
+hhDataListThemes.set(
+  'orange-light', {
+  mode: 'hh-light',
+  color1: '#ff0000',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#fff6e6',
+  colorOld2: '#ffedcc',
+  colorOld3: '#ffdb99',
+  colorOld4: '#805300',
+  colorOld5: '#ff1a40',
+  colorOld6: '#805300'
+});
+
+hhDataListThemes.set(
+  'red-light', {
+  mode: 'hh-light',
+  color1: '#ff0000',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#fef8f7',
+  colorOld2: '#ffe6e6',
+  colorOld3: '#ffb3b3',
+  colorOld4: '#660000',
+  colorOld5: '#ff1a40',
+  colorOld6: '#660000'
+});
+
+hhDataListThemes.set(
+  'silver-light', {
+  mode: 'hh-light',
+  color1: '#ff0000',
+  color2: '#ff0000',
+  color3: '#ff0000',
+  color4: '#ff0000',
+  color5: '#ff0000',
+  color6: '#ff0000',
+  color7: '#ff0000',
+  color8: '#ff0000',
+  color9: '#ff0000',
+  color10: '#ff0000',
+  color11: '#ff0000',
+  color12: '#ff0000',
+  color13: '#ff0000',
+  color14: '#ff0000',
+  color15: '#ff0000',
+  color16: '#ff0000',
+  color17: '#ff0000',
+  color18: '#ff0000',
+  color19: '#ff0000',
+  color20: '#ff0000',
+  colorOld1: '#f2f2f2',
+  colorOld2: '#f2f2f2',
+  colorOld3: '#d9d9d9',
+  colorOld4: '#4d4d4d',
+  colorOld5: '#ff1a40',
+  colorOld6: '#4d4d4d'
 });
 
 // const keys = hhDataListThemes.keys();
@@ -170,6 +339,24 @@ class HHDataList {
     this.el.style.setProperty('--hh-color-7', theme.color7);
     this.el.style.setProperty('--hh-color-8', theme.color8);
     this.el.style.setProperty('--hh-color-9', theme.color9);
+    this.el.style.setProperty('--hh-color-10', theme.color10);
+    this.el.style.setProperty('--hh-color-11', theme.color11);
+    this.el.style.setProperty('--hh-color-12', theme.color12);
+    this.el.style.setProperty('--hh-color-13', theme.color13);
+    this.el.style.setProperty('--hh-color-14', theme.color14);
+    this.el.style.setProperty('--hh-color-15', theme.color15);
+    this.el.style.setProperty('--hh-color-16', theme.color16);
+    this.el.style.setProperty('--hh-color-17', theme.color17);
+    this.el.style.setProperty('--hh-color-18', theme.color18);
+    this.el.style.setProperty('--hh-color-19', theme.color19);
+    this.el.style.setProperty('--hh-color-20', theme.color20);
+
+    this.el.style.setProperty('--hh-color-old-1', theme.colorOld1);
+    this.el.style.setProperty('--hh-color-old-2', theme.colorOld2);
+    this.el.style.setProperty('--hh-color-old-3', theme.colorOld3);
+    this.el.style.setProperty('--hh-color-old-4', theme.colorOld4);
+    this.el.style.setProperty('--hh-color-old-5', theme.colorOld5);
+    this.el.style.setProperty('--hh-color-old-6', theme.colorOld6);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));

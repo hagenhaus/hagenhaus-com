@@ -31,3 +31,7 @@ HHDataList generates an *information* message when a request returns successfull
 # Tables vs Views
 
 # Themes
+
+**color1** applies to the tabs border.
+
+**color2** applies to icons, active checkboxes, and labels, all with no surrounding backgrounds.

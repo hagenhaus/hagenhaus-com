@@ -56,13 +56,13 @@ The Baseball API is a Hagenhaus REST API ...
     reportInfo: (info) => { reportInfo(info); },
     showTabDescriptions: true,
     tabDescriptions: {
-      search: 'Filter and order records. Click <a href="/en/docs/rest-api/query-parameters/" target="_blank">Query Parameters</a> to view additional information in a new tab.',
-      fields: 'Choose the fields that appear in records.',
+      search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
+      fields: 'Specify fields to appear in records.',
       new: 'Create a new record.',
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    theme: 'blue-light',
+    theme: 'dodger-light',
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
@@ -88,7 +88,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['parkname'],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'teal-dark',
+    theme: 'rainbow-light',
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
