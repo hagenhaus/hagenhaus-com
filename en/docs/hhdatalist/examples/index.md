@@ -107,7 +107,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'green-light',
+    theme: 'dodger-light',
     url: 'http://localhost:8081/api/baseball/v1/teams',
   });
 </script>
@@ -125,7 +125,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['league'],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'orange-light',
+    theme: 'dodger-light',
     url: 'http://localhost:8081/api/baseball/v1/leagues',
   });
 </script>
@@ -144,7 +144,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'red-light',
+    theme: 'dodger-light',
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
 </script>
@@ -198,7 +198,7 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
-    theme: 'silver-light',
+    theme: 'dodger-light',
     urls: {
       deleteRecord: 'http://localhost:8081/api/devportals/v1/portals',
       getRecord: 'http://localhost:8081/api/devportals/v1/portals',

@@ -235,11 +235,6 @@ div.hh-data-list div.hh-records details>summary div.hh-buttons button.active {
   color: var(--hh-color-old-4);
 }
 
-div.hh-data-list div.hh-records details input.form-control:disabled {
-  background: var(--hh-color-old-1);
-  border-color: var(--hh-color-old-1);
-}
-
 div.hh-data-list div.hh-records details input.form-control:not(disabled) {
   background: white;
   border-color: var(--hh-color-old-4);
@@ -251,14 +246,12 @@ div.hh-data-list div.hh-records details div.hh-data-row button {
   border-color: var(--hh-color-old-4) !important;
 }
 
-/*********************************
-* Theme Styles
-**********************************/
-
-/* hh-color-1 controls tab border color. */
+/**********************************************************************
+* Theme tab color and border color.
+**********************************************************************/
 
 div.hh-data-list ul.nav-tabs {
-  border-bottom: 1px solid var(--hh-color-1);
+  border-bottom: 1px solid var(--hh-tab-border-color);
 }
 
 div.hh-data-list ul.nav-tabs>li>button {
@@ -266,34 +259,29 @@ div.hh-data-list ul.nav-tabs>li>button {
 }
 
 div.hh-data-list ul.nav-tabs>li>button.active {
-  border-top-color: var(--hh-color-1) !important;
-  border-right-color: var(--hh-color-1) !important;
-  border-left-color: var(--hh-color-1) !important;
+  border-top-color: var(--hh-tab-border-color) !important;
+  border-right-color: var(--hh-tab-border-color) !important;
+  border-left-color: var(--hh-tab-border-color) !important;
 }
-
-/* hh-color-2 controls tab button colors. */
 
 div.hh-data-list ul.nav-tabs>li>button,
 div.hh-data-list ul.nav-tabs>li>button.active  {
-  color: var(--hh-color-2);
+  color: var(--hh-tab-button-color);
 }
 
-/* hh-color-3 ... */
+/**********************************************************************
+* Theme control color, border color, background color (also for hover)
+**********************************************************************/
 
-/* hh-color-4 controls record label color. */
-
-div.hh-data-list div.hh-records details label {
-  color: var(--hh-color-4);
+div.hh-data-list div.hh-paginator button, 
+div.hh-data-list div.hh-filter-group button, 
+div.hh-data-list div.hh-order-group button,
+div.hh-data-list div.hh-limiter label,
+div.hh-data-list div.hh-expander label,
+div.hh-data-list div.hh-filter-group label,
+div.hh-data-list div.hh-order-group label {
+  color: var(--hh-control-color) !important;
 }
-
-/* hh-color-5 controls new and created record label color. */
-
-div.hh-data-list div.hh-new-record details label, 
-div.hh-data-list div.hh-created-record details label  {
-  color: var(--hh-color-5);
-}
-
-/* hh-color-6 controls border color for buttons and labels on Tabs Row and paginator. */
 
 div.hh-data-list div.hh-paginator button, 
 div.hh-data-list div.hh-filter-group button, 
@@ -307,18 +295,8 @@ div.hh-data-list div.hh-filter-group input,
 div.hh-data-list div.hh-order-group input,
 div.hh-data-list div.hh-expander div.hh-expander-checkbox-group,
 div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input {
-  border-color: var(--hh-color-6) !important;
+  border-color: var(--hh-control-border-color) !important;
 }
-
-/* hh-color-7 controls border color for buttons on Tabs Row and paginator. */
-
-div.hh-data-list div.hh-paginator button:not(:disabled):hover,
-div.hh-data-list div.hh-filter-group button:hover,
-div.hh-data-list div.hh-order-group button:hover {
-  border-color: var(--hh-color-7) !important;
-}
-
-/* hh-color-8 controls background color for buttons and labels on Tabs Row and paginator. */
 
 div.hh-data-list div.hh-paginator button, 
 div.hh-data-list div.hh-filter-group button, 
@@ -328,55 +306,75 @@ div.hh-data-list div.hh-expander label,
 div.hh-data-list div.hh-filter-group label,
 div.hh-data-list div.hh-order-group label,
 div.hh-data-list div.hh-expander div.hh-expander-checkbox-group {
-  background: var(--hh-color-8) !important;
+  background: var(--hh-control-background-color) !important;
 }
-
-/* hh-color-9 controls background color for buttons on Tabs Row and paginator. */
 
 div.hh-data-list div.hh-paginator button:not(:disabled):hover,
 div.hh-data-list div.hh-filter-group button:hover,
 div.hh-data-list div.hh-order-group button:hover {
-  background: var(--hh-color-9) !important;
+  color: var(--hh-control-hover-color) !important;
 }
-
-/* hh-color-10 controls color for buttons and labels on Tabs Row and paginator. */
-
-div.hh-data-list div.hh-paginator button, 
-div.hh-data-list div.hh-filter-group button, 
-div.hh-data-list div.hh-order-group button,
-div.hh-data-list div.hh-limiter label,
-div.hh-data-list div.hh-expander label,
-div.hh-data-list div.hh-filter-group label,
-div.hh-data-list div.hh-order-group label {
-  color: var(--hh-color-10) !important;
-}
-
-/* hh-color-11 controls color for buttons on Tabs Row and paginator. */
 
 div.hh-data-list div.hh-paginator button:not(:disabled):hover,
 div.hh-data-list div.hh-filter-group button:hover,
 div.hh-data-list div.hh-order-group button:hover {
-  color: var(--hh-color-11) !important;
+  border-color: var(--hh-control-hover-border-color) !important;
 }
 
-/* hh-color-12 controls non-checked, non-indeterminate checkbox color. */
+div.hh-data-list div.hh-paginator button:not(:disabled):hover,
+div.hh-data-list div.hh-filter-group button:hover,
+div.hh-data-list div.hh-order-group button:hover {
+  background: var(--hh-control-hover-background-color) !important;
+}
 
-/* 
-NOTE: Need to specify border, background, and color for non-checked and checked/indeterminant. 
-
-So, that's 6 colors just for hh-tabs-row checkboxes.
-*/
+/**********************************************************************
+* Theme checkbox border color and background color (also for checked)
+**********************************************************************/
 
 div.hh-data-list div.hh-tabs-row input.form-check-input {
-  background-color: white; 
-  border-color: var(--hh-color-12);
+  border-color: var(--hh-checkbox-border-color);
 }
 
-/* hh-color-13 controls checked and indeterminate checkbox colors. */
+div.hh-data-list div.hh-tabs-row input.form-check-input {
+  background-color: var(--hh-checkbox-background-color); 
+}
 
 div.hh-data-list div.hh-tabs-row input.form-check-input:checked,
 div.hh-data-list div.hh-tabs-row input.form-check-input:indeterminate {
-  background-color: var(--hh-color-13);
-  border-color: var(--hh-color-13);
+  border-color: var(--hh-checkbox-checked-border-color);
+}
+
+div.hh-data-list div.hh-tabs-row input.form-check-input:checked,
+div.hh-data-list div.hh-tabs-row input.form-check-input:indeterminate {
+  background-color: var(--hh-checkbox-checked-background-color);
+}
+
+/**********************************************************************
+* Record colors
+**********************************************************************/
+
+div.hh-data-list div.hh-records details label {
+  color: var(--hh-record-label-color);
+}
+
+div.hh-data-list div.hh-records details input.form-control:disabled {
+  color: var(--hh-record-input-disabled-color);
+}
+
+div.hh-data-list div.hh-records details input.form-control:disabled {
+  border-color: var(--hh-record-input-disabled-border-color);
+}
+
+div.hh-data-list div.hh-records details input.form-control:disabled {
+  background: var(--hh-record-input-disabled-background-color);
+}
+
+/**********************************************************************
+* New record colors
+**********************************************************************/
+
+div.hh-data-list div.hh-new-record details label, 
+div.hh-data-list div.hh-created-record details label  {
+  color: var(--hh-new-record-label-color);
 }
 
