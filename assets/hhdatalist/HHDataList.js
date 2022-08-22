@@ -4,66 +4,81 @@ hhDataListThemes.set(
   'dodger-light', {
   mode: 'hh-light',
 
-  tabBorderColor: '#0059b3',              // DodgerBlue shade
-  tabButtonColor: '#0059b3',              // DodgerBlue shade
+  tabBorderColor: '#0059b3',
+  tabButtonColor: '#0059b3',
 
   controlColor: 'white',
-  controlBorderColor: '#0073e6',          // DodgerBlue shade
-  controlBackgroundColor: '#0073e6',      // DodgerBlue shade
-  controlHoverColor: 'white',
-  controlHoverBorderColor: '#0059b3',     // DodgerBlue shade
-  controlHoverBackgroundColor: '#0059b3', // DodgerBlue shade
+  controlColorHover: 'white',
+  controlBorderColor: '#0073e6',
+  controlBorderColorHover: '#0059b3',
+  controlBackgroundColor: '#0073e6',
+  controlBackgroundColorHover: '#0059b3',
+  controlOpacityDisabled: '80%',
 
-  checkboxBorderColor: '#4da6ff',         // DodgerBlue shade
+  checkboxLabelColor: '#000d1a',
+  checkboxBorderColor: '#4da6ff',
+  checkboxBorderColorChecked: '#0073e6',
   checkboxBackgroundColor: 'white',
-  checkboxCheckedBorderColor: '#0073e6',
-  checkboxCheckedBackgroundColor: '#0073e6',
+  checkboxBackgroundColorChecked: '#0073e6',
+  expanderCheckboxBorderColor: '#0073e6',
+  expanderCheckboxBorderColorChecked: 'white',
+  expanderCheckboxBackgroundColor: 'white',
+  expanderCheckboxBackgroundColorChecked: '#0073e6',
 
-  recordLabelColor: '#004080',            // DodgerBlue shade
-  recordInputDisabledColor: '#001a33',
-  recordInputDisabledBorderColor: '#e6f2ff',      // DodgerBlue shade
-  recordInputDisabledBackgroundColor: '#e6f2ff',  // DodgerBlue shade
+  recordBorderColor: '#cce6ff',
+  recordBorderColorHover: '#cce6ff',
+  recordBorderColorOpen: '#80bfff',
 
-  newRecordLabelColor: '#004080',         // DodgerBlue shade
+  recordTitleColor: '#003366',
+  recordTitleBackgroundColor: '#cce6ff',
+
+  recordTitleButtonColor: '#003366',
+  recordTitleButtonColorHover: 'white',
+  recordTitleButtonColorActive: '#003366',
+  recordTitleButtonBorderColor: 'transparent',
+  recordTitleButtonBorderColorHover: '#003366',
+  recordTitleButtonBorderColorActive: '#003366',
+  recordTitleButtonBackgroundColor: 'transparent',
+  recordTitleButtonBackgroundColorHover: '#003366',
+  recordTitleButtonBackgroundColorActive: 'white',
+
+  recordFieldLabelColor: '#4da6ff',
+  recordFieldInputColor: '#000d1a',
+  recordFieldInputColorDisabled: '#000d1a',
+  recordFieldInputBorderColor: '#00264d',
+  recordFieldInputBorderColorDisabled: '#e6f2ff',
+  recordFieldInputBackgroundColor: 'white',
+  recordFieldInputBackgroundColorDisabled: '#e6f2ff',
+  recordFieldButtonColor: 'white',
+  recordFieldButtonBorderColor: '#003366',
+  recordFieldButtonBackgroundColor: '#003366',
+  recordFieldButtonOpacityDisabled: '65%',
+
+  newRecordBorderColor: '#003366',
+  newRecordBorderColorHover: '#003366',
+  newRecordBorderColorOpen: '#003366',
+
+  newRecordTitleColor: 'white',
+  newRecordTitleBackgroundColor: '#003366',
+
+  newRecordTitleButtonColor: 'white',
+  newRecordTitleButtonColorHover: '#003366',
+  newRecordTitleButtonBorderColor: 'transparent',
+  newRecordTitleButtonBorderColorHover: 'white',
+  newRecordTitleButtonBackgroundColor: 'transparent',
+  newRecordTitleButtonBackgroundColorHover: 'white',
 
   colorOld1: '#edf3f8',
-  colorOld2: '#f2f2f2',
-  colorOld3: '#f2f2f2',
-  colorOld4: '#f2f2f2',
-  colorOld5: '#f2f2f2',
-});
+  colorOld2: '#dae7f1',
+  colorOld3: '#b6cee2',
+  colorOld4: '#325d81',
+  colorOld5: '#325d81'
 
-hhDataListThemes.set(
-  'rainbow-light', {
-  mode: 'hh-light',
-
-  tabBorderColor: 'orange',
-  tabButtonColor: 'green',
-
-  controlColor: 'blue',
-  controlBorderColor: '#0a290a',
-  controlBackgroundColor: '#228b22',
-  controlHoverColor: 'black',
-  controlHoverBorderColor: 'red',
-  controlHoverBackgroundColor: '#ffff00',
-
-  checkboxBorderColor: '#ff0000',
-  checkboxBackgroundColor: 'white',
-  checkboxCheckedBorderColor: 'purple',
-  checkboxCheckedBackgroundColor: 'green',
-
-  recordLabelColor: 'red',
-  recordInputDisabledColor: 'red',
-  recordInputDisabledBorderColor: '#e6f2ff',
-  recordInputDisabledBackgroundColor: '#e6f2ff',
-
-  newRecordLabelColor: 'deeppink',
-
-  colorOld1: '#f2f2f2',
-  colorOld2: '#f2f2f2',
-  colorOld3: '#f2f2f2',
-  colorOld4: '#f2f2f2',
-  colorOld5: '#f2f2f2',
+  // colorOld1: '#f2f2f2',
+  // colorOld2: '#f2f2f2',
+  // colorOld3: '#f2f2f2',
+  // colorOld4: '#f2f2f2',
+  // colorOld5: '#f2f2f2'
 });
 
 // const keys = hhDataListThemes.keys();
@@ -152,23 +167,65 @@ class HHDataList {
     this.el.style.setProperty('--hh-tab-button-color', theme.tabButtonColor);
 
     this.el.style.setProperty('--hh-control-color', theme.controlColor);
+    this.el.style.setProperty('--hh-control-color-hover', theme.controlColorHover);
     this.el.style.setProperty('--hh-control-border-color', theme.controlBorderColor);
+    this.el.style.setProperty('--hh-control-border-color-hover', theme.controlBorderColorHover);
     this.el.style.setProperty('--hh-control-background-color', theme.controlBackgroundColor);
-    this.el.style.setProperty('--hh-control-hover-color', theme.controlHoverColor);
-    this.el.style.setProperty('--hh-control-hover-border-color', theme.controlHoverBorderColor);
-    this.el.style.setProperty('--hh-control-hover-background-color', theme.controlHoverBackgroundColor);
+    this.el.style.setProperty('--hh-control-background-color-hover', theme.controlBackgroundColorHover);
+    this.el.style.setProperty('--hh-control-opacity-disabled', theme.controlOpacityDisabled);
 
+    this.el.style.setProperty('--hh-checkbox-label-color', theme.checkboxLabelColor);
     this.el.style.setProperty('--hh-checkbox-border-color', theme.checkboxBorderColor);
+    this.el.style.setProperty('--hh-checkbox-border-color-checked', theme.checkboxBorderColorChecked);
     this.el.style.setProperty('--hh-checkbox-background-color', theme.checkboxBackgroundColor);
-    this.el.style.setProperty('--hh-checkbox-checked-border-color', theme.checkboxCheckedBorderColor);
-    this.el.style.setProperty('--hh-checkbox-checked-background-color', theme.checkboxCheckedBackgroundColor);
+    this.el.style.setProperty('--hh-checkbox-background-color-checked', theme.checkboxBackgroundColorChecked);
+    this.el.style.setProperty('--hh-expander-checkbox-border-color', theme.expanderCheckboxBorderColor);
+    this.el.style.setProperty('--hh-expander-checkbox-border-color-checked', theme.expanderCheckboxBorderColorChecked);
+    this.el.style.setProperty('--hh-expander-checkbox-background-color', theme.expanderCheckboxBackgroundColor);
+    this.el.style.setProperty('--hh-expander-checkbox-background-color-checked', theme.expanderCheckboxBackgroundColorChecked);
 
-    this.el.style.setProperty('--hh-record-label-color', theme.recordLabelColor);
-    this.el.style.setProperty('--hh-record-input-disabled-color', theme.recordInputDisabledColor);
-    this.el.style.setProperty('--hh-record-input-disabled-border-color', theme.recordInputDisabledBorderColor);
-    this.el.style.setProperty('--hh-record-input-disabled-background-color', theme.recordInputDisabledBackgroundColor);
+    this.el.style.setProperty('--hh-record-border-color', theme.recordBorderColor);
+    this.el.style.setProperty('--hh-record-border-color-hover', theme.recordBorderColorHover);
+    this.el.style.setProperty('--hh-record-border-color-open', theme.recordBorderColorOpen);
 
-    this.el.style.setProperty('--hh-new-record-label-color', theme.newRecordLabelColor);
+    this.el.style.setProperty('--hh-record-title-color', theme.recordTitleColor);
+    this.el.style.setProperty('--hh-record-title-background-color', theme.recordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-record-title-button-color', theme.recordTitleButtonColor);
+    this.el.style.setProperty('--hh-record-title-button-color-hover', theme.recordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-record-title-button-color-active', theme.recordTitleButtonColorActive);
+    this.el.style.setProperty('--hh-record-title-button-border-color', theme.recordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-record-title-button-border-color-hover', theme.recordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-record-title-button-border-color-active', theme.recordTitleButtonBorderColorActive);
+    this.el.style.setProperty('--hh-record-title-button-background-color', theme.recordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-record-title-button-background-color-hover', theme.recordTitleButtonBackgroundColorHover);
+    this.el.style.setProperty('--hh-record-title-button-background-color-active', theme.recordTitleButtonBackgroundColorActive);
+
+    this.el.style.setProperty('--hh-record-field-label-color', theme.recordFieldLabelColor);
+    this.el.style.setProperty('--hh-record-field-input-color', theme.recordFieldInputColor);
+    this.el.style.setProperty('--hh-record-field-input-color-disabled', theme.recordFieldInputColorDisabled);
+    this.el.style.setProperty('--hh-record-field-input-border-color', theme.recordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-record-field-input-border-color-disabled', theme.recordFieldInputBorderColorDisabled);
+    this.el.style.setProperty('--hh-record-field-input-background-color', theme.recordFieldInputBackgroundColor);
+    this.el.style.setProperty('--hh-record-field-input-background-color-disabled', theme.recordFieldInputBackgroundColorDisabled);
+    this.el.style.setProperty('--hh-record-field-button-color', theme.recordFieldButtonColor);
+    this.el.style.setProperty('--hh-record-field-button-border-color', theme.recordFieldButtonBorderColor);
+    this.el.style.setProperty('--hh-record-field-button-background-color', theme.recordFieldButtonBackgroundColor);
+    this.el.style.setProperty('--hh-record-field-button-opacity-disabled', theme.recordFieldButtonOpacityDisabled);
+
+    this.el.style.setProperty('--hh-new-record-border-color', theme.newRecordBorderColor);
+    this.el.style.setProperty('--hh-new-record-border-color-hover', theme.newRecordBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-border-color-open', theme.newRecordBorderColorOpen);
+
+    this.el.style.setProperty('--hh-new-record-title-color', theme.newRecordTitleColor);
+    this.el.style.setProperty('--hh-new-record-title-background-color', theme.newRecordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-new-record-title-button-color', theme.newRecordTitleButtonColor);
+    this.el.style.setProperty('--hh-new-record-title-button-color-hover', theme.newRecordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-new-record-title-button-border-color', theme.newRecordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-new-record-title-button-border-color-hover', theme.newRecordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-title-button-background-color', theme.newRecordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-new-record-title-button-background-color-hover', theme.newRecordTitleButtonBackgroundColorHover);
 
     this.el.style.setProperty('--hh-color-old-1', theme.colorOld1);
     this.el.style.setProperty('--hh-color-old-2', theme.colorOld2);

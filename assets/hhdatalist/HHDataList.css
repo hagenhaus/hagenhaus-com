@@ -92,6 +92,10 @@ div.hh-data-list div.hh-order-group label {
   font-weight: 500;
 }
 
+div.hh-data-list div.hh-expander label {
+  padding-right: 0;
+}
+
 div.hh-data-list div.hh-records-are-expanded {
   margin-top:0;
 }
@@ -125,7 +129,7 @@ div.hh-data-list div.hh-all-fields {
 }
 
 div.hh-data-list div.hh-all-fields label {
-  color:black;
+  /* color:black; */
   font-size:88%;
 }
 
@@ -142,112 +146,16 @@ div.hh-data-list div.hh-counters {
 * NEW AND CREATED RECORD
 **********************************/
 
-div.hh-data-list div.hh-new-record details,
-div.hh-data-list div.hh-created-record details {
-  border-color: var(--hh-color-old-4);
-}
-
-div.hh-data-list div.hh-new-record details>summary,
-div.hh-data-list div.hh-created-record details>summary {
-  background-color: var(--hh-color-old-4);
-  border-color: var(--hh-color-old-4);
-  color: white;
-}
-
-div.hh-data-list div.hh-new-record details:hover,
-div.hh-data-list div.hh-new-record details[open],
-div.hh-data-list div.hh-new-record details[open]>summary,
-div.hh-data-list div.hh-created-record details:hover,
-div.hh-data-list div.hh-created-record details[open],
-div.hh-data-list div.hh-created-record details[open]>summary {
-  border-color: red;
-}
-
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn,
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
-  border-color: transparent !important;
-  color: white;
-}
-
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn:hover,
-div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn:hover,
-div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
-  background: white;
-  color: var(--hh-color-old-4);
-}
-
-div.hh-data-list div.hh-new-record details input.form-control {
-  background: white;
-  border-color: var(--hh-color-old-4);
-}
-
-div.hh-data-list div.hh-created-record details input.form-control {
-  background: var(--hh-color-old-1);
-  border-color: var(--hh-color-old-1);
-}
-
-div.hh-data-list form.hh-new-record-form button {
-  background: var(--hh-color-old-4);
-  border-color: var(--hh-color-old-4) !important;
-  color: white;
-}
-
 /*********************************
 * RECORDS ROW
 **********************************/
 
 div.hh-data-list div.hh-records details {
-  border-color: var(--hh-color-old-3);
   margin-bottom: 0.3rem;
 }
 
-div.hh-data-list div.hh-records details>summary {
-  background-color: var(--hh-color-old-2);
-  border-bottom-color: var(--hh-color-old-3);
-  color: var(--hh-color-old-5);
-}
-
-div.hh-data-list div.hh-records details:hover,
-div.hh-data-list div.hh-records details[open],
-div.hh-data-list div.hh-records details[open]>summary {
-  border-color: red;
-}
-
-div.hh-data-list div.hh-records details>summary div.hh-buttons label.btn,
-div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
-  border-color: transparent !important;
-  color: var(--hh-color-old-5);
-}
-
-div.hh-data-list div.hh-records details>summary div.hh-buttons label:hover,
-div.hh-data-list div.hh-records details>summary div.hh-buttons button:hover {
-  background: var(--hh-color-old-5) !important;
-  border-color: var(--hh-color-old-5) !important;
-  color: var(--hh-color-old-2);
-}
-
-div.hh-data-list div.hh-records details>summary div.hh-buttons button.active {
-  background: white !important;
-  border-color: var(--hh-color-old-4) !important;
-  color: var(--hh-color-old-4);
-}
-
-div.hh-data-list div.hh-records details input.form-control:not(disabled) {
-  background: white;
-  border-color: var(--hh-color-old-4);
-}
-
-div.hh-data-list div.hh-records details div.hh-data-row button {
-  background: var(--hh-color-old-4);
-  color: white;
-  border-color: var(--hh-color-old-4) !important;
-}
-
 /**********************************************************************
-* Theme tab color and border color.
+* Theme variables for tabs
 **********************************************************************/
 
 div.hh-data-list ul.nav-tabs {
@@ -270,7 +178,7 @@ div.hh-data-list ul.nav-tabs>li>button.active  {
 }
 
 /**********************************************************************
-* Theme control color, border color, background color (also for hover)
+* Theme variables for controls
 **********************************************************************/
 
 div.hh-data-list div.hh-paginator button, 
@@ -283,6 +191,12 @@ div.hh-data-list div.hh-order-group label {
   color: var(--hh-control-color) !important;
 }
 
+div.hh-data-list div.hh-paginator button:not(:disabled):hover,
+div.hh-data-list div.hh-filter-group button:hover,
+div.hh-data-list div.hh-order-group button:hover {
+  color: var(--hh-control-color-hover) !important;
+}
+
 div.hh-data-list div.hh-paginator button, 
 div.hh-data-list div.hh-filter-group button, 
 div.hh-data-list div.hh-order-group button,
@@ -293,9 +207,14 @@ div.hh-data-list div.hh-order-group label,
 div.hh-data-list div.hh-limiter select,
 div.hh-data-list div.hh-filter-group input,
 div.hh-data-list div.hh-order-group input,
-div.hh-data-list div.hh-expander div.hh-expander-checkbox-group,
-div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input {
+div.hh-data-list div.hh-expander div.hh-expander-checkbox-group {
   border-color: var(--hh-control-border-color) !important;
+}
+
+div.hh-data-list div.hh-paginator button:not(:disabled):hover,
+div.hh-data-list div.hh-filter-group button:hover,
+div.hh-data-list div.hh-order-group button:hover {
+  border-color: var(--hh-control-border-color-hover) !important;
 }
 
 div.hh-data-list div.hh-paginator button, 
@@ -312,27 +231,28 @@ div.hh-data-list div.hh-expander div.hh-expander-checkbox-group {
 div.hh-data-list div.hh-paginator button:not(:disabled):hover,
 div.hh-data-list div.hh-filter-group button:hover,
 div.hh-data-list div.hh-order-group button:hover {
-  color: var(--hh-control-hover-color) !important;
+  background: var(--hh-control-background-color-hover) !important;
 }
 
-div.hh-data-list div.hh-paginator button:not(:disabled):hover,
-div.hh-data-list div.hh-filter-group button:hover,
-div.hh-data-list div.hh-order-group button:hover {
-  border-color: var(--hh-control-hover-border-color) !important;
-}
-
-div.hh-data-list div.hh-paginator button:not(:disabled):hover,
-div.hh-data-list div.hh-filter-group button:hover,
-div.hh-data-list div.hh-order-group button:hover {
-  background: var(--hh-control-hover-background-color) !important;
+div.hh-data-list div.hh-paginator button:disabled {
+  opacity: var(--hh-control-opacity-disabled);
 }
 
 /**********************************************************************
-* Theme checkbox border color and background color (also for checked)
+* Theme variables for checkboxes
 **********************************************************************/
+
+div.hh-data-list div.hh-tabs-row label.form-check-label {
+  color:var(--hh-checkbox-label-color);
+}
 
 div.hh-data-list div.hh-tabs-row input.form-check-input {
   border-color: var(--hh-checkbox-border-color);
+}
+
+div.hh-data-list div.hh-tabs-row input.form-check-input:checked,
+div.hh-data-list div.hh-tabs-row input.form-check-input:indeterminate {
+  border-color: var(--hh-checkbox-border-color-checked);
 }
 
 div.hh-data-list div.hh-tabs-row input.form-check-input {
@@ -341,40 +261,246 @@ div.hh-data-list div.hh-tabs-row input.form-check-input {
 
 div.hh-data-list div.hh-tabs-row input.form-check-input:checked,
 div.hh-data-list div.hh-tabs-row input.form-check-input:indeterminate {
-  border-color: var(--hh-checkbox-checked-border-color);
+  background-color: var(--hh-checkbox-background-color-checked);
 }
 
-div.hh-data-list div.hh-tabs-row input.form-check-input:checked,
-div.hh-data-list div.hh-tabs-row input.form-check-input:indeterminate {
-  background-color: var(--hh-checkbox-checked-background-color);
+div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input {
+  border-color: var(--hh-expander-checkbox-border-color);
+}
+
+div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input:checked {
+  border-color: var(--hh-expander-checkbox-border-color-checked);
+}
+
+div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input {
+  background-color: var(--hh-expander-checkbox-background-color); 
+}
+
+div.hh-data-list div.hh-expander div.hh-expander-checkbox-group input:checked {
+  background-color: var(--hh-expander-checkbox-background-color-checked);
 }
 
 /**********************************************************************
-* Record colors
+* Theme variables for records
 **********************************************************************/
+
+/* Record border colors */
+
+div.hh-data-list div.hh-records details {
+  border-color: var(--hh-record-border-color);
+}
+
+div.hh-data-list div.hh-records details>summary {
+  border-bottom-color: var(--hh-record-border-color);
+}
+
+div.hh-data-list div.hh-records details:not([open]):hover {
+  border-color: var(--hh-record-border-color-hover);
+}
+
+div.hh-data-list div.hh-records details[open] {
+  border-color: var(--hh-record-border-color-open);
+}
+
+div.hh-data-list div.hh-records details[open]>summary {
+  border-bottom-color: var(--hh-record-border-color-open);
+}
+
+/* Record title colors */
+
+div.hh-data-list div.hh-records details>summary {
+  color: var(--hh-record-title-color);
+}
+
+div.hh-data-list div.hh-records details>summary {
+  background-color: var(--hh-record-title-background-color);
+}
+
+/* Record title button colors */
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
+  color: var(--hh-record-title-button-color);
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn:hover {
+  color: var(--hh-record-title-button-color-hover);
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn.active {
+  color: var(--hh-record-title-button-color-active);
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
+  border-color: var(--hh-record-title-button-border-color) !important;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn:hover {
+  border-color: var(--hh-record-title-button-border-color-hover) !important;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn.active {
+  border-color: var(--hh-record-title-button-border-color-active) !important;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn {
+  background: var(--hh-record-title-button-background-color) !important;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn:hover {
+  background: var(--hh-record-title-button-background-color-hover) !important;
+}
+
+div.hh-data-list div.hh-records details>summary div.hh-buttons button.btn.active {
+  background: var(--hh-record-title-button-background-color-active) !important;
+}
+
+/* Record field colors */
 
 div.hh-data-list div.hh-records details label {
-  color: var(--hh-record-label-color);
+  color: var(--hh-record-field-label-color);
+}
+
+div.hh-data-list div.hh-records details input.form-control:not(disabled) {
+  color: var(--hh-record-field-input-color);
 }
 
 div.hh-data-list div.hh-records details input.form-control:disabled {
-  color: var(--hh-record-input-disabled-color);
+  color: var(--hh-record-field-input-color-disabled);
+}
+
+div.hh-data-list div.hh-records details input.form-control:not(disabled) {
+  border-color: var(--hh-record-field-input-border-color);
 }
 
 div.hh-data-list div.hh-records details input.form-control:disabled {
-  border-color: var(--hh-record-input-disabled-border-color);
+  border-color: var(--hh-record-field-input-border-color-disabled);
+}
+
+div.hh-data-list div.hh-records details input.form-control:not(disabled) {
+  background: var(--hh-record-field-input-background-color);
 }
 
 div.hh-data-list div.hh-records details input.form-control:disabled {
-  background: var(--hh-record-input-disabled-background-color);
+  background: var(--hh-record-field-input-background-color-disabled);
+}
+
+div.hh-data-list div.hh-records details div.hh-data-row button {
+  color: var(--hh-record-field-button-color);
+}
+
+div.hh-data-list div.hh-records details div.hh-data-row button {
+  border-color: var(--hh-record-field-button-border-color) !important;
+}
+
+div.hh-data-list div.hh-records details div.hh-data-row button {
+  background-color: var(--hh-record-field-button-background-color);
+}
+
+div.hh-data-list div.hh-records details div.hh-data-row button:disabled {
+  opacity: var(--hh-record-field-button-opacity-disabled);
 }
 
 /**********************************************************************
-* New record colors
+* Theme variables for new and created records
 **********************************************************************/
 
-div.hh-data-list div.hh-new-record details label, 
-div.hh-data-list div.hh-created-record details label  {
-  color: var(--hh-new-record-label-color);
+/* New record border colors */
+
+div.hh-data-list div.hh-new-record details, div.hh-data-list div.hh-created-record details {
+  border-color: var(--hh-new-record-border-color);
 }
 
+div.hh-data-list div.hh-new-record details>summary, div.hh-data-list div.hh-created-record details>summary {
+  border-bottom-color: var(--hh-new-record-border-color);
+}
+
+div.hh-data-list div.hh-new-record details:not([open]):hover, div.hh-data-list div.hh-created-record details:not([open]):hover {
+  border-color: var(--hh-new-record-border-color-hover);
+}
+
+div.hh-data-list div.hh-new-record details[open], div.hh-data-list div.hh-created-record details[open] {
+  border-color: var(--hh-new-record-border-color-open);
+}
+
+div.hh-data-list div.hh-new-record details[open]>summary, div.hh-data-list div.hh-created-record details[open]>summary {
+  border-bottom-color: var(--hh-new-record-border-color-open);
+}
+
+/* New record title colors */
+
+div.hh-data-list div.hh-new-record details>summary, div.hh-data-list div.hh-created-record details>summary  {
+  color: var(--hh-new-record-title-color);
+}
+
+div.hh-data-list div.hh-new-record details>summary, div.hh-data-list div.hh-created-record details>summary  {
+  background: var(--hh-new-record-title-background-color);
+}
+
+/* New record title button colors */
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
+  color: var(--hh-new-record-title-button-color);
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
+  color: var(--hh-new-record-title-button-color-hover);
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
+  border-color: var(--hh-new-record-title-button-border-color) !important;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
+  border-color: var(--hh-new-record-title-button-border-color-hover) !important;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
+  background: var(--hh-new-record-title-button-background-color) !important;
+}
+
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover, div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
+  background: var(--hh-new-record-title-button-background-color-hover) !important;
+}
+
+/* old stuff */
+
+/*
+--hh-new-record-title-button-color
+--hh-new-record-title-button-color-hover
+--hh-new-record-title-button-border-color
+--hh-new-record-title-button-border-color-hover
+--hh-new-record-title-button-background-color
+--hh-new-record-title-button-background-color-hover
+*/
+
+/* div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn {
+  border-color: transparent !important;
+  color: white;
+} */
+
+/* div.hh-data-list div.hh-new-record details>summary div.hh-buttons label.btn:hover,
+div.hh-data-list div.hh-new-record details>summary div.hh-buttons button.btn:hover,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons label.btn:hover,
+div.hh-data-list div.hh-created-record details>summary div.hh-buttons button.btn:hover {
+  background: white;
+  color: var(--hh-color-old-4);
+} */
+
+div.hh-data-list div.hh-new-record details input.form-control {
+  background: white;
+  border-color: var(--hh-color-old-4);
+}
+
+div.hh-data-list div.hh-created-record details input.form-control {
+  background: var(--hh-color-old-1);
+  border-color: var(--hh-color-old-1);
+}
+
+div.hh-data-list form.hh-new-record-form button {
+  background: var(--hh-color-old-4);
+  border-color: var(--hh-color-old-4) !important;
+  color: white;
+}

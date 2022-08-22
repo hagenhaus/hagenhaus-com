@@ -88,7 +88,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['parkname'],
     reportError: (error) => { reportError(error); },
     reportInfo: (info) => { reportInfo(info); },
-    theme: 'rainbow-light',
+    theme: 'dodger-light',
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
