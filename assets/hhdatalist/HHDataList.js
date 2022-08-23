@@ -1,6 +1,109 @@
 const hhDataListThemes = new Map();
 
 hhDataListThemes.set(
+  'essential firebrick', {
+  name: 'Essential Firebrick',
+  tabButtonColor: '#ab2121',
+  tabBorderColor: '#ab2121',
+
+  controlColor: 'white',
+  controlColorHover: 'white',
+  controlBorderColor: '#0073e6',
+  controlBorderColorHover: '#0059b3',
+  controlBackgroundColor: '#0073e6',
+  controlBackgroundColorHover: '#0059b3',
+  controlOpacityDisabled: '80%',
+
+  descriptionLinkColor: 'forestgreen',
+  descriptionLinkColorHover: 'pink',
+
+  checkboxLabelColor: '#000d1a',
+  checkboxBorderColor: '#4da6ff',
+  checkboxBorderColorChecked: '#0073e6',
+  checkboxBackgroundColor: 'white',
+  checkboxBackgroundColorChecked: '#0073e6',
+  expanderCheckboxBorderColor: '#0073e6',
+  expanderCheckboxBorderColorChecked: 'white',
+  expanderCheckboxBackgroundColor: 'white',
+  expanderCheckboxBackgroundColorChecked: '#0073e6',
+
+  recordBorderColor: '#cce6ff',
+  recordBorderColorHover: '#cce6ff',
+  recordBorderColorOpen: '#80bfff',
+
+  recordTitleColor: '#003366',
+  recordTitleBackgroundColor: '#cce6ff',
+
+  recordTitleButtonColor: '#003366',
+  recordTitleButtonColorHover: 'white',
+  recordTitleButtonColorActive: '#003366',
+  recordTitleButtonBorderColor: 'transparent',
+  recordTitleButtonBorderColorHover: '#003366',
+  recordTitleButtonBorderColorActive: '#003366',
+  recordTitleButtonBackgroundColor: 'transparent',
+  recordTitleButtonBackgroundColorHover: '#003366',
+  recordTitleButtonBackgroundColorActive: 'white',
+
+  recordFieldLabelColor: '#1e90ff',
+  recordFieldInputColor: '#000d1a',
+  recordFieldInputColorDisabled: '#000d1a',
+  recordFieldInputBorderColor: '#00264d',
+  recordFieldInputBorderColorDisabled: '#e6f2ff',
+  recordFieldInputBackgroundColor: 'white',
+  recordFieldInputBackgroundColorDisabled: '#e6f2ff',
+  recordFieldButtonColor: 'white',
+  recordFieldButtonBorderColor: '#003366',
+  recordFieldButtonBackgroundColor: '#003366',
+  recordFieldButtonOpacityDisabled: '65%',
+
+  newRecordBorderColor: '#003366',
+  newRecordBorderColorHover: '#003366',
+  newRecordBorderColorOpen: '#003366',
+
+  newRecordTitleColor: 'white',
+  newRecordTitleBackgroundColor: '#003366',
+
+  newRecordTitleButtonColor: 'white',
+  newRecordTitleButtonColorHover: '#003366',
+  newRecordTitleButtonBorderColor: 'transparent',
+  newRecordTitleButtonBorderColorHover: 'white',
+  newRecordTitleButtonBackgroundColor: 'transparent',
+  newRecordTitleButtonBackgroundColorHover: 'white',
+
+  newRecordFieldLabelColor: '#003366',
+  newRecordFieldLabelColorRequired: 'red',
+  newRecordFieldInputColor: '#000d1a',
+  newRecordFieldInputBorderColor: '#000d1a',
+  newRecordFieldInputBackgroundColor: 'white',
+
+  newRecordSubmitButtonColor: 'white',
+  newRecordSubmitButtonColorHover: 'white',
+  newRecordSubmitButtonBorderColor: '#0073e6',
+  newRecordSubmitButtonBorderColorHover: '#0059b3',
+  newRecordSubmitButtonBackgroundColor: '#0073e6',
+  newRecordSubmitButtonBackgroundColorHover: '#0059b3',
+
+  createdRecordBorderColor: '#003366',
+  createdRecordBorderColorHover: '#003366',
+  createdRecordBorderColorOpen: '#003366',
+
+  createdRecordTitleColor: 'white',
+  createdRecordTitleBackgroundColor: '#003366',
+
+  createdRecordTitleButtonColor: 'white',
+  createdRecordTitleButtonColorHover: '#003366',
+  createdRecordTitleButtonBorderColor: 'transparent',
+  createdRecordTitleButtonBorderColorHover: 'white',
+  createdRecordTitleButtonBackgroundColor: 'transparent',
+  createdRecordTitleButtonBackgroundColorHover: 'white',
+
+  createdRecordFieldLabelColor: '#1e90ff',
+  createdRecordFieldInputColor: '#000d1a',
+  createdRecordFieldInputBorderColor: '#e6f2ff',
+  createdRecordFieldInputBackgroundColor: '#e6f2ff',
+});
+
+hhDataListThemes.set(
   'dodger blue', {
   name: 'Dodger Blue',
   tabButtonColor: '#0059b3',

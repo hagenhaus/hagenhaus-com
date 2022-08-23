@@ -88,3 +88,5 @@ There are several ways to apply a theme to an HHDataList instance:
 1. State is tacked onto the end of the theme object property name.
 1. Checks in checkboxes are always white.
 1. Use the *themes* option to build a select element for the user.
+1. See [Programmatically Lighten or Darken a hex color](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors).
+1. See [How to Calculate Lighter or Darker Hex Colors in JavaScript](https://www.sitepoint.com/javascript-generate-lighter-darker-color/).

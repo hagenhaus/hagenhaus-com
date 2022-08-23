@@ -62,7 +62,7 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    theme: 'Dodger Blue',
+    theme: 'Essential Firebrick',
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>

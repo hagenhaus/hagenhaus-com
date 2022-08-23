@@ -175,11 +175,19 @@ div.hh-data-list div.hh-paginator button,
 div.hh-data-list div.hh-filter-group button, 
 div.hh-data-list div.hh-order-group button,
 div.hh-data-list div.hh-limiter label,
-div.hh-data-list div.hh-expander label,
 div.hh-data-list div.hh-filter-group label,
 div.hh-data-list div.hh-order-group label {
   color: var(--hh-control-color) !important;
   border-color: var(--hh-control-border-color) !important;
+  background-color: var(--hh-control-background-color) !important;
+}
+
+div.hh-data-list div.hh-expander label {
+  color: var(--hh-control-color) !important;
+  border-top-color: var(--hh-control-border-color) !important;
+  border-right-color: transparent !important;
+  border-bottom-color: var(--hh-control-border-color) !important;
+  border-left-color: var(--hh-control-border-color) !important;
   background-color: var(--hh-control-background-color) !important;
 }
 
@@ -199,7 +207,10 @@ div.hh-data-list div.hh-fields-wrapper {
 }
 
 div.hh-data-list div.hh-expander div.hh-expander-checkbox-group {
-  border-color: var(--hh-control-border-color) !important;
+  border-top-color: var(--hh-control-border-color) !important;
+  border-right-color: var(--hh-control-border-color) !important;
+  border-bottom-color: var(--hh-control-border-color) !important;
+  border-left-color: transparent !important;
   background-color: var(--hh-control-background-color) !important;
 }
 
