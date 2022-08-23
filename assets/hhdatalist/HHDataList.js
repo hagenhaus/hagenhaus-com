@@ -1,11 +1,10 @@
 const hhDataListThemes = new Map();
 
 hhDataListThemes.set(
-  'dodger-light', {
-  mode: 'hh-light',
-
-  tabBorderColor: '#0059b3',
+  'dodger blue', {
+  name: 'Dodger Blue',
   tabButtonColor: '#0059b3',
+  tabBorderColor: '#0059b3',
 
   controlColor: 'white',
   controlColorHover: 'white',
@@ -14,6 +13,9 @@ hhDataListThemes.set(
   controlBackgroundColor: '#0073e6',
   controlBackgroundColorHover: '#0059b3',
   controlOpacityDisabled: '80%',
+
+  descriptionLinkColor: 'forestgreen',
+  descriptionLinkColorHover: 'pink',
 
   checkboxLabelColor: '#000d1a',
   checkboxBorderColor: '#4da6ff',
@@ -42,7 +44,7 @@ hhDataListThemes.set(
   recordTitleButtonBackgroundColorHover: '#003366',
   recordTitleButtonBackgroundColorActive: 'white',
 
-  recordFieldLabelColor: '#4da6ff',
+  recordFieldLabelColor: '#1e90ff',
   recordFieldInputColor: '#000d1a',
   recordFieldInputColorDisabled: '#000d1a',
   recordFieldInputBorderColor: '#00264d',
@@ -68,17 +70,37 @@ hhDataListThemes.set(
   newRecordTitleButtonBackgroundColor: 'transparent',
   newRecordTitleButtonBackgroundColorHover: 'white',
 
-  colorOld1: '#edf3f8',
-  colorOld2: '#dae7f1',
-  colorOld3: '#b6cee2',
-  colorOld4: '#325d81',
-  colorOld5: '#325d81'
+  newRecordFieldLabelColor: '#003366',
+  newRecordFieldLabelColorRequired: 'red',
+  newRecordFieldInputColor: '#000d1a',
+  newRecordFieldInputBorderColor: '#000d1a',
+  newRecordFieldInputBackgroundColor: 'white',
 
-  // colorOld1: '#f2f2f2',
-  // colorOld2: '#f2f2f2',
-  // colorOld3: '#f2f2f2',
-  // colorOld4: '#f2f2f2',
-  // colorOld5: '#f2f2f2'
+  newRecordSubmitButtonColor: 'white',
+  newRecordSubmitButtonColorHover: 'white',
+  newRecordSubmitButtonBorderColor: '#0073e6',
+  newRecordSubmitButtonBorderColorHover: '#0059b3',
+  newRecordSubmitButtonBackgroundColor: '#0073e6',
+  newRecordSubmitButtonBackgroundColorHover: '#0059b3',
+
+  createdRecordBorderColor: '#003366',
+  createdRecordBorderColorHover: '#003366',
+  createdRecordBorderColorOpen: '#003366',
+
+  createdRecordTitleColor: 'white',
+  createdRecordTitleBackgroundColor: '#003366',
+
+  createdRecordTitleButtonColor: 'white',
+  createdRecordTitleButtonColorHover: '#003366',
+  createdRecordTitleButtonBorderColor: 'transparent',
+  createdRecordTitleButtonBorderColorHover: 'white',
+  createdRecordTitleButtonBackgroundColor: 'transparent',
+  createdRecordTitleButtonBackgroundColorHover: 'white',
+
+  createdRecordFieldLabelColor: '#1e90ff',
+  createdRecordFieldInputColor: '#000d1a',
+  createdRecordFieldInputBorderColor: '#e6f2ff',
+  createdRecordFieldInputBackgroundColor: '#e6f2ff',
 });
 
 // const keys = hhDataListThemes.keys();
@@ -146,7 +168,7 @@ class HHDataList {
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
     // Set theme values.
-    let theme = hhDataListThemes.get('blue');
+    let theme = hhDataListThemes.get('dodger-blue');
     if ('theme' in options) {
       if (typeof options.theme === 'object') {
         // Need to validate this object.
@@ -163,8 +185,8 @@ class HHDataList {
       }
     }
 
-    this.el.style.setProperty('--hh-tab-border-color', theme.tabBorderColor);
     this.el.style.setProperty('--hh-tab-button-color', theme.tabButtonColor);
+    this.el.style.setProperty('--hh-tab-border-color', theme.tabBorderColor);
 
     this.el.style.setProperty('--hh-control-color', theme.controlColor);
     this.el.style.setProperty('--hh-control-color-hover', theme.controlColorHover);
@@ -173,6 +195,9 @@ class HHDataList {
     this.el.style.setProperty('--hh-control-background-color', theme.controlBackgroundColor);
     this.el.style.setProperty('--hh-control-background-color-hover', theme.controlBackgroundColorHover);
     this.el.style.setProperty('--hh-control-opacity-disabled', theme.controlOpacityDisabled);
+
+    this.el.style.setProperty('--hh-description-link-color', theme.descriptionLinkColor);
+    this.el.style.setProperty('--hh-description-link-color-hover', theme.descriptionLinkColorHover);
 
     this.el.style.setProperty('--hh-checkbox-label-color', theme.checkboxLabelColor);
     this.el.style.setProperty('--hh-checkbox-border-color', theme.checkboxBorderColor);
@@ -227,11 +252,37 @@ class HHDataList {
     this.el.style.setProperty('--hh-new-record-title-button-background-color', theme.newRecordTitleButtonBackgroundColor);
     this.el.style.setProperty('--hh-new-record-title-button-background-color-hover', theme.newRecordTitleButtonBackgroundColorHover);
 
-    this.el.style.setProperty('--hh-color-old-1', theme.colorOld1);
-    this.el.style.setProperty('--hh-color-old-2', theme.colorOld2);
-    this.el.style.setProperty('--hh-color-old-3', theme.colorOld3);
-    this.el.style.setProperty('--hh-color-old-4', theme.colorOld4);
-    this.el.style.setProperty('--hh-color-old-5', theme.colorOld5);
+    this.el.style.setProperty('--hh-new-record-field-label-color', theme.newRecordFieldLabelColor);
+    this.el.style.setProperty('--hh-new-record-field-label-color-required', theme.newRecordFieldLabelColorRequired);
+    this.el.style.setProperty('--hh-new-record-field-input-color', theme.newRecordFieldInputColor);
+    this.el.style.setProperty('--hh-new-record-field-input-border-color', theme.newRecordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-new-record-field-input-background-color', theme.newRecordFieldInputBackgroundColor);
+
+    this.el.style.setProperty('--hh-new-record-submit-button-color', theme.newRecordSubmitButtonColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-color-hover', theme.newRecordSubmitButtonColorHover);
+    this.el.style.setProperty('--hh-new-record-submit-button-border-color', theme.newRecordSubmitButtonBorderColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-border-color-hover', theme.newRecordSubmitButtonBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-submit-button-background-color', theme.newRecordSubmitButtonBackgroundColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-background-color-hover', theme.newRecordSubmitButtonBackgroundColorHover);
+
+    this.el.style.setProperty('--hh-created-record-border-color', theme.createdRecordBorderColor);
+    this.el.style.setProperty('--hh-created-record-border-color-hover', theme.createdRecordBorderColorHover);
+    this.el.style.setProperty('--hh-created-record-border-color-open', theme.createdRecordBorderColorOpen);
+
+    this.el.style.setProperty('--hh-created-record-title-color', theme.createdRecordTitleColor);
+    this.el.style.setProperty('--hh-created-record-title-background-color', theme.createdRecordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-created-record-title-button-color', theme.createdRecordTitleButtonColor);
+    this.el.style.setProperty('--hh-created-record-title-button-color-hover', theme.createdRecordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-created-record-title-button-border-color', theme.createdRecordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-created-record-title-button-border-color-hover', theme.createdRecordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-created-record-title-button-background-color', theme.createdRecordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-created-record-title-button-background-color-hover', theme.createdRecordTitleButtonBackgroundColorHover);
+
+    this.el.style.setProperty('--hh-created-record-field-label-color', theme.createdRecordFieldLabelColor);
+    this.el.style.setProperty('--hh-created-record-field-input-color', theme.createdRecordFieldInputColor);
+    this.el.style.setProperty('--hh-created-record-field-input-border-color', theme.createdRecordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-created-record-field-input-background-color', theme.createdRecordFieldInputBackgroundColor);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));
@@ -632,7 +683,7 @@ class HHDataList {
       for (let field of newRecordFields) {
         let label = document.createElement('label');
         label.classList.add('form-label');
-        // label.innerHTML = field.label;
+        if (field.isRequired) { label.classList.add('hh-required'); }
         label.innerHTML = field.isRequired ? `${field.label}*` : field.label;
 
         let input = document.createElement('input');
