@@ -1,87 +1,93 @@
 # HHDataList Themes
 
-A theme is a JavaScript object that specifies the colors, border colors, and background colors for the html elements that compose an HHDataList instance:
+A theme is a JavaScript object that specifies the colors, border colors, background colors, and, in a few cases, opacity for the html elements that compose an HHDataList instance. 
+
+# Applying themes
+
+There are several ways apply a theme to an HHDataList instance:
+
+## Apply the default theme
+
+Apply the default *Dodger Blue* theme by omitting the *theme* option:
 
 ``` nonum
-{
-  name: 'Dodger Blue',
-  tabButtonColor: '#0059b3',
-  tabBorderColor: '#0059b3',
-  controlColor: 'white',
-  controlColorHover: 'white',
-  ...
-}
+new HHDataList({
+});
 ```
 
-There are several ways to apply a theme to an HHDataList instance:
+## Apply a standard theme
 
-1. Apply a pre-made theme:
+Choose and apply a *Standard Theme*:
 
-    ``` nonum
-    new HHDataList({
-      ...
-      theme: 'Dodger Blue',
-      ...
-    });
-    ```
+``` nonum
+new HHDataList({
+  theme: 'Dodger Blue'
+});
+```
 
-    HHDataList includes the following pre-made themes:
+HHDataList supports the following standard themes:
 
-    1. Dodger Blue
-    1. sss
-    1. sss
-    1. sss
+* Dodger Blue
+* sss
+* sss
+* sss
 
-1. Apply a pre-made theme with overrides:
+## Apply a standard+ theme
 
-    ``` nonum
-    new HHDataList({
-      ...
-      theme: 'Dodger Blue',
-      themeOverrides: {
-        name: "My Dodger Blue",
-        descriptionLinkColor: '#145214',
-        newRecordFieldLabelColorRequired: 'pink'
-      }
-      ...
-    });
-    ```
+Choose and apply a standard+ theme (i.e. one with overrides):
 
-1. Apply the default *Dodger Blue* theme by omitting the *theme* option:
+``` nonum
+new HHDataList({
+  theme: 'Dodger Blue',
+  themeOverrides:{
+    name: "My Dodger Blue",
+    descriptionLinkColor: '#145214',
+    newRecordFieldLabelColorRequired: 'pink'
+  }
+});
+```
 
-    ``` nonum
-    new HHDataList({
-      ...
-    });
-    ```
+## Apply a custom theme
 
-1. Create and apply a theme comprised of only essential properties:
+Create and apply a custom theme:
 
-    ``` nonum
-    new HHDataList({
-      ...
-      theme: {
-        name: 'My Custom Essential Theme',
-        tabButtonColor: '#0059b3',
-      },
-      ...
-    });
-    ```
+``` nonum
+new HHDataList({
+  theme: {
+    name: 'My Theme'
+  },
+  themeDefaults: {
+    color1: '#ffffff',
+    color2: '#e6f2ff',
+    color3: '#cce6ff',
+    color4: '#80bfff',
+    color5: '#0073e6',
+    color6: '#0059b3'
+  }
+});
+```
 
-1. Create and apply a theme comprised of essential and one or more non-essential properties:
+## Apply a custom+ theme
 
-    ``` nonum
-    new HHDataList({
-      ...
-      theme: {
-        name: 'My Custom Theme',
-        tabButtonColor: '#0059b3',
-      },
-      ...
-    });
-    ```
+Create and apply a custom+ theme (i.e. one with specific properties):
 
-1. Specify a theme name and seed color:
+``` nonum
+new HHDataList({
+  theme: {
+    name: 'My Theme',
+    descriptionLinkColor: '#145214',
+    newRecordFieldLabelColorRequired: 'pink'
+  },
+  themeDefaults: {
+    color1: '#ffffff',
+    color2: '#e6f2ff',
+    color3: '#cce6ff',
+    color4: '#80bfff',
+    color5: '#0073e6',
+    color6: '#0059b3'
+  }
+});
+```
 
 # Notes
 
@@ -90,3 +96,4 @@ There are several ways to apply a theme to an HHDataList instance:
 1. Use the *themes* option to build a select element for the user.
 1. See [Programmatically Lighten or Darken a hex color](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors).
 1. See [How to Calculate Lighter or Darker Hex Colors in JavaScript](https://www.sitepoint.com/javascript-generate-lighter-darker-color/).
+

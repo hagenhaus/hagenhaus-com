@@ -407,7 +407,7 @@ div.hh-data-list div.hh-new-record details input.form-control {
 
 div.hh-data-list form.hh-new-record-form button {
   color: var(--hh-new-record-submit-button-color);
-  border-color: var(--hh-new-record-submit-button-border-color);
+  border-color: var(--hh-new-record-submit-button-border-color) !important;
   background-color: var(--hh-new-record-submit-button-background-color);
 }
 

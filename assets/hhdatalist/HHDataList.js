@@ -1,109 +1,6 @@
 const hhDataListThemes = new Map();
 
 hhDataListThemes.set(
-  'essential firebrick', {
-  name: 'Essential Firebrick',
-  tabButtonColor: '#ab2121',
-  tabBorderColor: '#ab2121',
-
-  controlColor: 'white',
-  controlColorHover: 'white',
-  controlBorderColor: '#0073e6',
-  controlBorderColorHover: '#0059b3',
-  controlBackgroundColor: '#0073e6',
-  controlBackgroundColorHover: '#0059b3',
-  controlOpacityDisabled: '80%',
-
-  descriptionLinkColor: 'forestgreen',
-  descriptionLinkColorHover: 'pink',
-
-  checkboxLabelColor: '#000d1a',
-  checkboxBorderColor: '#4da6ff',
-  checkboxBorderColorChecked: '#0073e6',
-  checkboxBackgroundColor: 'white',
-  checkboxBackgroundColorChecked: '#0073e6',
-  expanderCheckboxBorderColor: '#0073e6',
-  expanderCheckboxBorderColorChecked: 'white',
-  expanderCheckboxBackgroundColor: 'white',
-  expanderCheckboxBackgroundColorChecked: '#0073e6',
-
-  recordBorderColor: '#cce6ff',
-  recordBorderColorHover: '#cce6ff',
-  recordBorderColorOpen: '#80bfff',
-
-  recordTitleColor: '#003366',
-  recordTitleBackgroundColor: '#cce6ff',
-
-  recordTitleButtonColor: '#003366',
-  recordTitleButtonColorHover: 'white',
-  recordTitleButtonColorActive: '#003366',
-  recordTitleButtonBorderColor: 'transparent',
-  recordTitleButtonBorderColorHover: '#003366',
-  recordTitleButtonBorderColorActive: '#003366',
-  recordTitleButtonBackgroundColor: 'transparent',
-  recordTitleButtonBackgroundColorHover: '#003366',
-  recordTitleButtonBackgroundColorActive: 'white',
-
-  recordFieldLabelColor: '#1e90ff',
-  recordFieldInputColor: '#000d1a',
-  recordFieldInputColorDisabled: '#000d1a',
-  recordFieldInputBorderColor: '#00264d',
-  recordFieldInputBorderColorDisabled: '#e6f2ff',
-  recordFieldInputBackgroundColor: 'white',
-  recordFieldInputBackgroundColorDisabled: '#e6f2ff',
-  recordFieldButtonColor: 'white',
-  recordFieldButtonBorderColor: '#003366',
-  recordFieldButtonBackgroundColor: '#003366',
-  recordFieldButtonOpacityDisabled: '65%',
-
-  newRecordBorderColor: '#003366',
-  newRecordBorderColorHover: '#003366',
-  newRecordBorderColorOpen: '#003366',
-
-  newRecordTitleColor: 'white',
-  newRecordTitleBackgroundColor: '#003366',
-
-  newRecordTitleButtonColor: 'white',
-  newRecordTitleButtonColorHover: '#003366',
-  newRecordTitleButtonBorderColor: 'transparent',
-  newRecordTitleButtonBorderColorHover: 'white',
-  newRecordTitleButtonBackgroundColor: 'transparent',
-  newRecordTitleButtonBackgroundColorHover: 'white',
-
-  newRecordFieldLabelColor: '#003366',
-  newRecordFieldLabelColorRequired: 'red',
-  newRecordFieldInputColor: '#000d1a',
-  newRecordFieldInputBorderColor: '#000d1a',
-  newRecordFieldInputBackgroundColor: 'white',
-
-  newRecordSubmitButtonColor: 'white',
-  newRecordSubmitButtonColorHover: 'white',
-  newRecordSubmitButtonBorderColor: '#0073e6',
-  newRecordSubmitButtonBorderColorHover: '#0059b3',
-  newRecordSubmitButtonBackgroundColor: '#0073e6',
-  newRecordSubmitButtonBackgroundColorHover: '#0059b3',
-
-  createdRecordBorderColor: '#003366',
-  createdRecordBorderColorHover: '#003366',
-  createdRecordBorderColorOpen: '#003366',
-
-  createdRecordTitleColor: 'white',
-  createdRecordTitleBackgroundColor: '#003366',
-
-  createdRecordTitleButtonColor: 'white',
-  createdRecordTitleButtonColorHover: '#003366',
-  createdRecordTitleButtonBorderColor: 'transparent',
-  createdRecordTitleButtonBorderColorHover: 'white',
-  createdRecordTitleButtonBackgroundColor: 'transparent',
-  createdRecordTitleButtonBackgroundColorHover: 'white',
-
-  createdRecordFieldLabelColor: '#1e90ff',
-  createdRecordFieldInputColor: '#000d1a',
-  createdRecordFieldInputBorderColor: '#e6f2ff',
-  createdRecordFieldInputBackgroundColor: '#e6f2ff',
-});
-
-hhDataListThemes.set(
   'dodger blue', {
   name: 'Dodger Blue',
   tabButtonColor: '#0059b3',
@@ -270,122 +167,7 @@ class HHDataList {
     this.tabDescriptions.created = 'created' in options.tabDescriptions ? options.tabDescriptions.created : null;
     this.tabDescriptions.config = 'config' in options.tabDescriptions ? options.tabDescriptions.config : null;
 
-    // Set theme values.
-    let theme = hhDataListThemes.get('dodger-blue');
-    if ('theme' in options) {
-      if (typeof options.theme === 'object') {
-        // Need to validate this object.
-        theme = options.theme;
-      } else if (typeof options.theme === 'string') {
-        let value = hhDataListThemes.get(options.theme.toLowerCase());
-        if (value) {
-          theme = value;
-        } else {
-          // Use default theme. Tell user.
-        }
-      } else {
-        // Use default theme. Tell user.
-      }
-    }
-
-    this.el.style.setProperty('--hh-tab-button-color', theme.tabButtonColor);
-    this.el.style.setProperty('--hh-tab-border-color', theme.tabBorderColor);
-
-    this.el.style.setProperty('--hh-control-color', theme.controlColor);
-    this.el.style.setProperty('--hh-control-color-hover', theme.controlColorHover);
-    this.el.style.setProperty('--hh-control-border-color', theme.controlBorderColor);
-    this.el.style.setProperty('--hh-control-border-color-hover', theme.controlBorderColorHover);
-    this.el.style.setProperty('--hh-control-background-color', theme.controlBackgroundColor);
-    this.el.style.setProperty('--hh-control-background-color-hover', theme.controlBackgroundColorHover);
-    this.el.style.setProperty('--hh-control-opacity-disabled', theme.controlOpacityDisabled);
-
-    this.el.style.setProperty('--hh-description-link-color', theme.descriptionLinkColor);
-    this.el.style.setProperty('--hh-description-link-color-hover', theme.descriptionLinkColorHover);
-
-    this.el.style.setProperty('--hh-checkbox-label-color', theme.checkboxLabelColor);
-    this.el.style.setProperty('--hh-checkbox-border-color', theme.checkboxBorderColor);
-    this.el.style.setProperty('--hh-checkbox-border-color-checked', theme.checkboxBorderColorChecked);
-    this.el.style.setProperty('--hh-checkbox-background-color', theme.checkboxBackgroundColor);
-    this.el.style.setProperty('--hh-checkbox-background-color-checked', theme.checkboxBackgroundColorChecked);
-    this.el.style.setProperty('--hh-expander-checkbox-border-color', theme.expanderCheckboxBorderColor);
-    this.el.style.setProperty('--hh-expander-checkbox-border-color-checked', theme.expanderCheckboxBorderColorChecked);
-    this.el.style.setProperty('--hh-expander-checkbox-background-color', theme.expanderCheckboxBackgroundColor);
-    this.el.style.setProperty('--hh-expander-checkbox-background-color-checked', theme.expanderCheckboxBackgroundColorChecked);
-
-    this.el.style.setProperty('--hh-record-border-color', theme.recordBorderColor);
-    this.el.style.setProperty('--hh-record-border-color-hover', theme.recordBorderColorHover);
-    this.el.style.setProperty('--hh-record-border-color-open', theme.recordBorderColorOpen);
-
-    this.el.style.setProperty('--hh-record-title-color', theme.recordTitleColor);
-    this.el.style.setProperty('--hh-record-title-background-color', theme.recordTitleBackgroundColor);
-
-    this.el.style.setProperty('--hh-record-title-button-color', theme.recordTitleButtonColor);
-    this.el.style.setProperty('--hh-record-title-button-color-hover', theme.recordTitleButtonColorHover);
-    this.el.style.setProperty('--hh-record-title-button-color-active', theme.recordTitleButtonColorActive);
-    this.el.style.setProperty('--hh-record-title-button-border-color', theme.recordTitleButtonBorderColor);
-    this.el.style.setProperty('--hh-record-title-button-border-color-hover', theme.recordTitleButtonBorderColorHover);
-    this.el.style.setProperty('--hh-record-title-button-border-color-active', theme.recordTitleButtonBorderColorActive);
-    this.el.style.setProperty('--hh-record-title-button-background-color', theme.recordTitleButtonBackgroundColor);
-    this.el.style.setProperty('--hh-record-title-button-background-color-hover', theme.recordTitleButtonBackgroundColorHover);
-    this.el.style.setProperty('--hh-record-title-button-background-color-active', theme.recordTitleButtonBackgroundColorActive);
-
-    this.el.style.setProperty('--hh-record-field-label-color', theme.recordFieldLabelColor);
-    this.el.style.setProperty('--hh-record-field-input-color', theme.recordFieldInputColor);
-    this.el.style.setProperty('--hh-record-field-input-color-disabled', theme.recordFieldInputColorDisabled);
-    this.el.style.setProperty('--hh-record-field-input-border-color', theme.recordFieldInputBorderColor);
-    this.el.style.setProperty('--hh-record-field-input-border-color-disabled', theme.recordFieldInputBorderColorDisabled);
-    this.el.style.setProperty('--hh-record-field-input-background-color', theme.recordFieldInputBackgroundColor);
-    this.el.style.setProperty('--hh-record-field-input-background-color-disabled', theme.recordFieldInputBackgroundColorDisabled);
-    this.el.style.setProperty('--hh-record-field-button-color', theme.recordFieldButtonColor);
-    this.el.style.setProperty('--hh-record-field-button-border-color', theme.recordFieldButtonBorderColor);
-    this.el.style.setProperty('--hh-record-field-button-background-color', theme.recordFieldButtonBackgroundColor);
-    this.el.style.setProperty('--hh-record-field-button-opacity-disabled', theme.recordFieldButtonOpacityDisabled);
-
-    this.el.style.setProperty('--hh-new-record-border-color', theme.newRecordBorderColor);
-    this.el.style.setProperty('--hh-new-record-border-color-hover', theme.newRecordBorderColorHover);
-    this.el.style.setProperty('--hh-new-record-border-color-open', theme.newRecordBorderColorOpen);
-
-    this.el.style.setProperty('--hh-new-record-title-color', theme.newRecordTitleColor);
-    this.el.style.setProperty('--hh-new-record-title-background-color', theme.newRecordTitleBackgroundColor);
-
-    this.el.style.setProperty('--hh-new-record-title-button-color', theme.newRecordTitleButtonColor);
-    this.el.style.setProperty('--hh-new-record-title-button-color-hover', theme.newRecordTitleButtonColorHover);
-    this.el.style.setProperty('--hh-new-record-title-button-border-color', theme.newRecordTitleButtonBorderColor);
-    this.el.style.setProperty('--hh-new-record-title-button-border-color-hover', theme.newRecordTitleButtonBorderColorHover);
-    this.el.style.setProperty('--hh-new-record-title-button-background-color', theme.newRecordTitleButtonBackgroundColor);
-    this.el.style.setProperty('--hh-new-record-title-button-background-color-hover', theme.newRecordTitleButtonBackgroundColorHover);
-
-    this.el.style.setProperty('--hh-new-record-field-label-color', theme.newRecordFieldLabelColor);
-    this.el.style.setProperty('--hh-new-record-field-label-color-required', theme.newRecordFieldLabelColorRequired);
-    this.el.style.setProperty('--hh-new-record-field-input-color', theme.newRecordFieldInputColor);
-    this.el.style.setProperty('--hh-new-record-field-input-border-color', theme.newRecordFieldInputBorderColor);
-    this.el.style.setProperty('--hh-new-record-field-input-background-color', theme.newRecordFieldInputBackgroundColor);
-
-    this.el.style.setProperty('--hh-new-record-submit-button-color', theme.newRecordSubmitButtonColor);
-    this.el.style.setProperty('--hh-new-record-submit-button-color-hover', theme.newRecordSubmitButtonColorHover);
-    this.el.style.setProperty('--hh-new-record-submit-button-border-color', theme.newRecordSubmitButtonBorderColor);
-    this.el.style.setProperty('--hh-new-record-submit-button-border-color-hover', theme.newRecordSubmitButtonBorderColorHover);
-    this.el.style.setProperty('--hh-new-record-submit-button-background-color', theme.newRecordSubmitButtonBackgroundColor);
-    this.el.style.setProperty('--hh-new-record-submit-button-background-color-hover', theme.newRecordSubmitButtonBackgroundColorHover);
-
-    this.el.style.setProperty('--hh-created-record-border-color', theme.createdRecordBorderColor);
-    this.el.style.setProperty('--hh-created-record-border-color-hover', theme.createdRecordBorderColorHover);
-    this.el.style.setProperty('--hh-created-record-border-color-open', theme.createdRecordBorderColorOpen);
-
-    this.el.style.setProperty('--hh-created-record-title-color', theme.createdRecordTitleColor);
-    this.el.style.setProperty('--hh-created-record-title-background-color', theme.createdRecordTitleBackgroundColor);
-
-    this.el.style.setProperty('--hh-created-record-title-button-color', theme.createdRecordTitleButtonColor);
-    this.el.style.setProperty('--hh-created-record-title-button-color-hover', theme.createdRecordTitleButtonColorHover);
-    this.el.style.setProperty('--hh-created-record-title-button-border-color', theme.createdRecordTitleButtonBorderColor);
-    this.el.style.setProperty('--hh-created-record-title-button-border-color-hover', theme.createdRecordTitleButtonBorderColorHover);
-    this.el.style.setProperty('--hh-created-record-title-button-background-color', theme.createdRecordTitleButtonBackgroundColor);
-    this.el.style.setProperty('--hh-created-record-title-button-background-color-hover', theme.createdRecordTitleButtonBackgroundColorHover);
-
-    this.el.style.setProperty('--hh-created-record-field-label-color', theme.createdRecordFieldLabelColor);
-    this.el.style.setProperty('--hh-created-record-field-input-color', theme.createdRecordFieldInputColor);
-    this.el.style.setProperty('--hh-created-record-field-input-border-color', theme.createdRecordFieldInputBorderColor);
-    this.el.style.setProperty('--hh-created-record-field-input-background-color', theme.createdRecordFieldInputBackgroundColor);
+    this.establishTheme(options);
 
     // Create rows
     this.el.appendChild(this.createTabsRow(options));
@@ -396,9 +178,11 @@ class HHDataList {
     this.getAndProcessRecords();
   };
 
+
+
   /************************************************************************************************
- * createTabsRow
- ************************************************************************************************/
+  * createTabsRow
+  ************************************************************************************************/
 
   createTabsRow(options) {
     let row = document.createElement('div');
@@ -1617,4 +1401,263 @@ class HHDataList {
   ************************************************************************************************/
 
   toRealId(uniqueId) { return uniqueId.replace(`${this.id}-`, ''); }
+
+  /************************************************************************************************
+  * establishTheme
+  ************************************************************************************************/
+
+  establishTheme(options) {
+
+    let theme = hhDataListThemes.get('dodger-blue');
+
+    if ('theme' in options) {
+
+      if (typeof options.theme === 'string') {
+
+        let value = hhDataListThemes.get(options.theme.toLowerCase());
+
+        if (value) {
+          theme = value;
+
+        } else {
+          // Use default theme. Tell user.
+        }
+
+      } else if (typeof options.theme === 'object') {
+
+        theme = this.buildTheme(options);
+
+      } else {
+        // Use default theme. Tell user.
+      }
+
+    }
+
+    this.applyTheme(theme);
+  }
+
+  /************************************************************************************************
+  * buildTheme
+  ************************************************************************************************/
+
+  buildTheme(options) {
+
+    console.log('Inside buildTheme');
+    // Verify that options.theme exists. It has a name. Or not.
+    // Verify that options.themeDefaults exists. It has all six default colors. Or not.
+
+    let theme = {};
+    let color1 = '#ffffff';
+    let color2 = '#f9ebeb';
+    let color3 = '#ffe6e6';
+    let color4 = '#ffcccc';
+    let color5 = '#e60000';
+    let color6 = '#800000';
+
+    theme.tabButtonColor = 'tabButtonColor' in theme ? theme.tabButtonColor : color6;
+    theme.tabBorderColor = 'tabBorderColor' in theme ? theme.tabBorderColor : color6;
+    
+    theme.controlColor = 'controlColor' in theme ? theme.controlColor : color1;
+    theme.controlColorHover = 'controlColorHover' in theme ? theme.controlColorHover : color1;
+    theme.controlBorderColor = 'controlBorderColor' in theme ? theme.controlBorderColor : color5;
+    theme.controlBorderColorHover = 'controlBorderColorHover' in theme ? theme.controlBorderColorHover : color6;
+    theme.controlBackgroundColor = 'controlBackgroundColor' in theme ? theme.controlBackgroundColor : color5;
+    theme.controlBackgroundColorHover = 'controlBackgroundColorHover' in theme ? theme.controlBackgroundColorHover : color6;
+    theme.controlOpacityDisabled = 'controlOpacityDisabled' in theme ? theme.controlOpacityDisabled : '80%';
+    
+    theme.descriptionLinkColor = 'descriptionLinkColor' in theme ? theme.descriptionLinkColor : color6;
+    theme.descriptionLinkColorHover = 'descriptionLinkColorHover' in theme ? theme.descriptionLinkColorHover : color5;
+    
+    theme.checkboxLabelColor = 'checkboxLabelColor' in theme ? theme.checkboxLabelColor : color6;
+    theme.checkboxBorderColor = 'checkboxBorderColor' in theme ? theme.checkboxBorderColor : color4;
+    theme.checkboxBorderColorChecked = 'checkboxBorderColorChecked' in theme ? theme.checkboxBorderColorChecked : color6;
+    theme.checkboxBackgroundColor = 'checkboxBackgroundColor' in theme ? theme.checkboxBackgroundColor : color1;
+    theme.checkboxBackgroundColorChecked = 'checkboxBackgroundColorChecked' in theme ? theme.checkboxBackgroundColorChecked : color6;
+    theme.expanderCheckboxBorderColor = 'expanderCheckboxBorderColor' in theme ? theme.expanderCheckboxBorderColor : color5;
+    theme.expanderCheckboxBorderColorChecked = 'expanderCheckboxBorderColorChecked' in theme ? theme.expanderCheckboxBorderColorChecked : color1;
+    theme.expanderCheckboxBackgroundColor = 'expanderCheckboxBackgroundColor' in theme ? theme.expanderCheckboxBackgroundColor : color1;
+    theme.expanderCheckboxBackgroundColorChecked = 'expanderCheckboxBackgroundColorChecked' in theme ? theme.expanderCheckboxBackgroundColorChecked : color6;
+    
+    theme.recordBorderColor = 'recordBorderColor' in theme ? theme.recordBorderColor : color3;
+    theme.recordBorderColorHover = 'recordBorderColorHover' in theme ? theme.recordBorderColorHover : color3;
+    theme.recordBorderColorOpen = 'recordBorderColorOpen' in theme ? theme.recordBorderColorOpen : color4;
+    
+    theme.recordTitleColor = 'recordTitleColor' in theme ? theme.recordTitleColor : color6;
+    theme.recordTitleBackgroundColor = 'recordTitleBackgroundColor' in theme ? theme.recordTitleBackgroundColor : color3;
+    
+    theme.recordTitleButtonColor = 'recordTitleButtonColor' in theme ? theme.recordTitleButtonColor : color6;
+    theme.recordTitleButtonColorHover = 'recordTitleButtonColorHover' in theme ? theme.recordTitleButtonColorHover : color1;
+    theme.recordTitleButtonColorActive = 'recordTitleButtonColorActive' in theme ? theme.recordTitleButtonColorActive : color6;
+    theme.recordTitleButtonBorderColor = 'recordTitleButtonBorderColor' in theme ? theme.recordTitleButtonBorderColor : 'transparent';
+    theme.recordTitleButtonBorderColorHover = 'recordTitleButtonBorderColorHover' in theme ? theme.recordTitleButtonBorderColorHover : color6;
+    theme.recordTitleButtonBorderColorActive = 'recordTitleButtonBorderColorActive' in theme ? theme.recordTitleButtonBorderColorActive : color6;
+    theme.recordTitleButtonBackgroundColor = 'recordTitleButtonBackgroundColor' in theme ? theme.recordTitleButtonBackgroundColor : 'transparent';
+    theme.recordTitleButtonBackgroundColorHover = 'recordTitleButtonBackgroundColorHover' in theme ? theme.recordTitleButtonBackgroundColorHover : color6;
+    theme.recordTitleButtonBackgroundColorActive = 'recordTitleButtonBackgroundColorActive' in theme ? theme.recordTitleButtonBackgroundColorActive : color1;
+    
+    theme.recordFieldLabelColor = 'recordFieldLabelColor' in theme ? theme.recordFieldLabelColor : color5;
+    theme.recordFieldInputColor = 'recordFieldInputColor' in theme ? theme.recordFieldInputColor : color6;
+    theme.recordFieldInputColorDisabled = 'recordFieldInputColorDisabled' in theme ? theme.recordFieldInputColorDisabled : color6;
+    theme.recordFieldInputBorderColor = 'recordFieldInputBorderColor' in theme ? theme.recordFieldInputBorderColor : color6;
+    theme.recordFieldInputBorderColorDisabled = 'recordFieldInputBorderColorDisabled' in theme ? theme.recordFieldInputBorderColorDisabled : color2;
+    theme.recordFieldInputBackgroundColor = 'recordFieldInputBackgroundColor' in theme ? theme.recordFieldInputBackgroundColor : color1;
+    theme.recordFieldInputBackgroundColorDisabled = 'recordFieldInputBackgroundColorDisabled' in theme ? theme.recordFieldInputBackgroundColorDisabled : color2;
+    theme.recordFieldButtonColor = 'recordFieldButtonColor' in theme ? theme.recordFieldButtonColor : color1;
+    theme.recordFieldButtonBorderColor = 'recordFieldButtonBorderColor' in theme ? theme.recordFieldButtonBorderColor : color6;
+    theme.recordFieldButtonBackgroundColor = 'recordFieldButtonBackgroundColor' in theme ? theme.recordFieldButtonBackgroundColor : color6;
+    theme.recordFieldButtonOpacityDisabled = 'recordFieldButtonOpacityDisabled' in theme ? theme.recordFieldButtonOpacityDisabled : '65%';
+    
+    theme.newRecordBorderColor = 'newRecordBorderColor' in theme ? theme.newRecordBorderColor : color6;
+    theme.newRecordBorderColorHover = 'newRecordBorderColorHover' in theme ? theme.newRecordBorderColorHover : color6;
+    theme.newRecordBorderColorOpen = 'newRecordBorderColorOpen' in theme ? theme.newRecordBorderColorOpen : color6;
+    
+    theme.newRecordTitleColor = 'newRecordTitleColor' in theme ? theme.newRecordTitleColor : color1;
+    theme.newRecordTitleBackgroundColor = 'newRecordTitleBackgroundColor' in theme ? theme.newRecordTitleBackgroundColor : color6;
+    
+    theme.newRecordTitleButtonColor = 'newRecordTitleButtonColor' in theme ? theme.newRecordTitleButtonColor : color1;
+    theme.newRecordTitleButtonColorHover = 'newRecordTitleButtonColorHover' in theme ? theme.newRecordTitleButtonColorHover : color6;
+    theme.newRecordTitleButtonBorderColor = 'newRecordTitleButtonBorderColor' in theme ? theme.newRecordTitleButtonBorderColor : 'transparent';
+    theme.newRecordTitleButtonBorderColorHover = 'newRecordTitleButtonBorderColorHover' in theme ? theme.newRecordTitleButtonBorderColorHover : color1;
+    theme.newRecordTitleButtonBackgroundColor = 'newRecordTitleButtonBackgroundColor' in theme ? theme.newRecordTitleButtonBackgroundColor : 'transparent';
+    theme.newRecordTitleButtonBackgroundColorHover = 'newRecordTitleButtonBackgroundColorHover' in theme ? theme.newRecordTitleButtonBackgroundColorHover : color1;
+    
+    theme.newRecordFieldLabelColor = 'newRecordFieldLabelColor' in theme ? theme.newRecordFieldLabelColor : color6;
+    theme.newRecordFieldLabelColorRequired = 'newRecordFieldLabelColorRequired' in theme ? theme.newRecordFieldLabelColorRequired : color5;
+    theme.newRecordFieldInputColor = 'newRecordFieldInputColor' in theme ? theme.newRecordFieldInputColor : color6;
+    theme.newRecordFieldInputBorderColor = 'newRecordFieldInputBorderColor' in theme ? theme.newRecordFieldInputBorderColor : color6;
+    theme.newRecordFieldInputBackgroundColor = 'newRecordFieldInputBackgroundColor' in theme ? theme.newRecordFieldInputBackgroundColor : color1;
+    
+    theme.newRecordSubmitButtonColor = 'newRecordSubmitButtonColor' in theme ? theme.newRecordSubmitButtonColor : color1;
+    theme.newRecordSubmitButtonColorHover = 'newRecordSubmitButtonColorHover' in theme ? theme.newRecordSubmitButtonColorHover : color1;
+    theme.newRecordSubmitButtonBorderColor = 'newRecordSubmitButtonBorderColor' in theme ? theme.newRecordSubmitButtonBorderColor : color5;
+    theme.newRecordSubmitButtonBorderColorHover = 'newRecordSubmitButtonBorderColorHover' in theme ? theme.newRecordSubmitButtonBorderColorHover : color6;
+    theme.newRecordSubmitButtonBackgroundColor = 'newRecordSubmitButtonBackgroundColor' in theme ? theme.newRecordSubmitButtonBackgroundColor : color5;
+    theme.newRecordSubmitButtonBackgroundColorHover = 'newRecordSubmitButtonBackgroundColorHover' in theme ? theme.newRecordSubmitButtonBackgroundColorHover : color6;
+    
+    theme.createdRecordBorderColor = 'createdRecordBorderColor' in theme ? theme.createdRecordBorderColor : color6;
+    theme.createdRecordBorderColorHover = 'createdRecordBorderColorHover' in theme ? theme.createdRecordBorderColorHover : color6;
+    theme.createdRecordBorderColorOpen = 'createdRecordBorderColorOpen' in theme ? theme.createdRecordBorderColorOpen : color6;
+    
+    theme.createdRecordTitleColor = 'createdRecordTitleColor' in theme ? theme.createdRecordTitleColor : color1;
+    theme.createdRecordTitleBackgroundColor = 'createdRecordTitleBackgroundColor' in theme ? theme.createdRecordTitleBackgroundColor : color6;
+    
+    theme.createdRecordTitleButtonColor = 'createdRecordTitleButtonColor' in theme ? theme.createdRecordTitleButtonColor : color1;
+    theme.createdRecordTitleButtonColorHover = 'createdRecordTitleButtonColorHover' in theme ? theme.createdRecordTitleButtonColorHover : color6;
+    theme.createdRecordTitleButtonBorderColor = 'createdRecordTitleButtonBorderColor' in theme ? theme.createdRecordTitleButtonBorderColor : 'transparent';
+    theme.createdRecordTitleButtonBorderColorHover = 'createdRecordTitleButtonBorderColorHover' in theme ? theme.createdRecordTitleButtonBorderColorHover : color1;
+    theme.createdRecordTitleButtonBackgroundColor = 'createdRecordTitleButtonBackgroundColor' in theme ? theme.createdRecordTitleButtonBackgroundColor : 'transparent';
+    theme.createdRecordTitleButtonBackgroundColorHover = 'createdRecordTitleButtonBackgroundColorHover' in theme ? theme.createdRecordTitleButtonBackgroundColorHover : color1;
+    
+    theme.createdRecordFieldLabelColor = 'createdRecordFieldLabelColor' in theme ? theme.createdRecordFieldLabelColor : color5;
+    theme.createdRecordFieldInputColor = 'createdRecordFieldInputColor' in theme ? theme.createdRecordFieldInputColor : color6;
+    theme.createdRecordFieldInputBorderColor = 'createdRecordFieldInputBorderColor' in theme ? theme.createdRecordFieldInputBorderColor : color2;
+    theme.createdRecordFieldInputBackgroundColor = 'createdRecordFieldInputBackgroundColor' in theme ? theme.createdRecordFieldInputBackgroundColor : color2;
+
+    return theme;
+  }
+
+  /************************************************************************************************
+  * applyTheme
+  ************************************************************************************************/
+
+  applyTheme(theme) {
+    this.el.style.setProperty('--hh-tab-button-color', theme.tabButtonColor);
+    this.el.style.setProperty('--hh-tab-border-color', theme.tabBorderColor);
+
+    this.el.style.setProperty('--hh-control-color', theme.controlColor);
+    this.el.style.setProperty('--hh-control-color-hover', theme.controlColorHover);
+    this.el.style.setProperty('--hh-control-border-color', theme.controlBorderColor);
+    this.el.style.setProperty('--hh-control-border-color-hover', theme.controlBorderColorHover);
+    this.el.style.setProperty('--hh-control-background-color', theme.controlBackgroundColor);
+    this.el.style.setProperty('--hh-control-background-color-hover', theme.controlBackgroundColorHover);
+    this.el.style.setProperty('--hh-control-opacity-disabled', theme.controlOpacityDisabled);
+
+    this.el.style.setProperty('--hh-description-link-color', theme.descriptionLinkColor);
+    this.el.style.setProperty('--hh-description-link-color-hover', theme.descriptionLinkColorHover);
+
+    this.el.style.setProperty('--hh-checkbox-label-color', theme.checkboxLabelColor);
+    this.el.style.setProperty('--hh-checkbox-border-color', theme.checkboxBorderColor);
+    this.el.style.setProperty('--hh-checkbox-border-color-checked', theme.checkboxBorderColorChecked);
+    this.el.style.setProperty('--hh-checkbox-background-color', theme.checkboxBackgroundColor);
+    this.el.style.setProperty('--hh-checkbox-background-color-checked', theme.checkboxBackgroundColorChecked);
+    this.el.style.setProperty('--hh-expander-checkbox-border-color', theme.expanderCheckboxBorderColor);
+    this.el.style.setProperty('--hh-expander-checkbox-border-color-checked', theme.expanderCheckboxBorderColorChecked);
+    this.el.style.setProperty('--hh-expander-checkbox-background-color', theme.expanderCheckboxBackgroundColor);
+    this.el.style.setProperty('--hh-expander-checkbox-background-color-checked', theme.expanderCheckboxBackgroundColorChecked);
+
+    this.el.style.setProperty('--hh-record-border-color', theme.recordBorderColor);
+    this.el.style.setProperty('--hh-record-border-color-hover', theme.recordBorderColorHover);
+    this.el.style.setProperty('--hh-record-border-color-open', theme.recordBorderColorOpen);
+
+    this.el.style.setProperty('--hh-record-title-color', theme.recordTitleColor);
+    this.el.style.setProperty('--hh-record-title-background-color', theme.recordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-record-title-button-color', theme.recordTitleButtonColor);
+    this.el.style.setProperty('--hh-record-title-button-color-hover', theme.recordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-record-title-button-color-active', theme.recordTitleButtonColorActive);
+    this.el.style.setProperty('--hh-record-title-button-border-color', theme.recordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-record-title-button-border-color-hover', theme.recordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-record-title-button-border-color-active', theme.recordTitleButtonBorderColorActive);
+    this.el.style.setProperty('--hh-record-title-button-background-color', theme.recordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-record-title-button-background-color-hover', theme.recordTitleButtonBackgroundColorHover);
+    this.el.style.setProperty('--hh-record-title-button-background-color-active', theme.recordTitleButtonBackgroundColorActive);
+
+    this.el.style.setProperty('--hh-record-field-label-color', theme.recordFieldLabelColor);
+    this.el.style.setProperty('--hh-record-field-input-color', theme.recordFieldInputColor);
+    this.el.style.setProperty('--hh-record-field-input-color-disabled', theme.recordFieldInputColorDisabled);
+    this.el.style.setProperty('--hh-record-field-input-border-color', theme.recordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-record-field-input-border-color-disabled', theme.recordFieldInputBorderColorDisabled);
+    this.el.style.setProperty('--hh-record-field-input-background-color', theme.recordFieldInputBackgroundColor);
+    this.el.style.setProperty('--hh-record-field-input-background-color-disabled', theme.recordFieldInputBackgroundColorDisabled);
+    this.el.style.setProperty('--hh-record-field-button-color', theme.recordFieldButtonColor);
+    this.el.style.setProperty('--hh-record-field-button-border-color', theme.recordFieldButtonBorderColor);
+    this.el.style.setProperty('--hh-record-field-button-background-color', theme.recordFieldButtonBackgroundColor);
+    this.el.style.setProperty('--hh-record-field-button-opacity-disabled', theme.recordFieldButtonOpacityDisabled);
+
+    this.el.style.setProperty('--hh-new-record-border-color', theme.newRecordBorderColor);
+    this.el.style.setProperty('--hh-new-record-border-color-hover', theme.newRecordBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-border-color-open', theme.newRecordBorderColorOpen);
+
+    this.el.style.setProperty('--hh-new-record-title-color', theme.newRecordTitleColor);
+    this.el.style.setProperty('--hh-new-record-title-background-color', theme.newRecordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-new-record-title-button-color', theme.newRecordTitleButtonColor);
+    this.el.style.setProperty('--hh-new-record-title-button-color-hover', theme.newRecordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-new-record-title-button-border-color', theme.newRecordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-new-record-title-button-border-color-hover', theme.newRecordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-title-button-background-color', theme.newRecordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-new-record-title-button-background-color-hover', theme.newRecordTitleButtonBackgroundColorHover);
+
+    this.el.style.setProperty('--hh-new-record-field-label-color', theme.newRecordFieldLabelColor);
+    this.el.style.setProperty('--hh-new-record-field-label-color-required', theme.newRecordFieldLabelColorRequired);
+    this.el.style.setProperty('--hh-new-record-field-input-color', theme.newRecordFieldInputColor);
+    this.el.style.setProperty('--hh-new-record-field-input-border-color', theme.newRecordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-new-record-field-input-background-color', theme.newRecordFieldInputBackgroundColor);
+
+    this.el.style.setProperty('--hh-new-record-submit-button-color', theme.newRecordSubmitButtonColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-color-hover', theme.newRecordSubmitButtonColorHover);
+    this.el.style.setProperty('--hh-new-record-submit-button-border-color', theme.newRecordSubmitButtonBorderColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-border-color-hover', theme.newRecordSubmitButtonBorderColorHover);
+    this.el.style.setProperty('--hh-new-record-submit-button-background-color', theme.newRecordSubmitButtonBackgroundColor);
+    this.el.style.setProperty('--hh-new-record-submit-button-background-color-hover', theme.newRecordSubmitButtonBackgroundColorHover);
+
+    this.el.style.setProperty('--hh-created-record-border-color', theme.createdRecordBorderColor);
+    this.el.style.setProperty('--hh-created-record-border-color-hover', theme.createdRecordBorderColorHover);
+    this.el.style.setProperty('--hh-created-record-border-color-open', theme.createdRecordBorderColorOpen);
+
+    this.el.style.setProperty('--hh-created-record-title-color', theme.createdRecordTitleColor);
+    this.el.style.setProperty('--hh-created-record-title-background-color', theme.createdRecordTitleBackgroundColor);
+
+    this.el.style.setProperty('--hh-created-record-title-button-color', theme.createdRecordTitleButtonColor);
+    this.el.style.setProperty('--hh-created-record-title-button-color-hover', theme.createdRecordTitleButtonColorHover);
+    this.el.style.setProperty('--hh-created-record-title-button-border-color', theme.createdRecordTitleButtonBorderColor);
+    this.el.style.setProperty('--hh-created-record-title-button-border-color-hover', theme.createdRecordTitleButtonBorderColorHover);
+    this.el.style.setProperty('--hh-created-record-title-button-background-color', theme.createdRecordTitleButtonBackgroundColor);
+    this.el.style.setProperty('--hh-created-record-title-button-background-color-hover', theme.createdRecordTitleButtonBackgroundColorHover);
+
+    this.el.style.setProperty('--hh-created-record-field-label-color', theme.createdRecordFieldLabelColor);
+    this.el.style.setProperty('--hh-created-record-field-input-color', theme.createdRecordFieldInputColor);
+    this.el.style.setProperty('--hh-created-record-field-input-border-color', theme.createdRecordFieldInputBorderColor);
+    this.el.style.setProperty('--hh-created-record-field-input-background-color', theme.createdRecordFieldInputBackgroundColor);
+  }
 }
