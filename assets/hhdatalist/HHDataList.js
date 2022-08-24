@@ -609,7 +609,8 @@ class HHDataList {
         }
         (async () => {
           try {
-            let record = (await this.dataSrc.createRecord(data, this.getCheckedRecordFields().string, true)).data;
+            this.setFields();
+            let record = (await this.dataSrc.createRecord(data, this.queryObject.fields, true)).data;
             let createdForm = this.el.querySelector('form.hh-created-record-form');
             let details = createdForm.closest('details');
             details.setAttribute('id', `new-${record[this.recordIdField]}`);
@@ -1442,13 +1443,12 @@ class HHDataList {
 
   buildTheme(options) {
 
-    console.log('Inside buildTheme');
     // Verify that options.theme exists. It has a name. Or not.
     // Verify that options.themeDefaults exists. It has all six default colors. Or not.
 
     let theme = {};
     let color1 = '#ffffff';
-    let color2 = '#f9ebeb';
+    let color2 = '#fff5ee';
     let color3 = '#ffe6e6';
     let color4 = '#ffcccc';
     let color5 = '#e60000';
@@ -1456,7 +1456,7 @@ class HHDataList {
 
     theme.tabButtonColor = 'tabButtonColor' in theme ? theme.tabButtonColor : color6;
     theme.tabBorderColor = 'tabBorderColor' in theme ? theme.tabBorderColor : color6;
-    
+
     theme.controlColor = 'controlColor' in theme ? theme.controlColor : color1;
     theme.controlColorHover = 'controlColorHover' in theme ? theme.controlColorHover : color1;
     theme.controlBorderColor = 'controlBorderColor' in theme ? theme.controlBorderColor : color5;
@@ -1464,10 +1464,10 @@ class HHDataList {
     theme.controlBackgroundColor = 'controlBackgroundColor' in theme ? theme.controlBackgroundColor : color5;
     theme.controlBackgroundColorHover = 'controlBackgroundColorHover' in theme ? theme.controlBackgroundColorHover : color6;
     theme.controlOpacityDisabled = 'controlOpacityDisabled' in theme ? theme.controlOpacityDisabled : '80%';
-    
+
     theme.descriptionLinkColor = 'descriptionLinkColor' in theme ? theme.descriptionLinkColor : color6;
     theme.descriptionLinkColorHover = 'descriptionLinkColorHover' in theme ? theme.descriptionLinkColorHover : color5;
-    
+
     theme.checkboxLabelColor = 'checkboxLabelColor' in theme ? theme.checkboxLabelColor : color6;
     theme.checkboxBorderColor = 'checkboxBorderColor' in theme ? theme.checkboxBorderColor : color4;
     theme.checkboxBorderColorChecked = 'checkboxBorderColorChecked' in theme ? theme.checkboxBorderColorChecked : color6;
@@ -1477,14 +1477,14 @@ class HHDataList {
     theme.expanderCheckboxBorderColorChecked = 'expanderCheckboxBorderColorChecked' in theme ? theme.expanderCheckboxBorderColorChecked : color1;
     theme.expanderCheckboxBackgroundColor = 'expanderCheckboxBackgroundColor' in theme ? theme.expanderCheckboxBackgroundColor : color1;
     theme.expanderCheckboxBackgroundColorChecked = 'expanderCheckboxBackgroundColorChecked' in theme ? theme.expanderCheckboxBackgroundColorChecked : color6;
-    
+
     theme.recordBorderColor = 'recordBorderColor' in theme ? theme.recordBorderColor : color3;
     theme.recordBorderColorHover = 'recordBorderColorHover' in theme ? theme.recordBorderColorHover : color3;
     theme.recordBorderColorOpen = 'recordBorderColorOpen' in theme ? theme.recordBorderColorOpen : color4;
-    
+
     theme.recordTitleColor = 'recordTitleColor' in theme ? theme.recordTitleColor : color6;
     theme.recordTitleBackgroundColor = 'recordTitleBackgroundColor' in theme ? theme.recordTitleBackgroundColor : color3;
-    
+
     theme.recordTitleButtonColor = 'recordTitleButtonColor' in theme ? theme.recordTitleButtonColor : color6;
     theme.recordTitleButtonColorHover = 'recordTitleButtonColorHover' in theme ? theme.recordTitleButtonColorHover : color1;
     theme.recordTitleButtonColorActive = 'recordTitleButtonColorActive' in theme ? theme.recordTitleButtonColorActive : color6;
@@ -1494,7 +1494,7 @@ class HHDataList {
     theme.recordTitleButtonBackgroundColor = 'recordTitleButtonBackgroundColor' in theme ? theme.recordTitleButtonBackgroundColor : 'transparent';
     theme.recordTitleButtonBackgroundColorHover = 'recordTitleButtonBackgroundColorHover' in theme ? theme.recordTitleButtonBackgroundColorHover : color6;
     theme.recordTitleButtonBackgroundColorActive = 'recordTitleButtonBackgroundColorActive' in theme ? theme.recordTitleButtonBackgroundColorActive : color1;
-    
+
     theme.recordFieldLabelColor = 'recordFieldLabelColor' in theme ? theme.recordFieldLabelColor : color5;
     theme.recordFieldInputColor = 'recordFieldInputColor' in theme ? theme.recordFieldInputColor : color6;
     theme.recordFieldInputColorDisabled = 'recordFieldInputColorDisabled' in theme ? theme.recordFieldInputColorDisabled : color6;
@@ -1506,48 +1506,48 @@ class HHDataList {
     theme.recordFieldButtonBorderColor = 'recordFieldButtonBorderColor' in theme ? theme.recordFieldButtonBorderColor : color6;
     theme.recordFieldButtonBackgroundColor = 'recordFieldButtonBackgroundColor' in theme ? theme.recordFieldButtonBackgroundColor : color6;
     theme.recordFieldButtonOpacityDisabled = 'recordFieldButtonOpacityDisabled' in theme ? theme.recordFieldButtonOpacityDisabled : '65%';
-    
+
     theme.newRecordBorderColor = 'newRecordBorderColor' in theme ? theme.newRecordBorderColor : color6;
     theme.newRecordBorderColorHover = 'newRecordBorderColorHover' in theme ? theme.newRecordBorderColorHover : color6;
     theme.newRecordBorderColorOpen = 'newRecordBorderColorOpen' in theme ? theme.newRecordBorderColorOpen : color6;
-    
+
     theme.newRecordTitleColor = 'newRecordTitleColor' in theme ? theme.newRecordTitleColor : color1;
     theme.newRecordTitleBackgroundColor = 'newRecordTitleBackgroundColor' in theme ? theme.newRecordTitleBackgroundColor : color6;
-    
+
     theme.newRecordTitleButtonColor = 'newRecordTitleButtonColor' in theme ? theme.newRecordTitleButtonColor : color1;
     theme.newRecordTitleButtonColorHover = 'newRecordTitleButtonColorHover' in theme ? theme.newRecordTitleButtonColorHover : color6;
     theme.newRecordTitleButtonBorderColor = 'newRecordTitleButtonBorderColor' in theme ? theme.newRecordTitleButtonBorderColor : 'transparent';
     theme.newRecordTitleButtonBorderColorHover = 'newRecordTitleButtonBorderColorHover' in theme ? theme.newRecordTitleButtonBorderColorHover : color1;
     theme.newRecordTitleButtonBackgroundColor = 'newRecordTitleButtonBackgroundColor' in theme ? theme.newRecordTitleButtonBackgroundColor : 'transparent';
     theme.newRecordTitleButtonBackgroundColorHover = 'newRecordTitleButtonBackgroundColorHover' in theme ? theme.newRecordTitleButtonBackgroundColorHover : color1;
-    
+
     theme.newRecordFieldLabelColor = 'newRecordFieldLabelColor' in theme ? theme.newRecordFieldLabelColor : color6;
     theme.newRecordFieldLabelColorRequired = 'newRecordFieldLabelColorRequired' in theme ? theme.newRecordFieldLabelColorRequired : color5;
     theme.newRecordFieldInputColor = 'newRecordFieldInputColor' in theme ? theme.newRecordFieldInputColor : color6;
     theme.newRecordFieldInputBorderColor = 'newRecordFieldInputBorderColor' in theme ? theme.newRecordFieldInputBorderColor : color6;
     theme.newRecordFieldInputBackgroundColor = 'newRecordFieldInputBackgroundColor' in theme ? theme.newRecordFieldInputBackgroundColor : color1;
-    
+
     theme.newRecordSubmitButtonColor = 'newRecordSubmitButtonColor' in theme ? theme.newRecordSubmitButtonColor : color1;
     theme.newRecordSubmitButtonColorHover = 'newRecordSubmitButtonColorHover' in theme ? theme.newRecordSubmitButtonColorHover : color1;
     theme.newRecordSubmitButtonBorderColor = 'newRecordSubmitButtonBorderColor' in theme ? theme.newRecordSubmitButtonBorderColor : color5;
     theme.newRecordSubmitButtonBorderColorHover = 'newRecordSubmitButtonBorderColorHover' in theme ? theme.newRecordSubmitButtonBorderColorHover : color6;
     theme.newRecordSubmitButtonBackgroundColor = 'newRecordSubmitButtonBackgroundColor' in theme ? theme.newRecordSubmitButtonBackgroundColor : color5;
     theme.newRecordSubmitButtonBackgroundColorHover = 'newRecordSubmitButtonBackgroundColorHover' in theme ? theme.newRecordSubmitButtonBackgroundColorHover : color6;
-    
+
     theme.createdRecordBorderColor = 'createdRecordBorderColor' in theme ? theme.createdRecordBorderColor : color6;
     theme.createdRecordBorderColorHover = 'createdRecordBorderColorHover' in theme ? theme.createdRecordBorderColorHover : color6;
     theme.createdRecordBorderColorOpen = 'createdRecordBorderColorOpen' in theme ? theme.createdRecordBorderColorOpen : color6;
-    
+
     theme.createdRecordTitleColor = 'createdRecordTitleColor' in theme ? theme.createdRecordTitleColor : color1;
     theme.createdRecordTitleBackgroundColor = 'createdRecordTitleBackgroundColor' in theme ? theme.createdRecordTitleBackgroundColor : color6;
-    
+
     theme.createdRecordTitleButtonColor = 'createdRecordTitleButtonColor' in theme ? theme.createdRecordTitleButtonColor : color1;
     theme.createdRecordTitleButtonColorHover = 'createdRecordTitleButtonColorHover' in theme ? theme.createdRecordTitleButtonColorHover : color6;
     theme.createdRecordTitleButtonBorderColor = 'createdRecordTitleButtonBorderColor' in theme ? theme.createdRecordTitleButtonBorderColor : 'transparent';
     theme.createdRecordTitleButtonBorderColorHover = 'createdRecordTitleButtonBorderColorHover' in theme ? theme.createdRecordTitleButtonBorderColorHover : color1;
     theme.createdRecordTitleButtonBackgroundColor = 'createdRecordTitleButtonBackgroundColor' in theme ? theme.createdRecordTitleButtonBackgroundColor : 'transparent';
     theme.createdRecordTitleButtonBackgroundColorHover = 'createdRecordTitleButtonBackgroundColorHover' in theme ? theme.createdRecordTitleButtonBackgroundColorHover : color1;
-    
+
     theme.createdRecordFieldLabelColor = 'createdRecordFieldLabelColor' in theme ? theme.createdRecordFieldLabelColor : color5;
     theme.createdRecordFieldInputColor = 'createdRecordFieldInputColor' in theme ? theme.createdRecordFieldInputColor : color6;
     theme.createdRecordFieldInputBorderColor = 'createdRecordFieldInputBorderColor' in theme ? theme.createdRecordFieldInputBorderColor : color2;

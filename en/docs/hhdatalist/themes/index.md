@@ -34,7 +34,7 @@ HHDataList supports the following standard themes:
 
 ## Apply a standard+ theme
 
-Choose and apply a standard+ theme (i.e. one with overrides):
+Choose and apply a standard+ theme, one where specified properties override the corresponding properties of a standard theme:
 
 ``` nonum
 new HHDataList({
@@ -69,7 +69,7 @@ new HHDataList({
 
 ## Apply a custom+ theme
 
-Create and apply a custom+ theme (i.e. one with specific properties):
+Create and apply a custom+ theme, one where specified properties override specified defaults:
 
 ``` nonum
 new HHDataList({
