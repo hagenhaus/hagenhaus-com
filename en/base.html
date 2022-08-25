@@ -189,13 +189,12 @@
 
     const errorPageUrl = `${window.location.origin}/en/docs/website/errors`;
 
-    function reportError(error) {
-      showToast(`error`, `Error`, `${error.response.data.detail} <a href='${errorPageUrl}/#${error.response.data.type}' target='_blank'>Details</a>.`
-      );
+    function reportError(type, title, detail) {
+      showToast(`error`, title, `${detail} <a href='${errorPageUrl}/#${type}' target='_blank'>More</a>.`);
     }
 
-    function reportInfo(info) { 
-      showToast('info', 'Success', info);
+    function reportInfo(title, detail) { 
+      showToast('info', title, detail);
     }
   </script>
 

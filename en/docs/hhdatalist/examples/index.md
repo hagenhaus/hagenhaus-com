@@ -12,7 +12,8 @@ The Baseball API is a Hagenhaus REST API ...
   new HHDataList({
     confirm: confirm,
     controlsAreSmall: false,
-    filter: 'birthYear is not null',
+    // filter: 'birthYear is not null',
+    filter: 'playerID like "xyz%"',
     filterById: (idField, idValue) => `${idField} like "${idValue}"`,
     filterPlaceholder: 'birthYear is not null and nameLast like "b%"',
     id: 'baseball-players-datalist',
@@ -52,8 +53,8 @@ The Baseball API is a Hagenhaus REST API ...
     recordsAreNumbered: true,
     recordTitleFields: ['nameFirst', 'nameLast', 'birthYear'],
     recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
@@ -62,7 +63,29 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    theme: {},
+    // theme: 'Nonsense',
+    // theme: 'Dodger Blue',
+    // themeOverrides:{
+    //   name: "My Dodger Blue",
+    //   tabButtonColor: 'maroon'
+    // },
+    theme: {
+      name: 'My Theme',
+      descriptionLinkColor: '#145214',
+      newRecordFieldLabelColorRequired: 'pink'
+    },
+    // themeDefaults: {
+    //   color1: '#ffffff',
+    //   color2: '#e6f2ff',
+    //   color3: '#cce6ff',
+    //   color4: '#80bfff',
+    //   color5: '#0073e6',
+    //   color6: '#0059b3'
+    // },
+    // theme: 4,
+    // theme: true,
+    // theme: [],
+    // theme: new Date(),
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
@@ -86,9 +109,13 @@ The Baseball API is a Hagenhaus REST API ...
     ],
     recordIdField: 'ID',
     recordTitleFields: ['parkname'],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     theme: 'Dodger Blue',
+    themeOverrides:{
+      name: "My Dodger Blue",
+      tabButtonColor: 'forestgreen'
+    },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
@@ -105,8 +132,8 @@ The Baseball API is a Hagenhaus REST API ...
     recordIdField: 'ID',
     recordTitleFields: ['name','yearID'],
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     theme: 'Dodger Blue',
     url: 'http://localhost:8081/api/baseball/v1/teams',
   });
@@ -123,8 +150,8 @@ The Baseball API is a Hagenhaus REST API ...
     recordColumnCount: 3,
     recordIdField: 'lgID',
     recordTitleFields: ['league'],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     theme: 'Dodger Blue',
     url: 'http://localhost:8081/api/baseball/v1/leagues',
   });
@@ -142,8 +169,8 @@ The Baseball API is a Hagenhaus REST API ...
     recordIdField: 'ID',
     recordTitleFields: ['playerID','yearID'],
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     theme: 'Dodger Blue',
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
@@ -187,8 +214,8 @@ The Baseball API is a Hagenhaus REST API ...
     recordsAreNumbered: true,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => r[f[0]],
-    reportError: (error) => { reportError(error); },
-    reportInfo: (info) => { reportInfo(info); },
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
       home: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.',

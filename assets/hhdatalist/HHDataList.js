@@ -178,8 +178,6 @@ class HHDataList {
     this.getAndProcessRecords();
   };
 
-
-
   /************************************************************************************************
   * createTabsRow
   ************************************************************************************************/
@@ -638,11 +636,11 @@ class HHDataList {
               createdForm.appendChild(div);
             }
 
-            //this.reportInfo(`Record "${title}" was created.`);
+            //this.reportInfo();
             this.displayCreatedRecordPane();
             this.getAndProcessRecords();
           } catch (error) {
-            this.reportError(error);
+            this.reportError(error.response.data.type, error.response.data.title, error.response.data.detail);
           }
         })();
       });
@@ -1156,10 +1154,10 @@ class HHDataList {
         (async () => {
           try {
             await this.dataSrc.deleteRecord(this.toRealId(event.target.closest('details').id));
-            this.reportInfo(`Record "${title}" was deleted.`);
+            this.reportInfo('Record Deleted', `Record "${title}" was deleted.`);
             this.getAndProcessRecords();
           } catch (error) {
-            this.reportError(error);
+            this.reportError(error.response.data.type, error.response.data.title, error.response.data.detail);
           }
         })();
       });
@@ -1266,7 +1264,7 @@ class HHDataList {
                 input.defaultValue = value;
               }
             } catch (error) {
-              this.reportError(error);
+              this.reportError(error.response.data.type, error.response.data.title, error.response.data.detail);
             }
           })();
         });
@@ -1409,32 +1407,47 @@ class HHDataList {
 
   establishTheme(options) {
 
-    let theme = hhDataListThemes.get('dodger-blue');
+    let theme = hhDataListThemes.get('dodger blue');
 
     if ('theme' in options) {
-
       if (typeof options.theme === 'string') {
-
-        let value = hhDataListThemes.get(options.theme.toLowerCase());
-
-        if (value) {
-          theme = value;
-
+        let standardTheme = hhDataListThemes.get(options.theme.toLowerCase());
+        if (standardTheme) {
+          theme = Object.assign({}, standardTheme);
+          let themeOverrides = 'themeOverrides' in options ? options.themeOverrides : {};
+          for (const property in themeOverrides) {
+            if (property in theme) {
+              theme[property] = themeOverrides[property];
+            }
+          }
         } else {
-          // Use default theme. Tell user.
+          this.reportError('theme-error', 'Theme Error', `"${options.theme}" is not a standard theme. Default theme applied instead.`);
         }
-
-      } else if (typeof options.theme === 'object') {
-
-        theme = this.buildTheme(options);
-
+      } else if (typeof options.theme === 'object' && options.theme !== null && !Array.isArray(options.theme) && (options.theme instanceof Date === false)) {
+        let themeDefaults = 'themeDefaults' in options ? options.themeDefaults : null;
+        if (!themeDefaults) {
+          this.reportError('theme-error', 'Theme Error', `Missing "themeDefaults" option. Default theme applied instead.`);
+        } else {
+          if (this.areValidThemeDefaults(themeDefaults)) {
+            theme = this.buildTheme(options.theme, themeDefaults);
+          } else {
+            this.reportError('theme-error', 'Theme Error', `Invalid "themeDefaults" option. Default theme applied instead.`);
+          }
+        }
       } else {
-        // Use default theme. Tell user.
+        this.reportError('theme-error', 'Theme Error', `Your theme option is not (but must be) a string or an [object Object]. Default theme applied instead.`);
       }
-
     }
 
     this.applyTheme(theme);
+  }
+
+  /************************************************************************************************
+  * areValidThemeDefaults
+  ************************************************************************************************/
+
+  areValidThemeDefaults(themeDefaults) {
+    return true;
   }
 
   /************************************************************************************************

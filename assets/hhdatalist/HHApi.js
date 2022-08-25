@@ -51,7 +51,6 @@ class HHApi {
   ************************************************************************************************/
 
   async getRecord(id, queryObject) {
-    // console.log(`getRecord`);
     const queryString = this.toQueryStr({ fields: queryObject.fields });
     return (await axios({ url: `${this.urls.getRecord}/${id}?${queryString}`, method: 'get' }));
   }
@@ -85,7 +84,7 @@ class HHApi {
       try {
         success(await this.getRecords(queryObject));
       } catch (error) {
-        failure(error);
+        failure(error.response.data.type, error.response.data.title, error.response.data.detail);
       }
     })();
   }
@@ -99,7 +98,7 @@ class HHApi {
       try {
         success(await this.getRecord(id, queryObject), id);
       } catch (error) {
-        failure(error);
+        failure(error.response.data.type, error.response.data.title, error.response.data.detail);
       }
     })();
   }

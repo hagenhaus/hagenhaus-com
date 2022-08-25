@@ -6,7 +6,7 @@ A theme is a JavaScript object that specifies the colors, border colors, backgro
 
 There are several ways apply a theme to an HHDataList instance:
 
-## Apply the default theme
+## Default theme
 
 Apply the default *Dodger Blue* theme by omitting the *theme* option:
 
@@ -15,13 +15,13 @@ new HHDataList({
 });
 ```
 
-## Apply a standard theme
+## Standard theme
 
 Choose and apply a *Standard Theme*:
 
 ``` nonum
 new HHDataList({
-  theme: 'Dodger Blue'
+  theme: 'Dodger Blue',
 });
 ```
 
@@ -32,44 +32,21 @@ HHDataList supports the following standard themes:
 * sss
 * sss
 
-## Apply a standard+ theme
-
-Choose and apply a standard+ theme, one where specified properties override the corresponding properties of a standard theme:
+Optionally, override one or more standard theme properties:
 
 ``` nonum
 new HHDataList({
   theme: 'Dodger Blue',
   themeOverrides:{
     name: "My Dodger Blue",
-    descriptionLinkColor: '#145214',
-    newRecordFieldLabelColorRequired: 'pink'
-  }
+    tabButtonColor: 'maroon'
+  },
 });
 ```
 
-## Apply a custom theme
+## Custom theme
 
 Create and apply a custom theme:
-
-``` nonum
-new HHDataList({
-  theme: {
-    name: 'My Theme'
-  },
-  themeDefaults: {
-    color1: '#ffffff',
-    color2: '#e6f2ff',
-    color3: '#cce6ff',
-    color4: '#80bfff',
-    color5: '#0073e6',
-    color6: '#0059b3'
-  }
-});
-```
-
-## Apply a custom+ theme
-
-Create and apply a custom+ theme, one where specified properties override specified defaults:
 
 ``` nonum
 new HHDataList({
@@ -85,13 +62,13 @@ new HHDataList({
     color4: '#80bfff',
     color5: '#0073e6',
     color6: '#0059b3'
-  }
+  },
 });
 ```
 
 # Notes
 
-1. State is tacked onto the end of the theme object property name.
+1. State is tacked onto the end of a theme object property name.
 1. Checks in checkboxes are always white.
 1. Use the *themes* option to build a select element for the user.
 1. See [Programmatically Lighten or Darken a hex color](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors).
