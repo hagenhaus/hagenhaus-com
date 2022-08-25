@@ -72,7 +72,7 @@ The Baseball API is a Hagenhaus REST API ...
     theme: {
       name: 'My Theme',
       descriptionLinkColor: '#145214',
-      newRecordFieldLabelColorRequired: 'pink'
+      newRecordFieldLabelColorRequired: 'red'
     },
     // themeDefaults: {
     //   color1: '#ffffff',
@@ -82,6 +82,14 @@ The Baseball API is a Hagenhaus REST API ...
     //   color5: '#0073e6',
     //   color6: '#0059b3'
     // },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#fff5ee',
+      color3: '#ffe6e6',
+      color4: '#ffcccc',
+      color5: '#e60000',
+      color6: '#800000'
+    },
     // theme: 4,
     // theme: true,
     // theme: [],
