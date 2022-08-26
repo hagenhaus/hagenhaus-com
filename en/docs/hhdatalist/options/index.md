@@ -67,11 +67,15 @@ Users cannot override.
 
 # reportInfo
 
+# reportTheme
+
 # showTabDescriptions
 
 # theme
 
-# themes
+# themeDefaults
+
+# themeOverrides
 
 # url
 

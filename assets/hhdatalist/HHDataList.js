@@ -1406,10 +1406,18 @@ class HHDataList {
   ************************************************************************************************/
 
   establishTheme(options) {
+
+    // Establish the default theme as a baseline.
     let theme = hhDataListThemes.get('dodger blue');
+
+    // The caller specified some sort of theme.
     if ('theme' in options) {
+
+      // The caller attempted to specify a standard theme.
       if (typeof options.theme === 'string') {
         let standardTheme = hhDataListThemes.get(options.theme.toLowerCase());
+
+        // The specified standard theme is legit.
         if (standardTheme) {
           theme = Object.assign({}, standardTheme);
           let themeOverrides = 'themeOverrides' in options ? options.themeOverrides : {};
@@ -1418,35 +1426,70 @@ class HHDataList {
               theme[property] = themeOverrides[property];
             }
           }
-        } else {
+        }
+
+        // The specified standard theme is not legit.
+        else {
           this.reportError('theme-error', 'Theme Error', `"${options.theme}" is not a standard theme. Default theme applied instead.`);
         }
-      } else if (typeof options.theme === 'object' && options.theme !== null && !Array.isArray(options.theme) && (options.theme instanceof Date === false)) {
+      }
+
+      // The caller attempted to specify a custom theme.
+      else if (typeof options.theme === 'object' && options.theme !== null && !Array.isArray(options.theme) && (options.theme instanceof Date === false)) {
+
+        // A custom theme requires themeDefaults.
         let defaults = 'themeDefaults' in options ? options.themeDefaults : null;
+
+        // The caller neglected to specify themeDefaults.
         if (!defaults) {
           this.reportError('theme-error', 'Theme Error', `Missing "themeDefaults" option. Default theme applied instead.`);
-        } else {
+        }
+
+        // The caller specified themeDefaults which is correct.
+        else {
           let keys = Object.keys(defaults);
+
+          // The caller specified too few or too many themeDefaults.
           if (keys.length !== 6) {
-            this.reportError('theme-error', 'Theme Error', `Wrong number of properties in themeDefaults object. Default theme applied instead.`);
-          } else {
+            this.reportError('theme-error', 'Theme Error', `There should be 6 colors in the themeDefaults object. You specified ${keys.length}. Default theme applied instead.`);
+          }
+
+          // The caller specified 6 colors in themeDefaults which is correct.
+          else {
             let missingKeys = [];
             for (let i = 1; i <= 6; i++) {
               if (keys.includes(`color${i}`) === false) {
                 missingKeys.push(`color${i}`);
               }
             }
+
+            // The caller specified one or more wrong themeDefaults properties.
             if (missingKeys.length) {
               this.reportError('theme-error', 'Theme Error', `Your themeDefaults object is missing the following properties: ${missingKeys.join(", ")}. Default theme applied instead.`);
-            } else {
+            }
+
+            // The theme and themeDefaults objects appear to be valid. Can't speak to color choices, though.
+            else {
               theme = this.buildTheme(options.theme, defaults);
             }
           }
         }
-      } else {
+      }
+
+      // The caller specified a theme that is not a string or [object Object].
+      else {
         this.reportError('theme-error', 'Theme Error', `Your theme option is not (but must be) a string or an [object Object]. Default theme applied instead.`);
       }
     }
+
+    // Pass theme to reportTheme if the function exists.
+    if ('reportTheme' in options) {
+      options.reportTheme(theme);
+    }
+
+    // this.buildThemeMap();
+  
+    // Apply the built theme, or apply the default theme if an error occurred.
     this.applyTheme(theme);
   }
 
@@ -1557,6 +1600,113 @@ class HHDataList {
     theme.createdRecordFieldInputBackgroundColor = 'createdRecordFieldInputBackgroundColor' in theme ? theme.createdRecordFieldInputBackgroundColor : defaults.color2;
 
     return theme;
+  }
+
+  /************************************************************************************************
+  * buildThemeMap
+  ************************************************************************************************/
+
+  buildThemeMap() {
+    let theme = {};
+    theme.tabButtonColor = 'tabButtonColor' in theme ? theme.tabButtonColor : 'color6';
+    theme.tabBorderColor = 'tabBorderColor' in theme ? theme.tabBorderColor : 'color6';
+
+    theme.controlColor = 'controlColor' in theme ? theme.controlColor : 'color1';
+    theme.controlColorHover = 'controlColorHover' in theme ? theme.controlColorHover : 'color1';
+    theme.controlBorderColor = 'controlBorderColor' in theme ? theme.controlBorderColor : 'color5';
+    theme.controlBorderColorHover = 'controlBorderColorHover' in theme ? theme.controlBorderColorHover : 'color6';
+    theme.controlBackgroundColor = 'controlBackgroundColor' in theme ? theme.controlBackgroundColor : 'color5';
+    theme.controlBackgroundColorHover = 'controlBackgroundColorHover' in theme ? theme.controlBackgroundColorHover : 'color6';
+    theme.controlOpacityDisabled = 'controlOpacityDisabled' in theme ? theme.controlOpacityDisabled : '80%';
+
+    theme.descriptionLinkColor = 'descriptionLinkColor' in theme ? theme.descriptionLinkColor : 'color6';
+    theme.descriptionLinkColorHover = 'descriptionLinkColorHover' in theme ? theme.descriptionLinkColorHover : 'color5';
+
+    theme.checkboxLabelColor = 'checkboxLabelColor' in theme ? theme.checkboxLabelColor : 'color6';
+    theme.checkboxBorderColor = 'checkboxBorderColor' in theme ? theme.checkboxBorderColor : 'color4';
+    theme.checkboxBorderColorChecked = 'checkboxBorderColorChecked' in theme ? theme.checkboxBorderColorChecked : 'color6';
+    theme.checkboxBackgroundColor = 'checkboxBackgroundColor' in theme ? theme.checkboxBackgroundColor : 'color1';
+    theme.checkboxBackgroundColorChecked = 'checkboxBackgroundColorChecked' in theme ? theme.checkboxBackgroundColorChecked : 'color6';
+    theme.expanderCheckboxBorderColor = 'expanderCheckboxBorderColor' in theme ? theme.expanderCheckboxBorderColor : 'color5';
+    theme.expanderCheckboxBorderColorChecked = 'expanderCheckboxBorderColorChecked' in theme ? theme.expanderCheckboxBorderColorChecked : 'color1';
+    theme.expanderCheckboxBackgroundColor = 'expanderCheckboxBackgroundColor' in theme ? theme.expanderCheckboxBackgroundColor : 'color1';
+    theme.expanderCheckboxBackgroundColorChecked = 'expanderCheckboxBackgroundColorChecked' in theme ? theme.expanderCheckboxBackgroundColorChecked : 'color6';
+
+    theme.recordBorderColor = 'recordBorderColor' in theme ? theme.recordBorderColor : 'color3';
+    theme.recordBorderColorHover = 'recordBorderColorHover' in theme ? theme.recordBorderColorHover : 'color3';
+    theme.recordBorderColorOpen = 'recordBorderColorOpen' in theme ? theme.recordBorderColorOpen : 'color4';
+
+    theme.recordTitleColor = 'recordTitleColor' in theme ? theme.recordTitleColor : 'color6';
+    theme.recordTitleBackgroundColor = 'recordTitleBackgroundColor' in theme ? theme.recordTitleBackgroundColor : 'color3';
+
+    theme.recordTitleButtonColor = 'recordTitleButtonColor' in theme ? theme.recordTitleButtonColor : 'color6';
+    theme.recordTitleButtonColorHover = 'recordTitleButtonColorHover' in theme ? theme.recordTitleButtonColorHover : 'color1';
+    theme.recordTitleButtonColorActive = 'recordTitleButtonColorActive' in theme ? theme.recordTitleButtonColorActive : 'color6';
+    theme.recordTitleButtonBorderColor = 'recordTitleButtonBorderColor' in theme ? theme.recordTitleButtonBorderColor : 'transparent';
+    theme.recordTitleButtonBorderColorHover = 'recordTitleButtonBorderColorHover' in theme ? theme.recordTitleButtonBorderColorHover : 'color6';
+    theme.recordTitleButtonBorderColorActive = 'recordTitleButtonBorderColorActive' in theme ? theme.recordTitleButtonBorderColorActive : 'color6';
+    theme.recordTitleButtonBackgroundColor = 'recordTitleButtonBackgroundColor' in theme ? theme.recordTitleButtonBackgroundColor : 'transparent';
+    theme.recordTitleButtonBackgroundColorHover = 'recordTitleButtonBackgroundColorHover' in theme ? theme.recordTitleButtonBackgroundColorHover : 'color6';
+    theme.recordTitleButtonBackgroundColorActive = 'recordTitleButtonBackgroundColorActive' in theme ? theme.recordTitleButtonBackgroundColorActive : 'color1';
+
+    theme.recordFieldLabelColor = 'recordFieldLabelColor' in theme ? theme.recordFieldLabelColor : 'color5';
+    theme.recordFieldInputColor = 'recordFieldInputColor' in theme ? theme.recordFieldInputColor : 'color6';
+    theme.recordFieldInputColorDisabled = 'recordFieldInputColorDisabled' in theme ? theme.recordFieldInputColorDisabled : 'color6';
+    theme.recordFieldInputBorderColor = 'recordFieldInputBorderColor' in theme ? theme.recordFieldInputBorderColor : 'color6';
+    theme.recordFieldInputBorderColorDisabled = 'recordFieldInputBorderColorDisabled' in theme ? theme.recordFieldInputBorderColorDisabled : 'color2';
+    theme.recordFieldInputBackgroundColor = 'recordFieldInputBackgroundColor' in theme ? theme.recordFieldInputBackgroundColor : 'color1';
+    theme.recordFieldInputBackgroundColorDisabled = 'recordFieldInputBackgroundColorDisabled' in theme ? theme.recordFieldInputBackgroundColorDisabled : 'color2';
+    theme.recordFieldButtonColor = 'recordFieldButtonColor' in theme ? theme.recordFieldButtonColor : 'color1';
+    theme.recordFieldButtonBorderColor = 'recordFieldButtonBorderColor' in theme ? theme.recordFieldButtonBorderColor : 'color6';
+    theme.recordFieldButtonBackgroundColor = 'recordFieldButtonBackgroundColor' in theme ? theme.recordFieldButtonBackgroundColor : 'color6';
+    theme.recordFieldButtonOpacityDisabled = 'recordFieldButtonOpacityDisabled' in theme ? theme.recordFieldButtonOpacityDisabled : '65%';
+
+    theme.newRecordBorderColor = 'newRecordBorderColor' in theme ? theme.newRecordBorderColor : 'color6';
+    theme.newRecordBorderColorHover = 'newRecordBorderColorHover' in theme ? theme.newRecordBorderColorHover : 'color6';
+    theme.newRecordBorderColorOpen = 'newRecordBorderColorOpen' in theme ? theme.newRecordBorderColorOpen : 'color6';
+
+    theme.newRecordTitleColor = 'newRecordTitleColor' in theme ? theme.newRecordTitleColor : 'color1';
+    theme.newRecordTitleBackgroundColor = 'newRecordTitleBackgroundColor' in theme ? theme.newRecordTitleBackgroundColor : 'color6';
+
+    theme.newRecordTitleButtonColor = 'newRecordTitleButtonColor' in theme ? theme.newRecordTitleButtonColor : 'color1';
+    theme.newRecordTitleButtonColorHover = 'newRecordTitleButtonColorHover' in theme ? theme.newRecordTitleButtonColorHover : 'color6';
+    theme.newRecordTitleButtonBorderColor = 'newRecordTitleButtonBorderColor' in theme ? theme.newRecordTitleButtonBorderColor : 'transparent';
+    theme.newRecordTitleButtonBorderColorHover = 'newRecordTitleButtonBorderColorHover' in theme ? theme.newRecordTitleButtonBorderColorHover : 'color1';
+    theme.newRecordTitleButtonBackgroundColor = 'newRecordTitleButtonBackgroundColor' in theme ? theme.newRecordTitleButtonBackgroundColor : 'transparent';
+    theme.newRecordTitleButtonBackgroundColorHover = 'newRecordTitleButtonBackgroundColorHover' in theme ? theme.newRecordTitleButtonBackgroundColorHover : 'color1';
+
+    theme.newRecordFieldLabelColor = 'newRecordFieldLabelColor' in theme ? theme.newRecordFieldLabelColor : 'color6';
+    theme.newRecordFieldLabelColorRequired = 'newRecordFieldLabelColorRequired' in theme ? theme.newRecordFieldLabelColorRequired : 'color5';
+    theme.newRecordFieldInputColor = 'newRecordFieldInputColor' in theme ? theme.newRecordFieldInputColor : 'color6';
+    theme.newRecordFieldInputBorderColor = 'newRecordFieldInputBorderColor' in theme ? theme.newRecordFieldInputBorderColor : 'color6';
+    theme.newRecordFieldInputBackgroundColor = 'newRecordFieldInputBackgroundColor' in theme ? theme.newRecordFieldInputBackgroundColor : 'color1';
+
+    theme.newRecordSubmitButtonColor = 'newRecordSubmitButtonColor' in theme ? theme.newRecordSubmitButtonColor : 'color1';
+    theme.newRecordSubmitButtonColorHover = 'newRecordSubmitButtonColorHover' in theme ? theme.newRecordSubmitButtonColorHover : 'color1';
+    theme.newRecordSubmitButtonBorderColor = 'newRecordSubmitButtonBorderColor' in theme ? theme.newRecordSubmitButtonBorderColor : 'color5';
+    theme.newRecordSubmitButtonBorderColorHover = 'newRecordSubmitButtonBorderColorHover' in theme ? theme.newRecordSubmitButtonBorderColorHover : 'color6';
+    theme.newRecordSubmitButtonBackgroundColor = 'newRecordSubmitButtonBackgroundColor' in theme ? theme.newRecordSubmitButtonBackgroundColor : 'color5';
+    theme.newRecordSubmitButtonBackgroundColorHover = 'newRecordSubmitButtonBackgroundColorHover' in theme ? theme.newRecordSubmitButtonBackgroundColorHover : 'color6';
+
+    theme.createdRecordBorderColor = 'createdRecordBorderColor' in theme ? theme.createdRecordBorderColor : 'color6';
+    theme.createdRecordBorderColorHover = 'createdRecordBorderColorHover' in theme ? theme.createdRecordBorderColorHover : 'color6';
+    theme.createdRecordBorderColorOpen = 'createdRecordBorderColorOpen' in theme ? theme.createdRecordBorderColorOpen : 'color6';
+
+    theme.createdRecordTitleColor = 'createdRecordTitleColor' in theme ? theme.createdRecordTitleColor : 'color1';
+    theme.createdRecordTitleBackgroundColor = 'createdRecordTitleBackgroundColor' in theme ? theme.createdRecordTitleBackgroundColor : 'color6';
+
+    theme.createdRecordTitleButtonColor = 'createdRecordTitleButtonColor' in theme ? theme.createdRecordTitleButtonColor : 'color1';
+    theme.createdRecordTitleButtonColorHover = 'createdRecordTitleButtonColorHover' in theme ? theme.createdRecordTitleButtonColorHover : 'color6';
+    theme.createdRecordTitleButtonBorderColor = 'createdRecordTitleButtonBorderColor' in theme ? theme.createdRecordTitleButtonBorderColor : 'transparent';
+    theme.createdRecordTitleButtonBorderColorHover = 'createdRecordTitleButtonBorderColorHover' in theme ? theme.createdRecordTitleButtonBorderColorHover : 'color1';
+    theme.createdRecordTitleButtonBackgroundColor = 'createdRecordTitleButtonBackgroundColor' in theme ? theme.createdRecordTitleButtonBackgroundColor : 'transparent';
+    theme.createdRecordTitleButtonBackgroundColorHover = 'createdRecordTitleButtonBackgroundColorHover' in theme ? theme.createdRecordTitleButtonBackgroundColorHover : 'color1';
+
+    theme.createdRecordFieldLabelColor = 'createdRecordFieldLabelColor' in theme ? theme.createdRecordFieldLabelColor : 'color5';
+    theme.createdRecordFieldInputColor = 'createdRecordFieldInputColor' in theme ? theme.createdRecordFieldInputColor : 'color6';
+    theme.createdRecordFieldInputBorderColor = 'createdRecordFieldInputBorderColor' in theme ? theme.createdRecordFieldInputBorderColor : 'color2';
+    theme.createdRecordFieldInputBackgroundColor = 'createdRecordFieldInputBackgroundColor' in theme ? theme.createdRecordFieldInputBackgroundColor : 'color2';
+    console.log(JSON.stringify(theme, null, 2));
   }
 
   /************************************************************************************************

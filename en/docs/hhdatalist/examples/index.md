@@ -55,6 +55,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
     showTabDescriptions: true,
     tabDescriptions: {
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
@@ -63,37 +64,6 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    // theme: 'Nonsense',
-    // theme: 'Dodger Blue',
-    // themeOverrides:{
-    //   name: "My Dodger Blue",
-    //   tabButtonColor: 'maroon'
-    // },
-    theme: {
-      name: 'My Theme',
-      descriptionLinkColor: '#145214',
-      newRecordFieldLabelColorRequired: 'red'
-    },
-    // themeDefaults: {
-    //   color1: '#ffffff',
-    //   color2: '#e6f2ff',
-    //   color3: '#cce6ff',
-    //   color4: '#80bfff',
-    //   color5: '#0073e6',
-    //   color6: '#0059b3'
-    // },
-    themeDefaults: {
-      color1: '#ffffff',
-      color2: '#fff5ee',
-      color3: '#ffe6e6',
-      color4: '#ffcccc',
-      color5: '#e60000',
-      color6: '#800000'
-    },
-    // theme: 4,
-    // theme: true,
-    // theme: [],
-    // theme: new Date(),
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
