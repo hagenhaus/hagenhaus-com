@@ -28,7 +28,7 @@ new HHDataList({
 });
 ```
 
-Omitting the *theme* option applies the standard theme (i.e. *Dodger Blue*):
+You apply the default theme (i.e. *Dodger Blue*) by omitting the *theme* option:
 
 ``` nonum
 new HHDataList({
@@ -36,7 +36,7 @@ new HHDataList({
 });
 ```
 
-HHDataList provides a set of standard themes reflected by the following HHDataList instances configured to access data about US baseball parks.
+HHDataList provides a set of standard themes reflected by the following list of HHDataList instances, all configured to access the same data about US baseball parks.
 
 ## Dodger Blue (default)
 
@@ -238,6 +238,49 @@ HHDataList provides a set of standard themes reflected by the following HHDataLi
       color4: '#ebc7eb',
       color5: '#c256c2',
       color6: '#5e225e'
+    },
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
+## Rainbow
+
+<div id="datalist-rainbow" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'datalist-rainbow',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    theme: {
+      name: 'Rainbow',
+      recordTitleColor: '#006600',
+      recordTitleButtonColor: 'steelblue',
+      recordBorderColorOpen: '#cccc00',
+      recordFieldLabelColor: '#006600',
+      recordFieldInputColorDisabled: 'black',
+      recordFieldInputBorderColorDisabled: '#fff0ff',
+      recordFieldInputBackgroundColorDisabled: '#fff0ff'
+    },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#eafaea',
+      color3: '#ffff66',
+      color4: '#c1f0c1',
+      color5: 'orange',
+      color6: 'red'
     },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
@@ -536,157 +579,92 @@ Building a custom theme is an iterative process. For the first iteration, follow
 
 1. sss
 
-# Applying themes
-
-This section demonstrates various ways to apply a theme to an HHDataList instance.
-
-## Default theme
-
-You apply the default theme (i.e. "Dodger Blue") by omitting the *theme* option:
-
-``` nonum
-new HHDataList({
-  // No theme option.
-});
-```
-
-## Standard theme
-
-You apply a standard theme by setting *theme* equal to the standard theme name:
-
-``` nonum
-new HHDataList({
-  theme: 'Silverado',
-});
-```
-
-HHDataList supports the following standard themes:
-
-* Dodger Blue
-* Silverado
-* sss
-* sss
-
-Optionally, override one or more standard theme properties:
-
-``` nonum
-new HHDataList({
-  theme: 'Dodger Blue',
-  themeOverrides:{
-    name: "My Dodger Blue",
-    tabButtonColor: 'maroon'
-  },
-});
-```
-
-## Custom theme
-
-Create and apply a custom theme:
-
-``` nonum
-new HHDataList({
-  theme: {
-    name: 'My Theme',
-    descriptionLinkColor: '#145214',
-    newRecordFieldLabelColorRequired: 'pink'
-  },
-  themeDefaults: {
-    color1: '#ffffff',
-    color2: '#e6f2ff',
-    color3: '#cce6ff',
-    color4: '#80bfff',
-    color5: '#0073e6',
-    color6: '#0059b3'
-  },
-});
-```
-
 # Theme map
 
-|Key|Default Value|
-|-|-|
-|tabButtonColor|color6|
-|tabBorderColor|color6|
-|controlColor|color1|
-|controlColorHover|color1|
-|controlBorderColor|color5|
-|controlBorderColorHover|color6|
-|controlBackgroundColor|color5|
-|controlBackgroundColorHover|color6|
-|controlOpacityDisabled|80%|
-|descriptionLinkColor|color6|
-|descriptionLinkColorHover|color5|
-|checkboxLabelColor|color6|
-|checkboxBorderColor|color4|
-|checkboxBorderColorChecked|color6|
-|checkboxBackgroundColor|color1|
-|checkboxBackgroundColorChecked|color6|
-|expanderCheckboxBorderColor|color5|
-|expanderCheckboxBorderColorChecked|color1|
-|expanderCheckboxBackgroundColor|color1|
-|expanderCheckboxBackgroundColorChecked|color6|
-|recordBorderColor|color3|
-|recordBorderColorHover|color3|
-|recordBorderColorOpen|color4|
-|recordTitleColor|color6|
-|recordTitleBackgroundColor|color3|
-|recordTitleButtonColor|color6|
-|recordTitleButtonColorHover|color1|
-|recordTitleButtonColorActive|color6|
-|recordTitleButtonBorderColor|transparent|
-|recordTitleButtonBorderColorHover|color6|
-|recordTitleButtonBorderColorActive|color6|
-|recordTitleButtonBackgroundColor|transparent|
-|recordTitleButtonBackgroundColorHover|color6|
-|recordTitleButtonBackgroundColorActive|color1|
-|recordFieldLabelColor|color5|
-|recordFieldInputColor|color6|
-|recordFieldInputColorDisabled|color6|
-|recordFieldInputBorderColor|color6|
-|recordFieldInputBorderColorDisabled|color2|
-|recordFieldInputBackgroundColor|color1|
-|recordFieldInputBackgroundColorDisabled|color2|
-|recordFieldButtonColor|color1|
-|recordFieldButtonBorderColor|color6|
-|recordFieldButtonBackgroundColor|color6|
-|recordFieldButtonOpacityDisabled|65%|
-|newRecordBorderColor|color6|
-|newRecordBorderColorHover|color6|
-|newRecordBorderColorOpen|color6|
-|newRecordTitleColor|color1|
-|newRecordTitleBackgroundColor|color6|
-|newRecordTitleButtonColor|color1|
-|newRecordTitleButtonColorHover|color6|
-|newRecordTitleButtonBorderColor|transparent|
-|newRecordTitleButtonBorderColorHover|color1|
-|newRecordTitleButtonBackgroundColor|transparent|
-|newRecordTitleButtonBackgroundColorHover|color1|
-|newRecordFieldLabelColor|color6|
-|newRecordFieldLabelColorRequired|color5|
-|newRecordFieldInputColor|color6|
-|newRecordFieldInputBorderColor|color6|
-|newRecordFieldInputBackgroundColor|color1|
-|newRecordSubmitButtonColor|color1|
-|newRecordSubmitButtonColorHover|color1|
-|newRecordSubmitButtonBorderColor|color5|
-|newRecordSubmitButtonBorderColorHover|color6|
-|newRecordSubmitButtonBackgroundColor|color5|
-|newRecordSubmitButtonBackgroundColorHover|color6|
-|createdRecordBorderColor|color6|
-|createdRecordBorderColorHover|color6|
-|createdRecordBorderColorOpen|color6|
-|createdRecordTitleColor|color1|
-|createdRecordTitleBackgroundColor|color6|
-|createdRecordTitleButtonColor|color1|
-|createdRecordTitleButtonColorHover|color6|
-|createdRecordTitleButtonBorderColor|transparent|
-|createdRecordTitleButtonBorderColorHover|color1|
-|createdRecordTitleButtonBackgroundColor|transparent|
-|createdRecordTitleButtonBackgroundColorHover|color1|
-|createdRecordFieldLabelColor|color5|
-|createdRecordFieldInputColor|color6|
-|createdRecordFieldInputBorderColor|color2|
-|createdRecordFieldInputBackgroundColor|color2|
+|Theme Object Key|CSS Variable|Default Value|
+|-|-|-|
+|tabButtonColor|&nbsp;|color6|
+|tabBorderColor|&nbsp;|color6|
+|controlColor|&nbsp;|color1|
+|controlColorHover|&nbsp;|color1|
+|controlBorderColor|&nbsp;|color5|
+|controlBorderColorHover|&nbsp;|color6|
+|controlBackgroundColor|&nbsp;|color5|
+|controlBackgroundColorHover|&nbsp;|color6|
+|controlOpacityDisabled|&nbsp;|80%|
+|descriptionLinkColor|&nbsp;|color6|
+|descriptionLinkColorHover|&nbsp;|color5|
+|checkboxLabelColor|&nbsp;|color6|
+|checkboxBorderColor|&nbsp;|color4|
+|checkboxBorderColorChecked|&nbsp;|color6|
+|checkboxBackgroundColor|&nbsp;|color1|
+|checkboxBackgroundColorChecked|&nbsp;|color6|
+|expanderCheckboxBorderColor|&nbsp;|color5|
+|expanderCheckboxBorderColorChecked|&nbsp;|color1|
+|expanderCheckboxBackgroundColor|&nbsp;|color1|
+|expanderCheckboxBackgroundColorChecked|&nbsp;|color6|
+|recordBorderColor|&nbsp;|color3|
+|recordBorderColorHover|&nbsp;|color3|
+|recordBorderColorOpen|&nbsp;|color4|
+|recordTitleColor|&nbsp;|color6|
+|recordTitleBackgroundColor|&nbsp;|color3|
+|recordTitleButtonColor|&nbsp;|color6|
+|recordTitleButtonColorHover|&nbsp;|color1|
+|recordTitleButtonColorActive|&nbsp;|color6|
+|recordTitleButtonBorderColor|&nbsp;|transparent|
+|recordTitleButtonBorderColorHover|&nbsp;|color6|
+|recordTitleButtonBorderColorActive|&nbsp;|color6|
+|recordTitleButtonBackgroundColor|&nbsp;|transparent|
+|recordTitleButtonBackgroundColorHover|&nbsp;|color6|
+|recordTitleButtonBackgroundColorActive|&nbsp;|color1|
+|recordFieldLabelColor|&nbsp;|color5|
+|recordFieldInputColor|&nbsp;|color6|
+|recordFieldInputColorDisabled|&nbsp;|color6|
+|recordFieldInputBorderColor|&nbsp;|color6|
+|recordFieldInputBorderColorDisabled|&nbsp;|color2|
+|recordFieldInputBackgroundColor|&nbsp;|color1|
+|recordFieldInputBackgroundColorDisabled|&nbsp;|color2|
+|recordFieldButtonColor|&nbsp;|color1|
+|recordFieldButtonBorderColor|&nbsp;|color6|
+|recordFieldButtonBackgroundColor|&nbsp;|color6|
+|recordFieldButtonOpacityDisabled|&nbsp;|65%|
+|newRecordBorderColor|&nbsp;|color6|
+|newRecordBorderColorHover|&nbsp;|color6|
+|newRecordBorderColorOpen|&nbsp;|color6|
+|newRecordTitleColor|&nbsp;|color1|
+|newRecordTitleBackgroundColor|&nbsp;|color6|
+|newRecordTitleButtonColor|&nbsp;|color1|
+|newRecordTitleButtonColorHover|&nbsp;|color6|
+|newRecordTitleButtonBorderColor|&nbsp;|transparent|
+|newRecordTitleButtonBorderColorHover|&nbsp;|color1|
+|newRecordTitleButtonBackgroundColor|&nbsp;|transparent|
+|newRecordTitleButtonBackgroundColorHover|&nbsp;|color1|
+|newRecordFieldLabelColor|&nbsp;|color6|
+|newRecordFieldLabelColorRequired|&nbsp;|color5|
+|newRecordFieldInputColor|&nbsp;|color6|
+|newRecordFieldInputBorderColor|&nbsp;|color6|
+|newRecordFieldInputBackgroundColor|&nbsp;|color1|
+|newRecordSubmitButtonColor|&nbsp;|color1|
+|newRecordSubmitButtonColorHover|&nbsp;|color1|
+|newRecordSubmitButtonBorderColor|&nbsp;|color5|
+|newRecordSubmitButtonBorderColorHover|&nbsp;|color6|
+|newRecordSubmitButtonBackgroundColor|&nbsp;|color5|
+|newRecordSubmitButtonBackgroundColorHover|&nbsp;|color6|
+|createdRecordBorderColor|&nbsp;|color6|
+|createdRecordBorderColorHover|&nbsp;|color6|
+|createdRecordBorderColorOpen|&nbsp;|color6|
+|createdRecordTitleColor|&nbsp;|color1|
+|createdRecordTitleBackgroundColor|&nbsp;|color6|
+|createdRecordTitleButtonColor|&nbsp;|color1|
+|createdRecordTitleButtonColorHover|&nbsp;|color6|
+|createdRecordTitleButtonBorderColor|&nbsp;|transparent|
+|createdRecordTitleButtonBorderColorHover|&nbsp;|color1|
+|createdRecordTitleButtonBackgroundColor|&nbsp;|transparent|
+|createdRecordTitleButtonBackgroundColorHover|&nbsp;|color1|
+|createdRecordFieldLabelColor|&nbsp;|color5|
+|createdRecordFieldInputColor|&nbsp;|color6|
+|createdRecordFieldInputBorderColor|&nbsp;|color2|
+|createdRecordFieldInputBackgroundColor|&nbsp;|color2|
 
 # Example theme
 
