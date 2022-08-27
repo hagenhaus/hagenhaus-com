@@ -236,8 +236,8 @@ HHDataList provides a set of standard themes reflected by the following list of 
       color2: '#f8ecf8',
       color3: '#f1daf1',
       color4: '#ebc7eb',
-      color5: '#c256c2',
-      color6: '#5e225e'
+      color5: '#963696',
+      color6: '#702970'
     },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
@@ -549,212 +549,464 @@ HHDataList provides a set of standard themes reflected by the following list of 
 
 # Custom themes
 
-You apply a custom theme to an HHDataList instance using the *theme* and *themeDefaults* options:
+Typically, building a custom theme is an iterative process. Below is one approach.
 
-``` nonum
-new HHDataList({
-  theme: {
-    name: 'My Plum Theme'
-  },
-  themeDefaults: {
-    color1: '#ffffff',
-    color2: '#f8ecf8',
-    color3: '#f1daf1',
-    color4: '#ebc7eb',
-    color5: '#c256c2',
-    color6: '#5e225e'
-  },
-});
-```
+## Establish defaults
 
-Building a custom theme is an iterative process. For the first iteration, follow these guidelines:
+1. Set the *theme* option equal to an object:
 
-1. Include only the *name* property in the *theme* object.
+    ``` nonum
+    new HHDataList({
+      ...
+      theme: {}
+      ...
+    });
+    ```
 
-1. Choose a color family like [Plum](https://www.w3schools.com/colors/colors_picker.asp?colorhex=DDA0DD).
+1. Choose a name for your new custom theme:
 
-1. Assign color values to *themeDefaults* properties using a pattern similar to the following:
+    ``` nonum
+    new HHDataList({
+      ...
+      theme: {
+        name: 'My Custom Theme'
+      }
+      ...
+    });
+    ```
 
-    <p><img src="color-family.png" class="img-fluid d-block" width=450 height=606 loading="lazy"></p>
+1. Choose a color family like [Wheat](https://www.w3schools.com/colors/colors_picker.asp?colorhex=F5DEB3), and choose six colors from the family. As a baseline, choose white for color1, light colors for color2, color3, and color4, a medium color for color5, and a somewhat darker color for color6:
 
-1. sss
+    <p><img src="color-family-1.png" class="img-fluid d-block" width=450 loading="lazy"></p>
 
-# Theme map
+1. Pass these choices to the HHDataList constructor using the *themeDefaults* option:
 
-|Theme Object Key|CSS Variable|Default Value|
-|-|-|-|
-|tabButtonColor|&nbsp;|color6|
-|tabBorderColor|&nbsp;|color6|
-|controlColor|&nbsp;|color1|
-|controlColorHover|&nbsp;|color1|
-|controlBorderColor|&nbsp;|color5|
-|controlBorderColorHover|&nbsp;|color6|
-|controlBackgroundColor|&nbsp;|color5|
-|controlBackgroundColorHover|&nbsp;|color6|
-|controlOpacityDisabled|&nbsp;|80%|
-|descriptionLinkColor|&nbsp;|color6|
-|descriptionLinkColorHover|&nbsp;|color5|
-|checkboxLabelColor|&nbsp;|color6|
-|checkboxBorderColor|&nbsp;|color4|
-|checkboxBorderColorChecked|&nbsp;|color6|
-|checkboxBackgroundColor|&nbsp;|color1|
-|checkboxBackgroundColorChecked|&nbsp;|color6|
-|expanderCheckboxBorderColor|&nbsp;|color5|
-|expanderCheckboxBorderColorChecked|&nbsp;|color1|
-|expanderCheckboxBackgroundColor|&nbsp;|color1|
-|expanderCheckboxBackgroundColorChecked|&nbsp;|color6|
-|recordBorderColor|&nbsp;|color3|
-|recordBorderColorHover|&nbsp;|color3|
-|recordBorderColorOpen|&nbsp;|color4|
-|recordTitleColor|&nbsp;|color6|
-|recordTitleBackgroundColor|&nbsp;|color3|
-|recordTitleButtonColor|&nbsp;|color6|
-|recordTitleButtonColorHover|&nbsp;|color1|
-|recordTitleButtonColorActive|&nbsp;|color6|
-|recordTitleButtonBorderColor|&nbsp;|transparent|
-|recordTitleButtonBorderColorHover|&nbsp;|color6|
-|recordTitleButtonBorderColorActive|&nbsp;|color6|
-|recordTitleButtonBackgroundColor|&nbsp;|transparent|
-|recordTitleButtonBackgroundColorHover|&nbsp;|color6|
-|recordTitleButtonBackgroundColorActive|&nbsp;|color1|
-|recordFieldLabelColor|&nbsp;|color5|
-|recordFieldInputColor|&nbsp;|color6|
-|recordFieldInputColorDisabled|&nbsp;|color6|
-|recordFieldInputBorderColor|&nbsp;|color6|
-|recordFieldInputBorderColorDisabled|&nbsp;|color2|
-|recordFieldInputBackgroundColor|&nbsp;|color1|
-|recordFieldInputBackgroundColorDisabled|&nbsp;|color2|
-|recordFieldButtonColor|&nbsp;|color1|
-|recordFieldButtonBorderColor|&nbsp;|color6|
-|recordFieldButtonBackgroundColor|&nbsp;|color6|
-|recordFieldButtonOpacityDisabled|&nbsp;|65%|
-|newRecordBorderColor|&nbsp;|color6|
-|newRecordBorderColorHover|&nbsp;|color6|
-|newRecordBorderColorOpen|&nbsp;|color6|
-|newRecordTitleColor|&nbsp;|color1|
-|newRecordTitleBackgroundColor|&nbsp;|color6|
-|newRecordTitleButtonColor|&nbsp;|color1|
-|newRecordTitleButtonColorHover|&nbsp;|color6|
-|newRecordTitleButtonBorderColor|&nbsp;|transparent|
-|newRecordTitleButtonBorderColorHover|&nbsp;|color1|
-|newRecordTitleButtonBackgroundColor|&nbsp;|transparent|
-|newRecordTitleButtonBackgroundColorHover|&nbsp;|color1|
-|newRecordFieldLabelColor|&nbsp;|color6|
-|newRecordFieldLabelColorRequired|&nbsp;|color5|
-|newRecordFieldInputColor|&nbsp;|color6|
-|newRecordFieldInputBorderColor|&nbsp;|color6|
-|newRecordFieldInputBackgroundColor|&nbsp;|color1|
-|newRecordSubmitButtonColor|&nbsp;|color1|
-|newRecordSubmitButtonColorHover|&nbsp;|color1|
-|newRecordSubmitButtonBorderColor|&nbsp;|color5|
-|newRecordSubmitButtonBorderColorHover|&nbsp;|color6|
-|newRecordSubmitButtonBackgroundColor|&nbsp;|color5|
-|newRecordSubmitButtonBackgroundColorHover|&nbsp;|color6|
-|createdRecordBorderColor|&nbsp;|color6|
-|createdRecordBorderColorHover|&nbsp;|color6|
-|createdRecordBorderColorOpen|&nbsp;|color6|
-|createdRecordTitleColor|&nbsp;|color1|
-|createdRecordTitleBackgroundColor|&nbsp;|color6|
-|createdRecordTitleButtonColor|&nbsp;|color1|
-|createdRecordTitleButtonColorHover|&nbsp;|color6|
-|createdRecordTitleButtonBorderColor|&nbsp;|transparent|
-|createdRecordTitleButtonBorderColorHover|&nbsp;|color1|
-|createdRecordTitleButtonBackgroundColor|&nbsp;|transparent|
-|createdRecordTitleButtonBackgroundColorHover|&nbsp;|color1|
-|createdRecordFieldLabelColor|&nbsp;|color5|
-|createdRecordFieldInputColor|&nbsp;|color6|
-|createdRecordFieldInputBorderColor|&nbsp;|color2|
-|createdRecordFieldInputBackgroundColor|&nbsp;|color2|
+    ``` nonum
+    new HHDataList({
+      ...
+      theme: {
+        name: 'My Custom Theme'
+      },
+      themeDefaults: {
+        color1: '#ffffff',
+        color2: '#fcf5e8',
+        color3: '#f9ebd2',
+        color4: '#f6e2bb',
+        color5: '#e29d1d',
+        color6: '#875e12'
+      }
+      ...
+    });
+    ```
 
-# Example theme
+1. Reload the page.
+
+After completing these steps, the colors of your HHDataList instance should resemble the following:
+
+<div id="datalist-custom-1" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'datalist-custom-1',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    theme: {
+      name: 'My Custom Theme'
+    },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f6e2bb',
+      color5: '#e29d1d',
+      color6: '#875e12'
+    },
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
+## Modify defaults
+
+1. Decide if you like the default colors. For the sake of the example, let's decide to make the following changes:
+
+    <p><img src="modify-defaults.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+1. Decide which new colors to use:
+
+    <p><img src="color-family-2.png" class="img-fluid d-block" width=450 loading="lazy"></p>
+
+1. Modify the color4 and color5 properties of the *themeDefaults* object:
+
+    ``` nonum
+    new HHDataList({
+      ...
+      theme: {
+        name: 'My Custom Theme'
+      },
+      themeDefaults: {
+        color1: '#ffffff',
+        color2: '#eafaea',
+        color3: '#d6f5d6',
+        color4: '#84e184',
+        color5: '#1e7b1e',
+        color6: '#145214'
+      }
+      ...
+    });
+    ```
+
+1. Reload the page.
+
+After completing these steps, the colors of your HHDataList instance should resemble the instance below. Be sure to open a record and verify the darker border.
+
+<div id="datalist-custom-2" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'datalist-custom-2',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    theme: {
+      name: 'My Custom Theme'
+    },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f3d8a5',
+      color5: '#9e6e15',
+      color6: '#875e12'
+    },
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
+## Override defaults
+
+1. Decide if you want to override the default foreground, background, or border color of any particular html elements. Again, for the sake of the example, let's decide to make the following changes:
+
+    <p><img src="override-defaults.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+1. Decide which new color to use:
+
+    <p><img src="color-family-3.png" class="img-fluid d-block" width=330 loading="lazy"></p>
+
+1. Set that color for *recordFieldLabelColor*, overriding color6:
+
+    ``` nonum
+    new HHDataList({
+      ...
+      theme: {
+        name: 'My Custom Theme',
+        recordFieldLabelColor: '#2d1f06'
+      },
+      themeDefaults: {
+        color1: '#ffffff',
+        color2: '#eafaea',
+        color3: '#d6f5d6',
+        color4: '#84e184',
+        color5: '#1e7b1e',
+        color6: '#145214'
+      }
+      ...
+    });
+    ```
+
+1. Reload the page.
+
+After completing these steps, open a record and verify that the field labels are darker as in the instance below:
+
+<div id="datalist-custom-3" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'datalist-custom-3',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    theme: {
+      name: 'My Custom Theme',
+        name: 'My Custom Theme',
+        recordFieldLabelColor: '#2d1f06'
+    },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f3d8a5',
+      color5: '#9e6e15',
+      color6: '#875e12'
+    },
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
+
+## Generate a theme
+
+Perhaps you plan to override the default values for a significant number of html elements:
+
+<p><img src="add-overrides.png" class="img-fluid d-block" width=800 loading="lazy"></p>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<div id="datalist-custom-4" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'datalist-custom-4',
+    recordFields: [
+      { name: 'ID', label: 'ID', isChecked: false },
+      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
+      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
+      { name: 'parkalias', label: 'Aliases', isEditable: true },
+      { name: 'city', label: 'City', isEditable: true },
+      { name: 'state', label: 'State', isEditable: true },
+      { name: 'country', label: 'Country', isEditable: true },
+    ],
+    recordIdField: 'ID',
+    recordTitleFields: ['parkname'],
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
+    theme: {
+      name: 'My Custom Theme',
+        name: 'My Custom Theme',
+        recordFieldLabelColor: '#2d1f06'
+    },
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f3d8a5',
+      color5: '#9e6e15',
+      color6: '#875e12'
+    },
+    url: 'http://localhost:8081/api/baseball/v1/parks',
+  });
+</script>
 
 ``` nonum
 {
-  "name": "Dodger Blue",
-  "tabButtonColor": "#0059b3",
-  "tabBorderColor": "#0059b3",
-  "controlColor": "white",
-  "controlColorHover": "white",
-  "controlBorderColor": "#0073e6",
-  "controlBorderColorHover": "#0059b3",
-  "controlBackgroundColor": "#0073e6",
-  "controlBackgroundColorHover": "#0059b3",
+  "name": "My Custom Theme",
+  "recordFieldLabelColor": "#2d1f06",
+  "tabButtonColor": "#875e12",
+  "tabBorderColor": "#875e12",
+  "controlColor": "#ffffff",
+  "controlColorHover": "#ffffff",
+  "controlBorderColor": "#9e6e15",
+  "controlBorderColorHover": "#875e12",
+  "controlBackgroundColor": "#9e6e15",
+  "controlBackgroundColorHover": "#875e12",
   "controlOpacityDisabled": "80%",
-  "descriptionLinkColor": "forestgreen",
-  "descriptionLinkColorHover": "pink",
-  "checkboxLabelColor": "#000d1a",
-  "checkboxBorderColor": "#4da6ff",
-  "checkboxBorderColorChecked": "#0073e6",
-  "checkboxBackgroundColor": "white",
-  "checkboxBackgroundColorChecked": "#0073e6",
-  "expanderCheckboxBorderColor": "#0073e6",
-  "expanderCheckboxBorderColorChecked": "white",
-  "expanderCheckboxBackgroundColor": "white",
-  "expanderCheckboxBackgroundColorChecked": "#0073e6",
-  "recordBorderColor": "#cce6ff",
-  "recordBorderColorHover": "#cce6ff",
-  "recordBorderColorOpen": "#80bfff",
-  "recordTitleColor": "#003366",
-  "recordTitleBackgroundColor": "#cce6ff",
-  "recordTitleButtonColor": "#003366",
-  "recordTitleButtonColorHover": "white",
-  "recordTitleButtonColorActive": "#003366",
+  "descriptionLinkColor": "#875e12",
+  "descriptionLinkColorHover": "#9e6e15",
+  "checkboxLabelColor": "#875e12",
+  "checkboxBorderColor": "#f3d8a5",
+  "checkboxBorderColorChecked": "#875e12",
+  "checkboxBackgroundColor": "#ffffff",
+  "checkboxBackgroundColorChecked": "#875e12",
+  "expanderCheckboxBorderColor": "#9e6e15",
+  "expanderCheckboxBorderColorChecked": "#ffffff",
+  "expanderCheckboxBackgroundColor": "#ffffff",
+  "expanderCheckboxBackgroundColorChecked": "#875e12",
+  "recordBorderColor": "#f9ebd2",
+  "recordBorderColorHover": "#f9ebd2",
+  "recordBorderColorOpen": "#f3d8a5",
+  "recordTitleColor": "#875e12",
+  "recordTitleBackgroundColor": "#f9ebd2",
+  "recordTitleButtonColor": "#875e12",
+  "recordTitleButtonColorHover": "#ffffff",
+  "recordTitleButtonColorActive": "#875e12",
   "recordTitleButtonBorderColor": "transparent",
-  "recordTitleButtonBorderColorHover": "#003366",
-  "recordTitleButtonBorderColorActive": "#003366",
+  "recordTitleButtonBorderColorHover": "#875e12",
+  "recordTitleButtonBorderColorActive": "#875e12",
   "recordTitleButtonBackgroundColor": "transparent",
-  "recordTitleButtonBackgroundColorHover": "#003366",
-  "recordTitleButtonBackgroundColorActive": "white",
-  "recordFieldLabelColor": "#1e90ff",
-  "recordFieldInputColor": "#000d1a",
-  "recordFieldInputColorDisabled": "#000d1a",
-  "recordFieldInputBorderColor": "#00264d",
-  "recordFieldInputBorderColorDisabled": "#e6f2ff",
-  "recordFieldInputBackgroundColor": "white",
-  "recordFieldInputBackgroundColorDisabled": "#e6f2ff",
-  "recordFieldButtonColor": "white",
-  "recordFieldButtonBorderColor": "#003366",
-  "recordFieldButtonBackgroundColor": "#003366",
+  "recordTitleButtonBackgroundColorHover": "#875e12",
+  "recordTitleButtonBackgroundColorActive": "#ffffff",
+  "recordFieldInputColor": "#875e12",
+  "recordFieldInputColorDisabled": "#875e12",
+  "recordFieldInputBorderColor": "#875e12",
+  "recordFieldInputBorderColorDisabled": "#fcf5e8",
+  "recordFieldInputBackgroundColor": "#ffffff",
+  "recordFieldInputBackgroundColorDisabled": "#fcf5e8",
+  "recordFieldButtonColor": "#ffffff",
+  "recordFieldButtonBorderColor": "#875e12",
+  "recordFieldButtonBackgroundColor": "#875e12",
   "recordFieldButtonOpacityDisabled": "65%",
-  "newRecordBorderColor": "#003366",
-  "newRecordBorderColorHover": "#003366",
-  "newRecordBorderColorOpen": "#003366",
-  "newRecordTitleColor": "white",
-  "newRecordTitleBackgroundColor": "#003366",
-  "newRecordTitleButtonColor": "white",
-  "newRecordTitleButtonColorHover": "#003366",
+  "newRecordBorderColor": "#875e12",
+  "newRecordBorderColorHover": "#875e12",
+  "newRecordBorderColorOpen": "#875e12",
+  "newRecordTitleColor": "#ffffff",
+  "newRecordTitleBackgroundColor": "#875e12",
+  "newRecordTitleButtonColor": "#ffffff",
+  "newRecordTitleButtonColorHover": "#875e12",
   "newRecordTitleButtonBorderColor": "transparent",
-  "newRecordTitleButtonBorderColorHover": "white",
+  "newRecordTitleButtonBorderColorHover": "#ffffff",
   "newRecordTitleButtonBackgroundColor": "transparent",
-  "newRecordTitleButtonBackgroundColorHover": "white",
-  "newRecordFieldLabelColor": "#003366",
-  "newRecordFieldLabelColorRequired": "red",
-  "newRecordFieldInputColor": "#000d1a",
-  "newRecordFieldInputBorderColor": "#000d1a",
-  "newRecordFieldInputBackgroundColor": "white",
-  "newRecordSubmitButtonColor": "white",
-  "newRecordSubmitButtonColorHover": "white",
-  "newRecordSubmitButtonBorderColor": "#0073e6",
-  "newRecordSubmitButtonBorderColorHover": "#0059b3",
-  "newRecordSubmitButtonBackgroundColor": "#0073e6",
-  "newRecordSubmitButtonBackgroundColorHover": "#0059b3",
-  "createdRecordBorderColor": "#003366",
-  "createdRecordBorderColorHover": "#003366",
-  "createdRecordBorderColorOpen": "#003366",
-  "createdRecordTitleColor": "white",
-  "createdRecordTitleBackgroundColor": "#003366",
-  "createdRecordTitleButtonColor": "white",
-  "createdRecordTitleButtonColorHover": "#003366",
+  "newRecordTitleButtonBackgroundColorHover": "#ffffff",
+  "newRecordFieldLabelColor": "#875e12",
+  "newRecordFieldLabelColorRequired": "#9e6e15",
+  "newRecordFieldInputColor": "#875e12",
+  "newRecordFieldInputBorderColor": "#875e12",
+  "newRecordFieldInputBackgroundColor": "#ffffff",
+  "newRecordSubmitButtonColor": "#ffffff",
+  "newRecordSubmitButtonColorHover": "#ffffff",
+  "newRecordSubmitButtonBorderColor": "#9e6e15",
+  "newRecordSubmitButtonBorderColorHover": "#875e12",
+  "newRecordSubmitButtonBackgroundColor": "#9e6e15",
+  "newRecordSubmitButtonBackgroundColorHover": "#875e12",
+  "createdRecordBorderColor": "#875e12",
+  "createdRecordBorderColorHover": "#875e12",
+  "createdRecordBorderColorOpen": "#875e12",
+  "createdRecordTitleColor": "#ffffff",
+  "createdRecordTitleBackgroundColor": "#875e12",
+  "createdRecordTitleButtonColor": "#ffffff",
+  "createdRecordTitleButtonColorHover": "#875e12",
   "createdRecordTitleButtonBorderColor": "transparent",
-  "createdRecordTitleButtonBorderColorHover": "white",
+  "createdRecordTitleButtonBorderColorHover": "#ffffff",
   "createdRecordTitleButtonBackgroundColor": "transparent",
-  "createdRecordTitleButtonBackgroundColorHover": "white",
-  "createdRecordFieldLabelColor": "#1e90ff",
-  "createdRecordFieldInputColor": "#000d1a",
-  "createdRecordFieldInputBorderColor": "#e6f2ff",
-  "createdRecordFieldInputBackgroundColor": "#e6f2ff"
+  "createdRecordTitleButtonBackgroundColorHover": "#ffffff",
+  "createdRecordFieldLabelColor": "#9e6e15",
+  "createdRecordFieldInputColor": "#875e12",
+  "createdRecordFieldInputBorderColor": "#fcf5e8",
+  "createdRecordFieldInputBackgroundColor": "#fcf5e8"
 }
 ```
+
+# Color domains
+
+## color1
+
+## color2
+
+## color3
+
+## color4
+
+## color5
+
+## color6
+
+|Theme Object Key|Default Value|
+|-|-|
+|tabButtonColor|color6|
+|tabBorderColor|color6|
+|controlColor|color1|
+|controlColorHover|color1|
+|controlBorderColor|color5|
+|controlBorderColorHover|color6|
+|controlBackgroundColor|color5|
+|controlBackgroundColorHover|color6|
+|controlOpacityDisabled|80%|
+|descriptionLinkColor|color6|
+|descriptionLinkColorHover|color5|
+|checkboxLabelColor|color6|
+|checkboxBorderColor|color4|
+|checkboxBorderColorChecked|color6|
+|checkboxBackgroundColor|color1|
+|checkboxBackgroundColorChecked|color6|
+|expanderCheckboxBorderColor|color5|
+|expanderCheckboxBorderColorChecked|color1|
+|expanderCheckboxBackgroundColor|color1|
+|expanderCheckboxBackgroundColorChecked|color6|
+|recordBorderColor|color3|
+|recordBorderColorHover|color3|
+|recordBorderColorOpen|color4|
+|recordTitleColor|color6|
+|recordTitleBackgroundColor|color3|
+|recordTitleButtonColor|color6|
+|recordTitleButtonColorHover|color1|
+|recordTitleButtonColorActive|color6|
+|recordTitleButtonBorderColor|transparent|
+|recordTitleButtonBorderColorHover|color6|
+|recordTitleButtonBorderColorActive|color6|
+|recordTitleButtonBackgroundColor|transparent|
+|recordTitleButtonBackgroundColorHover|color6|
+|recordTitleButtonBackgroundColorActive|color1|
+|recordFieldLabelColor|color5|
+|recordFieldInputColor|color6|
+|recordFieldInputColorDisabled|color6|
+|recordFieldInputBorderColor|color6|
+|recordFieldInputBorderColorDisabled|color2|
+|recordFieldInputBackgroundColor|color1|
+|recordFieldInputBackgroundColorDisabled|color2|
+|recordFieldButtonColor|color1|
+|recordFieldButtonBorderColor|color6|
+|recordFieldButtonBackgroundColor|color6|
+|recordFieldButtonOpacityDisabled|65%|
+|newRecordBorderColor|color6|
+|newRecordBorderColorHover|color6|
+|newRecordBorderColorOpen|color6|
+|newRecordTitleColor|color1|
+|newRecordTitleBackgroundColor|color6|
+|newRecordTitleButtonColor|color1|
+|newRecordTitleButtonColorHover|color6|
+|newRecordTitleButtonBorderColor|transparent|
+|newRecordTitleButtonBorderColorHover|color1|
+|newRecordTitleButtonBackgroundColor|transparent|
+|newRecordTitleButtonBackgroundColorHover|color1|
+|newRecordFieldLabelColor|color6|
+|newRecordFieldLabelColorRequired|color5|
+|newRecordFieldInputColor|color6|
+|newRecordFieldInputBorderColor|color6|
+|newRecordFieldInputBackgroundColor|color1|
+|newRecordSubmitButtonColor|color1|
+|newRecordSubmitButtonColorHover|color1|
+|newRecordSubmitButtonBorderColor|color5|
+|newRecordSubmitButtonBorderColorHover|color6|
+|newRecordSubmitButtonBackgroundColor|color5|
+|newRecordSubmitButtonBackgroundColorHover|color6|
+|createdRecordBorderColor|color6|
+|createdRecordBorderColorHover|color6|
+|createdRecordBorderColorOpen|color6|
+|createdRecordTitleColor|color1|
+|createdRecordTitleBackgroundColor|color6|
+|createdRecordTitleButtonColor|color1|
+|createdRecordTitleButtonColorHover|color6|
+|createdRecordTitleButtonBorderColor|transparent|
+|createdRecordTitleButtonBorderColorHover|color1|
+|createdRecordTitleButtonBackgroundColor|transparent|
+|createdRecordTitleButtonBackgroundColorHover|color1|
+|createdRecordFieldLabelColor|color5|
+|createdRecordFieldInputColor|color6|
+|createdRecordFieldInputBorderColor|color2|
+|createdRecordFieldInputBackgroundColor|color2|
 
 # Notes
 

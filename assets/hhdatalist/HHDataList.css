@@ -10,6 +10,11 @@ div.hh-data-list button {
   border: revert;
 } */
 
+div.hh-data-list {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
 div.hh-data-list details {
   border-radius: 5px;
   border-style: solid;
