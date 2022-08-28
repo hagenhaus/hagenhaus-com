@@ -59,6 +59,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
@@ -84,6 +85,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Firebrick'
     },
@@ -120,6 +122,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Forest Green'
     },
@@ -156,6 +159,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Lemon Chiffon'
     },
@@ -192,6 +196,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Orangewood'
     },
@@ -228,6 +233,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Plum'
     },
@@ -264,11 +270,12 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Rainbow',
       recordTitleColor: '#006600',
       recordTitleButtonColor: 'steelblue',
-      recordBorderColorOpen: '#cccc00',
+      recordBorderColorOpen: 'green',
       recordFieldLabelColor: '#006600',
       recordFieldInputColorDisabled: 'black',
       recordFieldInputBorderColorDisabled: '#fff0ff',
@@ -277,7 +284,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     themeDefaults: {
       color1: '#ffffff',
       color2: '#eafaea',
-      color3: '#ffff66',
+      color3: '#ffff99',
       color4: '#c1f0c1',
       color5: 'orange',
       color6: 'red'
@@ -307,6 +314,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Seagreen'
     },
@@ -343,6 +351,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Shadowbox',
       recordTitleButtonColor: 'white',
@@ -383,6 +392,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Shoreline',
       controlColor: '#008055',
@@ -424,6 +434,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Silverberry'
     },
@@ -460,6 +471,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Teal Ribbon'
     },
@@ -496,6 +508,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Thistle'
     },
@@ -532,6 +545,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'Wheatgerm'
     },
@@ -599,6 +613,8 @@ Typically, building a custom theme is an iterative process. Below is one approac
     });
     ```
 
+    **Note**: If you omit the *themeDefaults* option, or if you omit any of the color properties, HHDataList makes up the difference with shades of blue.
+
 1. Reload the page.
 
 After completing these steps, the colors of your HHDataList instance should resemble the following:
@@ -622,6 +638,7 @@ After completing these steps, the colors of your HHDataList instance should rese
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'My Custom Theme'
     },
@@ -690,6 +707,7 @@ After completing these steps, the colors of your HHDataList instance should rese
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     theme: {
       name: 'My Custom Theme'
     },
@@ -707,7 +725,7 @@ After completing these steps, the colors of your HHDataList instance should rese
 
 ## Override defaults
 
-1. Decide if you want to override the default foreground, background, or border color of any particular html elements. Again, for the sake of the example, let's decide to make the following changes:
+1. Decide if you want to explicitly set the default foreground, background, or border color of any particular html elements, thereby overriding the defaults for those elements. For the sake of the example, let's decide to make the following change:
 
     <p><img src="override-defaults.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
@@ -715,7 +733,7 @@ After completing these steps, the colors of your HHDataList instance should rese
 
     <p><img src="color-family-3.png" class="img-fluid d-block" width=330 loading="lazy"></p>
 
-1. Set that color for *recordFieldLabelColor*, overriding color6:
+1. Explicitly set that color for *recordFieldLabelColor*, overriding color6:
 
     ``` nonum
     new HHDataList({
@@ -759,10 +777,11 @@ After completing these steps, open a record and verify that the field labels are
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    // reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
     theme: {
       name: 'My Custom Theme',
-        name: 'My Custom Theme',
-        recordFieldLabelColor: '#2d1f06'
+      recordFieldLabelColor: '#2d1f06'
     },
     themeDefaults: {
       color1: '#ffffff',
@@ -778,136 +797,172 @@ After completing these steps, open a record and verify that the field labels are
 
 ## Generate a theme
 
-Perhaps you plan to override the default values for a significant number of html elements:
+Perhaps you plan to explicitly set the colors of all (or a significant number of) html elements:
 
 <p><img src="add-overrides.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In this case, you can do the following:
 
-<div id="datalist-custom-4" class="hh-data-list"></div>
+1. Use the *reportTheme* option to generate the theme, and output it to the console:
 
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'datalist-custom-4',
-    recordFields: [
-      { name: 'ID', label: 'ID', isChecked: false },
-      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
-      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
-      { name: 'parkalias', label: 'Aliases', isEditable: true },
-      { name: 'city', label: 'City', isEditable: true },
-      { name: 'state', label: 'State', isEditable: true },
-      { name: 'country', label: 'Country', isEditable: true },
-    ],
-    recordIdField: 'ID',
-    recordTitleFields: ['parkname'],
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
-    reportInfo: (title, detail) => { reportInfo(title, detail); },
-    reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
-    theme: {
-      name: 'My Custom Theme',
+    ``` nonum
+    new HHDataList({
+      reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
+      theme: {
         name: 'My Custom Theme',
         recordFieldLabelColor: '#2d1f06'
-    },
-    themeDefaults: {
-      color1: '#ffffff',
-      color2: '#fcf5e8',
-      color3: '#f9ebd2',
-      color4: '#f3d8a5',
-      color5: '#9e6e15',
-      color6: '#875e12'
-    },
-    url: 'http://localhost:8081/api/baseball/v1/parks',
-  });
-</script>
+      },
+      themeDefaults: {
+        color1: '#ffffff',
+        color2: '#fcf5e8',
+        color3: '#f9ebd2',
+        color4: '#f3d8a5',
+        color5: '#9e6e15',
+        color6: '#875e12'
+      },
+    });
+    ```
 
-``` nonum
-{
-  "name": "My Custom Theme",
-  "recordFieldLabelColor": "#2d1f06",
-  "tabButtonColor": "#875e12",
-  "tabBorderColor": "#875e12",
-  "controlColor": "#ffffff",
-  "controlColorHover": "#ffffff",
-  "controlBorderColor": "#9e6e15",
-  "controlBorderColorHover": "#875e12",
-  "controlBackgroundColor": "#9e6e15",
-  "controlBackgroundColorHover": "#875e12",
-  "controlOpacityDisabled": "80%",
-  "descriptionLinkColor": "#875e12",
-  "descriptionLinkColorHover": "#9e6e15",
-  "checkboxLabelColor": "#875e12",
-  "checkboxBorderColor": "#f3d8a5",
-  "checkboxBorderColorChecked": "#875e12",
-  "checkboxBackgroundColor": "#ffffff",
-  "checkboxBackgroundColorChecked": "#875e12",
-  "expanderCheckboxBorderColor": "#9e6e15",
-  "expanderCheckboxBorderColorChecked": "#ffffff",
-  "expanderCheckboxBackgroundColor": "#ffffff",
-  "expanderCheckboxBackgroundColorChecked": "#875e12",
-  "recordBorderColor": "#f9ebd2",
-  "recordBorderColorHover": "#f9ebd2",
-  "recordBorderColorOpen": "#f3d8a5",
-  "recordTitleColor": "#875e12",
-  "recordTitleBackgroundColor": "#f9ebd2",
-  "recordTitleButtonColor": "#875e12",
-  "recordTitleButtonColorHover": "#ffffff",
-  "recordTitleButtonColorActive": "#875e12",
-  "recordTitleButtonBorderColor": "transparent",
-  "recordTitleButtonBorderColorHover": "#875e12",
-  "recordTitleButtonBorderColorActive": "#875e12",
-  "recordTitleButtonBackgroundColor": "transparent",
-  "recordTitleButtonBackgroundColorHover": "#875e12",
-  "recordTitleButtonBackgroundColorActive": "#ffffff",
-  "recordFieldInputColor": "#875e12",
-  "recordFieldInputColorDisabled": "#875e12",
-  "recordFieldInputBorderColor": "#875e12",
-  "recordFieldInputBorderColorDisabled": "#fcf5e8",
-  "recordFieldInputBackgroundColor": "#ffffff",
-  "recordFieldInputBackgroundColorDisabled": "#fcf5e8",
-  "recordFieldButtonColor": "#ffffff",
-  "recordFieldButtonBorderColor": "#875e12",
-  "recordFieldButtonBackgroundColor": "#875e12",
-  "recordFieldButtonOpacityDisabled": "65%",
-  "newRecordBorderColor": "#875e12",
-  "newRecordBorderColorHover": "#875e12",
-  "newRecordBorderColorOpen": "#875e12",
-  "newRecordTitleColor": "#ffffff",
-  "newRecordTitleBackgroundColor": "#875e12",
-  "newRecordTitleButtonColor": "#ffffff",
-  "newRecordTitleButtonColorHover": "#875e12",
-  "newRecordTitleButtonBorderColor": "transparent",
-  "newRecordTitleButtonBorderColorHover": "#ffffff",
-  "newRecordTitleButtonBackgroundColor": "transparent",
-  "newRecordTitleButtonBackgroundColorHover": "#ffffff",
-  "newRecordFieldLabelColor": "#875e12",
-  "newRecordFieldLabelColorRequired": "#9e6e15",
-  "newRecordFieldInputColor": "#875e12",
-  "newRecordFieldInputBorderColor": "#875e12",
-  "newRecordFieldInputBackgroundColor": "#ffffff",
-  "newRecordSubmitButtonColor": "#ffffff",
-  "newRecordSubmitButtonColorHover": "#ffffff",
-  "newRecordSubmitButtonBorderColor": "#9e6e15",
-  "newRecordSubmitButtonBorderColorHover": "#875e12",
-  "newRecordSubmitButtonBackgroundColor": "#9e6e15",
-  "newRecordSubmitButtonBackgroundColorHover": "#875e12",
-  "createdRecordBorderColor": "#875e12",
-  "createdRecordBorderColorHover": "#875e12",
-  "createdRecordBorderColorOpen": "#875e12",
-  "createdRecordTitleColor": "#ffffff",
-  "createdRecordTitleBackgroundColor": "#875e12",
-  "createdRecordTitleButtonColor": "#ffffff",
-  "createdRecordTitleButtonColorHover": "#875e12",
-  "createdRecordTitleButtonBorderColor": "transparent",
-  "createdRecordTitleButtonBorderColorHover": "#ffffff",
-  "createdRecordTitleButtonBackgroundColor": "transparent",
-  "createdRecordTitleButtonBackgroundColorHover": "#ffffff",
-  "createdRecordFieldLabelColor": "#9e6e15",
-  "createdRecordFieldInputColor": "#875e12",
-  "createdRecordFieldInputBorderColor": "#fcf5e8",
-  "createdRecordFieldInputBackgroundColor": "#fcf5e8"
-}
-```
+    Here is an example:
+
+    ``` nonum
+    {
+      "name": "My Custom Theme",
+      "recordFieldLabelColor": "#2d1f06",
+      "tabButtonColor": "#875e12",
+      "tabBorderColor": "#875e12",
+      "controlColor": "#ffffff",
+      "controlColorHover": "#ffffff",
+      "controlBorderColor": "#9e6e15",
+      "controlBorderColorHover": "#875e12",
+      "controlBackgroundColor": "#9e6e15",
+      "controlBackgroundColorHover": "#875e12",
+      "controlOpacityDisabled": "80%",
+      "descriptionLinkColor": "#875e12",
+      "descriptionLinkColorHover": "#9e6e15",
+      "checkboxLabelColor": "#875e12",
+      "checkboxBorderColor": "#f3d8a5",
+      "checkboxBorderColorChecked": "#875e12",
+      "checkboxBackgroundColor": "#ffffff",
+      "checkboxBackgroundColorChecked": "#875e12",
+      "expanderCheckboxBorderColor": "#9e6e15",
+      "expanderCheckboxBorderColorChecked": "#ffffff",
+      "expanderCheckboxBackgroundColor": "#ffffff",
+      "expanderCheckboxBackgroundColorChecked": "#875e12",
+      "recordBorderColor": "#f9ebd2",
+      "recordBorderColorHover": "#f9ebd2",
+      "recordBorderColorOpen": "#f3d8a5",
+      "recordTitleColor": "#875e12",
+      "recordTitleBackgroundColor": "#f9ebd2",
+      "recordTitleButtonColor": "#875e12",
+      "recordTitleButtonColorHover": "#ffffff",
+      "recordTitleButtonColorActive": "#875e12",
+      "recordTitleButtonBorderColor": "transparent",
+      "recordTitleButtonBorderColorHover": "#875e12",
+      "recordTitleButtonBorderColorActive": "#875e12",
+      "recordTitleButtonBackgroundColor": "transparent",
+      "recordTitleButtonBackgroundColorHover": "#875e12",
+      "recordTitleButtonBackgroundColorActive": "#ffffff",
+      "recordFieldInputColor": "#875e12",
+      "recordFieldInputColorDisabled": "#875e12",
+      "recordFieldInputBorderColor": "#875e12",
+      "recordFieldInputBorderColorDisabled": "#fcf5e8",
+      "recordFieldInputBackgroundColor": "#ffffff",
+      "recordFieldInputBackgroundColorDisabled": "#fcf5e8",
+      "recordFieldButtonColor": "#ffffff",
+      "recordFieldButtonBorderColor": "#875e12",
+      "recordFieldButtonBackgroundColor": "#875e12",
+      "recordFieldButtonOpacityDisabled": "65%",
+      "newRecordBorderColor": "#875e12",
+      "newRecordBorderColorHover": "#875e12",
+      "newRecordBorderColorOpen": "#875e12",
+      "newRecordTitleColor": "#ffffff",
+      "newRecordTitleBackgroundColor": "#875e12",
+      "newRecordTitleButtonColor": "#ffffff",
+      "newRecordTitleButtonColorHover": "#875e12",
+      "newRecordTitleButtonBorderColor": "transparent",
+      "newRecordTitleButtonBorderColorHover": "#ffffff",
+      "newRecordTitleButtonBackgroundColor": "transparent",
+      "newRecordTitleButtonBackgroundColorHover": "#ffffff",
+      "newRecordFieldLabelColor": "#875e12",
+      "newRecordFieldLabelColorRequired": "#9e6e15",
+      "newRecordFieldInputColor": "#875e12",
+      "newRecordFieldInputBorderColor": "#875e12",
+      "newRecordFieldInputBackgroundColor": "#ffffff",
+      "newRecordSubmitButtonColor": "#ffffff",
+      "newRecordSubmitButtonColorHover": "#ffffff",
+      "newRecordSubmitButtonBorderColor": "#9e6e15",
+      "newRecordSubmitButtonBorderColorHover": "#875e12",
+      "newRecordSubmitButtonBackgroundColor": "#9e6e15",
+      "newRecordSubmitButtonBackgroundColorHover": "#875e12",
+      "createdRecordBorderColor": "#875e12",
+      "createdRecordBorderColorHover": "#875e12",
+      "createdRecordBorderColorOpen": "#875e12",
+      "createdRecordTitleColor": "#ffffff",
+      "createdRecordTitleBackgroundColor": "#875e12",
+      "createdRecordTitleButtonColor": "#ffffff",
+      "createdRecordTitleButtonColorHover": "#875e12",
+      "createdRecordTitleButtonBorderColor": "transparent",
+      "createdRecordTitleButtonBorderColorHover": "#ffffff",
+      "createdRecordTitleButtonBackgroundColor": "transparent",
+      "createdRecordTitleButtonBackgroundColorHover": "#ffffff",
+      "createdRecordFieldLabelColor": "#9e6e15",
+      "createdRecordFieldInputColor": "#875e12",
+      "createdRecordFieldInputBorderColor": "#fcf5e8",
+      "createdRecordFieldInputBackgroundColor": "#fcf5e8"
+    }
+    ```
+
+1. Copy the theme from the console, and paste it, or portions of it, into the *theme* option object:
+
+    ``` nonum
+    new HHDataList({
+      // reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
+      theme: {
+        name: 'My Custom Theme',
+        recordFieldLabelColor: '#2d1f06'
+        tabButtonColor: '#875e12',
+        tabBorderColor: '#875e12',
+        controlColor: '#ffffff',
+        recordBorderColorOpen: '#f3d8a5',
+        recordTitleColor: '#875e12',
+        recordTitleButtonColorHover: '#ffffff',
+        recordTitleButtonColorActive: '#875e12',
+        createdRecordFieldLabelColor: '#9e6e15',
+        createdRecordFieldInputColor: '#875e12',
+        createdRecordFieldInputBorderColor: '#fcf5e8',
+        createdRecordFieldInputBackgroundColor: '#fcf5e8
+      },
+      themeDefaults: {
+        color1: '#ffffff',
+        color2: '#fcf5e8',
+        color3: '#f9ebd2',
+        color4: '#f3d8a5',
+        color5: '#9e6e15',
+        color6: '#875e12'
+      },
+    });
+    ```
+
+1. Modify the values for the new theme properties (and reload) iteratively as you fine-tune your theme.
+
+1. If you delete your *themeDefaults* option, HHDataList will use its default *themeDefaults* option consisting of blue shades for any non-overridden colors:
+
+    ``` nonum
+    new HHDataList({
+      theme: {
+        name: 'My Custom Theme',
+        recordFieldLabelColor: '#2d1f06',
+        tabButtonColor: '#875e12',
+        tabBorderColor: '#875e12',
+        ...
+        ...
+        createdRecordFieldInputColor: '#875e12',
+        createdRecordFieldInputBorderColor: '#fcf5e8',
+        createdRecordFieldInputBackgroundColor: '#fcf5e8'
+      },
+    });
+    ```
 
 # Color domains
 

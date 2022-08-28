@@ -55,7 +55,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
@@ -63,6 +63,15 @@ The Baseball API is a Hagenhaus REST API ...
       new: 'Create a new record.',
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
+    },
+    theme: {},
+    themeDefaults: {
+      color1: '#ffffff',
+      color2: '#f1f1f1',
+      color3: '#f2f2f2',
+      color4: '#e6e6e6',
+      color5: '#8c8c8c',
+      // color6: '#4d4d4d'
     },
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
@@ -89,11 +98,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['parkname'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    theme: 'Dodger Blue',
-    themeOverrides:{
-      name: "My Dodger Blue",
-      tabButtonColor: 'forestgreen'
-    },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
 </script>
@@ -112,7 +117,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    theme: 'Dodger Blue',
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     url: 'http://localhost:8081/api/baseball/v1/teams',
   });
 </script>
@@ -130,7 +135,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFields: ['league'],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    theme: 'Dodger Blue',
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     url: 'http://localhost:8081/api/baseball/v1/leagues',
   });
 </script>
@@ -149,7 +154,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    theme: 'Dodger Blue',
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     url: 'http://localhost:8081/api/baseball/v1/managers',
   });
 </script>
@@ -194,6 +199,7 @@ The Baseball API is a Hagenhaus REST API ...
     recordTitleFormat: (f, r) => r[f[0]],
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
       home: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.',
@@ -203,7 +209,6 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       config: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
-    theme: 'Dodger Blue',
     urls: {
       deleteRecord: 'http://localhost:8081/api/devportals/v1/portals',
       getRecord: 'http://localhost:8081/api/devportals/v1/portals',

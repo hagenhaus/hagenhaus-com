@@ -151,7 +151,16 @@
       });
 
       let header = document.createElement('div');
-      header.classList.add('toast-header', 'text-white', level == 'error' ? 'bg-danger' : 'bg-success');
+      const foreground = (level) => {
+        if (level === 'warning') { return 'text-dark'; }
+        else { return 'text-white'; }
+      };
+      const background = (level) => {
+        if (level === 'error') { return 'bg-danger'; }
+        else if (level === 'warning') { return 'bg-warning'; }
+        else { return 'bg-success'; }
+      };
+      header.classList.add('toast-header', foreground(level), background(level));
 
       let strong = document.createElement('strong');
       strong.classList.add('me-auto');
@@ -159,7 +168,7 @@
 
       let btn = document.createElement('button');
       btn.type = 'button';
-      btn.classList.add('btn', 'btn-sm','btn-outline-light');
+      btn.classList.add('btn', 'btn-sm', 'btn-outline-light');
       btn.setAttribute('data-bs-dismiss', 'toast');
 
       let i = document.createElement('i');
@@ -187,14 +196,19 @@
       modal.show();
     }
 
+    const warningPageUrl = `${window.location.origin}/en/docs/website/warnings`;
     const errorPageUrl = `${window.location.origin}/en/docs/website/errors`;
 
     function reportError(type, title, detail) {
-      showToast(`error`, title, `${detail} <a href='${errorPageUrl}/#${type}' target='_blank'>More</a>.`);
+      showToast('error', title, `${detail} <a href='${errorPageUrl}/#${type}' target='_blank'>More</a>.`);
     }
 
-    function reportInfo(title, detail) { 
+    function reportInfo(title, detail) {
       showToast('info', title, detail);
+    }
+
+    function reportWarning(type, title, detail) {
+      showToast('warning', title, `${detail} <a href='${warningPageUrl}/#${type}' target='_blank'>More</a>.`);
     }
   </script>
 

@@ -103,6 +103,102 @@ hhDataListThemes.set(
   createdRecordFieldInputBackgroundColor: '#e6f2ff',
 });
 
+hhDataListThemes.set(
+  'silverberry', {
+  name: 'Silverberry',
+  tabButtonColor: '#4d4d4d',
+  tabBorderColor: '#4d4d4d',
+  controlColor: '#ffffff',
+  controlColorHover: '#ffffff',
+  controlBorderColor: '#8c8c8c',
+  controlBorderColorHover: '#4d4d4d',
+  controlBackgroundColor: '#8c8c8c',
+  controlBackgroundColorHover: '#4d4d4d',
+  controlOpacityDisabled: '80%',
+  descriptionLinkColor: '#4d4d4d',
+  descriptionLinkColorHover: '#8c8c8c',
+  checkboxLabelColor: '#4d4d4d',
+  checkboxBorderColor: '#e6e6e6',
+  checkboxBorderColorChecked: '#4d4d4d',
+  checkboxBackgroundColor: '#ffffff',
+  checkboxBackgroundColorChecked: '#4d4d4d',
+  expanderCheckboxBorderColor: '#8c8c8c',
+  expanderCheckboxBorderColorChecked: '#ffffff',
+  expanderCheckboxBackgroundColor: '#ffffff',
+  expanderCheckboxBackgroundColorChecked: '#4d4d4d',
+  recordBorderColor: '#f2f2f2',
+  recordBorderColorHover: '#f2f2f2',
+  recordBorderColorOpen: '#e6e6e6',
+  recordTitleColor: '#4d4d4d',
+  recordTitleBackgroundColor: '#f2f2f2',
+  recordTitleButtonColor: '#4d4d4d',
+  recordTitleButtonColorHover: '#ffffff',
+  recordTitleButtonColorActive: '#4d4d4d',
+  recordTitleButtonBorderColor: 'transparent',
+  recordTitleButtonBorderColorHover: '#4d4d4d',
+  recordTitleButtonBorderColorActive: '#4d4d4d',
+  recordTitleButtonBackgroundColor: 'transparent',
+  recordTitleButtonBackgroundColorHover: '#4d4d4d',
+  recordTitleButtonBackgroundColorActive: '#ffffff',
+  recordFieldLabelColor: '#8c8c8c',
+  recordFieldInputColor: '#4d4d4d',
+  recordFieldInputColorDisabled: '#4d4d4d',
+  recordFieldInputBorderColor: '#4d4d4d',
+  recordFieldInputBorderColorDisabled: '#f1f1f1',
+  recordFieldInputBackgroundColor: '#ffffff',
+  recordFieldInputBackgroundColorDisabled: '#f1f1f1',
+  recordFieldButtonColor: '#ffffff',
+  recordFieldButtonBorderColor: '#4d4d4d',
+  recordFieldButtonBackgroundColor: '#4d4d4d',
+  recordFieldButtonOpacityDisabled: '65%',
+  newRecordBorderColor: '#4d4d4d',
+  newRecordBorderColorHover: '#4d4d4d',
+  newRecordBorderColorOpen: '#4d4d4d',
+  newRecordTitleColor: '#ffffff',
+  newRecordTitleBackgroundColor: '#4d4d4d',
+  newRecordTitleButtonColor: '#ffffff',
+  newRecordTitleButtonColorHover: '#4d4d4d',
+  newRecordTitleButtonBorderColor: 'transparent',
+  newRecordTitleButtonBorderColorHover: '#ffffff',
+  newRecordTitleButtonBackgroundColor: 'transparent',
+  newRecordTitleButtonBackgroundColorHover: '#ffffff',
+  newRecordFieldLabelColor: '#4d4d4d',
+  newRecordFieldLabelColorRequired: '#8c8c8c',
+  newRecordFieldInputColor: '#4d4d4d',
+  newRecordFieldInputBorderColor: '#4d4d4d',
+  newRecordFieldInputBackgroundColor: '#ffffff',
+  newRecordSubmitButtonColor: '#ffffff',
+  newRecordSubmitButtonColorHover: '#ffffff',
+  newRecordSubmitButtonBorderColor: '#8c8c8c',
+  newRecordSubmitButtonBorderColorHover: '#4d4d4d',
+  newRecordSubmitButtonBackgroundColor: '#8c8c8c',
+  newRecordSubmitButtonBackgroundColorHover: '#4d4d4d',
+  createdRecordBorderColor: '#4d4d4d',
+  createdRecordBorderColorHover: '#4d4d4d',
+  createdRecordBorderColorOpen: '#4d4d4d',
+  createdRecordTitleColor: '#ffffff',
+  createdRecordTitleBackgroundColor: '#4d4d4d',
+  createdRecordTitleButtonColor: '#ffffff',
+  createdRecordTitleButtonColorHover: '#4d4d4d',
+  createdRecordTitleButtonBorderColor: 'transparent',
+  createdRecordTitleButtonBorderColorHover: '#ffffff',
+  createdRecordTitleButtonBackgroundColor: 'transparent',
+  createdRecordTitleButtonBackgroundColorHover: '#ffffff',
+  createdRecordFieldLabelColor: '#8c8c8c',
+  createdRecordFieldInputColor: '#4d4d4d',
+  createdRecordFieldInputBorderColor: '#f1f1f1',
+  createdRecordFieldInputBackgroundColor: '#f1f1f1'
+});
+
+const hhDataListThemeDefaults = {
+  color1: '#ffffff',
+  color2: '#e6f2ff',
+  color3: '#cce6ff',
+  color4: '#4da6ff',
+  color5: '#0073e6',
+  color6: '#0059b3'
+};
+
 // const keys = hhDataListThemes.keys();
 // for (const key of keys) {
 //   console.log(key);
@@ -148,8 +244,11 @@ class HHDataList {
     this.queryObject.order = 'order' in options ? options.order : '';
     this.queryObject.fields = '*';
     this.confirm = options.confirm;
-    this.reportError = options.reportError;
-    this.reportInfo = options.reportInfo;
+
+    this.reportError = 'reportError' in options ? options.reportError : () => { };
+    this.reportInfo = 'reportInfo' in options ? options.reportInfo : () => { };
+    this.reportWarning = 'reportWarning' in options ? options.reportWarning : () => { };
+    this.reportTheme = 'reportTheme' in options ? options.reportTheme : () => { };
 
     this.recordColMap = new Map();
     this.recordColMap.set(2, 6);
@@ -1428,67 +1527,31 @@ class HHDataList {
           }
         }
 
-        // The specified standard theme is not legit.
+        // The specified standard theme is unknown.
         else {
-          this.reportError('theme-error', 'Theme Error', `"${options.theme}" is not a standard theme. Default theme applied instead.`);
+          this.reportWarning('theme-warning', 'Theme Warning', `"${options.theme}" is not a known theme. Default theme applied instead.`);
         }
       }
 
-      // The caller attempted to specify a custom theme.
+      // The caller specified a custom theme.
       else if (typeof options.theme === 'object' && options.theme !== null && !Array.isArray(options.theme) && (options.theme instanceof Date === false)) {
-
-        // A custom theme requires themeDefaults.
-        let defaults = 'themeDefaults' in options ? options.themeDefaults : null;
-
-        // The caller neglected to specify themeDefaults.
-        if (!defaults) {
-          this.reportError('theme-error', 'Theme Error', `Missing "themeDefaults" option. Default theme applied instead.`);
+        let defaults = 'themeDefaults' in options ? options.themeDefaults : {};
+        for (let i = 1; i <= 6; i++) {
+          defaults[`color${i}`] = `color${i}` in defaults ? defaults[`color${i}`] : hhDataListThemeDefaults[`color${i}`];
         }
-
-        // The caller specified themeDefaults which is correct.
-        else {
-          let keys = Object.keys(defaults);
-
-          // The caller specified too few or too many themeDefaults.
-          if (keys.length !== 6) {
-            this.reportError('theme-error', 'Theme Error', `There should be 6 colors in the themeDefaults object. You specified ${keys.length}. Default theme applied instead.`);
-          }
-
-          // The caller specified 6 colors in themeDefaults which is correct.
-          else {
-            let missingKeys = [];
-            for (let i = 1; i <= 6; i++) {
-              if (keys.includes(`color${i}`) === false) {
-                missingKeys.push(`color${i}`);
-              }
-            }
-
-            // The caller specified one or more wrong themeDefaults properties.
-            if (missingKeys.length) {
-              this.reportError('theme-error', 'Theme Error', `Your themeDefaults object is missing the following properties: ${missingKeys.join(", ")}. Default theme applied instead.`);
-            }
-
-            // The theme and themeDefaults objects appear to be valid. Can't speak to color choices, though.
-            else {
-              theme = this.buildTheme(options.theme, defaults);
-            }
-          }
-        }
+        theme = this.buildTheme(options.theme, defaults);
       }
 
       // The caller specified a theme that is not a string or [object Object].
       else {
-        this.reportError('theme-error', 'Theme Error', `Your theme option is not (but must be) a string or an [object Object]. Default theme applied instead.`);
+        this.reportWarning('theme-warning', 'Theme Warning', `Your theme option is not (but must be) a string or an [object Object]. Default theme applied instead.`);
       }
     }
 
-    // Pass theme to reportTheme if the function exists.
-    if ('reportTheme' in options) {
-      options.reportTheme(theme);
-    }
+    this.reportTheme(theme);
 
     // this.buildThemeMap();
-  
+
     // Apply the built theme, or apply the default theme if an error occurred.
     this.applyTheme(theme);
   }

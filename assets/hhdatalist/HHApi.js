@@ -84,7 +84,7 @@ class HHApi {
       try {
         success(await this.getRecords(queryObject));
       } catch (error) {
-        console.log(JSON.stringify(error, null, 2));
+        // console.log(JSON.stringify(error, null, 2));
         if (error.message === 'Network Error') {
           failure('network-error', error.message, error.stack);
         } else {
@@ -103,7 +103,7 @@ class HHApi {
       try {
         success(await this.getRecord(id, queryObject), id);
       } catch (error) {
-        console.log(JSON.stringify(error, null, 2));
+        // console.log(JSON.stringify(error, null, 2));
         if (error.message === 'Network Error') {
           failure('network-error', error.message, error.stack);
         } else {
