@@ -1,3 +1,7 @@
+---
+author: Matt Hagen
+---
+
 # REST API Examples
 
 # Baseball API

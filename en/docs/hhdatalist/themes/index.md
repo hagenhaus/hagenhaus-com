@@ -1,8 +1,36 @@
+---
+author: Matt Hagen
+---
+
 # HHDataList Themes
 
-A theme consists of key-value pairs that specify colors for the HTML elements that make up an HHDataList instance:
+A theme is a set of properties that specify colors for the HTML elements that compose HHDataList instances:
 
-<p><img src="theme-to-component.png" class="img-fluid d-block" width=800 height=227 loading="lazy"></p>
+<p><img src="theme-to-element.png" class="img-fluid d-block" width=800 height=320 loading="lazy"></p>
+
+Theme properties are key-value pairs (e.g. `tabButtonColor: '#0059b3'`). The keys correspond to css variable names. This correspondence enables the HHDataList constructor to copy theme values to css variable values:
+
+<p><img src="theme-to-css-variables.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+The HHDataList stylesheet incorporates these css variable values in style declarations:
+
+``` nonum
+div.hh-data-list ul.nav-tabs>li>button {
+  color: var(--hh-tab-button-color);
+}
+
+div.hh-data-list ul.nav-tabs {
+  border-bottom: 1px solid var(--hh-tab-border-color);
+}
+
+div.hh-data-list div.hh-expander label {
+  background-color: var(--hh-control-background-color);
+}
+```
+
+These styles control the appearance of the HHDataList html elements:
+
+<p><img src="variable-to-element.png" class="img-fluid d-block" width=800 height=273 loading="lazy"></p>
 
 HHDataList supports standard themes and custom themes. 
 
@@ -16,23 +44,34 @@ new HHDataList({
 });
 ```
 
-Optionally, you can use the *themeOverrides* option to override one or more standard theme properties:
+Optionally, you can use the *themeOverrides* option to override one or more theme properties:
 
 ``` nonum
 new HHDataList({
   theme: 'Silverberry',
   themeOverrides:{
-    name: "My Silverberry Theme",
     tabButtonColor: 'maroon'
   },
 });
 ```
+
+See [Theme details](#theme-details) to learn about all the theme properties.
 
 You apply the default theme (i.e. *Dodger Blue*) by omitting the *theme* option:
 
 ``` nonum
 new HHDataList({
   // No theme option.
+});
+```
+
+You can use *themeOverrides* to override the default theme, too:
+
+``` nonum
+new HHDataList({
+  themeOverrides:{
+    tabButtonColor: 'maroon'
+  },
 });
 ```
 
@@ -546,6 +585,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    // reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));},
     theme: {
       name: 'Wheatgerm'
     },
@@ -565,7 +605,7 @@ HHDataList provides a set of standard themes reflected by the following list of 
 
 Typically, building a custom theme is an iterative process. Below is one approach.
 
-## Establish defaults
+## Establishing defaults
 
 1. Set the *theme* option equal to an object:
 
@@ -613,7 +653,20 @@ Typically, building a custom theme is an iterative process. Below is one approac
     });
     ```
 
-    **Note**: If you omit the *themeDefaults* option, or if you omit any of the color properties, HHDataList makes up the difference with shades of blue.
+    Each *themeDefaults* property (*color1*, *color2*, *color3*, etc.) sets the color for a subset of theme properties. For example, *color3* sets the color for *recordBorderColor*, *recordBorderColorHover*, and *recordTitleBackgroundColor*. To learn more, see [Theme details](#theme-details).
+
+    If you omit *themeDefaults* or any properties therein, HHDataList will supplement with all or part of the following:
+
+    ``` nonum
+    const hhDataListThemeDefaults = {
+      color1: '#ffffff', // White
+      color2: '#e6f2ff', // very light blue
+      color3: '#cce6ff', // slightly less light blue
+      color4: '#4da6ff', // moderately light blue
+      color5: '#0073e6', // slightly darker than Dodger Blue
+      color6: '#0059b3'  // moderately darker than Dodger Blue
+    };
+    ```
 
 1. Reload the page.
 
@@ -654,7 +707,7 @@ After completing these steps, the colors of your HHDataList instance should rese
   });
 </script>
 
-## Modify defaults
+## Modifying defaults
 
 1. Decide if you like the default colors. For the sake of the example, let's decide to make the following changes:
 
@@ -723,7 +776,7 @@ After completing these steps, the colors of your HHDataList instance should rese
   });
 </script>
 
-## Override defaults
+## Overriding defaults
 
 1. Decide if you want to explicitly set the default foreground, background, or border color of any particular html elements, thereby overriding the defaults for those elements. For the sake of the example, let's decide to make the following change:
 
@@ -753,6 +806,8 @@ After completing these steps, the colors of your HHDataList instance should rese
       ...
     });
     ```
+
+    See [Theme details](#theme-details) to learn about all the theme properties.
 
 1. Reload the page.
 
@@ -795,7 +850,7 @@ After completing these steps, open a record and verify that the field labels are
   });
 </script>
 
-## Generate a theme
+## Generating themes
 
 Perhaps you plan to explicitly set the colors of all (or a significant number of) html elements:
 
@@ -803,7 +858,7 @@ Perhaps you plan to explicitly set the colors of all (or a significant number of
 
 In this case, you can do the following:
 
-1. Use the *reportTheme* option to generate the theme, and output it to the console:
+1. Use the *reportTheme* option to generate the entire theme, and output it to the console:
 
     ``` nonum
     new HHDataList({
@@ -823,95 +878,7 @@ In this case, you can do the following:
     });
     ```
 
-    Here is an example:
-
-    ``` nonum
-    {
-      "name": "My Custom Theme",
-      "recordFieldLabelColor": "#2d1f06",
-      "tabButtonColor": "#875e12",
-      "tabBorderColor": "#875e12",
-      "controlColor": "#ffffff",
-      "controlColorHover": "#ffffff",
-      "controlBorderColor": "#9e6e15",
-      "controlBorderColorHover": "#875e12",
-      "controlBackgroundColor": "#9e6e15",
-      "controlBackgroundColorHover": "#875e12",
-      "controlOpacityDisabled": "80%",
-      "descriptionLinkColor": "#875e12",
-      "descriptionLinkColorHover": "#9e6e15",
-      "checkboxLabelColor": "#875e12",
-      "checkboxBorderColor": "#f3d8a5",
-      "checkboxBorderColorChecked": "#875e12",
-      "checkboxBackgroundColor": "#ffffff",
-      "checkboxBackgroundColorChecked": "#875e12",
-      "expanderCheckboxBorderColor": "#9e6e15",
-      "expanderCheckboxBorderColorChecked": "#ffffff",
-      "expanderCheckboxBackgroundColor": "#ffffff",
-      "expanderCheckboxBackgroundColorChecked": "#875e12",
-      "recordBorderColor": "#f9ebd2",
-      "recordBorderColorHover": "#f9ebd2",
-      "recordBorderColorOpen": "#f3d8a5",
-      "recordTitleColor": "#875e12",
-      "recordTitleBackgroundColor": "#f9ebd2",
-      "recordTitleButtonColor": "#875e12",
-      "recordTitleButtonColorHover": "#ffffff",
-      "recordTitleButtonColorActive": "#875e12",
-      "recordTitleButtonBorderColor": "transparent",
-      "recordTitleButtonBorderColorHover": "#875e12",
-      "recordTitleButtonBorderColorActive": "#875e12",
-      "recordTitleButtonBackgroundColor": "transparent",
-      "recordTitleButtonBackgroundColorHover": "#875e12",
-      "recordTitleButtonBackgroundColorActive": "#ffffff",
-      "recordFieldInputColor": "#875e12",
-      "recordFieldInputColorDisabled": "#875e12",
-      "recordFieldInputBorderColor": "#875e12",
-      "recordFieldInputBorderColorDisabled": "#fcf5e8",
-      "recordFieldInputBackgroundColor": "#ffffff",
-      "recordFieldInputBackgroundColorDisabled": "#fcf5e8",
-      "recordFieldButtonColor": "#ffffff",
-      "recordFieldButtonBorderColor": "#875e12",
-      "recordFieldButtonBackgroundColor": "#875e12",
-      "recordFieldButtonOpacityDisabled": "65%",
-      "newRecordBorderColor": "#875e12",
-      "newRecordBorderColorHover": "#875e12",
-      "newRecordBorderColorOpen": "#875e12",
-      "newRecordTitleColor": "#ffffff",
-      "newRecordTitleBackgroundColor": "#875e12",
-      "newRecordTitleButtonColor": "#ffffff",
-      "newRecordTitleButtonColorHover": "#875e12",
-      "newRecordTitleButtonBorderColor": "transparent",
-      "newRecordTitleButtonBorderColorHover": "#ffffff",
-      "newRecordTitleButtonBackgroundColor": "transparent",
-      "newRecordTitleButtonBackgroundColorHover": "#ffffff",
-      "newRecordFieldLabelColor": "#875e12",
-      "newRecordFieldLabelColorRequired": "#9e6e15",
-      "newRecordFieldInputColor": "#875e12",
-      "newRecordFieldInputBorderColor": "#875e12",
-      "newRecordFieldInputBackgroundColor": "#ffffff",
-      "newRecordSubmitButtonColor": "#ffffff",
-      "newRecordSubmitButtonColorHover": "#ffffff",
-      "newRecordSubmitButtonBorderColor": "#9e6e15",
-      "newRecordSubmitButtonBorderColorHover": "#875e12",
-      "newRecordSubmitButtonBackgroundColor": "#9e6e15",
-      "newRecordSubmitButtonBackgroundColorHover": "#875e12",
-      "createdRecordBorderColor": "#875e12",
-      "createdRecordBorderColorHover": "#875e12",
-      "createdRecordBorderColorOpen": "#875e12",
-      "createdRecordTitleColor": "#ffffff",
-      "createdRecordTitleBackgroundColor": "#875e12",
-      "createdRecordTitleButtonColor": "#ffffff",
-      "createdRecordTitleButtonColorHover": "#875e12",
-      "createdRecordTitleButtonBorderColor": "transparent",
-      "createdRecordTitleButtonBorderColorHover": "#ffffff",
-      "createdRecordTitleButtonBackgroundColor": "transparent",
-      "createdRecordTitleButtonBackgroundColorHover": "#ffffff",
-      "createdRecordFieldLabelColor": "#9e6e15",
-      "createdRecordFieldInputColor": "#875e12",
-      "createdRecordFieldInputBorderColor": "#fcf5e8",
-      "createdRecordFieldInputBackgroundColor": "#fcf5e8"
-    }
-    ```
+    See the [Example theme](#example-theme).
 
 1. Copy the theme from the console, and paste it, or portions of it, into the *theme* option object:
 
@@ -946,7 +913,7 @@ In this case, you can do the following:
 
 1. Modify the values for the new theme properties (and reload) iteratively as you fine-tune your theme.
 
-1. If you delete your *themeDefaults* option, HHDataList will use its default *themeDefaults* option consisting of blue shades for any non-overridden colors:
+1. Optionally, you can delete your *themeDefaults* option:
 
     ``` nonum
     new HHDataList({
@@ -964,21 +931,103 @@ In this case, you can do the following:
     });
     ```
 
-# Color domains
+    Be aware, however, that if, subsequently, you delete any properties from your full theme, HHDataList, needing default colors for the deleted properties, will use its own default *themeDefaults* option which consists of various blue shades.
 
-## color1
+# Theme details
 
-## color2
+## Example theme
 
-## color3
+``` nonum
+{
+  "name": "My Custom Theme",
+  "recordFieldLabelColor": "#2d1f06",
+  "tabButtonColor": "#875e12",
+  "tabBorderColor": "#875e12",
+  "controlColor": "#ffffff",
+  "controlColorHover": "#ffffff",
+  "controlBorderColor": "#9e6e15",
+  "controlBorderColorHover": "#875e12",
+  "controlBackgroundColor": "#9e6e15",
+  "controlBackgroundColorHover": "#875e12",
+  "controlOpacityDisabled": "80%",
+  "descriptionLinkColor": "#875e12",
+  "descriptionLinkColorHover": "#9e6e15",
+  "checkboxLabelColor": "#875e12",
+  "checkboxBorderColor": "#f3d8a5",
+  "checkboxBorderColorChecked": "#875e12",
+  "checkboxBackgroundColor": "#ffffff",
+  "checkboxBackgroundColorChecked": "#875e12",
+  "expanderCheckboxBorderColor": "#9e6e15",
+  "expanderCheckboxBorderColorChecked": "#ffffff",
+  "expanderCheckboxBackgroundColor": "#ffffff",
+  "expanderCheckboxBackgroundColorChecked": "#875e12",
+  "recordBorderColor": "#f9ebd2",
+  "recordBorderColorHover": "#f9ebd2",
+  "recordBorderColorOpen": "#f3d8a5",
+  "recordTitleColor": "#875e12",
+  "recordTitleBackgroundColor": "#f9ebd2",
+  "recordTitleButtonColor": "#875e12",
+  "recordTitleButtonColorHover": "#ffffff",
+  "recordTitleButtonColorActive": "#875e12",
+  "recordTitleButtonBorderColor": "transparent",
+  "recordTitleButtonBorderColorHover": "#875e12",
+  "recordTitleButtonBorderColorActive": "#875e12",
+  "recordTitleButtonBackgroundColor": "transparent",
+  "recordTitleButtonBackgroundColorHover": "#875e12",
+  "recordTitleButtonBackgroundColorActive": "#ffffff",
+  "recordFieldInputColor": "#875e12",
+  "recordFieldInputColorDisabled": "#875e12",
+  "recordFieldInputBorderColor": "#875e12",
+  "recordFieldInputBorderColorDisabled": "#fcf5e8",
+  "recordFieldInputBackgroundColor": "#ffffff",
+  "recordFieldInputBackgroundColorDisabled": "#fcf5e8",
+  "recordFieldButtonColor": "#ffffff",
+  "recordFieldButtonBorderColor": "#875e12",
+  "recordFieldButtonBackgroundColor": "#875e12",
+  "recordFieldButtonOpacityDisabled": "65%",
+  "newRecordBorderColor": "#875e12",
+  "newRecordBorderColorHover": "#875e12",
+  "newRecordBorderColorOpen": "#875e12",
+  "newRecordTitleColor": "#ffffff",
+  "newRecordTitleBackgroundColor": "#875e12",
+  "newRecordTitleButtonColor": "#ffffff",
+  "newRecordTitleButtonColorHover": "#875e12",
+  "newRecordTitleButtonBorderColor": "transparent",
+  "newRecordTitleButtonBorderColorHover": "#ffffff",
+  "newRecordTitleButtonBackgroundColor": "transparent",
+  "newRecordTitleButtonBackgroundColorHover": "#ffffff",
+  "newRecordFieldLabelColor": "#875e12",
+  "newRecordFieldLabelColorRequired": "#9e6e15",
+  "newRecordFieldInputColor": "#875e12",
+  "newRecordFieldInputBorderColor": "#875e12",
+  "newRecordFieldInputBackgroundColor": "#ffffff",
+  "newRecordSubmitButtonColor": "#ffffff",
+  "newRecordSubmitButtonColorHover": "#ffffff",
+  "newRecordSubmitButtonBorderColor": "#9e6e15",
+  "newRecordSubmitButtonBorderColorHover": "#875e12",
+  "newRecordSubmitButtonBackgroundColor": "#9e6e15",
+  "newRecordSubmitButtonBackgroundColorHover": "#875e12",
+  "createdRecordBorderColor": "#875e12",
+  "createdRecordBorderColorHover": "#875e12",
+  "createdRecordBorderColorOpen": "#875e12",
+  "createdRecordTitleColor": "#ffffff",
+  "createdRecordTitleBackgroundColor": "#875e12",
+  "createdRecordTitleButtonColor": "#ffffff",
+  "createdRecordTitleButtonColorHover": "#875e12",
+  "createdRecordTitleButtonBorderColor": "transparent",
+  "createdRecordTitleButtonBorderColorHover": "#ffffff",
+  "createdRecordTitleButtonBackgroundColor": "transparent",
+  "createdRecordTitleButtonBackgroundColorHover": "#ffffff",
+  "createdRecordFieldLabelColor": "#9e6e15",
+  "createdRecordFieldInputColor": "#875e12",
+  "createdRecordFieldInputBorderColor": "#fcf5e8",
+  "createdRecordFieldInputBackgroundColor": "#fcf5e8"
+}
+```
 
-## color4
+## Property to default value map
 
-## color5
-
-## color6
-
-|Theme Object Key|Default Value|
+|Theme Key|Default Value|
 |-|-|
 |tabButtonColor|color6|
 |tabBorderColor|color6|
@@ -1062,6 +1111,8 @@ In this case, you can do the following:
 |createdRecordFieldInputColor|color6|
 |createdRecordFieldInputBorderColor|color2|
 |createdRecordFieldInputBackgroundColor|color2|
+
+## Default value to property map
 
 # Notes
 

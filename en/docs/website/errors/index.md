@@ -1,3 +1,7 @@
+---
+author: Matt Hagen
+---
+
 # Website Errors
 
 This website uses [Bootstrap toast components](https://getbootstrap.com/docs/5.1/components/toasts/) to display *Error* messages to users.

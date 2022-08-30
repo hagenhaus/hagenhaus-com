@@ -1,3 +1,7 @@
+---
+author: Matt Hagen
+---
+
 # HHDataList Release Notes
 
 Each release should do the following:

@@ -1518,13 +1518,14 @@ class HHDataList {
 
         // The specified standard theme is legit.
         if (standardTheme) {
-          theme = Object.assign({}, standardTheme);
-          let themeOverrides = 'themeOverrides' in options ? options.themeOverrides : {};
-          for (const property in themeOverrides) {
-            if (property in theme) {
-              theme[property] = themeOverrides[property];
-            }
-          }
+          theme = standardTheme;
+          // theme = Object.assign({}, standardTheme);
+          // let themeOverrides = 'themeOverrides' in options ? options.themeOverrides : {};
+          // for (const property in themeOverrides) {
+          //   if (property in theme) {
+          //     theme[property] = themeOverrides[property];
+          //   }
+          // }
         }
 
         // The specified standard theme is unknown.
@@ -1542,9 +1543,19 @@ class HHDataList {
         theme = this.buildTheme(options.theme, defaults);
       }
 
-      // The caller specified a theme that is not a string or [object Object].
+      // The caller specified a theme that is not a string nor [object Object].
       else {
         this.reportWarning('theme-warning', 'Theme Warning', `Your theme option is not (but must be) a string or an [object Object]. Default theme applied instead.`);
+      }
+    }
+
+    let themeOverrides = 'themeOverrides' in options ? options.themeOverrides : null;
+    if(themeOverrides) {
+      theme = Object.assign({}, theme);
+      for (const property in themeOverrides) {
+        if (property in theme) {
+          theme[property] = themeOverrides[property];
+        }
       }
     }
 
@@ -1552,7 +1563,6 @@ class HHDataList {
 
     // this.buildThemeMap();
 
-    // Apply the built theme, or apply the default theme if an error occurred.
     this.applyTheme(theme);
   }
 
@@ -1769,7 +1779,14 @@ class HHDataList {
     theme.createdRecordFieldInputColor = 'createdRecordFieldInputColor' in theme ? theme.createdRecordFieldInputColor : 'color6';
     theme.createdRecordFieldInputBorderColor = 'createdRecordFieldInputBorderColor' in theme ? theme.createdRecordFieldInputBorderColor : 'color2';
     theme.createdRecordFieldInputBackgroundColor = 'createdRecordFieldInputBackgroundColor' in theme ? theme.createdRecordFieldInputBackgroundColor : 'color2';
-    console.log(JSON.stringify(theme, null, 2));
+
+    // for (const property in theme) {
+    //   if(theme[property] === 'color6'){
+    //     console.log(property);
+    //   }
+    // }
+
+    // console.log(JSON.stringify(theme, null, 2));
   }
 
   /************************************************************************************************
