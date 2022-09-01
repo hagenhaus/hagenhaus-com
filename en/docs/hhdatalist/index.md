@@ -69,7 +69,7 @@ HHDataList is a configurable UI component that enables users to interact with a 
   });
 </script>
 
-# User perspective
+# User Guide
 
 The following video demonstrates the HHDataList user perspective:
 
@@ -114,7 +114,7 @@ Describe UI organization including tabs and rows.
 
 ## Keyboard
 
-# Developer perspective
+# Developer Guide
 
 The following video demonstrates the HHDataList developer perspective:
 
@@ -158,6 +158,7 @@ Topics:
 * Isolating js.
 * Minimization.
 * Versioning.
+* Split, uglify, obfuscate, obscurify, Terser, RollupJS
 
 References:
 
@@ -165,5 +166,10 @@ References:
 * [Using Bootstrap as a module](https://getbootstrap.com/docs/5.0/getting-started/javascript/#using-bootstrap-as-a-module)
 * [How to isolate component styles in React using CSS modules](https://dev.to/eransakal/how-to-isolate-component-styles-in-react-using-css-modules-mkm)
 * [Writing Modular JavaScript With AMD, CommonJS & ES Harmony](https://addyosmani.com/writing-modular-js/)
+* [CleanCss](https://www.npmjs.com/package/clean-css)
+* [Terser](https://www.npmjs.com/package/terser)
+* [JavaScript obfuscator](https://www.npmjs.com/package/javascript-obfuscator)
+* [jsdelivr.com](https://www.jsdelivr.com/).
+* [cloudflare.com](https://www.cloudflare.com/).
 
 ## Versioning
