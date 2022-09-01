@@ -8,27 +8,11 @@ A theme is a set of properties that specify colors for the HTML elements that co
 
 <p><img src="theme-to-element.png" class="img-fluid d-block" width=800 height=320 loading="lazy"></p>
 
-Theme properties are key-value pairs (e.g. `tabButtonColor: '#0059b3'`). The keys correspond to css variable names. This correspondence enables the HHDataList constructor to copy theme values to css variable values:
+Theme properties are key-value pairs (e.g. `tabButtonColor: '#0059b3'`). The keys correspond to css variable names. For example, `tabButtonColor` corresponds to `--hh-tab-button-color`. This correspondence enables the HHDataList constructor to copy theme property values to css property values:
 
-<p><img src="theme-to-css-variables.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="theme-variable-element.png" class="img-fluid d-block" width=460 loading="lazy"></p>
 
-The HHDataList stylesheet incorporates these css variable values in style declarations:
-
-``` nonum
-div.hh-data-list ul.nav-tabs>li>button {
-  color: var(--hh-tab-button-color);
-}
-
-div.hh-data-list ul.nav-tabs {
-  border-bottom: 1px solid var(--hh-tab-border-color);
-}
-
-div.hh-data-list div.hh-expander label {
-  background-color: var(--hh-control-background-color);
-}
-```
-
-These styles control the appearance of the HHDataList html elements:
+And, these styles control the appearance of the HHDataList html elements:
 
 <p><img src="variable-to-element.png" class="img-fluid d-block" width=800 height=273 loading="lazy"></p>
 
@@ -55,7 +39,7 @@ new HHDataList({
 });
 ```
 
-See [Theme details](#theme-details) to learn about all the theme properties.
+See [Theme properties](#theme-properties) to learn about theme properties.
 
 You apply the default theme (i.e. *Dodger Blue*) by omitting the *theme* option:
 
@@ -283,50 +267,6 @@ HHDataList provides a set of standard themes reflected by the following list of 
       color4: '#ebc7eb',
       color5: '#963696',
       color6: '#702970'
-    },
-    url: 'http://localhost:8081/api/baseball/v1/parks',
-  });
-</script>
-
-## Rainbow
-
-<div id="datalist-rainbow" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    id: 'datalist-rainbow',
-    recordFields: [
-      { name: 'ID', label: 'ID', isChecked: false },
-      { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
-      { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
-      { name: 'parkalias', label: 'Aliases', isEditable: true },
-      { name: 'city', label: 'City', isEditable: true },
-      { name: 'state', label: 'State', isEditable: true },
-      { name: 'country', label: 'Country', isEditable: true },
-    ],
-    recordIdField: 'ID',
-    recordTitleFields: ['parkname'],
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
-    reportInfo: (title, detail) => { reportInfo(title, detail); },
-    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    theme: {
-      name: 'Rainbow',
-      recordTitleColor: '#006600',
-      recordTitleButtonColor: 'steelblue',
-      recordBorderColorOpen: 'green',
-      recordFieldLabelColor: '#006600',
-      recordFieldInputColorDisabled: 'black',
-      recordFieldInputBorderColorDisabled: '#fff0ff',
-      recordFieldInputBackgroundColorDisabled: '#fff0ff'
-    },
-    themeDefaults: {
-      color1: '#ffffff',
-      color2: '#eafaea',
-      color3: '#ffff99',
-      color4: '#c1f0c1',
-      color5: 'orange',
-      color6: 'red'
     },
     url: 'http://localhost:8081/api/baseball/v1/parks',
   });
@@ -653,7 +593,7 @@ Typically, building a custom theme is an iterative process. Below is one approac
     });
     ```
 
-    Each *themeDefaults* property (*color1*, *color2*, *color3*, etc.) sets the color for a subset of theme properties. For example, *color3* sets the color for *recordBorderColor*, *recordBorderColorHover*, and *recordTitleBackgroundColor*. To learn more, see [Theme details](#theme-details).
+    Each *themeDefaults* property (*color1*, *color2*, *color3*, etc.) sets the color for a subset of theme properties. For example, *color3* sets the color for *recordBorderColor*, *recordBorderColorHover*, and *recordTitleBackgroundColor*. To learn more, see [Theme defaults](#theme-defaults).
 
     If you omit *themeDefaults* or any properties therein, HHDataList will supplement with all or part of the following:
 
@@ -807,7 +747,7 @@ After completing these steps, the colors of your HHDataList instance should rese
     });
     ```
 
-    See [Theme details](#theme-details) to learn about all the theme properties.
+    See [Theme properties](#theme-properties) to learn about theme properties.
 
 1. Reload the page.
 
@@ -933,9 +873,9 @@ In this case, you can do the following:
 
     Be aware, however, that if, subsequently, you delete any properties from your full theme, HHDataList, needing default colors for the deleted properties, will use its own default *themeDefaults* option which consists of various blue shades.
 
-# Theme details
+# Theme properties
 
-## Example theme
+Below is an example theme:
 
 ``` nonum
 {
@@ -1025,7 +965,135 @@ In this case, you can do the following:
 }
 ```
 
-## Property to default value map
+# Theme defaults
+
+Recall that one way to create a custom theme is to specify theme defaults:
+
+``` nonum 
+new HHDataList({
+  theme: {
+    name: 'My Custom Theme'
+  },
+  themeDefaults: {
+    color1: '#ffffff',
+    color2: '#fcf5e8',
+    color3: '#f9ebd2',
+    color4: '#f3d8a5',
+    color5: '#9e6e15',
+    color6: '#875e12'
+  }
+});
+```
+
+When you create a theme in this way, HHDataList assigns the value of each *themeDefaults* property (*color1*, *color2*, etc.) to a prescribed subset of theme properties as enumerated in the two sections below.
+
+## Default to property map
+
+### color1 properties
+
+``` nonum
+controlColor
+controlColorHover
+checkboxBackgroundColor
+expanderCheckboxBorderColorChecked
+expanderCheckboxBackgroundColor
+recordTitleButtonColorHover
+recordTitleButtonBackgroundColorActive
+recordFieldInputBackgroundColor
+recordFieldButtonColor
+newRecordTitleColor
+newRecordTitleButtonColor
+newRecordTitleButtonBorderColorHover
+newRecordTitleButtonBackgroundColorHover
+newRecordFieldInputBackgroundColor
+newRecordSubmitButtonColor
+newRecordSubmitButtonColorHover
+createdRecordTitleColor
+createdRecordTitleButtonColor
+createdRecordTitleButtonBorderColorHover
+createdRecordTitleButtonBackgroundColorHover
+```
+
+### color2 properties
+
+``` nonum
+recordFieldInputBorderColorDisabled
+recordFieldInputBackgroundColorDisabled
+createdRecordFieldInputBorderColor
+createdRecordFieldInputBackgroundColor
+```
+
+### color3 properties
+
+``` nonum
+recordBorderColor
+recordBorderColorHover
+recordTitleBackgroundColor
+```
+
+### color4 properties
+
+``` nonum
+checkboxBorderColor
+recordBorderColorOpen
+```
+
+### color5 properties
+
+``` nonum
+controlBorderColor
+controlBackgroundColor
+descriptionLinkColorHover
+expanderCheckboxBorderColor
+recordFieldLabelColor
+newRecordFieldLabelColorRequired
+newRecordSubmitButtonBorderColor
+newRecordSubmitButtonBackgroundColor
+createdRecordFieldLabelColor
+```
+
+### color6 properties
+
+``` nonum
+tabButtonColor
+tabBorderColor
+controlBorderColorHover
+controlBackgroundColorHover
+descriptionLinkColor
+checkboxLabelColor
+checkboxBorderColorChecked
+checkboxBackgroundColorChecked
+expanderCheckboxBackgroundColorChecked
+recordTitleColor
+recordTitleButtonColor
+recordTitleButtonColorActive
+recordTitleButtonBorderColorHover
+recordTitleButtonBorderColorActive
+recordTitleButtonBackgroundColorHover
+recordFieldInputColor
+recordFieldInputColorDisabled
+recordFieldInputBorderColor
+recordFieldButtonBorderColor
+recordFieldButtonBackgroundColor
+newRecordBorderColor
+newRecordBorderColorHover
+newRecordBorderColorOpen
+newRecordTitleBackgroundColor
+newRecordTitleButtonColorHover
+newRecordFieldLabelColor
+newRecordFieldInputColor
+newRecordFieldInputBorderColor
+newRecordSubmitButtonBorderColorHover
+newRecordSubmitButtonBackgroundColorHover
+createdRecordBorderColor
+createdRecordBorderColorHover
+createdRecordBorderColorOpen
+createdRecordTitleBackgroundColor
+createdRecordTitleButtonColorHover
+createdRecordFieldInputColor
+```
+
+## Property to default map
 
 |Theme Key|Default Value|
 |-|-|
@@ -1111,14 +1179,3 @@ In this case, you can do the following:
 |createdRecordFieldInputColor|color6|
 |createdRecordFieldInputBorderColor|color2|
 |createdRecordFieldInputBackgroundColor|color2|
-
-## Default value to property map
-
-# Notes
-
-1. State is tacked onto the end of a theme object property name.
-1. Checks in checkboxes are always white.
-1. Use the *themes* option to build a select element for the user.
-1. See [Programmatically Lighten or Darken a hex color](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors).
-1. See [How to Calculate Lighter or Darker Hex Colors in JavaScript](https://www.sitepoint.com/javascript-generate-lighter-darker-color/).
-

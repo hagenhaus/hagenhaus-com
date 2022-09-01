@@ -14,8 +14,8 @@ hhDataListThemes.set(
   controlBackgroundColorHover: '#0059b3',
   controlOpacityDisabled: '80%',
 
-  descriptionLinkColor: 'forestgreen',
-  descriptionLinkColorHover: 'pink',
+  descriptionLinkColor: '#0059b3',
+  descriptionLinkColorHover: '#0073e6',
 
   checkboxLabelColor: '#000d1a',
   checkboxBorderColor: '#4da6ff',
@@ -1561,7 +1561,7 @@ class HHDataList {
 
     this.reportTheme(theme);
 
-    // this.buildThemeMap();
+    this.buildThemeMap();
 
     this.applyTheme(theme);
   }
