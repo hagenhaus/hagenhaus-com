@@ -2,7 +2,7 @@
 author: Matt Hagen
 ---
 
-# HHDataList Release Notes
+# Release Notes
 
 # HHDataList-2022-09-10
 

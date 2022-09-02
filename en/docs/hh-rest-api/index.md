@@ -2,5 +2,4 @@
 author: Matt Hagen
 ---
 
-# Website
-
+# HH REST API

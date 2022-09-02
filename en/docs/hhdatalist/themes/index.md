@@ -2,17 +2,17 @@
 author: Matt Hagen
 ---
 
-# HHDataList Themes
+# Themes
 
 A theme is a set of properties that specify colors for the HTML elements that compose HHDataList instances:
 
 <p><img src="theme-to-element.png" class="img-fluid d-block" width=800 height=320 loading="lazy"></p>
 
-Theme properties are key-value pairs (e.g. `tabButtonColor: '#0059b3'`). The keys correspond to css variable names. For example, `tabButtonColor` corresponds to `--hh-tab-button-color`. This correspondence enables the HHDataList constructor to copy theme property values to css property values:
+Theme properties are key-value pairs (e.g. `tabButtonColor: '#0059b3'`). The keys correspond to css variable names. For example, `tabButtonColor` corresponds to `--hh-tab-button-color`. The HHDataList constructor copies theme property values (e.g. `'#0059b3'`) to css variables used in styles:
 
 <p><img src="theme-variable-element.png" class="img-fluid d-block" width=460 loading="lazy"></p>
 
-And, these styles control the appearance of the HHDataList html elements:
+And, style properties actually control the appearance of the HHDataList html elements:
 
 <p><img src="variable-to-element.png" class="img-fluid d-block" width=800 height=273 loading="lazy"></p>
 
@@ -871,7 +871,7 @@ In this case, you can do the following:
     });
     ```
 
-    Be aware, however, that if, subsequently, you delete any properties from your full theme, HHDataList, needing default colors for the deleted properties, will use its own default *themeDefaults* option which consists of various blue shades.
+    Be aware, however, that if, subsequently, you delete any properties from your full theme, HHDataList, needing default colors for the deleted properties, will use its own default *themeDefaults* which consists of various blue shades.
 
 # Theme properties
 

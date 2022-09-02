@@ -2,15 +2,15 @@
 author: Matt Hagen
 ---
 
-# HHDataList Examples
+# Examples
+
+[HHDataList Example](https://hagenhaus.github.io/hhdatalist-example.html)
 
 # Baseball API
 
-The Baseball API is a Hagenhaus REST API ...
-
 ## Players
 
-<div id="baseball-players-datalist" class="hh-data-list"></div>
+<!-- <div id="baseball-players-datalist" class="hh-data-list"></div>
 
 <script>
   new HHDataList({
@@ -68,15 +68,9 @@ The Baseball API is a Hagenhaus REST API ...
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    // theme: {
-    //   tabButtonColor: 'red',
-    //   tabBorderColor: 'red',
-    //   controlBorderColorHover: 'red',
-    //   controlBackgroundColorHover: 'red'
-    // },
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
-</script>
+</script> -->
 
 ## Parks
 

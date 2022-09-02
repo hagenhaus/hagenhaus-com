@@ -4,9 +4,9 @@ author: Matt Hagen
 
 # HHDataList
 
-HHDataList is a configurable UI component that enables users to interact with a REST API. Below is an example: 
+<span style="font-weight:500;">HHDataList</span> is a highly configurable website UI component.  HHDataList instances enable users to interact with REST APIs. The instance below, for example, allows users to interact with the [Lahman Baseball Dataset](https://www.seanlahman.com/baseball-archive/statistics/) hosted on a [hagenhaus.com](https://hagenhaus.com) server behind a [Hagenhaus REST API](/en/docs/hh-rest-api/). To incorporate HHDataList instances into your website, first become familiar with the [User interface](/en/docs/hhdatalist/user-interface/), and then [Add an instance](/en/docs/hhdatalist/add-an-instance/).
 
-<div id="baseball-players-datalist" class="hh-data-list"></div>
+<div id="baseball-players-datalist" class="hh-data-list mt-4"></div>
 
 <script>
   new HHDataList({
@@ -58,7 +58,7 @@ HHDataList is a configurable UI component that enables users to interact with a 
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
-      home: 'View baseball-player records from the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a> deployed on <a href="https://hagenhaus.com">hagenhaus.com</a>.',
+      home: 'View baseball-player records from the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.',
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
       fields: 'Specify fields to appear in records.',
       new: 'Create a new record.',
@@ -68,108 +68,3 @@ HHDataList is a configurable UI component that enables users to interact with a 
     url: 'http://localhost:8081/api/baseball/v1/players',
   });
 </script>
-
-# User Guide
-
-The following video demonstrates the HHDataList user perspective:
-
-<p><img src="img-800.png" class="img-fluid" width=560 height=315 loading="lazy"></p>
-
-## User interface
-
-Describe UI organization including tabs and rows.
-
-<p><img src="ui.png" class="img-fluid d-block" width=800 height=567 loading="lazy"></p>
-
-## Home tab
-
-1. Paginator: forward, end, backward, beginning.
-1. Limiter: change to 10.
-1. Expander: set to true.
-1. Paginator: forward, end, backward, beginning.
-
-## Search tab
-
-1. Filter: syntax is specific to implementation.
-1. Order: also specific to implementation.
-
-## Fields tab
-
-1. Uncheck Bats and Throws.
-1. Check playerID.
-1. Paginator: forward.
-
-## New Tab
-
-1. Click Create btn to show required fields.
-1. Create a record: Casey Jones, March 14, 1863, Cayce KY USA.
-1. Filter to find the new record.
-1. Clear filter.
-
-## Config tab
-
-1. Un-number and re-number records.
-1. Hide and show descriptions.
-1. Explain the purpose of descriptions.
-
-## Keyboard
-
-# Developer Guide
-
-The following video demonstrates the HHDataList developer perspective:
-
-<p><img src="img-800.png" class="img-fluid" width=560 height=315 loading="lazy"></p>
-
-## Quick start
-
-Put here a link to a barebones html file which includes an HHDataList pointing at the baseball player database.
-
-## Options
-
-See [Options](options/).
-
-## Messages
-
-See [Messages](messages/).
-
-## Themes
-
-See [Themes](themes/).
-
-## Authentication
-
-## Icons
-
-## Interfaces
-
-## Internationalization
-
-## Logging
-
-## Tab Descriptions
-
-## Tables vs Views
-
-## Componentization
-
-Topics:
-
-* Isolating css.
-* Isolating js.
-* Minimization.
-* Versioning.
-* Split, uglify, obfuscate, obscurify, Terser, RollupJS
-
-References:
-
-* [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
-* [Using Bootstrap as a module](https://getbootstrap.com/docs/5.0/getting-started/javascript/#using-bootstrap-as-a-module)
-* [How to isolate component styles in React using CSS modules](https://dev.to/eransakal/how-to-isolate-component-styles-in-react-using-css-modules-mkm)
-* [Writing Modular JavaScript With AMD, CommonJS & ES Harmony](https://addyosmani.com/writing-modular-js/)
-* [CleanCss](https://www.npmjs.com/package/clean-css)
-* [Terser](https://www.npmjs.com/package/terser)
-* [JavaScript obfuscator](https://www.npmjs.com/package/javascript-obfuscator)
-* [jsdelivr.com](https://www.jsdelivr.com/).
-* [cloudflare.com](https://www.cloudflare.com/).
-
-## Versioning

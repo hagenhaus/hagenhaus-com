@@ -2,7 +2,7 @@
 author: Matt Hagen
 ---
 
-# REST API Examples
+# Examples
 
 # Baseball API
 
