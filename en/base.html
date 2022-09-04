@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css">
   <link rel="stylesheet" type="text/css" href="/assets/styles.min.css?v=54">
-  <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist-2022-09-10/hhdatalist.min.css">
+  <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist.min.css">
   <title>Hagenhaus</title>
 </head>
 
@@ -123,9 +123,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui-bundle.js" crossorigin></script>
   <script src="/assets/scripts.js?v=54" type="module"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist-2022-09-10/hhapi.min.js"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist-2022-09-10/hhdatalist-themes.min.js"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist-2022-09-10/hhdatalist.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhapi.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist-themes.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist.min.js"></script>
 
   <script>
     const modalDefaultYesCb = () => { console.log('Default yesCb'); };
@@ -196,8 +196,8 @@
       modal.show();
     }
 
-    const warningPageUrl = `${window.location.origin}/en/docs/website/warnings`;
-    const errorPageUrl = `${window.location.origin}/en/docs/website/errors`;
+    const warningPageUrl = `${window.location.origin}/en/docs/messages`;
+    const errorPageUrl = `${window.location.origin}/en/docs/messages`;
 
     function reportError(type, title, detail) {
       showToast('error', title, `${detail} <a href='${errorPageUrl}/#${type}' target='_blank'>More</a>.`);

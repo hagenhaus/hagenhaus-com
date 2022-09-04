@@ -4,11 +4,15 @@ author: Matt Hagen
 
 # Examples
 
-[HHDataList Example](https://hagenhaus.github.io/hhdatalist-example.html)
-
-# Baseball API
+# Baseball
 
 ## Players
+
+* [Starter](https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball/players/starter.html)
+
+<!-- # Baseball API -->
+
+<!-- ## Players -->
 
 <!-- <div id="baseball-players-datalist" class="hh-data-list"></div>
 
@@ -72,7 +76,7 @@ author: Matt Hagen
   });
 </script> -->
 
-## Parks
+<!-- ## Parks -->
 
 <!-- <div id="baseball-parks-datalist" class="hh-data-list"></div>
 
@@ -98,7 +102,7 @@ author: Matt Hagen
   });
 </script> -->
 
-## Teams
+<!-- ## Teams -->
 
 <!-- <div id="baseball-teams-datalist" class="hh-data-list"></div>
 
@@ -117,7 +121,7 @@ author: Matt Hagen
   });
 </script> -->
 
-## Leagues
+<!-- ## Leagues -->
 
 <!-- <div id="baseball-leagues-datalist" class="hh-data-list"></div>
 
@@ -135,7 +139,7 @@ author: Matt Hagen
   });
 </script> -->
 
-## Managers
+<!-- ## Managers -->
 
 <!-- <div id="baseball-managers-datalist" class="hh-data-list"></div>
 
@@ -154,9 +158,9 @@ author: Matt Hagen
   });
 </script> -->
 
-# Portals API
+<!-- # Portals API -->
 
-## Portals
+<!-- ## Portals -->
 
 <!-- <div id="portals-datalist" class="hh-data-list"></div>
 

@@ -8,15 +8,15 @@ The following video demonstrates how to add an HHDataList instance to a webpage,
 
 <p><img src="img-800.png" class="img-fluid" width=560 height=315 loading="lazy"></p>
 
-## Authentication
+# Authentication
 
-## Icons
+# Icons
 
-## Interfaces
+# Interfaces
 
-## Internationalization
+# Internationalization
 
-## Messages
+# Messages
 
 * reportError
 * reportInfo
@@ -25,13 +25,13 @@ The following video demonstrates how to add an HHDataList instance to a webpage,
 
 Default is `() => { }`.
 
-## Logging
+# Logging
 
-## Tab Descriptions
+# Tab Descriptions
 
-## Tables vs Views
+# Tables vs Views
 
-## Componentization
+# Componentization
 
 Topics:
 
@@ -54,4 +54,4 @@ References:
 * [cloudflare.com](https://www.cloudflare.com/).
 * [Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
 
-## Versioning
+# Versioning

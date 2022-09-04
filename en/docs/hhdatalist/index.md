@@ -4,7 +4,7 @@ author: Matt Hagen
 
 # HHDataList
 
-<span style="font-weight:500;">HHDataList</span> is a highly configurable website UI component.  HHDataList instances enable users to interact with REST APIs. The instance below, for example, allows users to interact with the [Lahman Baseball Dataset](https://www.seanlahman.com/baseball-archive/statistics/) hosted on a [hagenhaus.com](https://hagenhaus.com) server behind a [Hagenhaus REST API](/en/docs/hh-rest-api/). To incorporate HHDataList instances into your website, first become familiar with the [User interface](/en/docs/hhdatalist/user-interface/), and then [Add an instance](/en/docs/hhdatalist/add-an-instance/).
+<span style="font-weight:500;">HHDataList</span> is a highly configurable website UI component designed to interact with REST APIs. The instance below, for example, accesses the [Lahman Baseball Dataset](https://www.seanlahman.com/baseball-archive/statistics/) hosted on a [hagenhaus.com](https://hagenhaus.com) server behind a [Hagenhaus REST API](/en/docs/hh-rest-api/). To incorporate HHDataList instances into your website, first become familiar with the [User interface](/en/docs/hhdatalist/user-interface/), and then [Add an instance](/en/docs/hhdatalist/add-an-instance/).
 
 <div id="baseball-players-datalist" class="hh-data-list mt-4"></div>
 

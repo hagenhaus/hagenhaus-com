@@ -2,9 +2,9 @@
 author: Matt Hagen
 ---
 
-# Release Notes
+# Versions
 
-# HHDataList-2022-09-10
+# HHDataList-1.0.0
 
 This is the first release of HHDataList.
 

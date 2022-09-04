@@ -4,21 +4,31 @@ author: Matt Hagen
 
 # User Interface
 
-The following video demonstrates the HHDataList user interface:
+The following video demonstrates the HHDataList UI:
 
 <p><img src="img-800.png" class="img-fluid" width=560 height=315 loading="lazy"></p>
 
-# Rows
+As described in the video, the UI is divided into four rows, and the Tabs Row is divided into five tabs:
 
-<p><img src="ui.png" class="img-fluid d-block" width=800 height=567 loading="lazy"></p>
+<p><img src="rows-and-tabs.png" class="img-fluid d-block" width=700 height=461 loading="lazy"></p>
+
+# Rows
 
 ## Tabs row
 
+The <span style="font-weight:500;">Tabs</span> row includes the Home, Search, Fields, New, and Config tabs (described in the next section).
+
 ## Counters row
+
+ The <span style="font-weight:500;">Counters</span> row indicates current page number, total number of pages, number of records returned, number of records matched, and total number of records.
 
 ## Navigation row
 
+The <span style="font-weight:500;">Navigation</span> row includes the Paginator for scrolling through records, the Limiter for controlling the maximum number of records to display at one time, and the Expander for controlling whether records are displayed in collapsed or expanded form. 
+
 ## Records row
+
+The <span style="font-weight:500;">records</span> row displays collapsed or expanded records, and allows users to modify or delete records. Ultimately, HHDataList capabilities rely, to some degree, on the functionality and flexibility of the underlying API.
 
 # Tabs
 
