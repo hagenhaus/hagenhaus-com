@@ -4,11 +4,8 @@ author: Matt Hagen
 
 # Examples
 
-# Baseball
-
-## Players
-
-* [Starter](https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball/players/starter.html)
+* [Baseball Players Starter](https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball-players-starter.html)
+* [Baseball Players](https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball-players.html)
 
 <!-- # Baseball API -->
 

@@ -1,17 +1,8 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mysql from 'mysql';
 import util from 'util';
-
-const portalsDb = mysql.createPool({
-  connectionLimit: process.env.dbConnectionLimit,
-  host: process.env.dbHost,
-  user: process.env.dbUser,
-  password: process.env.dbPassword,
-  // database: process.env.dbDatabase,
-  database: 'hagenhaus',
-  charset: 'utf8mb4',
-  dateStrings: true
-});
 
 const baseballDb = mysql.createPool({
   connectionLimit: process.env.dbConnectionLimit,
@@ -22,6 +13,85 @@ const baseballDb = mysql.createPool({
   charset: 'utf8mb4',
   dateStrings: true
 });
+
+const hagenhausDb = mysql.createPool({
+  connectionLimit: process.env.dbConnectionLimit,
+  host: process.env.dbHost,
+  user: process.env.dbUser,
+  password: process.env.dbPassword,
+  // database: process.env.dbDatabase,
+  database: 'hagenhaus',
+  charset: 'utf8mb4',
+  dateStrings: true
+});
+
+/************************************************************************************************
+ * authenticate
+ * 
+ * This function authenticates the caller given either (1) a "token" cookie containing a valid token
+ * or (2) an "Authorization" header containing "Bearer" + a valid token.
+ ************************************************************************************************/
+
+//  const AuthState = Object.freeze({
+//   unauth: { isAuthenticated: false, description: 'No JWT' },
+//   unauthInvalidJwt: { isAuthenticated: false, description: 'Invalid JWT' },
+//   unauthObsoleteJwt: { isAuthenticated: false, description: 'Valid JWT but invalid user' },
+//   authenticated: { isAuthenticated: true, description: 'Valid JWT and valid user' },
+//   unauthlogDbConnError: { isAuthenticated: false, description: 'Valid JWT but db connection error' },
+//   unauthlogDbQueryError: { isAuthenticated: false, description: 'Valid JWT but db query error' },
+//   noAuthorizationHeader: { isAuthenticated: false, description: 'No authorization header' },
+//   malformedAuthorizationHeader: { isAuthenticated: false, description: 'Malformed authorization header' },
+//   noTokenCookieNorAuthHeader: { isAuthenticated: false, description: 'No token cookie nor bearer authorization header' },
+//   noBearer: { isAuthenticated: false, description: 'No Bearer in authorization header' },
+//   dbConnError: { isAuthenticated: false, description: 'DB Connection Error' },
+//   dbQueryError: { isAuthenticated: false, description: 'DB Query Error' },
+//   noSuchUser: { isAuthenticated: false, description: 'No such user' },
+//   invalidToken: { isAuthenticated: false, description: 'Invalid token' },
+//   valid: { isAuthenticated: true, description: 'Valid token and valid user' }
+// });
+
+// function authenticate(req, res, cb) {
+//   let token = null;
+//   if ('token' in req.cookies) {
+//     token = req.cookies.token;
+//   } else if ('authorization' in req.headers) {
+//     let arr = req.headers.authorization.split(' ');
+//     if (arr.length != 2) {
+//       cb(AuthState.malformedAuthorizationHeader, null);
+//     } else if (arr[0] !== 'Bearer') {
+//       cb(AuthState.noBearer, null);
+//     }
+//     token = arr[1];
+//   } else {
+//     cb(AuthState.noTokenCookieNorAuthHeader, null);
+//   }
+
+//   if (token) {
+//     try {
+//       let payload = jwt.verify(token, process.env.jwtSecret); // synchronous
+//       dbPool.getConnection((err, conn) => {
+//         if (err) {
+//           logDbConnError(err);
+//           cb(AuthState.dbConnError, null);
+//         } else {
+//           conn.query(`call verifyUser(${payload.id})`, (error, results, fields) => {
+//             conn.release();
+//             if (error) {
+//               logDbQueryError(error);
+//               cb(AuthState.dbQueryError, null);
+//             } else if (results[0][0].exists) {
+//               cb(AuthState.valid, payload.id);
+//             } else {
+//               cb(AuthState.noSuchUser, null);
+//             }
+//           });
+//         }
+//       });
+//     } catch (err) {
+//       cb(AuthState.invalidToken, null);
+//     }
+//   }
+// }
 
 /************************************************************************************************
 * API Information
@@ -176,35 +246,35 @@ export const deleteRecord = (db, table, idField, req, res) => {
 * Portals
 ************************************************************************************************/
 
-export const getCompanies = (req, res) => { getRecords(portalsDb, 'companies', req, res); };
-export const getCompany = (req, res) => { getRecord(portalsDb, 'companies', 'id', req, res); };
-export const getCountries = (req, res) => { getRecords(portalsDb, 'countries', req, res); };
-export const getCountry = (req, res) => { getRecord(portalsDb, 'countries', 'id', req, res); };
-export const getIndustries = (req, res) => { getRecords(portalsDb, 'industries', req, res); };
-export const getIndustry = (req, res) => { getRecord(portalsDb, 'industries', 'id', req, res); };
-export const getIndustryGroups = (req, res) => { getRecords(portalsDb, 'industryGroups', req, res); };
-export const getIndustryGroup = (req, res) => { getRecord(portalsDb, 'industryGroups', 'id', req, res); };
+export const getCompanies = (req, res) => { getRecords(hagenhausDb, 'companies', req, res); };
+export const getCompany = (req, res) => { getRecord(hagenhausDb, 'companies', 'id', req, res); };
+export const getCountries = (req, res) => { getRecords(hagenhausDb, 'countries', req, res); };
+export const getCountry = (req, res) => { getRecord(hagenhausDb, 'countries', 'id', req, res); };
+export const getIndustries = (req, res) => { getRecords(hagenhausDb, 'industries', req, res); };
+export const getIndustry = (req, res) => { getRecord(hagenhausDb, 'industries', 'id', req, res); };
+export const getIndustryGroups = (req, res) => { getRecords(hagenhausDb, 'industryGroups', req, res); };
+export const getIndustryGroup = (req, res) => { getRecord(hagenhausDb, 'industryGroups', 'id', req, res); };
 export const getPortals = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecords(portalsDb, table, req, res);
+  const table = 'hasJoinedFields' in req.query && req.query.hasJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
+  getRecords(hagenhausDb, table, req, res);
 };
 export const getPortal = (req, res) => {
-  const table = 'allowJoinedFields' in req.query && req.query.allowJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
-  getRecord(portalsDb, table, 'id', req, res);
+  const table = 'hasJoinedFields' in req.query && req.query.hasJoinedFields.toLowerCase() === 'false' ? 'portals' : 'portalsView';
+  getRecord(hagenhausDb, table, 'id', req, res);
 };
-export const patchPortal = (req, res) => { patchRecord(portalsDb, 'portals', 'id', req, res); };
-export const deletePortal = (req, res) => { deleteRecord(portalsDb, 'portals', 'id', req, res); };
-export const getSectors = (req, res) => { getRecords(portalsDb, 'sectors', req, res); };
-export const getSector = (req, res) => { getRecord(portalsDb, 'sectors', 'id', req, res); };
-export const getSubindustries = (req, res) => { getRecords(portalsDb, 'subindustries', req, res); };
-export const getSubindustry = (req, res) => { getRecord(portalsDb, 'subindustries', 'id', req, res); };
+export const patchPortal = (req, res) => { patchRecord(hagenhausDb, 'portals', 'id', req, res); };
+export const deletePortal = (req, res) => { deleteRecord(hagenhausDb, 'portals', 'id', req, res); };
+export const getSectors = (req, res) => { getRecords(hagenhausDb, 'sectors', req, res); };
+export const getSector = (req, res) => { getRecord(hagenhausDb, 'sectors', 'id', req, res); };
+export const getSubindustries = (req, res) => { getRecords(hagenhausDb, 'subindustries', req, res); };
+export const getSubindustry = (req, res) => { getRecord(hagenhausDb, 'subindustries', 'id', req, res); };
 
 export const postPortal = (req, res) => {
-  portalsDb.getConnection((err, conn) => {
+  hagenhausDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
       const name = 'name' in req.body ? req.body.name : null;
       const url = 'url' in req.body ? req.body.url : null;
@@ -219,7 +289,7 @@ export const postPortal = (req, res) => {
           ${mysql.escape(url)},
           ${mysql.escape(companyId)},
           ${fields},
-          ${allowJoinedFields})`;
+          ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) { sendError(res, error); }
@@ -229,8 +299,6 @@ export const postPortal = (req, res) => {
     }
   });
 };
-
-
 
 /************************************************************************************************
 * Baseball
@@ -244,6 +312,8 @@ export const getBaseballParks = (req, res) => { getRecords(baseballDb, 'parks', 
 export const getBaseballPark = (req, res) => { getRecord(baseballDb, 'parks', 'id', req, res); };
 export const getBaseballPlayers = (req, res) => { getRecords(baseballDb, 'people', req, res); };
 export const getBaseballPlayer = (req, res) => { getRecord(baseballDb, 'people', 'playerId', req, res); };
+export const getBaseballPlayerStatsRecords = (req, res) => { getRecords(baseballDb, 'battingPlayerNameView', req, res); };
+export const getBaseballPlayerStatsRecord = (req, res) => { getRecord(baseballDb, 'battingPlayerNameView', 'ID', req, res); };
 export const getBaseballTeams = (req, res) => { getRecords(baseballDb, 'teams', req, res); };
 export const getBaseballTeam = (req, res) => { getRecord(baseballDb, 'teams', 'ID', req, res); };
 export const patchBaseballPlayer = (req, res) => { patchRecord(baseballDb, 'people', 'playerId', req, res); };
@@ -256,7 +326,7 @@ export const postBaseballPlayer = (req, res) => {
     if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
       const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
       const nameFirst = getValue('nameFirst', req);
@@ -320,7 +390,7 @@ export const postBaseballPlayer = (req, res) => {
           ${finalgame_date},
           ${death_date},
           ${fields},
-          ${allowJoinedFields})`;
+          ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) { sendError(res, error); }
@@ -336,7 +406,7 @@ export const postBaseballPark = (req, res) => {
     if (err) { sendError(res, err); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const allowJoinedFields = 'allowJoinedFields' in req.query ? req.query.allowJoinedFields.toLowerCase() === 'true' : true;
+      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
 
       const parkalias = getValue('parkalias', req);
@@ -356,7 +426,7 @@ export const postBaseballPark = (req, res) => {
           ${state},
           ${country},
           ${fields},
-          ${allowJoinedFields})`;
+          ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
           if (error) { sendError(res, error); }

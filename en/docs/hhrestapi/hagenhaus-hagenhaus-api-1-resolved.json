@@ -42,14 +42,220 @@
             }
           },
           {
-            "name": "allowJoinedFields",
+            "name": "filter",
             "in": "query",
-            "description": "True means allow joined fields to be included in response. Default is false.",
+            "description": "Specifies the types of records that are returnable. Default is all records.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "All records": {
+                "value": ""
+              },
+              "Records where field1 is 25": {
+                "value": "field1 = 25"
+              },
+              "Records where field2 is \"abc\"": {
+                "value": "field2 like \"abc\""
+              },
+              "Records where field2 starts with \"abc\"": {
+                "value": "field2 like \"abc%\""
+              },
+              "Records where field2 includes \"xyz\"": {
+                "value": "field2 like \"%xyz%\""
+              },
+              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
+                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
+              }
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Establishing the order of returnable records. Default is random.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "Default order": {
+                "value": ""
+              },
+              "Order by field asc": {
+                "value": "field asc"
+              },
+              "Order by field1 asc, then field2 desc": {
+                "value": "field1 asc, field2 desc"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Specifies page number. 1 means first page. Default is 1.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Specifies page size. Default is 10.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "hasFieldList",
+            "in": "query",
+            "description": "True means return list of all record fields. Default is false.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
               "type": "boolean"
+            }
+          },
+          {
+            "name": "hasJoinedFields",
+            "in": "query",
+            "description": "True means include joined fields in response. Default is false.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "hasMetadata",
+            "in": "query",
+            "description": "True means return metadata. Default is true.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "hasRecords",
+            "in": "query",
+            "description": "True means return records. Default is true.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/baseball/v1/players/{id}": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "description": "This operation returns a baseball player object.",
+        "operationId": "getBaseballPlayer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Record Id.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Specifies the fields to return in each record. Default is all fields.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "All fields": {
+                "value": ""
+              },
+              "field1": {
+                "value": "field1"
+              },
+              "field1, field2, and field3": {
+                "value": "field1, field2, field3"
+              }
+            }
+          },
+          {
+            "name": "hasJoinedFields",
+            "in": "query",
+            "description": "True means include joined fields in response. Default is false.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/baseball/v1/player-stats": {
+      "get": {
+        "tags": [
+          "Player Stats"
+        ],
+        "description": "This operation returns an array of baseball player statistics objects.",
+        "operationId": "getBaseballPlayerStats",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Specifies the fields to return in each record. Default is all fields.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "All fields": {
+                "value": ""
+              },
+              "field1": {
+                "value": "field1"
+              },
+              "field1, field2, and field3": {
+                "value": "field1, field2, field3"
+              }
             }
           },
           {
@@ -128,17 +334,6 @@
             }
           },
           {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
             "name": "hasFieldList",
             "in": "query",
             "description": "True means return list of all record fields. Default is false.",
@@ -150,69 +345,31 @@
             }
           },
           {
-            "name": "hasRecords",
+            "name": "hasJoinedFields",
             "in": "query",
-            "description": "True means return records. Default is true.",
+            "description": "True means include joined fields in response. Default is false.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
               "type": "boolean"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/baseball/v1/players/{id}": {
-      "get": {
-        "tags": [
-          "Players"
-        ],
-        "description": "This operation returns a baseball player object.",
-        "operationId": "getBaseballPlayer",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Record Id.",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Id"
-            }
           },
           {
-            "name": "fields",
+            "name": "hasMetadata",
             "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
+            "description": "True means return metadata. Default is true.",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
+              "type": "boolean"
             }
           },
           {
-            "name": "allowJoinedFields",
+            "name": "hasRecords",
             "in": "query",
-            "description": "True means allow joined fields to be included in response. Default is false.",
+            "description": "True means return records. Default is true.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -699,17 +856,6 @@
             }
           },
           {
-            "name": "allowJoinedFields",
-            "in": "query",
-            "description": "True means allow joined fields to be included in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
             "name": "filter",
             "in": "query",
             "description": "Specifies the types of records that are returnable. Default is all records.",
@@ -785,9 +931,9 @@
             }
           },
           {
-            "name": "hasMetadata",
+            "name": "hasFieldList",
             "in": "query",
-            "description": "True means return metadata. Default is true.",
+            "description": "True means return list of all record fields. Default is false.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -796,9 +942,20 @@
             }
           },
           {
-            "name": "hasFieldList",
+            "name": "hasJoinedFields",
             "in": "query",
-            "description": "True means return list of all record fields. Default is false.",
+            "description": "True means include joined fields in response. Default is false.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "hasMetadata",
+            "in": "query",
+            "description": "True means return metadata. Default is true.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -888,9 +1045,9 @@
             }
           },
           {
-            "name": "allowJoinedFields",
+            "name": "hasJoinedFields",
             "in": "query",
-            "description": "True means allow joined fields to be included in response. Default is false.",
+            "description": "True means include joined fields in response. Default is false.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -958,9 +1115,9 @@
             }
           },
           {
-            "name": "allowJoinedFields",
+            "name": "hasJoinedFields",
             "in": "query",
-            "description": "True means allow joined fields to be included in response. Default is false.",
+            "description": "True means include joined fields in response. Default is false.",
             "required": false,
             "style": "form",
             "explode": true,
@@ -1537,10 +1694,10 @@
           "type": "boolean"
         }
       },
-      "AllowJoinedFields": {
-        "name": "allowJoinedFields",
+      "HasJoinedFields": {
+        "name": "hasJoinedFields",
         "in": "query",
-        "description": "True means allow joined fields to be included in response. Default is false.",
+        "description": "True means include joined fields in response. Default is false.",
         "required": false,
         "style": "form",
         "explode": true,

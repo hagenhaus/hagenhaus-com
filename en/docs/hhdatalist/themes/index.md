@@ -547,7 +547,7 @@ Typically, building a custom theme is an iterative process. Below is one approac
 
 ## Establishing defaults
 
-1. Set the *theme* option equal to an object:
+1. Set the *theme* option equal to an empty object:
 
     ``` nonum
     new HHDataList({

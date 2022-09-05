@@ -6,13 +6,13 @@ author: Matt Hagen
 
 https://www.w3resource.com/mysql/comparision-functions-and-operators/not-equal-operator.php
 
-# allowJoinedFields
-
 # fields
 
 # filter
 
 # hasFieldList
+
+# hasJoinedFields
 
 # hasMetadata
 

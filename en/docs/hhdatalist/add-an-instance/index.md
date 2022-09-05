@@ -8,50 +8,19 @@ The following video demonstrates how to add an HHDataList instance to a webpage,
 
 <p><img src="img-800.png" class="img-fluid" width=560 height=315 loading="lazy"></p>
 
-# Authentication
+# Create a starter file
 
-# Icons
+Create your own [baseball-players-starter.html](https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball-players-starter.html) file with the following content:
 
-# Interfaces
+``` js
+load: https://hagenhaus.github.io/hhdatalist/v1.0.0/examples/baseball-players-starter.html
+```
 
-# Internationalization
+* Line 10 includes `hhdatalist.min.css` which applies theme and other properties.
+* Line 18 provides a `<div>` element into which HHDataList will load your HHDataList instance.
+* Line 23 includes `hhapi.min.js` which makes Axios calls to REST API endpoints.
+* Line 24 includes `hhdatalist-themes.min.js` which provides some standard themes.
+* Line 25 incluees `hhdatalist.min.js` which provides HHDataList core functionality. 
 
-# Messages
+# Create a rudimentary data list
 
-* reportError
-* reportInfo
-* reportWarning
-* reportTheme
-
-Default is `() => { }`.
-
-# Logging
-
-# Tab Descriptions
-
-# Tables vs Views
-
-# Componentization
-
-Topics:
-
-* Isolating css.
-* Isolating js.
-* Minimization.
-* Versioning.
-* Split, uglify, obfuscate, obscurify, Terser, RollupJS
-
-References:
-
-* [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
-* [Using Bootstrap as a module](https://getbootstrap.com/docs/5.0/getting-started/javascript/#using-bootstrap-as-a-module)
-* [How to isolate component styles in React using CSS modules](https://dev.to/eransakal/how-to-isolate-component-styles-in-react-using-css-modules-mkm)
-* [Writing Modular JavaScript With AMD, CommonJS & ES Harmony](https://addyosmani.com/writing-modular-js/)
-* [CleanCss](https://www.npmjs.com/package/clean-css)
-* [Terser](https://www.npmjs.com/package/terser)
-* [JavaScript obfuscator](https://www.npmjs.com/package/javascript-obfuscator)
-* [jsdelivr.com](https://www.jsdelivr.com/).
-* [cloudflare.com](https://www.cloudflare.com/).
-* [Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
-
-# Versioning

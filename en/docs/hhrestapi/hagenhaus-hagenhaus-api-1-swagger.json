@@ -17,8 +17,6 @@
         "parameters" : [ {
           "$ref" : "#/components/parameters/Fields"
         }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
-        }, {
           "$ref" : "#/components/parameters/Filter"
         }, {
           "$ref" : "#/components/parameters/Order"
@@ -27,9 +25,11 @@
         }, {
           "$ref" : "#/components/parameters/Limit"
         }, {
-          "$ref" : "#/components/parameters/HasMetadata"
-        }, {
           "$ref" : "#/components/parameters/HasFieldList"
+        }, {
+          "$ref" : "#/components/parameters/HasJoinedFields"
+        }, {
+          "$ref" : "#/components/parameters/HasMetadata"
         }, {
           "$ref" : "#/components/parameters/HasRecords"
         } ],
@@ -50,7 +50,38 @@
         }, {
           "$ref" : "#/components/parameters/Fields"
         }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
+          "$ref" : "#/components/parameters/HasJoinedFields"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/baseball/v1/player-stats" : {
+      "get" : {
+        "tags" : [ "Player Stats" ],
+        "description" : "This operation returns an array of baseball player statistics objects.",
+        "operationId" : "getBaseballPlayerStats",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/Fields"
+        }, {
+          "$ref" : "#/components/parameters/Filter"
+        }, {
+          "$ref" : "#/components/parameters/Order"
+        }, {
+          "$ref" : "#/components/parameters/Page"
+        }, {
+          "$ref" : "#/components/parameters/Limit"
+        }, {
+          "$ref" : "#/components/parameters/HasFieldList"
+        }, {
+          "$ref" : "#/components/parameters/HasJoinedFields"
+        }, {
+          "$ref" : "#/components/parameters/HasMetadata"
+        }, {
+          "$ref" : "#/components/parameters/HasRecords"
         } ],
         "responses" : {
           "200" : {
@@ -237,7 +268,7 @@
         "parameters" : [ {
           "$ref" : "#/components/parameters/Fields"
         }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
+          "$ref" : "#/components/parameters/HasJoinedFields"
         } ],
         "requestBody" : {
           "required" : true,
@@ -273,8 +304,6 @@
         "parameters" : [ {
           "$ref" : "#/components/parameters/Fields"
         }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
-        }, {
           "$ref" : "#/components/parameters/Filter"
         }, {
           "$ref" : "#/components/parameters/Order"
@@ -283,9 +312,11 @@
         }, {
           "$ref" : "#/components/parameters/Limit"
         }, {
-          "$ref" : "#/components/parameters/HasMetadata"
-        }, {
           "$ref" : "#/components/parameters/HasFieldList"
+        }, {
+          "$ref" : "#/components/parameters/HasJoinedFields"
+        }, {
+          "$ref" : "#/components/parameters/HasMetadata"
         }, {
           "$ref" : "#/components/parameters/HasRecords"
         } ],
@@ -336,7 +367,7 @@
         }, {
           "$ref" : "#/components/parameters/Fields"
         }, {
-          "$ref" : "#/components/parameters/AllowJoinedFields"
+          "$ref" : "#/components/parameters/HasJoinedFields"
         } ],
         "responses" : {
           "200" : {
@@ -725,10 +756,10 @@
           "type" : "boolean"
         }
       },
-      "AllowJoinedFields" : {
-        "name" : "allowJoinedFields",
+      "HasJoinedFields" : {
+        "name" : "hasJoinedFields",
         "in" : "query",
-        "description" : "True means allow joined fields to be included in response. Default is false.",
+        "description" : "True means include joined fields in response. Default is false.",
         "schema" : {
           "type" : "boolean"
         }

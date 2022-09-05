@@ -100,6 +100,12 @@ export const routes = (app) => {
     .post(controllers.postBaseballPlayer)
     .get(controllers.getBaseballPlayers);
 
+  app.route('/api/baseball/v1/player-stats')
+    .get(controllers.getBaseballPlayerStatsRecords);
+
+  app.route('/api/baseball/v1/player-stats/:id')
+    .get(controllers.getBaseballPlayerStatsRecord);
+
   app.route('/api/baseball/v1/players/:id')
     .get(controllers.getBaseballPlayer)
     .patch(controllers.patchBaseballPlayer)
