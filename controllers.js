@@ -1,5 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mysql from 'mysql';
 import util from 'util';
@@ -217,13 +217,14 @@ export const patchRecord = (db, table, idField, req, res) => {
   db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
-      const proc = `call updateRecord("${table}", "${idField}", "${req.params.id}", ${updates})`;
-      conn.query(proc, (error, results, flds) => {
-        conn.release();
-        if (error) { sendError(res, error); }
-        else { res.status(204).send(); }
-      });
+      // const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
+      // const proc = `call updateRecord("${table}", "${idField}", "${req.params.id}", ${updates})`;
+      // conn.query(proc, (error, results, flds) => {
+      //   conn.release();
+      //   if (error) { sendError(res, error); }
+      //   else { res.status(204).send(); }
+      // });
+      sendError(res, { code: 'unauthorized' });
     }
   });
 };
@@ -232,12 +233,13 @@ export const deleteRecord = (db, table, idField, req, res) => {
   db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
-      conn.query(proc, (error, results, flds) => {
-        conn.release();
-        if (error) { sendError(res, error); }
-        else { res.status(204).send(); }
-      });
+      // const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
+      // conn.query(proc, (error, results, flds) => {
+      //   conn.release();
+      //   if (error) { sendError(res, error); }
+      //   else { res.status(204).send(); }
+      // });
+      sendError(res, { code: 'unauthorized' });
     }
   });
 };
@@ -270,34 +272,36 @@ export const getSubindustries = (req, res) => { getRecords(hagenhausDb, 'subindu
 export const getSubindustry = (req, res) => { getRecord(hagenhausDb, 'subindustries', 'id', req, res); };
 
 export const postPortal = (req, res) => {
-  hagenhausDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
-    else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
+  sendError(res, { code: 'unauthorized' });
+  // hagenhausDb.getConnection((err, conn) => {
+  //   if (err) { sendError(res, err); }
+  //   else {
+  //     const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+  //     const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
-      const name = 'name' in req.body ? req.body.name : null;
-      const url = 'url' in req.body ? req.body.url : null;
-      const companyId = 'companyId' in req.body ? req.body.companyId : null;
+  //     const name = 'name' in req.body ? req.body.name : null;
+  //     const url = 'url' in req.body ? req.body.url : null;
+  //     const companyId = 'companyId' in req.body ? req.body.companyId : null;
 
-      if (!name || !name.length) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
-      else if (!url || !url.length) { sendError(res, { code: 'required-field', subMessage: 'url' }); }
-      else if (!companyId || !companyId.length) { sendError(res, { code: 'required-field', subMessage: 'companyId' }); }
-      else {
-        const proc = `call insertPortal(
-          ${mysql.escape(name)},
-          ${mysql.escape(url)},
-          ${mysql.escape(companyId)},
-          ${fields},
-          ${hasJoinedFields})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) { sendError(res, error); }
-          else { res.status(201).send(results[0][0]); }
-        });
-      }
-    }
-  });
+  //     if (!name || !name.length) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
+  //     else if (!url || !url.length) { sendError(res, { code: 'required-field', subMessage: 'url' }); }
+  //     else if (!companyId || !companyId.length) { sendError(res, { code: 'required-field', subMessage: 'companyId' }); }
+  //     else {
+  //       const proc = `call insertPortal(
+  //         ${mysql.escape(name)},
+  //         ${mysql.escape(url)},
+  //         ${mysql.escape(companyId)},
+  //         ${fields},
+  //         ${hasJoinedFields})`;
+  //       conn.query(proc, (error, results, flds) => {
+  //         conn.release();
+  //         if (error) { sendError(res, error); }
+  //         else { res.status(201).send(results[0][0]); }
+  //       });
+  //       sendError(res, { code: 'unauthorized' });
+  //     }
+  //   }
+  // });
 };
 
 /************************************************************************************************
@@ -322,119 +326,120 @@ export const patchBaseballPark = (req, res) => { patchRecord(baseballDb, 'parks'
 export const deleteBaseballPark = (req, res) => { deleteRecord(baseballDb, 'parks', 'ID', req, res); };
 
 export const postBaseballPlayer = (req, res) => {
-  baseballDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
-    else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
+  sendError(res, { code: 'unauthorized' });
+  // baseballDb.getConnection((err, conn) => {
+  //   if (err) { sendError(res, err); }
+  //   else {
+  //     const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+  //     const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
-      const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
-      const nameFirst = getValue('nameFirst', req);
-      const nameLast = getValue('nameLast', req);
-      const birthYear = getValue('birthYear', req);
-      const birthMonth = getValue('birthMonth', req);
-      const birthDay = getValue('birthDay', req);
-      const birthCountry = getValue('birthCountry', req);
-      const birthState = getValue('birthState', req);
-      const birthCity = getValue('birthCity', req);
-      const deathYear = getValue('deathYear', req);
-      const deathMonth = getValue('deathMonth', req);
-      const deathDay = getValue('deathDay', req);
-      const deathCountry = getValue('deathCountry', req);
-      const deathState = getValue('deathState', req);
-      const deathCity = getValue('deathCity', req);
-      const nameGiven = getValue('nameGiven', req);
-      const weight = getValue('weight', req);
-      const height = getValue('height', req);
-      const bats = getValue('bats', req);
-      const throws = getValue('throws', req);
-      const debut = getValue('debut', req);
-      const finalGame = getValue('finalGame', req);
-      const retroID = getValue('retroID', req);
-      const bbrefID = getValue('bbrefID', req);
-      const birth_date = getValue('birth_date', req);
-      const debut_date = getValue('debut_date', req);
-      const finalgame_date = getValue('finalgame_date', req);
-      const death_date = getValue('death_date', req);
+  //     const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
+  //     const nameFirst = getValue('nameFirst', req);
+  //     const nameLast = getValue('nameLast', req);
+  //     const birthYear = getValue('birthYear', req);
+  //     const birthMonth = getValue('birthMonth', req);
+  //     const birthDay = getValue('birthDay', req);
+  //     const birthCountry = getValue('birthCountry', req);
+  //     const birthState = getValue('birthState', req);
+  //     const birthCity = getValue('birthCity', req);
+  //     const deathYear = getValue('deathYear', req);
+  //     const deathMonth = getValue('deathMonth', req);
+  //     const deathDay = getValue('deathDay', req);
+  //     const deathCountry = getValue('deathCountry', req);
+  //     const deathState = getValue('deathState', req);
+  //     const deathCity = getValue('deathCity', req);
+  //     const nameGiven = getValue('nameGiven', req);
+  //     const weight = getValue('weight', req);
+  //     const height = getValue('height', req);
+  //     const bats = getValue('bats', req);
+  //     const throws = getValue('throws', req);
+  //     const debut = getValue('debut', req);
+  //     const finalGame = getValue('finalGame', req);
+  //     const retroID = getValue('retroID', req);
+  //     const bbrefID = getValue('bbrefID', req);
+  //     const birth_date = getValue('birth_date', req);
+  //     const debut_date = getValue('debut_date', req);
+  //     const finalgame_date = getValue('finalgame_date', req);
+  //     const death_date = getValue('death_date', req);
 
-      if (!nameFirst) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
-      else if (!nameLast) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
-      else {
-        const proc = `call insertPlayer(
-          ${playerID},
-          ${nameFirst},
-          ${nameLast},
-          ${birthYear},
-          ${birthMonth},
-          ${birthDay},
-          ${birthCountry},
-          ${birthState},
-          ${birthCity},
-          ${deathYear},
-          ${deathMonth},
-          ${deathDay},
-          ${deathCountry},
-          ${deathState},
-          ${deathCity},
-          ${nameGiven},
-          ${weight},
-          ${height},
-          ${bats},
-          ${throws},
-          ${debut},
-          ${finalGame},
-          ${retroID},
-          ${bbrefID},
-          ${birth_date},
-          ${debut_date},
-          ${finalgame_date},
-          ${death_date},
-          ${fields},
-          ${hasJoinedFields})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) { sendError(res, error); }
-          else { res.status(201).send(results[0][0]); }
-        });
-      }
-    }
-  });
+  //     if (!nameFirst) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
+  //     else if (!nameLast) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
+  //     else {
+  //       const proc = `call insertPlayer(
+  //         ${playerID},
+  //         ${nameFirst},
+  //         ${nameLast},
+  //         ${birthYear},
+  //         ${birthMonth},
+  //         ${birthDay},
+  //         ${birthCountry},
+  //         ${birthState},
+  //         ${birthCity},
+  //         ${deathYear},
+  //         ${deathMonth},
+  //         ${deathDay},
+  //         ${deathCountry},
+  //         ${deathState},
+  //         ${deathCity},
+  //         ${nameGiven},
+  //         ${weight},
+  //         ${height},
+  //         ${bats},
+  //         ${throws},
+  //         ${debut},
+  //         ${finalGame},
+  //         ${retroID},
+  //         ${bbrefID},
+  //         ${birth_date},
+  //         ${debut_date},
+  //         ${finalgame_date},
+  //         ${death_date},
+  //         ${fields},
+  //         ${hasJoinedFields})`;
+  //       conn.query(proc, (error, results, flds) => {
+  //         conn.release();
+  //         if (error) { sendError(res, error); }
+  //         else { res.status(201).send(results[0][0]); }
+  //       });
+  //     }
+  //   }
+  // });
 };
 
 export const postBaseballPark = (req, res) => {
-  baseballDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
-    else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
-      const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
+  sendError(res, { code: 'unauthorized' });
+  // baseballDb.getConnection((err, conn) => {
+  //   if (err) { sendError(res, err); }
+  //   else {
+  //     const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+  //     const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
+  //     const parkalias = getValue('parkalias', req);
+  //     const parkkey = getValue('parkkey', req);
+  //     const parkname = getValue('parkname', req);
+  //     const city = getValue('city', req);
+  //     const state = getValue('state', req);
+  //     const country = getValue('country', req);
 
-      const parkalias = getValue('parkalias', req);
-      const parkkey = getValue('parkkey', req);
-      const parkname = getValue('parkname', req);
-      const city = getValue('city', req);
-      const state = getValue('state', req);
-      const country = getValue('country', req);
-
-      if (!parkname) { sendError(res, { code: 'required-field', subMessage: 'parkname' }); }
-      else {
-        const proc = `call insertPark(
-          ${parkalias},
-          ${parkkey},
-          ${parkname},
-          ${city},
-          ${state},
-          ${country},
-          ${fields},
-          ${hasJoinedFields})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) { sendError(res, error); }
-          else { res.status(201).send(results[0][0]); }
-        });
-      }
-    }
-  });
+  //     if (!parkname) { sendError(res, { code: 'required-field', subMessage: 'parkname' }); }
+  //     else {
+  //       const proc = `call insertPark(
+  //         ${parkalias},
+  //         ${parkkey},
+  //         ${parkname},
+  //         ${city},
+  //         ${state},
+  //         ${country},
+  //         ${fields},
+  //         ${hasJoinedFields})`;
+  //       conn.query(proc, (error, results, flds) => {
+  //         conn.release();
+  //         if (error) { sendError(res, error); }
+  //         else { res.status(201).send(results[0][0]); }
+  //       });
+  //     }
+  //   }
+  // });
 };
 
 /************************************************************************************************
@@ -443,8 +448,8 @@ export const postBaseballPark = (req, res) => {
 
 function getValue(field, req) {
   let value = null;
-  if(field in req.body && req.body[field].length) {
-    if(typeof field == 'string') {
+  if (field in req.body && req.body[field].length) {
+    if (typeof field == 'string') {
       value = mysql.escape(req.body[field]);
     } else {
       value = req.body[field];
@@ -516,6 +521,15 @@ function sendError(res, error) {
       };
       break;
 
+    case 'ER_SP_DOES_NOT_EXIST':
+      status = 500;
+      message = {
+        "type": "missing-stored-procedure",
+        "title": "Missing Stored Procedure",
+        "detail": `The database is missing a stored procedure.`
+      };
+      break;
+
     case 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD':
       status = 500;
       message = {
@@ -525,12 +539,38 @@ function sendError(res, error) {
       };
       break;
 
+    case 'ER_NO_SUCH_TABLE':
+      status = 500;
+      message = {
+        "type": "no-such-table",
+        "title": "No Such Table",
+        "detail": `The requisite database table does not exist.`
+      };
+      break;
+
+    case 'ER_DATA_TOO_LONG':
+      status = 500;
+      message = {
+        "type": "data-too-long",
+        "title": "Data Too Long",
+        "detail": `An argument to a stored procedure was too long for the field.`
+      };
+      break;
+
     case 'required-field':
       status = 422;
       message = {
         "type": "required-field",
         "title": "Required Field",
         "detail": `The required field '${error.subMessage}' is missing from the request.`
+      };
+
+    case 'unauthorized':
+      status = 401;
+      message = {
+        "type": "unauthorized",
+        "title": "Unauthorized",
+        "detail": `Authorization token is missing or invalid.`
       };
       break;
 
