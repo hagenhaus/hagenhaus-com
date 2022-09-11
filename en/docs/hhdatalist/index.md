@@ -58,7 +58,7 @@ author: Matt Hagen
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     showTabDescriptions: true,
     tabDescriptions: {
-      home: 'Baseball Players from the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>. Each record represents one baseball player profile.',
+      home: 'Manage baseball player records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.',
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
       fields: 'Specify fields to appear in records.',
       new: 'Create a new record.',
@@ -69,61 +69,75 @@ author: Matt Hagen
   });
 </script>
 
-You can incorporate HHDataList instances into your website and point them at REST APIs of your choosing. First, familiarize yourself with the user interface below, and then complete the [Tutorial](/en/docs/hhdatalist/tutorial/).
+You can incorporate HHDataList instances into your website and point them at REST APIs of your choosing. First, familiarize yourself with the user interface below, and then see the [Guide](/en/docs/hhdatalist/guide/).
 
 # User interface
 
-The HHDataList user interface is divided into four rows, and the top-most row, the Tabs Row, is divided into five tabs:
+The HHDataList user interface is divided into four rows, and the Tabs Row is divided into five tabs. Note that the Tabs row appears above the other three rows which remain visible as the user clicks from tab to tab:
 
 <p><img src="rows-and-tabs.png" class="img-fluid d-block" width=800 height=527 loading="lazy"></p>
 
-## Tabs row
-
-The <span style="font-weight:500;">Tabs</span> row includes the Home, Search, Fields, New, and Config tabs.
-
-## Counters row
-
- The <span style="font-weight:500;">Counters</span> row indicates current page number, total number of pages, number of records returned, number of records matched, and total number of records.
-
-## Navigation row
-
-The <span style="font-weight:500;">Navigation</span> row includes the Paginator for scrolling through records, the Limiter for controlling the maximum number of records to display at one time, and the Expander for controlling whether records are displayed in collapsed or expanded form. 
-
-## Records row
-
-The <span style="font-weight:500;">records</span> row displays collapsed or expanded records, and allows users to modify or delete records. Ultimately, HHDataList capabilities rely, to some degree, on the functionality and flexibility of the underlying API.
+HHDataList [Options](/en/docs/hhdatalist/options/) influence the user interface. The *themes* option, for example, sets foreground, background, and border colors. And, the *queryParameters* option controls whether some UI tabs and/or items even appear. The sections below introduce the names of various UI items, and provide some sense of which options control which items. 
 
 ## Home tab
 
-1. Paginator: forward, end, backward, beginning.
-1. Limiter: change to 10.
-1. Expander: set to true.
-1. Paginator: forward, end, backward, beginning.
+The Home tab, by default, is empty:
+
+<p><img src="tabs-home.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+However, you can use the *tabDescriptions* option to display a description at the top of any tab:
+
+<p><img src="tabs-home-description.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 ## Search tab
 
-1. Filter: syntax is specific to implementation.
-1. Order: also specific to implementation.
+The Search tab, by default, does not appear:
+
+<p><img src="tabs-search-none.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+However, if you specify, in the *queryParameters* option, the *filter* property and/or the *order* property, then the Search tab appears with the Filter widget and/or the Order widget:
+
+<p><img src="tabs-search.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 ## Fields tab
 
-1. Uncheck Bats and Throws.
-1. Check playerID.
-1. Paginator: forward.
+The Fields tab, by default, does not appear:
+
+<p><img src="tabs-fields-none.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+However, if you specify ...
+
+<p><img src="tabs-fields.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 ## New tab
 
-1. Click Create btn to show required fields.
-1. Create a record: Casey Jones, March 14, 1863, Cayce KY USA.
-1. Filter to find the new record.
-1. Clear filter.
+The New tab ...
+
+<p><img src="tabs-new.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+<p><img src="tabs-new-created.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 ## Config tab
 
-1. Un-number and re-number records.
-1. Hide and show descriptions.
-1. Explain the purpose of descriptions.
+The Config tab ...
 
+<p><img src="tabs-config.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## Counters row
+
+<p><img src="counters.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## Navigation row
+
+<p><img src="navigation.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## Records row
+
+<p><img src="record-collapsed.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+<p><img src="record-expanded.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+<p><img src="record-edit-mode.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 <!-- ## Player Stats
 
