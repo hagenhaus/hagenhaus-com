@@ -277,7 +277,7 @@ const processFolder = async (baseDir, relDir) => {
 
   // Create fresh config file with default values.
   let configJson = {};
-  //configJson.author = 'Matthew J. Hagen';
+  configJson.author = 'Matthew J. Hagen';
   configJson.background = 'white';
   configJson.bookPath = null;
   configJson.bookTitle = null;
@@ -288,6 +288,7 @@ const processFolder = async (baseDir, relDir) => {
   configJson.hasPageHeader = true;
   configJson.hasPageScrollbar = true;
   configJson.hasRefreshBtn = argv.r;
+  configJson.hhdatalist = null;
   configJson.menuItem = null;
   configJson.pages = null;
   configJson.pathname = null;
@@ -403,6 +404,9 @@ const processFolder = async (baseDir, relDir) => {
             }
             if (bookConfigJson.hasOwnProperty('menuItem')) {
               configJson.menuItem = bookConfigJson.menuItem;
+            }
+            if (bookConfigJson.hasOwnProperty('hhdatalist')) {
+              configJson.hhdatalist = bookConfigJson.hhdatalist;
             }
           }
         }

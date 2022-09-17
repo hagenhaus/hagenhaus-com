@@ -1,7 +1,3 @@
----
-author: Matt Hagen
----
-
 # Options
 
 # confirm

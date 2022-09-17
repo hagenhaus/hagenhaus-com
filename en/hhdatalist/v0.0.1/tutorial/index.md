@@ -1,7 +1,3 @@
----
-author: Matt Hagen
----
-
 # Tutorial
 
 This tutorial demonstrates how to add HHDataList instances to a webpage, configure them to interact with the [Hagenhaus REST API](/en/docs/hhrestapi/) hosting the [Lahman Baseball Dataset](https://www.seanlahman.com/baseball-archive/statistics/), and modify them to interact with other REST APIs.

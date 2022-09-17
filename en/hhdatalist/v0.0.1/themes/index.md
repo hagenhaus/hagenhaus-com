@@ -1,8 +1,3 @@
----
-author: Matt Hagen
-hhdatalist: v0.0.1
----
-
 # Themes
 
 A theme is a set of properties that specify colors for the HTML elements that compose HHDataList instances:
