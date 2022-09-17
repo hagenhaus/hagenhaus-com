@@ -9,23 +9,43 @@
   <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css">
   <link rel="stylesheet" type="text/css" href="/assets/styles.min.css?v=54">
-  <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist.min.css">
+  <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist.min.css" id="hhstyle">
   <title>Hagenhaus</title>
 </head>
 
 <body class="container-fluid">
 
   <div class="row">
-    <header class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-image: linear-gradient(to right, #359585 , #3578cb);">
+    <header class="navbar navbar-expand-lg" role="navigation" style="background-image: linear-gradient(to right, #359585 , #3578cb);">
       <a class="navbar-brand pt-0" href="/en/"><img src="/assets/logo-transparent.png" width="26" height="26" alt="logo"></a>
       <a id="mi-home" class="navbar-brand" href="/en/">Hagenhaus</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <div class="navbar-nav me-auto">
-          <a id="mi-docs" class="nav-link follow" href="/en/docs/"><span>Documentation</span></a>
-        </div>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a id="mi-hhdatalist" class="nav-link dropdown-toggle" style="padding:.5rem;" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span>HHDataList</span></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link follow" href="/en/hhdatalist/v0.0.2/"><span>Version 0.0.2</span></a></li>
+          <li><a class="nav-link follow" href="/en/hhdatalist/v0.0.1/"><span>Version 0.0.1</span></a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="nav-link follow" href="/en/hhdatalist/"><span>All versions</span></a></li>
+        </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a id="mi-hhrestapi" class="nav-link dropdown-toggle" style="padding:.5rem;" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span>HHRestApi</span></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link follow" href="/en/hhrestapi/v0.0.2/"><span>Version 0.0.2</span></a></li>
+        <li><a class="nav-link follow" href="/en/hhrestapi/v0.0.1/"><span>Version 0.0.1</span></a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="nav-link follow" href="/en/hhrestapi/"><span>All versions</span></a></li>
+        </ul>
+        </li>
+        <!-- <li class="nav-item">
+            <a id="mi-docs" class="nav-link follow" href="/en/docs/"><span>Documentation</span></a>
+          </li> -->
+        </ul>
       </div>
     </header>
   </div>
@@ -123,9 +143,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui-bundle.js" crossorigin></script>
   <script src="/assets/scripts.js?v=54" type="module"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhapi.min.js"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist-themes.min.js"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v1.0.0/hhdatalist.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhapi.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist-themes.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhapi.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.min.js"></script>
+  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js"></script>
 
   <script>
     const modalDefaultYesCb = () => { console.log('Default yesCb'); };

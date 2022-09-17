@@ -10,7 +10,7 @@ import axios from 'axios';
 import shiki from 'shiki';
 
 import rehypeFormat from 'rehype-format';
-import rehypeRaw from 'rehype-raw'
+import rehypeRaw from 'rehype-raw';
 import rehypeDocument from 'rehype-document';
 import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
@@ -92,7 +92,7 @@ const argv = yargs(process.argv.slice(2))
     ['$0 -t folders -d en/books/demo'],
     ['$0 -t js']
   ])
-  .argv
+  .argv;
 
 /************************************************************************************************
 * normalizeDir
@@ -100,7 +100,7 @@ const argv = yargs(process.argv.slice(2))
 
 const normalizeDir = (s) => {
   return s.endsWith('/') ? s.slice(0, -1) : s;
-}
+};
 
 /************************************************************************************************
 * processBook
@@ -108,7 +108,7 @@ const normalizeDir = (s) => {
 const processBook = (baseDir, relDir) => {
   let folder = `${baseDir}/${relDir}`;
   console.log(`Building book ${relDir}`);
-}
+};
 
 /************************************************************************************************
 * processCss
@@ -125,7 +125,7 @@ const processCss = () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 /************************************************************************************************
 * processBase
@@ -139,7 +139,7 @@ const processBase = (lang) => {
   minify(iPath, options)
     .then(output => { fs.writeFileSync(oPath, output); })
     .catch(error => { console.log(error); });
-}
+};
 
 /************************************************************************************************
 * processJs
@@ -158,7 +158,7 @@ const processJs = () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 /************************************************************************************************
 * evaluateCodeSnippet
@@ -199,7 +199,7 @@ const evaluateCodeSnippet = (code) => {
     }
   }
   return spec;
-}
+};
 
 /************************************************************************************************
 * processCodeSnippet
@@ -235,7 +235,7 @@ const processCodeSnippet = (doc, pre, code, spec) => {
   pre.append(olEl);
   pre.classList.add('snippet');
   pre.classList.add(spec.numbered ? 'numbered' : 'unnumbered');
-}
+};
 
 /************************************************************************************************
 * transformReachDoc
@@ -258,7 +258,7 @@ const transformReachDoc = (md) => {
     md += `${line}\n`;
   }
   return md;
-}
+};
 
 /************************************************************************************************
 * processFolder
@@ -364,7 +364,7 @@ const processFolder = async (baseDir, relDir) => {
             let parent = el.parentNode;
             while (el.firstChild) { parent.insertBefore(el.firstChild, el); }
             parent.removeChild(el);
-          })
+          });
           try {
             fs.writeFileSync(otpPath, `<ul>${otpEl.innerHTML.trim()}</ul>`);
           } catch (err) {
@@ -391,30 +391,20 @@ const processFolder = async (baseDir, relDir) => {
           configJson.bookPath = relDir;
         } else {
           const pArray = relDir.split('/');
-          const bPath = pArray.slice(0, 2).join('/');
-          const bookConfigJsonFile = `${bPath}/config.json`;
-          const bookConfigJson = fs.readJsonSync(bookConfigJsonFile);
-          if (bookConfigJson.hasOwnProperty('bookTitle')) {
-            configJson.bookTitle = bookConfigJson.bookTitle;
-          }
-          if (bookConfigJson.hasOwnProperty('bookPath')) {
-            configJson.bookPath = bookConfigJson.bookPath;
-          }
-          if (bookConfigJson.hasOwnProperty('menuItem')) {
-            configJson.menuItem = bookConfigJson.menuItem;
-          }
-
-          /*
-          if (pArray.includes('books')) {
-            const bArray = pArray.slice(0, pArray.indexOf('books') + 2);
-            const bPath = bArray.join('/');
-            const bIdArray = pArray.slice(pArray.indexOf('books') - 1, pArray.indexOf('books') + 2);
-            configJson.bookPath = bIdArray.join('/');
+          if (pArray.length > 2) {
+            const bPath = pArray.slice(0, pArray.length - 1).join('/');
             const bookConfigJsonFile = `${bPath}/config.json`;
             const bookConfigJson = fs.readJsonSync(bookConfigJsonFile);
-            configJson.bookTitle = bookConfigJson.bookTitle;
+            if (bookConfigJson.hasOwnProperty('bookTitle')) {
+              configJson.bookTitle = bookConfigJson.bookTitle;
+            }
+            if (bookConfigJson.hasOwnProperty('bookPath')) {
+              configJson.bookPath = bookConfigJson.bookPath;
+            }
+            if (bookConfigJson.hasOwnProperty('menuItem')) {
+              configJson.menuItem = bookConfigJson.menuItem;
+            }
           }
-          */
         }
 
         // Write config.json.
@@ -431,8 +421,8 @@ const processFolder = async (baseDir, relDir) => {
 
       }),
       (error) => {
-        throw error
-      }
+        throw error;
+      };
   } catch (err) {
     //return `Error reading ${relDir}`;
     return err;
@@ -508,7 +498,7 @@ const processFolder = async (baseDir, relDir) => {
   } catch (err) {
     return `Error writing ${pagePath}`;
   }
-}
+};
 
 /************************************************************************************************
 * findAndProcessFolder
@@ -533,7 +523,7 @@ const findAndProcessFolder = async (folder) => {
     }
   }
   return 1;
-}
+};
 
 /************************************************************************************************
 * findAndProcessFolders
@@ -547,7 +537,7 @@ const findAndProcessFolders = (folder) => {
       console.log(`Cannot read ${err.path}`);
     }
   })();
-}
+};
 
 /************************************************************************************************
 * Process specified type.
@@ -591,5 +581,5 @@ switch (argv.t) {
     break;
 
   default:
-    console.log('Switch Default')
+    console.log('Switch Default');
 }

@@ -21,6 +21,15 @@ const otpPreferences = { 'none': 'none', 'show': 'show', 'hide': 'hide' };
 Object.freeze(otpPreferences);
 let otpPreference = otpPreferences.none;
 
+// For HHDataList
+const hhApiVersions = new Map();
+hhApiVersions.set('v0.0.1', HHApi001);
+hhApiVersions.set('v0.0.2', HHApi002);
+
+const hhDataListVersions = new Map();
+hhDataListVersions.set('v0.0.1', HHDataList001);
+hhDataListVersions.set('v0.0.2', HHDataList002);
+
 /************************************************************************************************
 * getWinWidth
 ************************************************************************************************/
@@ -184,7 +193,6 @@ const setOtpItemToActive = (id) => {
 ************************************************************************************************/
 
 const getWebpage = async (folder, hash, shallUpdateHistory) => {
-  //console.log('getWebpage');
 
   folder = folder.replace(/index\.html$/, '');
 
@@ -208,6 +216,22 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
     //console.log(JSON.stringify(configJson, null, 2));
     //console.log(pageHtml);
     //console.log(otpHtml);
+
+    // For HHDataList (see near top of file, too)
+    if (configJson.hhdatalist && configJson.hhdatalist !== HHDataList.version) {
+      console.log(`Required ${configJson.hhdatalist} != Current ${HHDataList.version}`);
+
+      let hhstyle = document.getElementById('hhstyle');
+      let style = document.createElement('link');
+      style.setAttribute('id', 'hhstyle');
+      style.setAttribute('rel', 'stylesheet');
+      style.setAttribute('type', 'text/css');
+      style.setAttribute('href', hhstyle.href.replace(HHDataList.version, configJson.hhdatalist));
+      hhstyle.parentNode.replaceChild(style, hhstyle);
+
+      HHApi = hhApiVersions.get(configJson.hhdatalist);
+      HHDataList = hhDataListVersions.get(configJson.hhdatalist);
+    }
 
     // Set body background color.
     //document.querySelector('body').style.background = configJson.background;

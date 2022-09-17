@@ -81,17 +81,17 @@ a[role="button"]:not(.step) {
  header .navbar-dark .navbar-nav .nav-link
 ************************************************/
 
-header a.navbar-brand span,
-header div.navbar-nav a span, 
-header div.navbar-nav a:hover span, 
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-nav .nav-link:hover,
-.nav-link-a,
-.nav-link-a:hover {
+header a.navbar-brand,
+header ul.navbar-nav>li.nav-item>a.nav-link {
   color: white;
 }
 
-header div.navbar-nav a.active span {
+header ul.dropdown-menu a.nav-link span {
+  color: var(--bs-body-color);
+  font-size: 92%;
+}
+
+header ul.navbar-nav a.active span {
   border-bottom: 2px solid white;
   color: white;
 }

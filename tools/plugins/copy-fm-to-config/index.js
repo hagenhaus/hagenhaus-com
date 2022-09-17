@@ -20,6 +20,7 @@ export default function attacher(options = {}) {
         if(fm.hasOwnProperty('hasPageHeader')) {configJson.hasPageHeader = fm.hasPageHeader;}
         if(fm.hasOwnProperty('hasPageScrollbar')) {configJson.hasPageScrollbar = fm.hasPageScrollbar;}
         if(fm.hasOwnProperty('hasRefreshBtn')) {configJson.hasRefreshBtn = fm.hasRefreshBtn;}
+        if(fm.hasOwnProperty('hhdatalist')) {configJson.hhdatalist = fm.hhdatalist;}
         if(fm.hasOwnProperty('menuItem')) {configJson.menuItem = fm.menuItem;}
         if(fm.hasOwnProperty('publishedDate')) {configJson.publishedDate = fm.publishedDate;}
         fs.writeFileSync(options.path, JSON.stringify(configJson, null, 2));
