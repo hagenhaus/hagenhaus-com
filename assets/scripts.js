@@ -219,7 +219,7 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
     // For HHDataList (see near top of file, too)
     if (configJson.hhdatalist && configJson.hhdatalist !== HHDataList.version) {
-      console.log(`Required ${configJson.hhdatalist} != Current ${HHDataList.version}`);
+      // console.log(`Required ${configJson.hhdatalist} != Current ${HHDataList.version}`);
 
       let hhstyle = document.getElementById('hhstyle');
       let style = document.createElement('link');
