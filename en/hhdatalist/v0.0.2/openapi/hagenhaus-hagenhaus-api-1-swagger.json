@@ -6,9 +6,9 @@
     "version" : "1"
   },
   "servers" : [ {
-    "url" : "https://hagenhaus.com:3002/api"
-  }, {
     "url" : "http://localhost:8081/api"
+  }, {
+    "url" : "https://hagenhaus.com:3002/api"
   } ],
   "paths" : {
     "/baseball/v1/players" : {
