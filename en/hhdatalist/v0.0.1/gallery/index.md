@@ -23,7 +23,7 @@
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    url: 'http://localhost:8081/api/baseball/v1/leagues',
+    url: `${getDomain()}/api/baseball/v1/leagues`,
   });
 </script>
 
@@ -49,7 +49,7 @@
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    url: 'http://localhost:8081/api/baseball/v1/managers',
+    url: `${getDomain()}/api/baseball/v1/managers`,
   });
 </script>
 
@@ -93,7 +93,7 @@
       color5: '#da3e3e',
       color6: '#961d1d'
     },
-    url: 'https://hagenhaus.com:3002/api/baseball/v1/parks',
+    url: `${getDomain()}/api/baseball/v1/parks`,
   });
 </script>
 
@@ -158,7 +158,7 @@
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    url: 'https://hagenhaus.com:3002/api/baseball/v1/players',
+    url: `${getDomain()}/api/baseball/v1/players`,
   });
 </script>
 
@@ -186,7 +186,7 @@
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    url: 'http://localhost:8081/api/baseball/v1/teams',
+    url: `${getDomain()}/api/baseball/v1/teams`,
   });
 </script>
 

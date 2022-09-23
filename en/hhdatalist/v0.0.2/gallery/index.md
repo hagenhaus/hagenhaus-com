@@ -1,6 +1,12 @@
 # Gallery
 
+<script>
+  HHDataList.setDefaultThemeName('silverberry');
+</script>
+
 # Baseball
+
+## Players
 
 <div id="baseball-players-datalist" class="hh-data-list mt-4"></div>
 
@@ -11,27 +17,11 @@
     filterById: (idField, idValue) => `${idField} like "${idValue}"`,
     id: 'baseball-players-datalist',
     queryParams: {
-      fields: { 
-        name: 'fields',
-        default: '*'
-      },
-      filter: { 
-        name: 'filter', 
-        default: 'birthyear is not null', 
-        placeholder: 'birthyear is not null and namefirst like "John"' 
-      },
-      order: { 
-        name: 'order', 
-        default: 'birthyear desc', 
-        placeholder: 'birthyear desc, namefirst asc' 
-      },
-      pageNumber: { 
-        name: 'page' 
-      },
-      pageSize: { 
-        name: 'limit',
-        choices: [5, 10, 15, 20, 50, 100],
-        default: 5
+      fields: { name: 'fields', default: '*' },
+      filter: { name: 'filter', default: 'playerid like "xyz%"', placeholder: 'birthyear is not null and namefirst like "John"' },
+      order: { name: 'order', default: 'birthyear desc', placeholder: 'birthyear desc, namefirst asc' },
+      pageNumber: { name: 'page' },
+      pageSize: { name: 'limit', choices: [5, 10, 15, 20, 50, 100], default: 5
       }
     },
     recordColumnCount: 4,
@@ -85,7 +75,52 @@
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    url: `${getDomain()}/api/baseball/v1/players`,
+    // themeName: 'dodger blue',
+    // themeDef: {
+    //   base: 'firebrick'
+    // },
+    // url: `${getDomain()}/api/baseball/v1/players`,
+    urls: {
+      deleteRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`,
+      getRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`,
+      getRecords: `${getDomain()}/api/baseball/v1/players`,
+      patchRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`,
+      postRecord: `${getDomain()}/api/baseball/v1/players`,
+      putRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`
+    }
+  });
+</script>
+
+## Teams
+
+<div id="baseball-teams-datalist" class="hh-data-list"></div>
+
+<script>
+  new HHDataList({
+    confirm: confirm,
+    id: 'baseball-teams-datalist',
+    queryParams: {
+      fields: { name: 'fields' },
+      filter: { name: 'filter' },
+      order: { name: 'order' },
+      pageNumber: { name: 'page' },
+      pageSize: { name: 'limit' }
+    },
+    recordColumnCount: 4,
+    recordIdField: 'ID',
+    recordTitleFields: ['name','yearID'],
+    recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
+    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    responseHelper: {
+      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numResponseRecords: (data) => data.metadata.numResponseRecords,
+      numMatchedRecords: (data) => data.metadata.numFilteredRecords,
+      numTotalRecords: (data) => data.metadata.numTotalRecords,
+      recordsArray: (data) => data.records
+    },
+    url: `${getDomain()}/api/baseball/v1/teams`,
   });
 </script>
 

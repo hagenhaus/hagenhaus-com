@@ -67,7 +67,7 @@ menuItem: mi-hhdatalist
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-    url: 'https://hagenhaus.com:3002/api/baseball/v1/players',
+    url: `${getDomain()}/api/baseball/v1/players`,
   });
 </script>
 

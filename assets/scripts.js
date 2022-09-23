@@ -1,6 +1,6 @@
-import algoliasearch from 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.esm.browser.js';
-const client = algoliasearch('ACB2H3EIYF', 'a68db1cd7dba243d4295be6ed2419435');
-const index = client.initIndex('rdp_en');
+// import algoliasearch from 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.esm.browser.js';
+// const client = algoliasearch('ACB2H3EIYF', 'a68db1cd7dba243d4295be6ed2419435');
+// const index = client.initIndex('rdp_en');
 
 const currentPage = {
   folder: null,

@@ -53,7 +53,7 @@ See the result below. See also the [source file](https://github.com/hagenhaus/ha
       pageSize: { name: 'limit' }
     },
     recordIdField: 'playerID',
-    url: 'https://hagenhaus.com:3002/api/baseball/v1/players',
+    url: `${getDomain()}/api/baseball/v1/players`,
   });
 </script>
 
@@ -121,7 +121,7 @@ See the result below. See also the [source file](https://github.com/hagenhaus/ha
     recordIdField: 'playerID',
     recordTitleFields: ['nameFirst', 'nameLast', 'birthYear'],
     recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
-    url: 'https://hagenhaus.com:3002/api/baseball/v1/players',
+    url: `${getDomain()}/api/baseball/v1/players`,
   });
 </script>
 
