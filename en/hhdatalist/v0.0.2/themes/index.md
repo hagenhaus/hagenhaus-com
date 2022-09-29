@@ -1,52 +1,109 @@
 # Themes
 
-User perspective:
+# What is a theme?
 
-1. If I instantiate only one instance in my entire website, then defining the theme inside the constructor is easy and efficient.
-1. If I instantiate multiple instances, and the themes are all different, then inside each constructor is easy and efficient.
-1. If I instantiate multiple instances, and some or all themes are the same, then calling a static addTheme is easy and efficient. This includes setting my own default.
+# What is a palette?
 
-**Remember to make static variables private, and always use getters and setters.**
+# Standard themes
+
+# Standard palettes
+
+# Setting the global theme
+
+The global theme applies to all HHDataList instances that do not specify an instance theme.
+
+## Default global theme
+
+Do nothing. HHDataList applies the default global theme to all HHDataList instances.
+
+## Standard global theme
+
+Set a global default theme from the theme list:
 
 ``` nonum
+HHDataList.setDefaultTheme('wheatgerm');
+```
 
-getDefaultTheme();
-setDefaultTheme(themeName);
-getThemes();
-getTheme(themeName);
-addTheme({ /* themeDef */ });
+## Custom global theme
 
+Add a custom theme to the list, and set it as the global default.
+
+``` nonum
+HHDataList.addThemeFromThemeName('silverberry', 'My Silverberry', { tabButtonColor: 'red' });
+HHDataList.setDefaultTheme('My Silverberry');
+```
+
+``` nonum
+HHDataList.addThemeFromPaletteName('plum', 'My Plum', { tabButtonColor: 'red' });
+HHDataList.setDefaultTheme('My Plum');
+```
+
+# Setting an instance theme
+
+An instance theme overrides the global theme.
+
+## Standard instance theme
+
+``` nonum
 new HHDataList({
-
-  // if none at all, then default.
-
-  // This must be a string. If themeName is specified, then themeDef is ignored.
   themeName: 'dodger blue',
-
-  themeDef: {
-
-    // This must be a string. If not specified, then UTC: My Theme 2022-09-23T02:18:08Z. 
-    name: 'My Silverberry',
-
-    // This must be an object. It is optional. These override base/colors.
-    properties: { 
-      tabButtonColor: 'maroon'
-    },
-
-    // This must be a string. If base is specified, then colors are ignored.
-    base: 'silverberry',
-
-    // This must be an object. If {} or partial, then supplemented from defaultColors. 
-    colors: {
-      color1: '#ffffff',
-      color2: '#fcf5e8',
-      color3: '#f9ebd2',
-      color4: '#f6e2bb',
-      color5: '#e29d1d',
-      color6: '#875e12'
-    }
-
-  }
-
 });
 ```
+
+1. sss
+
+    ``` nonum
+    new HHDataList({
+      themeFromThemeName: {
+        themeName: 'silverberry',
+        newThemeName: 'My Silverberry',
+        overrides: {
+          tabButtonColor: 'maroon'
+        }
+      },
+    });
+    ```
+
+1. sss
+
+    ``` nonum
+    new HHDataList({
+      themeFromPaletteName: {
+        paletteName: 'silverberry',
+        newThemeName: 'My Silverberry',
+        overrides: {
+          tabButtonColor: 'maroon'
+        }
+      },
+    });
+    ```
+
+1. sss
+
+    ``` nonum
+    new HHDataList({
+      themeFromPalette: {
+        palette: {
+          color1: '#ffffff',
+          color2: '#fcf5e8',
+          color3: '#f9ebd2',
+          color4: '#f6e2bb',
+          color5: '#e29d1d',
+          color6: '#875e12'
+        },
+        newThemeName: 'My Silverberry',
+        overrides: {
+          tabButtonColor: 'maroon'
+        }
+      },
+    });
+    ```
+
+1. sss
+
+    ``` nonum
+    new HHDataList({
+      theme: {
+      },
+    });
+    ```

@@ -218,15 +218,15 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
     //console.log(otpHtml);
 
     // For HHDataList (see near top of file, too)
-    if (configJson.hhdatalist && configJson.hhdatalist !== HHDataList.version) {
-      // console.log(`Required ${configJson.hhdatalist} != Current ${HHDataList.version}`);
+    if (configJson.hhdatalist && configJson.hhdatalist !== HHDataList.getVersion()) {
+      // console.log(`Required ${configJson.hhdatalist} != Current ${HHDataList.getVersion()}`);
 
       let hhstyle = document.getElementById('hhstyle');
       let style = document.createElement('link');
       style.setAttribute('id', 'hhstyle');
       style.setAttribute('rel', 'stylesheet');
       style.setAttribute('type', 'text/css');
-      style.setAttribute('href', hhstyle.href.replace(HHDataList.version, configJson.hhdatalist));
+      style.setAttribute('href', hhstyle.href.replace(HHDataList.getVersion(), configJson.hhdatalist));
       hhstyle.parentNode.replaceChild(style, hhstyle);
 
       HHApi = hhApiVersions.get(configJson.hhdatalist);
