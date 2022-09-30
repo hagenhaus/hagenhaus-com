@@ -1,8 +1,10 @@
 # Themes
 
-# What is a theme?
+# Themes and palettes
 
-# What is a palette?
+## What is a theme?
+
+## What is a palette?
 
 # Standard themes
 
@@ -21,7 +23,7 @@ Do nothing. HHDataList applies the default global theme to all HHDataList instan
 Set a global default theme from the theme list:
 
 ``` nonum
-HHDataList.setDefaultTheme('wheatgerm');
+HHDataList.setDefaultTheme('Wheatgerm');
 ```
 
 ## Custom global theme
@@ -29,81 +31,112 @@ HHDataList.setDefaultTheme('wheatgerm');
 Add a custom theme to the list, and set it as the global default.
 
 ``` nonum
-HHDataList.addThemeFromThemeName('silverberry', 'My Silverberry', { tabButtonColor: 'red' });
-HHDataList.setDefaultTheme('My Silverberry');
+let theme = HHDataList.buildThemeFromThemeName('Silverberry', 'My Theme', { tabButtonColor: 'red' });
+HHDataList.addTheme(theme);
+HHDataList.setDefaultTheme('My Theme');
 ```
 
 ``` nonum
-HHDataList.addThemeFromPaletteName('plum', 'My Plum', { tabButtonColor: 'red' });
-HHDataList.setDefaultTheme('My Plum');
+let theme = HHDataList.buildThemeFromPaletteName('Plum', 'My Theme', { tabButtonColor: 'red' });
+HHDataList.addTheme(theme);
+HHDataList.setDefaultTheme('My Theme');
+```
+
+``` nonum
+let theme = HHDataList.buildThemeFromPalette({
+  color1: '#ffffff',
+  color2: '#eafaea',
+  color3: '#d6f5d6',
+  color4: '#c1f0c1',
+  color5: '#239023',
+  color6: '#145214'
+  }, 'My Theme', { tabButtonColor: 'red' });
+HHDataList.addTheme(theme);
+HHDataList.setDefaultTheme('My Theme');
+```
+
+``` nonum
+HHDataList.addTheme({
+  name: 'My Theme',
+  tabButtonColor: '#961d1d',
+  tabBorderColor: '#961d1d',
+  controlColor: '#ffffff',
+  controlColorHover: '#ffffff',
+  ...
+});
+HHDataList.setDefaultTheme('My Theme');
 ```
 
 # Setting an instance theme
 
-An instance theme overrides the global theme.
+An instance theme overrides the global theme. You set an instance theme in the HHDataList constructor.
 
-## Standard instance theme
+Note: Most common may be register a theme, and then specify in the instance.
+
+## Registered instance theme
 
 ``` nonum
 new HHDataList({
-  themeName: 'dodger blue',
+  themeName: 'Wheatgerm',
 });
 ```
 
-1. sss
+## Custom instance theme
 
-    ``` nonum
-    new HHDataList({
-      themeFromThemeName: {
-        themeName: 'silverberry',
-        newThemeName: 'My Silverberry',
-        overrides: {
-          tabButtonColor: 'maroon'
-        }
-      },
-    });
-    ```
+May not need newThemeName. Perhaps call them anonymous themes.
 
-1. sss
+``` nonum
+new HHDataList({
+  themeFromThemeName: {
+    themeName: 'Silverberry',
+    newThemeName: 'My Theme',
+    overrides: {
+      tabButtonColor: 'red'
+    }
+  },
+});
+```
 
-    ``` nonum
-    new HHDataList({
-      themeFromPaletteName: {
-        paletteName: 'silverberry',
-        newThemeName: 'My Silverberry',
-        overrides: {
-          tabButtonColor: 'maroon'
-        }
-      },
-    });
-    ```
+``` nonum
+new HHDataList({
+  themeFromPaletteName: {
+    paletteName: 'Silverberry',
+    newThemeName: 'My Silverberry',
+    overrides: {
+      tabButtonColor: 'blue'
+    }
+  },
+});
+```
 
-1. sss
+``` nonum
+new HHDataList({
+  themeFromPalette: {
+    palette: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f6e2bb',
+      color5: '#e29d1d',
+      color6: '#875e12'
+    },
+    newThemeName: 'My Silverberry',
+    overrides: {
+      tabButtonColor: 'green'
+    }
+  },
+});
+```
 
-    ``` nonum
-    new HHDataList({
-      themeFromPalette: {
-        palette: {
-          color1: '#ffffff',
-          color2: '#fcf5e8',
-          color3: '#f9ebd2',
-          color4: '#f6e2bb',
-          color5: '#e29d1d',
-          color6: '#875e12'
-        },
-        newThemeName: 'My Silverberry',
-        overrides: {
-          tabButtonColor: 'maroon'
-        }
-      },
-    });
-    ```
-
-1. sss
-
-    ``` nonum
-    new HHDataList({
-      theme: {
-      },
-    });
-    ```
+``` nonum
+new HHDataList({
+  theme: {
+    name: 'My Theme',
+    tabButtonColor: '#961d1d',
+    tabBorderColor: '#961d1d',
+    controlColor: '#ffffff',
+    controlColorHover: '#ffffff',
+    ...
+  },
+});
+```

@@ -1,21 +1,7 @@
 # Gallery
 
 <script>
-  // HHDataList.addThemeFromThemeName('silverberry', 'My Silverberry', { tabButtonColor: 'red' });
-  HHDataList.addThemeFromPaletteName('plum', 'My Plum', { tabButtonColor: 'red' });
-  HHDataList.setDefaultTheme('My Plum');
-  // console.log(`Default Theme Name: ${HHDataList.getDefaultThemeName()}`);
-  // console.log(JSON.stringify(HHDataList.getDefaultTheme(), null, 2));
-  // console.log(JSON.stringify(HHDataList.getTheme('firebrick'), null, 2));
-  // console.log(HHDataList.hasTheme('firebrck'));
-  // console.log(HHDataList.getThemeNames());
-
-  // HHDataList.setDefaultPalette('wheatgerm');
-  // console.log(`Default Palette Name: ${HHDataList.getDefaultPaletteName()}`);
-  // console.log(JSON.stringify(HHDataList.getDefaultPalette(), null, 2));
-  // console.log(JSON.stringify(HHDataList.getPalette('firebrick'), null, 2));
-  // console.log(HHDataList.hasPalette('firebrick'));
-  // console.log(HHDataList.getPaletteNames());
+  HHDataList.setDefaultTheme('Wheatgerm');
 </script>
 
 # Baseball
@@ -89,7 +75,6 @@
       created: 'The new record is also on the records list.',
       config: 'Set additional configuration parameters.'
     },
-
     urls: {
       deleteRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`,
       getRecord: (id) => `${getDomain()}/api/baseball/v1/players/${id}`,
