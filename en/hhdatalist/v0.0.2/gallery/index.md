@@ -1,7 +1,7 @@
 # Gallery
 
 <script>
-  HHDataList.setDefaultTheme('Wheatgerm');
+  HHDataList.setGlobalTheme('Wheatgerm');
 </script>
 
 # Baseball
