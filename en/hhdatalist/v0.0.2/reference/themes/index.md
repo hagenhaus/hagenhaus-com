@@ -137,8 +137,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -155,7 +155,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -177,8 +177,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -195,7 +195,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -218,8 +218,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -236,7 +236,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -259,8 +259,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -277,7 +277,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -300,8 +300,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -318,7 +318,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -341,8 +341,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -359,7 +359,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -382,8 +382,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -400,7 +400,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -423,8 +423,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -441,7 +441,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -464,8 +464,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -482,7 +482,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -505,8 +505,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -523,7 +523,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -546,8 +546,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -564,7 +564,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -587,8 +587,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -605,7 +605,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
@@ -628,8 +628,8 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
-      pageNumber: { name: 'page' },
-      pageSize: { name: 'limit' }
+      page: { name: 'page' },
+      limit: { name: 'limit' }
     },
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
@@ -646,7 +646,7 @@ To access the other standard themes, include `hhdatalist-themes.min.js` after `h
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      numPages: (data, pageSize) => data.metadata.numTotalPages,
+      numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
       numTotalRecords: (data) => data.metadata.numTotalRecords,
