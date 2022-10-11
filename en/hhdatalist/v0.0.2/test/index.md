@@ -15,30 +15,51 @@
       limit: { name: 'limit' }
     },
     recordColumnCount: 1,
-    recordParity: false,
     recordFieldExplorer: {
       showType: false,
       stringifyObjects: true,
       // reportRecordFields: (recordFields) => {console.log(JSON.stringify(recordFields))}
     },
     recordFields: [
-      { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
+      { name: "key", label: "Key", isChecked: true, isEditable: false, isRequired: false }, 
       { name: "title", label: "Title", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false }, 
+      { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        const a = [];
+        for (let x of value) {
+          a.push(x.author.key);
+        }
+        return a.join(', ');
+      }},
       { name: "type", label: "Type", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.key }, 
-      { name: "covers", label: "Covers", isChecked: false, isEditable: false, isRequired: false }, 
+      { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
       { name: "description", label: "Description", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.value }, 
       { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.value }, 
-      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false }, 
+      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        return value.join(', ');
+      }},
       { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "excerpts", label: "Excerpts", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "location", label: "Location", isChecked: false, isEditable: false, isRequired: false }, 
+      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        return value.join(', ');
+      }}, 
+      { name: "excerpts", label: "Excerpts", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        const a = [];
+        for (let x of value) {
+          a.push(x.excerpt);
+        }
+        return a.join(' ');
+      }},
+      { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        return value.join(', ');
+      }}, 
+      { name: "location", label: "Location", isChecked: true, isEditable: false, isRequired: false }, 
       { name: "latest_revision", label: "Latest Revision", isChecked: false, isEditable: false, isRequired: false }, 
-      { name: "revision", label: "revision", isChecked: false, isEditable: false, isRequired: false }, 
-      { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false }, 
-      { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false }
+      { name: "revision", label: "Revision", isChecked: true, isEditable: false, isRequired: false }, 
+      { name: "created", label: "Created", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      },
+      { name: "last_modified", label: "Last Modified", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      }
     ],
     recordIdField: 'key',
     recordTitleFields: ['title'],

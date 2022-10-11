@@ -53,6 +53,7 @@
       { name: 'bbrefID', label: 'bbrefID', isChecked: false, isEditable: true },
     ],
     recordIdField: 'playerID',
+    recordParity: true,
     recordsAreExpanded: false,
     recordsAreNumbered: true,
     recordTitleFields: ['nameFirst', 'nameLast', 'birthYear'],
@@ -134,6 +135,7 @@
       { name: 'SF', label: 'Sacrifice Flies' }
     ],
     recordIdField: 'ID',
+    recordParity: true,
     recordTitleFields: ['name','yearID'],
     recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },

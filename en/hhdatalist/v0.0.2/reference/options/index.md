@@ -1,5 +1,18 @@
 # Options
 
+The HHDataList constructor requires an *options* argument of type *object*. Below is an example of an *options* argument with four options: `id`, `recordIdField`, `recordTitleField`, and `url`:
+
+``` js nonum
+new HHDataList({
+  id: 'datalist-dodger-blue',
+  recordIdField: 'ID',
+  recordTitleFields: ['parkname'],
+  url: `https://hagenhaus.com/api/baseball/v1/parks`,
+});
+```
+
+This page describes all possible options including whether the option is required and, if not, what the default value is for the option.
+
 # confirm
 
 # controlsAreSmall
@@ -36,19 +49,19 @@ new HHDataList({
 });
 ```
 
-## fields
+### fields
 
-## filter
+### filter
 
-## order
+### order
 
-## page
+### page
 
 ``` nonum
 https://hagenhaus.com:3002/api/baseball/v1/players?page=1
 ```
 
-## limit
+### limit
 
 The `pageSize` option sets the initial value of the `Page Size` widget. The data type is `number`. The default value is `choices[0]`. Developers can override.
 
@@ -81,11 +94,20 @@ Specifying a recordFields option in the options object passed to the HHDataList 
 
 # recordParity
 
-Set this to *false* if your *getRecords* operation cannot return all the record properties that your *getRecord* operation can.
+<div class="row mb-2" style="font-size:92%;">
+  <div class="col-auto">Required: <code>false</code></div>
+  <div class="col-auto">Default: <code>false</code></div>
+</div>
+
+``` js nonum
+new HHDataList({
+  recordParity: true
+});
+```
+
+For a definition of record parity, see [Record parity](/en/hhdatalist/v0.0.2/reference/terminology/#record-parity) on the [Terminology](/en/hhdatalist/v0.0.2/reference/terminology/) page. Only set this option to *true* if the *getRecords* operation of the underlying API can return all the record properties that the *getRecord* operation can. Setting this option to *true* tells HHDataList to use a more efficient technique for scrolling expanded pages of records.
 
 # recordsAreExpanded
-
-Setting this option to true may cause HHDataList (after calling getRecords to obtain a page of records) to call getRecord for each record on the current page. This is because some APIs return a different set of properties for getRecords and getRecord. An API that uses SOLR for getRecords and another database for getRecord is an example.
 
 # recordsAreNumbered
 
