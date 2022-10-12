@@ -2668,4 +2668,8 @@ type
 
 # Covers API
 
+https://covers.openlibrary.org/b/id/6498519-L.jpg
+
+https://covers.openlibrary.org/b/id/8904777-L.jpg
+
 # Recent Changes API

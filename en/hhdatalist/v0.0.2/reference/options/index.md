@@ -33,6 +33,8 @@ Users cannot override.
 
 # id
 
+# missingFields
+
 # queryParams
 
 Showing defaults:
@@ -73,7 +75,14 @@ The `choices` property sets all possible options of the `Page Size` widget. The 
 
 # recordColumnCount
 
-# recordFieldExplorer
+# recordFieldValues
+
+<div class="row mb-2" style="font-size:92%;">
+  <div class="col-auto">Required: <code>false</code></div>
+  <div class="col-auto">Default: <code>get</code></div>
+</div>
+
+Set this option to `get`, `types`, or `strings`.
 
 # recordFields
 
@@ -118,6 +127,8 @@ For a definition of record parity, see [Record parity](/en/hhdatalist/v0.0.2/ref
 # reportError
 
 # reportInfo
+
+# reportRecordFields
 
 # reportTheme
 
