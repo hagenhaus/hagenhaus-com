@@ -163,26 +163,72 @@
     confirm: confirm,
     fieldColumnCount: 4,
     id: 'open-library-authors-datalist',
+    missingFields: {
+      include: true,
+      placeholder: ''
+    },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', default: 'name=april' },
+      filter: { name: 'q', none: '*', default: 'name=john'},
       order: { name: 'sort' }, 
       offset: { name: 'offset' },
-      limit: { name: 'limit' }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
-    recordColumnCount: 1,
-    // recordFields: [
-    //   { name: 'key', label: 'Key' },
-    //   { name: 'name', label: 'Name' },
-    //   { name: 'type', label: 'Type' },
-    //   { name: 'birth_date', label: 'Birth Date' }
-    // ],
+    recordColumnCount: 4,
+    recordFieldValue: 'get',
+    recordFields: [
+      {name:"key",label:"Key",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"name",label:"Name",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"alternate_names",label:"Alternate Names",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"personal_name",label:"Personal Name",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"birth_date",label:"Birth Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => 
+        new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+      },
+      {name:"death_date",label:"Death Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => 
+        new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+      },
+      {name:"bio",label:"Biography",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+        if (typeof value === 'object') {
+          return value.value;
+        } else {
+          return value;
+        }
+      }}, 
+      {name:"title",label:"Title",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"source_records",label:"Source Records",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"photograph",label:"Photograph",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"remote_ids",label:"Remote IDs",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+        const a = [];
+        for (const property in value) {
+          a.push(`${property}:${value[property]}`);
+        }
+        return a;
+      }},
+      {name:"date",label:"Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"photos",label:"Photos",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"type",label:"Type",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => value.key },
+      {name:"latest_revision",label:"Latest Revision",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"revision",label:"Revision",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      { name: "created", label: "Created", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      },
+      { name: "last_modified", label: "Last Modified", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      },
+      {name:"wikipedia",label:"Wikipedia",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+        return value.length ? 'Wikipedia'.link(value) : value;
+      }}
+    ],
     recordIdField: 'key',
+    recordsAreExpanded: false,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => `${r[f[0]]}`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    // reportRecordFields: (recordFields) => {
+    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
+    // },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
@@ -206,26 +252,40 @@
     confirm: confirm,
     fieldColumnCount: 4,
     id: 'open-library-subjects-datalist',
+    missingFields: {
+      include: true,
+      placeholder: ''
+    },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', default: '*' },
+      filter: { name: 'q', none: '*', default: 'women' },
       order: { name: 'sort' },
       offset: { name: 'offset' },
-      limit: { name: 'limit' }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
-    recordColumnCount: 1,
-    // recordFields: [
-    //   { name: 'key', label: 'Key' },
-    //   { name: 'name', label: 'Name' },
-    //   { name: 'type', label: 'Type' },
-    //   { name: 'count', label: 'Assoc Works'}
-    // ],
+    recordColumnCount: 2,
+    recordFieldValue: 'key',
+    recordFields: [
+      {name:"key",label:"Key",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"name",label:"Name",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"subject_type",label:"Type",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"work_count",label:"Number of Works",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
+      {name:"works",label:"Samples of Works",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+        const a = [];
+        for (let i of value) { a.push(i.title); }
+        return a;
+      }}
+    ],
     recordIdField: 'key',
+    recordsAreExpanded: false,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => `${r[f[0]]}`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    // reportRecordFields: (recordFields) => {
+    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
+    // },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
@@ -251,21 +311,17 @@
     id: 'open-library-works-datalist',
     missingFields: {
       include: true,
-      placeholder: "No data"
+      placeholder: ''
     },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', default: 'snow' }, // *
+      filter: { name: 'q', none: '*', default: 'snow' }, // *
       order: { name: 'sort' },
       page: { name: 'page' },
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
     recordColumnCount: 2,
-    recordFieldExplorer: {
-      showType: false,
-      stringifyObjects: true,
-      // reportRecordFields: (recordFields) => {console.log(JSON.stringify(recordFields))}
-    },
+    recordFieldValue: 'get',
     recordFields: [
       { name: "key", label: "Key", isChecked: true, isEditable: false, isRequired: false }, 
       { name: "title", label: "Title", isChecked: true, isEditable: false, isRequired: false }, 
@@ -276,7 +332,13 @@
       }},
       { name: "type", label: "Type", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.key }, 
       { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "description", label: "Description", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.value }, 
+      { name: "description", label: "Description", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+        if (typeof value === 'object') {
+          return value.value;
+        } else {
+          return value;
+        }
+      }}, 
       { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.value }, 
       { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
       { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: false, isRequired: false }, 
@@ -303,6 +365,9 @@
     recordTitleFormat: (f, r) => `${r[f[0]]}`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    // reportRecordFields: (recordFields) => {
+    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
+    // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),

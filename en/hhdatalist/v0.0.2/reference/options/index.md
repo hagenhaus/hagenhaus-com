@@ -35,6 +35,8 @@ Users cannot override.
 
 # missingFields
 
+# paletteName
+
 # queryParams
 
 Showing defaults:
@@ -55,6 +57,8 @@ new HHDataList({
 
 ### filter
 
+Remember `none` property.
+
 ### order
 
 ### page
@@ -71,18 +75,16 @@ If `pageSize` is initialized to a `value` that is not a member of `choices`, the
 
 The `choices` property sets all possible options of the `Page Size` widget. The data type is `array`. The default value is `[5, 10, 20, 50, 100]`. Developers can override. Users cannot override.
 
-# paletteName
-
 # recordColumnCount
 
-# recordFieldValues
+# recordFieldValue
 
 <div class="row mb-2" style="font-size:92%;">
   <div class="col-auto">Required: <code>false</code></div>
   <div class="col-auto">Default: <code>get</code></div>
 </div>
 
-Set this option to `get`, `types`, or `strings`.
+Set this option to `get`, `type`, or `string`.
 
 # recordFields
 
