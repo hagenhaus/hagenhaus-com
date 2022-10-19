@@ -22,7 +22,7 @@
       filter: { name: 'filter', default: 'playerid like "xyz%"', placeholder: 'birthyear is not null and namefirst like "John"' },
       order: { name: 'order', default: 'birthyear desc', placeholder: 'birthyear desc, namefirst asc' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [5, 10, 15, 20, 50, 100], default: 5
+      limit: { name: 'limit', choices: [1, 5, 10, 15, 20, 50, 100], default: 5
       }
     },
     recordColumnCount: 4,
@@ -172,7 +172,7 @@
       filter: { name: 'q', none: '*', default: 'name=john'},
       order: { name: 'sort' }, 
       offset: { name: 'offset' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
     recordColumnCount: 4,
     recordFieldValue: 'get',
@@ -215,12 +215,13 @@
       { name: "last_modified", label: "Last Modified", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      {name:"wikipedia",label:"Wikipedia",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
-        return value.length ? 'Wikipedia'.link(value) : value;
+      {name:"wikipedia",label:"Wikipedia",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, subtype: {name: "link" }, get: (value) => {
+        // return value.length ? 'Wikipedia'.link(value) : value;
+        return {url: value, title: 'Wikipedia'};
       }}
     ],
     recordIdField: 'key',
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => `${r[f[0]]}`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },

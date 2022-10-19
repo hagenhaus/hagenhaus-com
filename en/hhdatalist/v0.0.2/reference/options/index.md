@@ -81,10 +81,10 @@ The `choices` property sets all possible options of the `Page Size` widget. The 
 
 <div class="row mb-2" style="font-size:92%;">
   <div class="col-auto">Required: <code>false</code></div>
-  <div class="col-auto">Default: <code>get</code></div>
+  <div class="col-auto">Default: <code>value</code></div>
 </div>
 
-Set this option to `get`, `type`, or `string`.
+Set this option to `type`, `string`, or `value`.
 
 # recordFields
 
