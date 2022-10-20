@@ -7,7 +7,7 @@
 <script>
   new HHDataList({
     confirm: confirm,
-    fieldColumnCount: 4,
+    fieldColWidth: 'narrow',
     id: 'open-library-works-datalist',
     missingFields: {
       include: true,
@@ -20,7 +20,7 @@
       page: { name: 'page' },
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
-    recordColumnCount: 3,
+    recordColWidth: 'medium',
     recordFieldValue: 'value',
     recordFields: [
       { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
@@ -40,23 +40,23 @@
         return a;
       }}, 
       { name: "dewey_number", label: "Dewey Number", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "description", label: "Description", isChecked: true, isEditable: true, isRequired: false, get: (value) => {
+      { name: "description", label: "Description", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', get: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }},
-      { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: true, isRequired: false, get: (value) => value.value }, 
-      { name: "subject_times", label: "Subject Times", isChecked: true, isEditable: true, isRequired: false },
-      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
-      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
-      { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: true, isRequired: false }, 
-      { name: "excerpts", label: "Excerpts", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
+      { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', get: (value) => value.value }, 
+      { name: "excerpts", label: "Excerpts", isChecked: false, isEditable: false, isRequired: false, colWidth: 'wide', get: (value) => {
         const a = [];
         for (let i of value) { a.push(i.excerpt); }
         return a;
       }},
+      { name: "subject_times", label: "Subject Times", isChecked: true, isEditable: true, isRequired: false },
+      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
+      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
+      { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: true, isRequired: false }, 
       { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false}, 
       { name: "location", label: "Location", isChecked: false, isEditable: false, isRequired: false }, 
       { name: "latest_revision", label: "Latest Revision", isChecked: false, isEditable: false, isRequired: false }, 

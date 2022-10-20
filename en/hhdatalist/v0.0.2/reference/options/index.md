@@ -27,7 +27,7 @@ new HHDataList({
 
 Users cannot override.
 
-# fieldColumnCount
+# fieldColWidth
 
 # filterById
 
@@ -75,7 +75,7 @@ If `pageSize` is initialized to a `value` that is not a member of `choices`, the
 
 The `choices` property sets all possible options of the `Page Size` widget. The data type is `array`. The default value is `[5, 10, 20, 50, 100]`. Developers can override. Users cannot override.
 
-# recordColumnCount
+# recordColWidth
 
 # recordFieldValue
 
