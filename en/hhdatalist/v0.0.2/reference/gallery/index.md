@@ -14,7 +14,6 @@
   new HHDataList({
     confirm: confirm,
     controlsAreSmall: false,
-    fieldColumnCount: 4,
     filterById: (idField, idValue) => `${idField} like "${idValue}"`,
     id: 'baseball-players-datalist',
     queryParams: {
@@ -25,12 +24,18 @@
       limit: { name: 'limit', choices: [1, 5, 10, 15, 20, 50, 100], default: 5
       }
     },
-    recordColumnCount: 4,
+    recordFieldValue: 'value',
     recordFields: [
       { name: 'playerID', label: 'Player ID', isChecked: false },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
       { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
-      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true },
+      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true, subtype: { name: "input" }, get: (value) => {
+        if (value === null) {
+          return '';
+        } else {
+          return value;
+        }
+      }},
       { name: 'birthDay', label: 'Birth Day', isEditable: true },
       { name: 'birthMonth', label: 'Birth Month', isEditable: true },
       { name: 'birthYear', label: 'Birth Year', isEditable: true },
@@ -95,7 +100,6 @@
 <script>
   new HHDataList({
     confirm: confirm,
-    fieldColumnCount: 4,
     id: 'baseball-teams-datalist',
     queryParams: {
       fields: { name: 'fields' },
@@ -104,7 +108,6 @@
       page: { name: 'page' },
       limit: { name: 'limit' }
     },
-    recordColumnCount: 4,
     recordFields: [
       { name: 'ID', label: 'ID', isChecked: false },
       { name: 'yearID', label: 'Year' },
@@ -161,7 +164,6 @@
 <script>
   new HHDataList({
     confirm: confirm,
-    fieldColumnCount: 4,
     id: 'open-library-authors-datalist',
     missingFields: {
       include: true,
@@ -174,51 +176,47 @@
       offset: { name: 'offset' },
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
-    recordColumnCount: 4,
-    recordFieldValue: 'get',
     recordFields: [
-      {name:"key",label:"Key",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"name",label:"Name",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"alternate_names",label:"Alternate Names",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"personal_name",label:"Personal Name",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"birth_date",label:"Birth Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => 
+      { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium' }, 
+      { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium', get: (value) => value.key }, 
+      { name:"name", label:"Name", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"alternate_names", label:"Alternate Names", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"personal_name", label:"Personal Name", isChecked:false, isEditable:false, colWidth: 'medium'},
+      { name:"title", label:"Title/Status", isChecked:false, isEditable:false, colWidth: 'medium'},
+      { name:"birth_date", label:"Birth Date", isChecked:true, isEditable:false, colWidth: 'medium', get: (value) => 
         new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      {name:"death_date",label:"Death Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => 
+      { name:"death_date", label:"Death Date", isChecked:true, isEditable:false, colWidth: 'medium', get: (value) => 
         new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      {name:"bio",label:"Biography",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+      { name:"bio", label:"Biography", isChecked:true, isEditable:false, colWidth: 'wide', subtype: { name: "text" }, get: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }}, 
-      {name:"title",label:"Title",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"source_records",label:"Source Records",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"photograph",label:"Photograph",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"remote_ids",label:"Remote IDs",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+      { name:"wikipedia", label:"Wikipedia", isChecked:true, isEditable:false, colWidth: 'medium', subtype: { name: "link" }, get: (value) => {
+        // return value.length ? 'Wikipedia'.link(value) : value;
+        return {url: value, title: 'Wikipedia'};
+      }},
+      { name:"photos", label:"Photos", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"source_records", label:"Source Records", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"remote_ids", label:"Remote IDs", isChecked:true, isEditable:false, colWidth: 'medium', get: (value) => {
         const a = [];
         for (const property in value) {
           a.push(`${property}:${value[property]}`);
         }
         return a;
       }},
-      {name:"date",label:"Date",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"photos",label:"Photos",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"type",label:"Type",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => value.key },
-      {name:"latest_revision",label:"Latest Revision",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"revision",label:"Revision",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      { name: "created", label: "Created", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+      { name:"photograph", label:"Photograph", isChecked:false, isEditable:false},
+      { name:"revision", label:"Revision", isChecked:false, isEditable:false},
+      { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false, get: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      { name: "last_modified", label: "Last Modified", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
+      { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false, get: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      {name:"wikipedia",label:"Wikipedia",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, subtype: {name: "link" }, get: (value) => {
-        // return value.length ? 'Wikipedia'.link(value) : value;
-        return {url: value, title: 'Wikipedia'};
-      }}
     ],
     recordIdField: 'key',
     recordsAreExpanded: true,
@@ -251,7 +249,6 @@
 <script>
   new HHDataList({
     confirm: confirm,
-    fieldColumnCount: 4,
     id: 'open-library-subjects-datalist',
     missingFields: {
       include: true,
@@ -264,21 +261,19 @@
       offset: { name: 'offset' },
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
-    recordColumnCount: 2,
-    recordFieldValue: 'key',
     recordFields: [
-      {name:"key",label:"Key",isChecked:false,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"name",label:"Name",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"subject_type",label:"Type",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"work_count",label:"Number of Works",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false},
-      {name:"works",label:"Samples of Works",isChecked:true,isEditable:false,isRequired:false,isForeignKey:false, get: (value) => {
+      { name:"key", label:"Key", isChecked:false, isEditable:false, colWidth: 'medium'},
+      { name:"subject_type", label:"Type", isChecked:false, isEditable:false, colWidth: 'medium'},
+      { name:"name", label:"Subject Name", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"work_count", label:"Number of Works", isChecked:true, isEditable:false, colWidth: 'medium'},
+      { name:"works", label:"Sample Works", isChecked:true, isEditable:false, colWidth: 'wide', get: (value) => {
         const a = [];
         for (let i of value) { a.push(i.title); }
         return a;
       }}
     ],
     recordIdField: 'key',
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordTitleFields: ['name'],
     recordTitleFormat: (f, r) => `${r[f[0]]}`,
     reportError: (type, title, detail) => { reportError(type, title, detail); },
@@ -301,85 +296,3 @@
   });
 </script>
 
-<!-- ## Works
-
-<div id="open-library-works-datalist" class="hh-data-list"></div>
-
-<script>
-  new HHDataList({
-    confirm: confirm,
-    fieldColumnCount: 4,
-    id: 'open-library-works-datalist',
-    missingFields: {
-      include: true,
-      placeholder: ''
-    },
-    queryParams: {
-      fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', none: '*', default: 'snow' }, // *
-      order: { name: 'sort' },
-      page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
-    },
-    recordColumnCount: 2,
-    recordFieldValue: 'get',
-    recordFields: [
-      { name: "key", label: "Key", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "title", label: "Title", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
-        const a = [];
-        for (let i of value) { a.push(i.author.key); }
-        return a;
-      }},
-      { name: "type", label: "Type", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.key }, 
-      { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "description", label: "Description", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
-        if (typeof value === 'object') {
-          return value.value;
-        } else {
-          return value;
-        }
-      }}, 
-      { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: false, isRequired: false, get: (value) => value.value }, 
-      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
-      { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
-      { name: "excerpts", label: "Excerpts", isChecked: true, isEditable: false, isRequired: false, get: (value) => {
-        const a = [];
-        for (let i of value) { a.push(i.excerpt); }
-        return a;
-      }},
-      { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false}, 
-      { name: "location", label: "Location", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "latest_revision", label: "Latest Revision", isChecked: false, isEditable: false, isRequired: false }, 
-      { name: "revision", label: "Revision", isChecked: true, isEditable: false, isRequired: false }, 
-      { name: "created", label: "Created", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
-      },
-      { name: "last_modified", label: "Last Modified", isChecked: true, isEditable: false, isRequired: false, get: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
-      }
-    ],
-    recordIdField: 'key',
-    recordsAreExpanded: true,
-    recordTitleFields: ['title'],
-    recordTitleFormat: (f, r) => `${r[f[0]]}`,
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
-    reportInfo: (title, detail) => { reportInfo(title, detail); },
-    // reportRecordFields: (recordFields) => {
-    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
-    // },
-    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    responseHelper: {
-      numPages: (data, limit) => Math.ceil(data.numFound / limit),
-      numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound,
-      recordsArray: (data) => data.docs
-    },
-    themeName: 'Wheatgerm',
-    urls: {
-      getRecord: (id) => `https://openlibrary.org${id}.json`,
-      getRecords: `https://openlibrary.org/search.json`
-    }
-  });
-</script> -->
