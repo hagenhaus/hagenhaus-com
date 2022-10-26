@@ -11,33 +11,149 @@ new HHDataList({
 });
 ```
 
-This page describes all possible options including whether the option is required and, if not, what the default value is for the option.
+This page describes all possible options.
 
 # confirm
 
-# controlsAreSmall
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>function</code></td></tr>
+<tr><th>Default:</th><td><code>(title, body, yesLabel, yesCb) => { yesCb(); }</code></td></tr>
+</table>
 
-This option sets the size of `input`, `select`, and `button` html tags. The data type is `boolean`. If `true`, tags appear smaller than normal. The default value is `false`. Developers can override:
+The *confirm* value must be a function with four parameters:
 
-``` nonum
+``` js nonum
 new HHDataList({
-  controlsAreSmall: true
+  confirm: (title, body, yesLabel, yesCb) => { ... },
 });
 ```
 
-Users cannot override.
+Before performing certain actions like deleting a record, HHDataList invokes this function to enable the website to ask the user to confirm the action. HHDataList passes action-specific arguments to the function. For example, before deleting a record for a baseball player named *Casey Jones*, HHDataList passes the following arguments to the function:
+
+|Parameter|Argument|
+|-|-|
+|*title*|"Delete Record?"|
+|*body*|"Casey Jones (b. 1863)"|
+|*yesLabel*|"Delete"|
+|*yesCb*|HHDataList internal `DELETE` function|
+
+The job of the *confirm* function is to call the *yesCb* callback function if the user selects the *yesLabel*. The website can leverage its own technique for presenting the *yesLabel* to the user and obtaining a response. For example, a website might display a modal:
+
+<p><img src="delete-a-record.png" class="img-fluid d-block" width=400 loading="lazy"></p>
+
+If the website does not provide a *confirm* option to the HHDataList constructor, HHDataList performs all actions without pausing to ask the user for final confirmations.
+
+# controlsAreSmall
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>false</code></td></tr>
+</table>
+
+The *controlsAreSmall* option controls whether the sizes of the various HHDataList subcomponents are normal or small. 
+
+``` js nonum
+new HHDataList({
+  controlsAreSmall: false
+});
+```
+
+The diagram illustrates the effect of this option:
+
+<p><img src="controls-are-small.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
 # fieldColWidth
 
-# filterById
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>narrow</code></td></tr>
+<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
+</table>
+
+The *fieldColWidth* option controls the width of the fields on the Fields tab:
+
+<p><img src="field-col-width-fields-tab.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+The choices are *narrow*, *medium*, and *wide*. The diagram above reflects a *narrow* field column width as specified in this code snippet:
+
+``` js nonum
+new HHDataList({
+  fieldColWidth: 'narrow',
+});
+```
+
+Each of the three choices accommodates responsive screen widths:
+
+**narrow**
+
+<p><img src="field-col-width-narrow.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+**medium**
+
+<p><img src="field-col-width-medium.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+**wide**
+
+<p><img src="field-col-width-wide.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
 # id
 
+<table class="options-table">
+<tr><th>Required:</th><td><code>true</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+</table>
+
+The *id* value specifies the id of the html element into which the HHDataList constructor should append the HHDataList component:
+
+``` html nonum
+<div id="my-datalist" class="hh-data-list mt-4"></div>
+```
+
+``` js nonum
+new HHDataList({
+  id: 'my-datalist',
+});
+```
+
 # missingFields
 
-# paletteName
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ include: true, placeholder: 'No data' }</code></td></tr>
+</table>
 
-# queryParams
+Checked fields on the *Fields* tab dictate which fields to return for expanded records:
+
+<p><img src="missing-fields-001.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+However, some APIs do not return all fields for all records, even if the fields are checked on the Fields tab:
+
+<p><img src="missing-fields-002.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+The *missingFields* option provides a means of instructing HHDataList to display a field label and a field value for each field that, though checked on the Fields tab, does not exist in the returned record:
+
+``` js nonum
+new HHDataList({
+  missingFields: { include: true, placeholder: 'No data'},
+});
+```
+
+An included missing field might look like this:
+
+<p><img src="missing-fields-003.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+# ? queryParams
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>true</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+The *queryParams* object tells HHDataList how to specify query parameters in requests to the underlying API.
 
 Showing defaults:
 
@@ -77,16 +193,56 @@ The `choices` property sets all possible options of the `Page Size` widget. The 
 
 # recordColWidth
 
-# recordFieldValue
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>narrow</code></td></tr>
+<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
+</table>
 
-<div class="row mb-2" style="font-size:92%;">
-  <div class="col-auto">Required: <code>false</code></div>
-  <div class="col-auto">Default: <code>value</code></div>
-</div>
+The *recordColWidth* option controls the *default* width of expanded record columns:
 
-Set this option to `type`, `string`, or `value`.
+<p><img src="record-col-width.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
-# recordFields
+(To override *recordColWidth* for individual record fields, see the [recordFields](#record-fields) option.)
+
+The choices are narrow, medium, and wide. The diagram above reflects a *narrow* column width as specified in this code snippet:
+
+``` js nonum
+new HHDataList({
+  recordColWidth: 'narrow',
+});
+```
+
+Each of the three choices accommodates responsive screen widths:
+
+**narrow**
+
+<p><img src="record-col-width-narrow.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+**medium**
+
+<p><img src="record-col-width-medium.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+**wide**
+
+<p><img src="record-col-width-wide.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+# ? recordFieldValue
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>value</code></td></tr>
+<tr><th>Choices:</th><td><code>type, string, value</code></td></tr>
+</table>
+
+# ? recordFields
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>array</code></td></tr>
+</table>
 
 Specifying a recordFields option in the options object passed to the HHDataList constructor has the following impact:
 
@@ -101,9 +257,9 @@ Specifying a recordFields option in the options object passed to the HHDataList 
 1. Causes the constructor to display the Fields tab unless you set the tabs option to {fields:false}.
 1. Causes the constructor to display the New tab unless (a) you do not set isEditable:true for any fields or (b) you set the tabs option to {new:false}.
 
-# recordIdField
+# ? recordIdField
 
-# recordParity
+# ? recordParity
 
 <div class="row mb-2" style="font-size:92%;">
   <div class="col-auto">Required: <code>false</code></div>
@@ -118,51 +274,82 @@ new HHDataList({
 
 For a definition of record parity, see [Record parity](/en/hhdatalist/v0.0.2/reference/terminology/#record-parity) on the [Terminology](/en/hhdatalist/v0.0.2/reference/terminology/) page. Only set this option to *true* if the *getRecords* operation of the underlying API can return all the record properties that the *getRecord* operation can. Setting this option to *true* tells HHDataList to use a more efficient technique for scrolling expanded pages of records.
 
-# recordsAreExpanded
+# ? recordsAreExpanded
 
-# recordsAreNumbered
+# ? recordsAreNumbered
 
-# recordTitleFields
+# ? recordTitleFields
 
-# recordTitleFormat
+# ? recordTitleFormat
 
-# reportError
+# ? reportError
 
-# reportInfo
+# ? reportInfo
 
-# reportRecordFields
+# ? reportRecordFields
 
 # reportTheme
 
-``` nonum
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>function</code></td></tr>
+<tr><th>Default:</th><td><code>(theme) => { }</code></td></tr>
+</table>
+
+The *reportTheme* option is a debugging tool. If you specify a *reportTheme* function, the HHDataList constructor calls the function, passing the theme object of the HHDataList instance. Usually, a *reportTheme* function calls `console.log`:
+
+``` js nonum
 const dataList = new HHDataList({
-  reportTheme: (theme) => {console.log(JSON.stringify(theme, null, 2));}
+  reportTheme: (theme) => { 
+    const t1 = JSON.stringify(theme, null, 2);
+    const t2 = t1.replace(/"([^"]+)":/g, '$1:');
+    const t3 = t2.replace(/"/g, "'");      
+    console.log(t3);
+  },
 });
 ```
 
-# reportWarning
+Output is a full theme object. The following snippet shows only the first few properties of a theme object:
 
-# responseHelper
+``` js nonum
+{
+  name: 'My Theme',
+  tabButtonColor: 'red',
+  tabBorderColor: '#0059b3',
+  controlColor: '#ffffff',
+  controlColorHover: '#ffffff',
+  controlBorderColor: '#0073e6',
+  controlBorderColorHover: '#0059b3',
+  ...
+  ...
+}
+```
 
-# showTabDescriptions
+# ? reportWarning
 
-# tabs
+# ? responseHelper
 
-# tabDescriptions
+# ? showTabDescriptions
 
-# theme
+# ? tabs
 
-# themeName
+Add ability to set initial tab to display.
 
-# themeFromThemeName
+# ? tabDescriptions
 
-# themeFromPaletteName
+# ? theme
 
-# themeFromPalette
+# ? themeName
 
-# url
+# ? themeFromThemeName
 
-# urls
+# ? themeFromPaletteName
+
+# ? themeFromPalette
+
+# ? url
+
+# ? urls
 
 
 

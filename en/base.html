@@ -159,22 +159,18 @@
 
   <script src="/assets/scripts.js?v=46" type="module"></script>
 
-  <!-- <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhapi.min.js"></script>
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist.min.js"></script>
+  <!-- <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist.min.js"></script>
   <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist-themes.js"></script>
   <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.1/hhdatalist-palettes.js"></script>
 
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhapi.min.js"></script>
   <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js"></script>
   <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js"></script>
   <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-palettes.js"></script> -->
 
-  <script src="http://localhost:8080/hhdatalist/v0.0.1/hhapi.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.1/hhdatalist.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.1/hhdatalist-themes.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.1/hhdatalist-palettes.js?v=46"></script>
 
-  <script src="http://localhost:8080/hhdatalist/v0.0.2/hhapi.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist-themes.js?v=46"></script>
   <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist-palettes.js?v=46"></script>
@@ -240,10 +236,10 @@
       new bootstrap.Toast(toast, {}).show();
     };
 
-    function confirm(title, body, yesBtn, yesCb) {
+    function confirm(title, body, yesLabel, yesCb) {
       modalEl.querySelector('h5.modal-title').textContent = title;
       modalEl.querySelector('div.modal-body').textContent = body;
-      modalEl.querySelector('button.yes').innerHTML = yesBtn;
+      modalEl.querySelector('button.yes').innerHTML = yesLabel;
       modalYesCb = yesCb;
       modal.show();
     }

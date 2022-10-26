@@ -10,12 +10,12 @@ Include *About this version* somewhere.
 
 Next things to do:
 
-1. Integrate `hhapi.js` into `hhdatalist.js`. You may need to break out later, but integrate for now. 
-1. When checking All Fields checkbox or any of the individual field checkboxes  (when records are expanded), complete building of records before displaying. In `updateExpandedRecords`, instead of calling `getAndUpdateRecord` iteratively, call `getRecord` iteratively to get all the records, then build each record, and then display them.
 1. Organize options in docs and code.
 1. Apply style to select and textarea elements.
+1. Review all Github issues. 
 1. Add open library to Swagger.
 1. Write all docs.
+1. Make video for v0.0.2.
 
 Start v0.0.3
 1. Put hhapi into hhdatalist.
@@ -24,3 +24,23 @@ Start v0.0.3
 1. Use latest versions of bootstrap and axios
 
 https://medium.com/event-driven-utopia/event-driven-apis-understanding-the-principles-c3208308d4b2
+
+``` js nonum
+if (this.filterById) {
+  let findBtn = document.createElement('button');
+  findBtn.type = 'button';
+  findBtn.classList.add('btn', 'btn-sm', 'hh-find-created-record');
+  findBtn.innerHTML = '<i class="fas fa-search"></i>';
+  findBtn.addEventListener('click', (event) => {
+    let details = event.currentTarget.closest('details');
+    let newId = details.id.substring(4);
+    let filterStr = this.filterById(this.recordIdField, newId);
+    this.el.querySelector('input.hh-filter').value = filterStr;
+    if (this.queryParams.filter) {
+      this.queryParams.filter.value = filterStr;
+    }
+    this.getAndProcessRecords();
+  });
+  buttons.appendChild(findBtn);
+}
+```

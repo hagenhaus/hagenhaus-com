@@ -21,11 +21,6 @@ const otpPreferences = { 'none': 'none', 'show': 'show', 'hide': 'hide' };
 Object.freeze(otpPreferences);
 let otpPreference = otpPreferences.none;
 
-// For HHDataList
-const hhApiVersions = new Map();
-hhApiVersions.set('v0.0.1', HHApi001);
-hhApiVersions.set('v0.0.2', HHApi002);
-
 const hhDataListVersions = new Map();
 hhDataListVersions.set('v0.0.1', HHDataList001);
 hhDataListVersions.set('v0.0.2', HHDataList002);
@@ -229,7 +224,6 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
       style.setAttribute('href', hhstyle.href.replace(HHDataList.getVersion(), configJson.hhdatalist));
       hhstyle.parentNode.replaceChild(style, hhstyle);
 
-      HHApi = hhApiVersions.get(configJson.hhdatalist);
       HHDataList = hhDataListVersions.get(configJson.hhdatalist);
     }
 

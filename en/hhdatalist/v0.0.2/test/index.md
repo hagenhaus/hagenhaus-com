@@ -7,6 +7,7 @@
 <script>
   new HHDataList({
     confirm: confirm,
+    controlsAreSmall: false,
     fieldColWidth: 'narrow',
     id: 'open-library-works-datalist',
     missingFields: {
@@ -74,6 +75,12 @@
     // reportRecordFields: (recordFields) => {
     //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
     // },
+    // reportTheme: (theme) => { 
+    //   const t1 = JSON.stringify(theme, null, 2);
+    //   const t2 = t1.replace(/"([^"]+)":/g, '$1:');
+    //   const t3 = t2.replace(/"/g, "'");      
+    //   console.log(t3);
+    // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
@@ -82,6 +89,9 @@
       recordsArray: (data) => data.docs
     },
     themeName: 'Wheatgerm',
+    // themeFromPaletteName: {
+    //   paletteName: 'Thistle'
+    // },
     urls: {
       getRecord: (id) => `https://openlibrary.org${id}.json`,
       getRecords: `https://openlibrary.org/search.json`

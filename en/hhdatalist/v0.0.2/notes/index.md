@@ -1,6 +1,53 @@
 # Notes
 
-Steps for processing an Authors field:
+# queryParams option
+
+Deal with ` this.queryParams` and `this.paginator`.
+
+``` js nonum
+{
+  "fields": {
+    "name": "fields",
+    "default": "*",
+    "value": "*"
+  },
+  "filter": {
+    "name": "filter",
+    "none": "",
+    "default": "playerid like \"xyz%\"",
+    "value": "playerid like \"xyz%\"",
+    "placeholder": "birthyear is not null and namefirst like \"John\""
+  },
+  "order": {
+    "name": "order",
+    "default": "birthyear desc",
+    "value": "birthyear desc",
+    "placeholder": "birthyear desc, namefirst asc"
+  },
+  "page": {
+    "name": "page",
+    "value": 1
+  },
+  "limit": {
+    "name": "limit",
+    "choices": [ 1, 5, 10, 15, 20, 50, 100 ],
+    "default": 5,
+    "value": 5
+  }
+}
+```
+
+Associate each `queryParams` property with HHDataList subcomponents:
+
+1. fields
+    1. No Fields Tab because you cannot pass fields in query.
+    1. No New Tab because you don't know which fields to use in a create.
+1. filter
+1. order
+1. page
+1. limit
+
+# Authors field
 
 1. The original Authors value looks like this:
 

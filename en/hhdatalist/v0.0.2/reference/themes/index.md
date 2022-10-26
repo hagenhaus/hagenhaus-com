@@ -819,3 +819,13 @@ new HHDataList({
 ## Theme functions
 
 ## Palette functions
+
+# Displaying themes
+
+``` js nonum
+let theme = HHDataList.buildThemeFromPaletteName('dodger blue', 'My Theme', { tabButtonColor: 'red' });
+const t1 = JSON.stringify(theme, null, 2);
+const t2 = t1.replace(/"([^"]+)":/g, '$1:');
+const t3 = t2.replace(/"/g, "'");      
+console.log(t3);
+```
