@@ -18,10 +18,15 @@
     id: 'baseball-players-datalist',
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'filter', default: 'playerid like "xyz%"', placeholder: 'birthyear is not null and namefirst like "John"' },
+      filter: { 
+        name: 'filter', 
+        default: 'playerid like "xyz%"', 
+        // default: 'birthyear is not null and namefirst is not null and namelast is not null', 
+        // default: 'birthyear is null',
+        placeholder: 'birthyear is not null and namefirst like "John"' },
       order: { name: 'order', default: 'birthyear desc', placeholder: 'birthyear desc, namefirst asc' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 5, 10, 15, 20, 50, 100], default: 5
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3
       }
     },
     recordColWidth: 'narrow',
@@ -62,8 +67,10 @@
     recordParity: true,
     recordsAreExpanded: false,
     recordsAreNumbered: true,
-    recordTitleFields: ['nameFirst', 'nameLast', 'birthYear'],
-    recordTitleFormat: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`,
+    recordTitle: {
+      fields: ['nameFirst', 'nameLast', 'birthYear'],
+      format: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`
+    },
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
@@ -140,8 +147,10 @@
     ],
     recordIdField: 'ID',
     recordParity: true,
-    recordTitleFields: ['name','yearID'],
-    recordTitleFormat: (f, r) => `${r[f[0]]} (${r[f[1]]})`,
+    recordTitle: {
+      fields: ['name','yearID'],
+      format: (f, r) => `${r[f[0]]} (${r[f[1]]})`
+    },
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
@@ -177,6 +186,8 @@
       offset: { name: 'offset' },
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
+    recordColWidth: 'narrow',
+    recordFieldValue: 'value',
     recordFields: [
       { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium' }, 
       { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium', get: (value) => value.key }, 
@@ -221,14 +232,13 @@
     ],
     recordIdField: 'key',
     recordsAreExpanded: true,
-    recordTitleFields: ['name'],
-    recordTitleFormat: (f, r) => `${r[f[0]]}`,
+    recordTitle: {
+      fields: ['name'],
+      format: (f, r) => `${r[f[0]]}`
+    },
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    // reportRecordFields: (recordFields) => {
-    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
-    // },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
@@ -275,14 +285,13 @@
     ],
     recordIdField: 'key',
     recordsAreExpanded: true,
-    recordTitleFields: ['name'],
-    recordTitleFormat: (f, r) => `${r[f[0]]}`,
+    recordTitle: {
+      fields: ['name'],
+      format: (f, r) => `${r[f[0]]}`
+    },
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
-    // reportRecordFields: (recordFields) => {
-    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
-    // },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
@@ -299,7 +308,7 @@
 
 ## Works
 
-<!-- <div id="open-library-works-datalist" class="hh-data-list"></div>
+<div id="open-library-works-datalist" class="hh-data-list"></div>
 
 <script>
   new HHDataList({
@@ -365,13 +374,12 @@
     ],
     recordIdField: 'key',
     recordsAreExpanded: true,
-    recordTitleFields: ['title'],
-    recordTitleFormat: (f, r) => `${r[f[0]]}`,
+    recordTitle: {
+      fields: ['title'],
+      format: (f, r) => `${r[f[0]]}`
+    },
     reportError: (type, title, detail) => { reportError(type, title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    // reportRecordFields: (recordFields) => {
-    //   console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
-    // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
@@ -385,5 +393,5 @@
       getRecords: `https://openlibrary.org/search.json`
     }
   });
-</script> -->
+</script>
 

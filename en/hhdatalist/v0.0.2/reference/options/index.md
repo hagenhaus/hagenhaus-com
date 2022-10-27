@@ -1,13 +1,11 @@
 # Options
 
-The HHDataList constructor requires an *options* argument of type *object*. Below is an example of an *options* argument with four options: `id`, `recordIdField`, `recordTitleField`, and `url`:
+The HHDataList constructor requires an *options* argument of type *object*. Below is an example of an *options* argument:
 
 ``` js nonum
 new HHDataList({
-  id: 'datalist-dodger-blue',
-  recordIdField: 'ID',
-  recordTitleFields: ['parkname'],
-  url: `https://hagenhaus.com/api/baseball/v1/parks`,
+  id: 'my-data-list',
+  url: `https://domain.com/api/v1/records`,
 });
 ```
 
@@ -40,7 +38,7 @@ Before performing certain actions like deleting a record, HHDataList invokes thi
 
 The job of the *confirm* function is to call the *yesCb* callback function if the user selects the *yesLabel*. The website can leverage its own technique for presenting the *yesLabel* to the user and obtaining a response. For example, a website might display a modal:
 
-<p><img src="delete-a-record.png" class="img-fluid d-block" width=400 loading="lazy"></p>
+<p><img src="confirm.png" class="img-fluid d-block" width=400 loading="lazy"></p>
 
 If the website does not provide a *confirm* option to the HHDataList constructor, HHDataList performs all actions without pausing to ask the user for final confirmations.
 
@@ -89,15 +87,15 @@ Each of the three choices accommodates responsive screen widths:
 
 **narrow**
 
-<p><img src="field-col-width-narrow.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="field-col-width-narrow.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 **medium**
 
-<p><img src="field-col-width-medium.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="field-col-width-medium.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 **wide**
 
-<p><img src="field-col-width-wide.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="field-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 # id
 
@@ -218,17 +216,17 @@ Each of the three choices accommodates responsive screen widths:
 
 **narrow**
 
-<p><img src="record-col-width-narrow.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="record-col-width-narrow.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 **medium**
 
-<p><img src="record-col-width-medium.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="record-col-width-medium.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 **wide**
 
-<p><img src="record-col-width-wide.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+<p><img src="record-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# ? recordFieldValue
+# recordFieldValue
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -236,6 +234,26 @@ Each of the three choices accommodates responsive screen widths:
 <tr><th>Default:</th><td><code>value</code></td></tr>
 <tr><th>Choices:</th><td><code>type, string, value</code></td></tr>
 </table>
+
+The *recordFieldValue* option is a debugging tool:
+
+``` js nonum
+new HHDataList({
+  recordFieldValue: 'value',
+});
+```
+
+When set to the default *value* value, HHDataList displays normal record field values:
+
+<p><img src="record-field-value-value.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+When set to *type*, HHDataList displays record field types:
+
+<p><img src="record-field-value-type.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+When set to *string*, HHDataList displays stringified record field values:
+
+<p><img src="record-field-value-string.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 # ? recordFields
 
@@ -257,36 +275,178 @@ Specifying a recordFields option in the options object passed to the HHDataList 
 1. Causes the constructor to display the Fields tab unless you set the tabs option to {fields:false}.
 1. Causes the constructor to display the New tab unless (a) you do not set isEditable:true for any fields or (b) you set the tabs option to {new:false}.
 
-# ? recordIdField
+# recordIdField
 
-# ? recordParity
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>id</code></td></tr>
+</table>
 
-<div class="row mb-2" style="font-size:92%;">
-  <div class="col-auto">Required: <code>false</code></div>
-  <div class="col-auto">Default: <code>false</code></div>
-</div>
+The *recordIdField* value is the field name of the unique identifier field for the records:
 
 ``` js nonum
 new HHDataList({
-  recordParity: true
+  recordIdField: 'key',
 });
 ```
 
-For a definition of record parity, see [Record parity](/en/hhdatalist/v0.0.2/reference/terminology/#record-parity) on the [Terminology](/en/hhdatalist/v0.0.2/reference/terminology/) page. Only set this option to *true* if the *getRecords* operation of the underlying API can return all the record properties that the *getRecord* operation can. Setting this option to *true* tells HHDataList to use a more efficient technique for scrolling expanded pages of records.
+The example above is appropriate for the following record:
 
-# ? recordsAreExpanded
+``` js nonum
+{
+  key: '/authors/OL24638A',
+  name: 'Charles Dickens',
+  birth_date: '7 February 1812',
+  death_date: '9 June 1870',
+  alternate_names: [
+    'Charles John Huffam Dickens',
+    '\u30c7\u30a3\u30b1\u30f3\u30ba,\u30c1\u30e3\u30fc\u30eb\u30ba',
+    'Charles Dickens, Jr.',
+    'Charles Culliford Boz Dickens',
+    '(ying) Digengsi',
+    '(ying) Di, geng si'
+  ],
+  wikipedia: 'http://en.wikipedia.org/wiki/Charles_Dickens'
+}
+```
 
-# ? recordsAreNumbered
+# recordParity
 
-# ? recordTitleFields
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>false</code></td></tr>
+</table>
 
-# ? recordTitleFormat
+``` js nonum
+new HHDataList({
+  recordParity: true,
+});
+```
+
+Record parity is a characteristic of a *getRecords* operation. If a particular *getRecords* operation can return all the record properties for all records that the corresponding *getRecord* operation can for a single record, then *recordParity* is *true* for that *getRecords* operation. Here, for example, is the response data from a *getRecords* operation possessing record parity:
+
+``` json nonum
+{
+  "records": [
+    { /* any or all record properties */ },
+    { /* any or all record properties */ },
+    { /* any or all record properties */ },
+    { /* any or all record properties */ },
+    { /* any or all record properties */ }
+  ]
+}
+```
+
+And, here is the response data from the corresponding *getRecord* operation:
+
+``` json nonum
+{ /* any or all record properties */ }
+```
+
+HHDataList displays a page of expanded records differently depending on whether the underlying *getRecords* operation possesses record parity. If so, HHDataList, through a single call to *getRecords*, obtains all the data it needs to display a page of expanded records. If not, HHDataList calls *getRecords* to return an array of barebones records, and then it calls *getRecord* for each record in the array to return and display record properties.
+
+So, if you know that the *getRecords* operation of the underlying API can return all the record properties that the *getRecord* operation can, then you can set this option to *true* thus enabling HHDataList to use a more efficient technique for scrolling expanded pages of records.
+
+# recordsAreExpanded
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>false</code></td></tr>
+</table>
+
+The *recordsAreExpanded* option specifies whether records (on page load) are collapsed or expanded:
+
+``` js nonum
+new HHDataList({
+  recordsAreExpanded: false,
+});
+```
+
+These records are collapsed:
+
+<p><img src="records-are-expanded-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+These records are expanded:
+
+<p><img src="records-are-expanded-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+The user can check or uncheck the *Expander* button to alter this setting.
+
+# recordsAreNumbered
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>true</code></td></tr>
+</table>
+
+The *recordsAreNumbered* option specifies whether records (on page load) are numbered or unnumbered:
+
+``` js nonum
+new HHDataList({
+  recordsAreNumbered: true,
+});
+```
+
+These records are numbered:
+
+<p><img src="records-are-numbered-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+These records are unnumbered:
+
+<p><img src="records-are-numbered-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+The user can check or uncheck the *Records are numbered* button to alter this setting.
+
+# recordTitle
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ fields: [options.recordIdField],  format: (fields, record) => { return record[fields[0]]; }}</code></td></tr>
+</table>
+
+The *recordTitle* object specifies the list and arrangement of record fields that compose record titles:
+
+``` js nonum
+new HHDataList({
+  recordTitle: {
+    fields: ['nameFirst', 'nameLast', 'birthYear'],
+    format: (fields, record) => `${record[fields[0]]} ${record[fields[1]]} (b. ${record[fields[2]]})`
+  },
+});
+```
+
+The example above arranges the *namefirst*, *namelast*, and *birthyear* record fields to produce the following titles:
+
+<p><img src="record-title-001.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+You can support `null` field values with conditionals:
+
+``` js nonum
+`(b. ${record[fields[2]] ? record[fields[2]] : 'unknown'})`
+```
+
+<p><img src="record-title-002.png" class="img-fluid d-block" width=420 loading="lazy"></p>
+
+If you do not specify a *recordTitle* option, HHDataList uses the `options.recordIdField` field for the record title:
+
+<p><img src="record-title-003.png" class="img-fluid d-block" width=420 loading="lazy"></p>
 
 # ? reportError
 
 # ? reportInfo
 
 # ? reportRecordFields
+
+``` js nonum
+reportRecordFields: (recordFields) => {
+  console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
+},
+```
 
 # reportTheme
 
@@ -327,7 +487,26 @@ Output is a full theme object. The following snippet shows only the first few pr
 
 # ? reportWarning
 
-# ? responseHelper
+# responseHelper
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>true</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+The *responseHelper* object consists of functions that enable HHDataList to extract information from *getRecords* API operations: 
+
+``` js nonum
+const dataList = new HHDataList({
+  responseHelper: {
+    numPages: (data, limit) => { },    // optional
+    numResponseRecords: (data) => { }, // optional
+    numMatchedRecords: (data) => { },  // optional
+    numTotalRecords: (data) => { },    // optional
+    recordsArray: (data) => { }        // required
+  },
+});
+```
 
 # ? showTabDescriptions
 
@@ -344,6 +523,14 @@ Add ability to set initial tab to display.
 # ? themeFromThemeName
 
 # ? themeFromPaletteName
+
+``` js nonum
+new HHDataList({
+  themeFromPaletteName: {
+    paletteName: 'Thistle'
+  },
+});
+```
 
 # ? themeFromPalette
 
