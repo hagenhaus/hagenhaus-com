@@ -75,11 +75,11 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
+      recordsArray: (data) => data.records,
       numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-      numTotalRecords: (data) => data.metadata.numTotalRecords,
-      recordsArray: (data) => data.records
+      numTotalRecords: (data) => data.metadata.numTotalRecords
     },
     showTabDescriptions: true,
     tabDescriptions: {
@@ -155,11 +155,11 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
+      recordsArray: (data) => data.records,
       numPages: (data, limit) => data.metadata.numTotalPages,
       numResponseRecords: (data) => data.metadata.numResponseRecords,
       numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-      numTotalRecords: (data) => data.metadata.numTotalRecords,
-      recordsArray: (data) => data.records
+      numTotalRecords: (data) => data.metadata.numTotalRecords
     },
     url: `${getDomain()}/api/baseball/v1/teams`,
   });
@@ -240,10 +240,10 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
+      recordsArray: (data) => data.docs,
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound,
-      recordsArray: (data) => data.docs
+      numMatchedRecords: (data) => data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {
@@ -293,10 +293,10 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
+      recordsArray: (data) => data.docs,
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound,
-      recordsArray: (data) => data.docs
+      numMatchedRecords: (data) => data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {
@@ -325,7 +325,7 @@
       filter: { name: 'q', none: '*', default: 'snow' }, // Snow Falling on Cedars, On San Piedro
       order: { name: 'sort' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 5 }
     },
     recordColWidth: 'medium',
     recordFieldValue: 'value',
@@ -373,7 +373,7 @@
       }
     ],
     recordIdField: 'key',
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordTitle: {
       fields: ['title'],
       format: (f, r) => `${r[f[0]]}`
@@ -382,10 +382,10 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
+      recordsArray: (data) => data.docs,
       numPages: (data, limit) => Math.ceil(data.numFound / limit),
       numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound,
-      recordsArray: (data) => data.docs
+      numMatchedRecords: (data) => data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {
