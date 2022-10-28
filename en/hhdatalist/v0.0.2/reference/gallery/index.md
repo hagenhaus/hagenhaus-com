@@ -71,7 +71,7 @@
       fields: ['nameFirst', 'nameLast', 'birthYear'],
       format: (f, r) => `${r[f[0]] ? r[f[0]] : ''} ${r[f[1]]} (b. ${r[f[2]] ? r[f[2]] : 'unknown'})`
     },
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
@@ -151,7 +151,7 @@
       fields: ['name','yearID'],
       format: (f, r) => `${r[f[0]]} (${r[f[1]]})`
     },
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
@@ -236,7 +236,7 @@
       fields: ['name'],
       format: (f, r) => `${r[f[0]]}`
     },
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
@@ -289,7 +289,7 @@
       fields: ['name'],
       format: (f, r) => `${r[f[0]]}`
     },
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
@@ -378,7 +378,7 @@
       fields: ['title'],
       format: (f, r) => `${r[f[0]]}`
     },
-    reportError: (type, title, detail) => { reportError(type, title, detail); },
+    reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {

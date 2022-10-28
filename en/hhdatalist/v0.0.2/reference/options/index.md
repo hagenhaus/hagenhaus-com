@@ -436,17 +436,47 @@ If you do not specify a *recordTitle* option, HHDataList uses the `options.recor
 
 <p><img src="record-title-003.png" class="img-fluid d-block" width=420 loading="lazy"></p>
 
-# ? reportError
+# reportError
 
-# ? reportInfo
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>function</code></td></tr>
+<tr><th>Default:</th><td><code>(title, detail) => { }</code></td></tr>
+</table>
 
-# ? reportRecordFields
+HHDataList invokes the client-defined *reportError* function (if specified) when HHDataList encounters an error:
 
 ``` js nonum
-reportRecordFields: (recordFields) => {
-  console.log(JSON.stringify(recordFields).replace(/"([^"]+)":/g, '$1:'));
-},
+const dataList = new HHDataList({
+  reportError: (title, detail) => { reportError(title, detail); },
+});
 ```
+
+`reportError(title, detail)` is a client-defined error handler that might, for example, display a *toast* component like this:
+
+<p><img src="report-error.png" class="img-fluid d-block" width=380 loading="lazy"></p>
+
+The *More* link is not part of the *detail* string. It is, rather, built by this particular client-defined function.
+
+# reportInfo
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>function</code></td></tr>
+<tr><th>Default:</th><td><code>(title, detail) => { }</code></td></tr>
+</table>
+
+HHDataList invokes the client-defined *reportInfo* function (if specified) when HHDataList completes certain tasks:
+
+``` js nonum
+const dataList = new HHDataList({
+  reportInfo: (title, detail) => { reportInfo(title, detail); },
+});
+```
+
+`reportInfo(title, detail)` is a client-defined message handler that might, for example, display a *toast* component like this:
+
+<p><img src="report-info.png" class="img-fluid d-block" width=380 loading="lazy"></p>
 
 # reportTheme
 
@@ -485,7 +515,7 @@ Output is a full theme object. The following snippet shows only the first few pr
 }
 ```
 
-# ? reportWarning
+To learn more, see [Themes](/en/hhdatalist/v0.0.2/reference/themes/).
 
 # responseHelper
 
@@ -494,7 +524,7 @@ Output is a full theme object. The following snippet shows only the first few pr
 <tr><th>Type:</th><td><code>object</code></td></tr>
 </table>
 
-The *responseHelper* object consists of user-defined functions that enable HHDataList to extract information from *getRecords* response data: 
+The *responseHelper* object consists of client-defined functions that enable HHDataList to extract information from *getRecords* response data: 
 
 ``` js nonum
 const dataList = new HHDataList({
@@ -510,7 +540,7 @@ const dataList = new HHDataList({
 
 HHDataList uses the *recordsArray* function to find the records array in the response data. It uses the other functions (if they exist) to update the *Counters Row*:
 
-<p><img src="response-helper.png" class="img-fluid d-block" width=640 loading="lazy"></p>
+<p><img src="response-helper-001.png" class="img-fluid d-block" width=640 loading="lazy"></p>
 
 ### Example 1
 
@@ -581,6 +611,12 @@ const dataList = new HHDataList({
 });
 ```
 
+Note that this response data does not contain information about the total number of records, so the *responseHelper* object does not define a *numTotalRecords* function, and HHDataList does not display a total records count:
+
+<p><img src="response-helper-002.png" class="img-fluid d-block" width=480 loading="lazy"></p>
+
+
+
 # ? showTabDescriptions
 
 # ? tabs
@@ -589,40 +625,171 @@ Add ability to set initial tab to display.
 
 # ? tabDescriptions
 
-# ? theme
+# theme
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
 </table>
 
-# ? themeName
-
-# ? themeFromThemeName
-
-# ? themeFromPaletteName
+The *theme* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
 
 ``` js nonum
 new HHDataList({
-  themeFromPaletteName: {
-    paletteName: 'Thistle'
+  theme: {
+    name: 'My Red Theme',
+    tabButtonColor: '#961d1d',
+    tabBorderColor: '#961d1d',
+    controlColor: '#ffffff',
+    controlColorHover: '#ffffff',
+    controlBorderColor: '#da3e3e',
+    ...
   },
 });
 ```
 
-# ? themeFromPalette
+# themeName
 
-# ? url
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+</table>
 
-# ? urls
+The *themeName* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
 
+``` js nonum
+new HHDataList({
+  themeName: 'Wheatgerm',
+});
+```
 
+# themeFromThemeName
 
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
 
+The *themeFromThemeName* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
 
+``` js nonum
+new HHDataList({
+  themeFromThemeName: {
+    themeName: 'Silverberry',
+    newThemeName: 'My Silverberry Theme',
+    overrides: {
+      tabButtonColor: 'red'
+    }
+  },
+});
+```
 
+# themeFromPaletteName
 
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
 
+The *themeFromPaletteName* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
 
+``` js nonum
+new HHDataList({
+  themeFromPaletteName: {
+    paletteName: 'Silverberry',
+    newThemeName: 'My Silverberry Theme',
+    overrides: {
+      tabButtonColor: 'blue'
+    }
+  },
+});
+```
 
+# themeFromPalette
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+The *themeFromPalette* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
+
+``` js nonum
+new HHDataList({
+  themeFromPalette: {
+    palette: {
+      color1: '#ffffff',
+      color2: '#fcf5e8',
+      color3: '#f9ebd2',
+      color4: '#f6e2bb',
+      color5: '#e29d1d',
+      color6: '#875e12'
+    },
+    newThemeName: 'My Silverberry',
+    overrides: {
+      tabButtonColor: 'green'
+    }
+  },
+});
+```
+
+# url
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+</table>
+
+The *url* option specifies the base endpoint for all API operations. The options argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
+
+``` js nonum
+new HHDataList({
+  url: `https://domain.com/api/v1/records`,
+});
+```
+
+The HHDataList constructor, making certain assumptions, uses the *url* option to build operation-specific endpoints. Here are examples (using the url specified above):
+
+|Operation|Endpoint|
+|-|-|
+|`DELETE`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`GET ONE`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`GET MANY`|`https://domain.com/api/v1/records`|
+|`PATCH`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`POST`|`https://domain.com/api/v1/records`|
+|`PUT`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+
+# urls
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+The *urls* object specifies the endpoints for all API operations. The options argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
+
+``` js nonum
+new HHDataList({
+  urls: {
+    deleteRecord: (id) => `https://domain.com/api/v1/records/${id}`,
+    getRecord: (id) => `https://domain.com/api/v1/records/${id}`,
+    getRecords: `https://domain.com/api/v1/records`,
+    patchRecord: (id) => `https://domain.com/api/v1/records/${id}`,
+    postRecord: `https://domain.com/api/v1/records`,
+    putRecord: (id) => `https://domain.com/api/v1/records/${id}`
+  },
+});
+```
+
+HHDataList passes `options.recordIdField` as the `id` argument to the client-defined functions in the `urls` object.
+
+If the HHDataList instance supports only `GET` operations, the `urls` object need only specify `GET` properties:
+
+``` js nonum
+new HHDataList({
+  urls: {
+    getRecord: (id) => `https://openlibrary.org${id}.json`,
+    getRecords: `https://openlibrary.org/search.json`
+  },
+});
+```
