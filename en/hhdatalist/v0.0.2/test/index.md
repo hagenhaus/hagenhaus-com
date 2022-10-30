@@ -1,5 +1,7 @@
 # Test
 
+## Players
+
 <div id="baseball-players-datalist" class="hh-data-list mt-4"></div>
 
 <script>
@@ -8,6 +10,10 @@
     controlsAreSmall: false,
     fieldColWidth: 'narrow',
     id: 'baseball-players-datalist',
+    inclusions: {
+      recordsAreNumberedCbx: true,
+      showTabDescriptionsCbx: true
+    },
     queryParams: {
       fields: { name: 'fields', default: '*' },
       filter: { 
@@ -18,7 +24,7 @@
         placeholder: 'birthyear is not null and namefirst like "John"' },
       order: { name: 'order', default: 'birthyear desc', placeholder: 'birthyear desc, namefirst asc' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 5
       }
     },
     recordColWidth: 'narrow',
@@ -77,7 +83,7 @@
     tabDescriptions: {
       home: 'Manage baseball player records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.',
       search: 'Filter and order records. <a href="/en/docs/rest-api/query-parameters/" target="_blank">Learn more</a>.',
-      fields: 'Specify fields to appear in records.',
+      fields: 'Specify fields to appear in expanded records.',
       new: 'Create a new record.',
       created: 'This is the new record.',
       config: 'Set additional configuration parameters.'

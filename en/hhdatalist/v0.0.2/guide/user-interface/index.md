@@ -6,13 +6,13 @@ The HHDataList user interface is divided into four rows, and the Tabs Row is div
 
 # Tabs row
 
+# Tabs row
+
 ## Home tab
 
 ## Search tab
 
 ## Fields tab
-
-The fields represent some or all of the fields that make up a record returned by getRecord. 
 
 ## New tab
 

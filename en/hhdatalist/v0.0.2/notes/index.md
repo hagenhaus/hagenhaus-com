@@ -298,3 +298,48 @@ Associate each `queryParams` property with HHDataList subcomponents:
 1. Put each record.name in an option element.
 1. Create a select element.
 1. Add the options to the select.
+
+# Functionality
+
+This list shows all functionality. 
+
+1. Tabs Row
+    1. Home Tab
+        1. Description
+    1. Search Tab
+        1. Filter
+        1. Order
+        1. Description
+    1. Fields Tab
+        1. All Fields checkbox
+        1. Fields checkboxes
+        1. Description
+    1. New Tab
+        1. createRecord (Does `POST` return new record fields for display?)
+        1. Description
+    1. Config Tab
+        1. recordsAreNumbered
+        1. showTabDescriptions
+        1. Description
+1. Counters Row
+    1. numPages
+    1. numResponseRecords
+    1. numMatchedRecords
+    1. numTotalRecords
+1. Navigation Row
+    1. Navigator
+    1. Limiter
+    1. Expander
+1. Records Row
+    1. Expand/collapse record
+    1. Refresh Record
+    1. Edit Record (`PUT` or `PATCH`)
+    1. Delete Record
+
+The functionality that the user sees is based on the following:
+
+1. API capability.
+1. Options describing the API capability which turn on HHDataList features.
+1. Options overriding options describing the API capability which turn off HHDataList functionality.
+
+Certain values should stay in options and be used during construction without being saved in the class instance.

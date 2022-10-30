@@ -1,5 +1,7 @@
 # Options
 
+Note: Refer readers to Tutorial or Guide to learn how to use these options together.
+
 The HHDataList constructor requires an *options* argument of type *object*. Below is an example of an *options* argument:
 
 ``` js nonum
@@ -113,6 +115,35 @@ The *id* value specifies the id of the html element into which the HHDataList co
 ``` js nonum
 new HHDataList({
   id: 'my-datalist',
+});
+```
+
+# inclusionLevel
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>number</code></td></tr>
+</table>
+
+``` js nonum
+new HHDataList({
+  inclusionLevel: 1,
+});
+```
+
+# inclusions
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+``` js nonum
+new HHDataList({
+  inclusions: {
+    recordsAreNumberedCbx: true,
+    showTabDescriptionsCbx: true
+  },
 });
 ```
 
@@ -357,7 +388,7 @@ So, if you know that the *getRecords* operation of the underlying API can return
 <tr><th>Default:</th><td><code>false</code></td></tr>
 </table>
 
-The *recordsAreExpanded* option specifies whether records (on page load) are collapsed or expanded:
+The *recordsAreExpanded* option specifies whether records are collapsed or expanded on page load:
 
 ``` js nonum
 new HHDataList({
@@ -383,7 +414,7 @@ The user can check or uncheck the *Expander* button to alter this setting.
 <tr><th>Default:</th><td><code>true</code></td></tr>
 </table>
 
-The *recordsAreNumbered* option specifies whether records (on page load) are numbered or unnumbered:
+The *recordsAreNumbered* option specifies whether records are numbered or unnumbered on page load:
 
 ``` js nonum
 new HHDataList({
@@ -615,15 +646,68 @@ Note that this response data does not contain information about the total number
 
 <p><img src="response-helper-002.png" class="img-fluid d-block" width=480 loading="lazy"></p>
 
+# showTabDescriptions
 
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>true</code></td></tr>
+</table>
 
-# ? showTabDescriptions
+The *showTabDescriptions* option specifies whether tab descriptions (if they exist) are displayed on page load. 
 
-# ? tabs
+``` js nonum
+const dataList = new HHDataList({
+  showTabDescriptions: true
+});
+```
 
-Add ability to set initial tab to display.
+The following diagram shows a tab description:
 
-# ? tabDescriptions
+<p><img src="show-tab-descriptions.png" class="img-fluid d-block" width=500 loading="lazy"></p>
+
+The [tabDescriptions](#tabdescriptions) option defines tab descriptions.
+
+# tabDescriptions
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>null</code></td></tr>
+</table>
+
+The *tabDescriptions* object specifies custom descriptions for one or more tabs:
+
+``` js nonum
+const dataList = new HHDataList({
+  tabDescriptions: {
+      home: 'These words appear on the Home tab.',
+      search: 'These words appear on the Search tab.',
+      fields: 'These words appear on the Fields tab.',
+      new: 'These words appear on the New tab above the New Form.',
+      created: 'These words appear on the New tab above the Created Form.',
+      config: 'These words appear on the Config tab.'
+    },
+});
+```
+
+The following diagram shows a tab description:
+
+<p><img src="tab-descriptions.png" class="img-fluid d-block" width=500 loading="lazy"></p>
+
+The *tabDescriptions* object can include only one or a few properties, and descriptions can include HTML:
+
+``` js nonum
+const dataList = new HHDataList({
+  tabDescriptions: {
+      home: 'Manage baseball player records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.'
+    },
+});
+```
+
+The *tabDescription* object above might render like this:
+
+<p><img src="show-tab-descriptions.png" class="img-fluid d-block" width=500 loading="lazy"></p>
 
 # theme
 
@@ -740,7 +824,7 @@ new HHDataList({
 <tr><th>Type:</th><td><code>string</code></td></tr>
 </table>
 
-The *url* option specifies the base endpoint for all API operations. The options argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
+The *url* option specifies the base endpoint for all API operations. While the *url* option is not required, the *options* argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
 
 ``` js nonum
 new HHDataList({
@@ -766,7 +850,7 @@ The HHDataList constructor, making certain assumptions, uses the *url* option to
 <tr><th>Type:</th><td><code>object</code></td></tr>
 </table>
 
-The *urls* object specifies the endpoints for all API operations. The options argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
+The *urls* object specifies the endpoints for all API operations. While the *urls* option is not required, the *options* argument passed to the HHDataList constructor must specify either a *url* or a *urls* option:
 
 ``` js nonum
 new HHDataList({
