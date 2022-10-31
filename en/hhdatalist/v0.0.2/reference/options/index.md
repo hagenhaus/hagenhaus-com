@@ -286,12 +286,141 @@ When set to *string*, HHDataList displays stringified record field values:
 
 <p><img src="record-field-value-string.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# ? recordFields
+# recordFields
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>array</code></td></tr>
+<tr><th>Default:</th><td><code>null</code></td></tr>
 </table>
+
+The *recordFields* value is an array of objects, each of which represents a record field:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
+    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide' }
+  ],
+});
+```
+
+Each `field` object must include a `name` property and may include additional properties. The properties are listed in the following table and described in more detail below the table:
+
+|Property|Required|Type|Default|
+|-|-|-|-|
+|`name`|`true`|`string`||
+|`label`|`false`|`string`|`field.name`|
+|`isChecked`|`false`|`boolean`|`true`|
+|`isEditable`|`false`|`boolean`|`false`|
+|`isRequired`|`false`|`boolean`|`false`|
+|`colWidth`|`false`|`string`|`options.recordColWidth`|
+|`subtype`|`false`|`object`|`{ name: 'input' }`|
+|`get`|`false`|`function`|`(value) => value`|
+
+### name
+
+A `name` value identifies a record field in REST API `GET MANY` response data. Consider this response data:
+
+``` nonum
+{
+  "key": "/works/OL53908W",
+  "title": "Adventures of Huckleberry Finn"
+}
+```
+
+The following `name` properties are appropriate for this response data:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key" }, 
+    { name: "title" }
+  ],
+});
+```
+
+### label
+
+A `label` value provides a user-friendly alias for the `name` value:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key" }, 
+    { name: "title", label: "Title" }
+  ],
+});
+```
+
+Labels appear in expanded records:
+
+<p><img src="record-fields-002.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+### isChecked
+
+An `isChecked` value dictates whether the field is checked on the *Fields* tab on page load:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false }, 
+    { name: "title", label: "Title", isChecked: true }
+  ],
+});
+```
+
+The `recordFields` array above has the following effect on the *Fields* tab:
+
+<p><img src="record-fields-003.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+### isEditable
+
+An `isEditable` value determines (with a caveat) (1) whether the field is editable in *Edit* mode, and (2) whether the field appears on the *New Record* form on the *New* tab. 
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false, isEditable: false }, 
+    { name: "title", label: "Title", isChecked: true, isEditable: true }
+  ],
+});
+```
+
+Editable fields become editable in *Edit* mode:
+
+<p><img src="record-fields-004.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+Editable fields appear on *New* forms:
+
+<p><img src="record-fields-005.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+The caveat is a field can be editable only if the field subtype is *input* or *text*.
+
+### isRequired
+
+An `isRequired` value determines whether a field on a *New* form must be populated before the *Create* button works:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false, isEditable: false }, 
+    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true }
+  ],
+});
+```
+
+The asterisk and color indicate a required field:
+
+<p><img src="record-fields-006.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+### colWidth
+
+### subtype
+
+### get
+
+---
 
 Specifying a recordFields option in the options object passed to the HHDataList constructor has the following impact:
 
