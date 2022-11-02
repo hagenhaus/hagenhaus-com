@@ -196,7 +196,7 @@
       filter: { name: 'q', none: '*', default: 'name=john'},
       order: { name: 'sort' }, 
       offset: { name: 'offset' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
     recordColWidth: 'narrow',
     recordFieldValue: 'value',
@@ -243,7 +243,7 @@
       },
     ],
     recordIdField: 'key',
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordTitle: {
       fields: ['name'],
       format: (f, r) => `${r[f[0]]}`
@@ -343,46 +343,50 @@
     recordFieldValue: 'value',
     recordFields: [
       { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
-      // { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, get: (value) => value.key }, 
+      { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, get: (value) => value.key }, 
       { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true, colWidth: 'wide' }, 
-      // { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, isRequired: false, colWidth: 'wide' }, 
-      // { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false, subtype: { name: "endpoint", field: (data) => data.name }, get: (value) => {
-      //   const a = [];
-      //   for (let i of value) { a.push(i.author.key); }
-      //   return a;
-      // }},
-      // { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: true, isRequired: false }, 
-      // { name: "description", label: "Description", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text", rows: 4 }, get: (value) => {
-      //   if (typeof value === 'object') {
-      //     return value.value;
-      //   } else {
-      //     return value;
-      //   }
-      // }},
-      // { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, get: (value) => value.value }, 
-      // { name: "excerpts", label: "Excerpts", isChecked: false, isEditable: false, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, get: (value) => {
-      //   const a = [];
-      //   for (let i of value) { a.push(i.excerpt); }
-      //   return a;
-      // }},
-      // { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false}, 
-      // { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
-      // { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
-      // { name: "subject_times", label: "Subject Times", isChecked: true, isEditable: false, isRequired: false },
-      // { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
-      // { name: "links", label: "Links", isChecked: true, isEditable: false, isRequired: false, subtype: {name: "link" }, get: (value) => {
-      //   const a = [];
-      //   for (let i of value) { a.push({url: i.url, title: i.title}); }
-      //   return a;
-      // }}, 
-      // { name: "dewey_number", label: "Dewey Number", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
-      // { name: "revision", label: "Revision", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
-      // { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', get: (value) => 
-      //   new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
-      // },
-      // { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', get: (value) => 
-      //   new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
-      // }
+      { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, isRequired: false, colWidth: 'wide' }, 
+      { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false, subtype: { name: "endpoint", field: (data) => data.name }, get: (value) => {
+        const a = [];
+        for (let i of value) { a.push(i.author.key); }
+        return a;
+      }},
+      { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: true, isRequired: false }, 
+      { name: "description", label: "Description", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text", rows: 4 }, get: (value) => {
+        if (typeof value === 'object') {
+          return value.value;
+        } else {
+          return value;
+        }
+      }},
+      { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, get: (value) => value.value }, 
+      { name: "excerpts", label: "Excerpt", isChecked: false, isEditable: false, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, get: (value) => {
+        if(Array.isArray(value) && value.length && typeof value[0] === 'object' && 'excerpt' in value[0]) {
+          if(typeof value[0].excerpt === 'string') {
+            return value[0].excerpt;
+          } else if (typeof value[0].excerpt === 'object' && 'value' in value[0].excerpt) {
+            return value[0].excerpt.value;
+          } else {
+            return '';
+          }
+        } else {
+          return '';
+        }
+      }},
+      { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false}, 
+      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
+      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
+      { name: "subject_times", label: "Subject Times", isChecked: true, isEditable: false, isRequired: false },
+      { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
+      { name: "links", label: "Links", subtype: {name: "link" }}, 
+      { name: "dewey_number", label: "Dewey Number", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
+      { name: "revision", label: "Revision", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
+      { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      },
+      { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', get: (value) => 
+        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      }
     ],
     recordIdField: 'key',
     recordsAreExpanded: false,
@@ -392,6 +396,14 @@
     },
     reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
+    // reportRecordFields: (recordFields) => {
+    //   recordFields.forEach(field => {
+    //     const t1 = JSON.stringify(field);
+    //     const t2 = t1.replace(/"([^"]+)":/g, '$1:');
+    //     const t3 = t2.replace(/"/g, "'");      
+    //     console.log(t3);
+    //   });
+    // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
       recordsArray: (data) => data.docs,
@@ -406,4 +418,3 @@
     }
   });
 </script>
-

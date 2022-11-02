@@ -1,7 +1,5 @@
 # Options
 
-Note: Refer readers to Tutorial or Guide to learn how to use these options together.
-
 The HHDataList constructor requires an *options* argument of type *object*. Below is an example of an *options* argument:
 
 ``` js nonum
@@ -175,7 +173,7 @@ An included missing field might look like this:
 
 <p><img src="missing-fields-003.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
-# ? queryParams
+# queryParams
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>true</code></td></tr>
@@ -188,31 +186,31 @@ Showing defaults:
 
 ``` nonum
 new HHDataList({
-  queryParameters: {
-    fields: { name: "fields" },
-    filter: { name: "filter", value: "birthYear is not null", placeholder: "birthYear is not null and nameLast like \"b%\"" },
-    order: { name: "order", value: "birthYear desc", placeholder: "birthYear asc, nameLast asc" },
-    page: { name: "page", base: 1 },
-    limit: { name: "limit", choices: [5, 10, 20, 50, 100], value: 5 }
-  }
+  queryParams: {
+    fields: { name: 'fields', default: '*' },
+    filter: { name: 'q', none: '*', default: 'snow' },
+    order: { name: 'sort' },
+    page: { name: 'page' },
+    limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 5 }
+  },
 });
-```
+````
 
-### fields
+## params.fields
 
-### filter
+## params.filter
 
 Remember `none` property.
 
-### order
+## params.order
 
-### page
+## params.page
 
 ``` nonum
 https://hagenhaus.com:3002/api/baseball/v1/players?page=1
 ```
 
-### limit
+## params.limit
 
 The `pageSize` option sets the initial value of the `Page Size` widget. The data type is `number`. The default value is `choices[0]`. Developers can override.
 
@@ -294,7 +292,7 @@ When set to *string*, HHDataList displays stringified record field values:
 <tr><th>Default:</th><td><code>null</code></td></tr>
 </table>
 
-The *recordFields* value is an array of objects, each of which represents a record field:
+The *recordFields* value is an array of objects, each representing a record field:
 
 ``` js nonum
 new HHDataList({
@@ -305,22 +303,27 @@ new HHDataList({
 });
 ```
 
-Each `field` object must include a `name` property and may include additional properties. The properties are listed in the following table and described in more detail below the table:
+Each `field` object must include a `name` property and may include additional properties (e.g. `label`, `isChecked`, `isEditable`, `isRequired`, `colWidth`, `get`, and/or `subtype`.). Typically, during the initial phase of HHDataList development, while beginning to explore the contents of response data, developers omit the *recordFields* option, adding it later to control the order, appearance, and behavior of record fields. Adding a *recordFields* option has the following effects:
 
-|Property|Required|Type|Default|
-|-|-|-|-|
-|`name`|`true`|`string`||
-|`label`|`false`|`string`|`field.name`|
-|`isChecked`|`false`|`boolean`|`true`|
-|`isEditable`|`false`|`boolean`|`false`|
-|`isRequired`|`false`|`boolean`|`false`|
-|`colWidth`|`false`|`string`|`options.recordColWidth`|
-|`subtype`|`false`|`object`|`{ name: 'input' }`|
-|`get`|`false`|`function`|`(value) => value`|
+1. A *recordFields* option makes the display of the *Fields* and *New* tabs possible, but not inevitable.
+1. A *recordFields* option specifies the order that fields appear on the *Fields* tab and in expanded records. Otherwise, the order of record properties inside response data dictates the order of fields in an expanded record.
+1. A *recordFields* option can define aliases (which appear in expanded records) for record field names.
+1. A *recordFields* option can specify which fields are initially displayed in expanded records.
+1. A *recordFields* option can specify which fields are editable.
+1. A *recordFields* option can specify which fields are required in *New Record* forms.
+1. A *recordFields* option can format and modify record field values.
+1. A *recordFields* option can specify screen widths for particular fields.
 
-### name
+The sections below list and describe each *field* property.
 
-A `name` value identifies a record field in REST API `GET MANY` response data. Consider this response data:
+## field.name
+
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>true</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+</table>
+
+Consider the following REST API response data:
 
 ``` nonum
 {
@@ -329,10 +332,11 @@ A `name` value identifies a record field in REST API `GET MANY` response data. C
 }
 ```
 
-The following `name` properties are appropriate for this response data:
+`key` and `title` are field names. *recordField* array objects must include a `name` property to reference these fields:
 
 ``` js nonum
 new HHDataList({
+  recordColWidth: 'medium',
   recordFields: [
     { name: "key" }, 
     { name: "title" }
@@ -340,9 +344,49 @@ new HHDataList({
 });
 ```
 
-### label
+With no other *field* properties specified, HHDataList implicitly applies the following default property values to the `key` and `title` objects:
 
-A `label` value provides a user-friendly alias for the `name` value:
+``` js nonum
+new HHDataList({
+  recordColWidth: 'medium',
+  recordFields: [
+    {
+      name: 'key', 
+      label: 'key', 
+      isChecked: true, 
+      isEditable: false, 
+      isRequired: false, 
+      colWidth: 'medium',
+      get: (value) => value,
+      subtype: { name: 'input' }
+    },
+    {
+      name: 'title', 
+      label: 'title', 
+      isChecked: true, 
+      isEditable: false, 
+      isRequired: false, 
+      colWidth: 'medium',
+      get: (value) => value, 
+      subtype: { name: 'input' }
+    }
+  ],
+});
+```
+
+## field.label
+
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>field.name</code></td></tr>
+</table>
+
+Consider the labels in the following expanded record:
+
+<p><img src="record-fields-002.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+The `label` property can provide a user-friendly alias for the `name` value:
 
 ``` js nonum
 new HHDataList({
@@ -353,13 +397,19 @@ new HHDataList({
 });
 ```
 
-Labels appear in expanded records:
+## field.isChecked
 
-<p><img src="record-fields-002.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>true</code></td></tr>
+</table>
 
-### isChecked
+Consider the `key` and `title` checkboxes on the following *Fields* tab:
 
-An `isChecked` value dictates whether the field is checked on the *Fields* tab on page load:
+<p><img src="record-fields-003.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+The `isChecked` property dictates whether a field is (on page load) checked or unchecked on the *Fields* tab:
 
 ``` js nonum
 new HHDataList({
@@ -370,13 +420,23 @@ new HHDataList({
 });
 ```
 
-The `recordFields` array above has the following effect on the *Fields* tab:
+## field.isEditable
 
-<p><img src="record-fields-003.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>false</code></td></tr>
+</table>
 
-### isEditable
+When the *Edit* button is clicked on the following expanded record, the *Title* field becomes editable:
 
-An `isEditable` value determines (with a caveat) (1) whether the field is editable in *Edit* mode, and (2) whether the field appears on the *New Record* form on the *New* tab. 
+<p><img src="record-fields-004.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+And, the *Title* field appears on the following *New Record* form:
+
+<p><img src="record-fields-005.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+Setting the `isEditable` property to `true` causes (with one caveat) a field (1) to become editable in *Edit* mode, and (2) to appear on the *New Record* form:
 
 ``` js nonum
 new HHDataList({
@@ -387,53 +447,301 @@ new HHDataList({
 });
 ```
 
-Editable fields become editable in *Edit* mode:
-
-<p><img src="record-fields-004.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
-Editable fields appear on *New* forms:
-
-<p><img src="record-fields-005.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
 The caveat is a field can be editable only if the field subtype is *input* or *text*.
 
-### isRequired
+## field.isRequired
 
-An `isRequired` value determines whether a field on a *New* form must be populated before the *Create* button works:
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>boolean</code></td></tr>
+<tr><th>Default:</th><td><code>false</code></td></tr>
+</table>
+
+On the following *New Record* form, the *Title* field is required:
+
+<p><img src="record-fields-006.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+
+Setting the `isRequired` property to `true` causes this behavior:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
-    { name: "key", label: "Key", isChecked: false, isEditable: false }, 
+    { name: "key", label: "Key", isChecked: false }, 
     { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true }
   ],
 });
 ```
 
-The asterisk and color indicate a required field:
+## field.colWidth
 
-<p><img src="record-fields-006.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>options.recordColWidth</code></td></tr>
+<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
+</table>
 
-### colWidth
+On the following expanded record, with a screen width of large or extra large, fields have various widths:
 
-### subtype
+<p><img src="record-fields-007.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-### get
+The `colWidth` property determines the width (e.g. narrow, medium, wide) of a record field element (e.g. input, select, textarea) in an expanded record:
 
----
+``` js nonum
+new HHDataList({
+  recordColWidth: 'medium',
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false }, 
+    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "subject_places", label: "Subject Places", isChecked: true },
+    { name: "subject_times", label: "Subject Times", isChecked: true },
+    { name: "dewey_number", label: "Dewey Number", isChecked: true, colWidth: 'narrow' }, 
+    { name: "revision", label: "Revision", isChecked: true, colWidth: 'narrow' }, 
+    { name: "created", label: "Created", isChecked: true, colWidth: 'narrow' },
+    { name: "last_modified", label: "Last Modified", isChecked: true, colWidth: 'narrow' }
+  ],
+});
+```
 
-Specifying a recordFields option in the options object passed to the HHDataList constructor has the following impact:
+`colWidth` settings are responsive, so even *narrow* and *medium* settings appear *wide* for narrower screen widths:
 
-1. Enables you to control the order of fields displayed in an expanded record. Otherwise, the order of properties in the record inside a response body will dictate the order. 
-1. Enables you to define aliases for record field names.
-1. Enables you to specify whether a specific field isChecked in the Fields Tab (and shown in an expanded record).
-1. Enables you to specify whether a specific field isEditable (which also means it will be included in the New Record Form).
-1. Enables you to specify whether a field isRequired in the New Record Form.
-1. Clears one barrier toward being able to edit/modify a field.
-1. Enables you to define a field getter function. 
-1. Enables you to define field width.
-1. Causes the constructor to display the Fields tab unless you set the tabs option to {fields:false}.
-1. Causes the constructor to display the New tab unless (a) you do not set isEditable:true for any fields or (b) you set the tabs option to {new:false}.
+<p><img src="record-fields-008.png" class="img-fluid d-block" width=500 loading="lazy"></p>
+
+To learn more, see the [recordColWidth](#recordcolwidth) option.
+
+## field.get
+
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>function</code></td></tr>
+<tr><th>Default:</th><td><code>(value) => value</code></td></tr>
+</table>
+
+### Example 1
+
+Consider the `created` field in the following response data:
+
+``` nonum
+{
+  "key": "/works/OL53908W",
+  "title": "Adventures of Huckleberry Finn",
+  "created": {
+    "type": "/type/datetime",
+    "value": "2009-10-15T18:06:09.703894"
+  }
+}
+```
+
+The `created` field value is an object with two properties: `type` and `value`. Note also the format for the `value` timestamp. Now, consider the (developer-chosen) display format of the `created` field value in an expanded record:
+
+<p><img src="record-fields-009.png" class="img-fluid d-block" width=410 loading="lazy"></p>
+
+A *get* function is the bridge between raw data and formatted data for a field:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false }, 
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "created", label: "Created", isChecked: false, get: (value) => 
+      new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+    },
+  ],
+});
+```
+
+HHDataList invokes `field.get(value)`, passing the raw data. The client-defined `get` function modifies the raw value as needed, and returns the modified value.
+
+### Example 2
+
+Consider the `title` field in the following response data:
+
+``` nonum
+{
+  "key": "/works/OL53908W",
+  "title": "Adventures of Huckleberry Finn"
+}
+```
+
+The *title* value needs no modification prior to display:
+
+<p><img src="record-fields-010.png" class="img-fluid d-block" width=410 loading="lazy"></p>
+
+The default `get` function (e.g. `(value) => value`) returns the raw value unchanged, so there is no need to specify a `get` property for the *title* field:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "key", label: "Key", isChecked: false }, 
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }
+  ],
+});
+```
+
+### Example 3
+
+Compare the `description` fields of these two records:
+
+``` nonum
+{
+  "key": "/works/OL53908W",
+  "title": "Adventures of Huckleberry Finn",
+  "description": "Adventures of Huckleberry Finn or as it is known ..."
+}
+```
+
+``` nonum
+{
+  "key": "/works/OL4134125W",
+  "title": "The snow goose",
+  "description": {
+    "type": "/type/text",
+    "value": "Against the backdrop of World War II, friendship develops ..."
+  }
+}
+```
+
+The first is a string and the second is an object, but the display format for both should be a string:
+
+<p><img src="record-fields-011.png" class="img-fluid d-block" width=760 loading="lazy"></p>
+
+So, the `get` function must account for both possibilities:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "description", label: "Description", isEditable: true, colWidth: 'wide', get: (value) => {
+      if (typeof value === 'object') {
+        return value.value;
+      } else {
+        return value;
+      }
+    }}
+  ],
+});
+```
+
+### Example 4
+
+Consider the `authors` field in the following response data:
+
+``` nonum
+{
+  "title": "White Snow, Bright Snow",
+  "authors": [
+    {
+      "author": { "key": "/authors/OL2763372A" },
+      "type": { "key": "/type/author_role" }
+    },
+    {
+      "author": { "key": "/authors/OL916848A" }
+      "type": { "key": "/type/author_role" },
+    },
+    {
+      "author": { "key": "/authors/OL1300693A" }
+      "type": { "key": "/type/author_role" },
+    }
+  ]
+}
+```
+
+The `authors` field is an array of objects. Each object represents an author, and includes a key rather than a name. Regardless, the target display is the following:
+
+<p><img src="record-fields-012.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+The transformation from raw to display requires two steps:
+
+1. Create an array of keys that will fit into a `SELECT` element:
+
+    ``` nonum
+    ['/authors/OL2763372A', '/authors/OL916848A', '/authors/OL1300693A']
+    ```
+
+1. Replace the `key` strings with author names:
+
+    ``` nonum
+    ['Alvin Tresselt', 'Roger Duvoisin', 'Catherine Bonhomme']
+    ```
+
+The `field.get` function targets the first step:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "authors", label: "Authors", get: (value) => {
+      const a = [];
+      for (let i of value) { a.push(i.author.key); }
+      return a;
+    }},
+  ],
+});
+```
+
+The result is an array of keys:
+
+<p><img src="record-fields-013.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+The second step involves the inclusion of a `field.subtype` object:
+
+``` js nonum
+new HHDataList({
+  recordFields: [
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, get: (value) => {
+      const a = [];
+      for (let i of value) { a.push(i.author.key); }
+      return a;
+    }},
+  ],
+});
+```
+
+See [field.subtype](#fieldsubtype) below.
+
+## field.subtype
+
+<table class="options-table h2">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ name: 'input' }</code></td></tr>
+</table>
+
+### Example 1: text
+
+### Example 2: link
+
+Consider the `links` field in the following response data:
+
+``` nonum
+{
+  "title": "The Call of the Wild",
+  "links": [
+    {
+      "url": "https://en.wikipedia.org/wiki/The_Call_of_the_Wild",
+      "title": "Wikipedia",
+      "type": { "key": "/type/link" }
+    },
+    {
+      "url": "https://www.wikidata.org/wiki/Q476871",
+      "title": "Wikidata",
+      "type": { "key": "/type/link" }
+    },
+    {
+      "url": "https://viaf.org/viaf/179138821",
+      "title": "VIAF ID: 179138821",
+      "type": { "key": "/type/link" }
+    }
+  ]
+}
+```
+
+The `links` field is an array of objects. Each object represents a link, and includes a `url` and a `title`. The target display is the following:
+
+<p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+### Example 3: endpoint
 
 # recordIdField
 

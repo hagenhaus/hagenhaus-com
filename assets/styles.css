@@ -507,6 +507,10 @@ table.options-table th, table.options-table td {
   padding-bottom: 1px !important;
 }
 
+table.options-table.h2 {
+  border-left: 5px solid pink;
+}
+
 /************************************************
  Snippet
 ************************************************/
