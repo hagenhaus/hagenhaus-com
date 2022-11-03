@@ -272,7 +272,7 @@ new HHDataList({
 });
 ```
 
-When set to the default *value* value, HHDataList displays normal record field values:
+When *recordFieldValue* is set to *value*, HHDataList displays normal record field values:
 
 <p><img src="record-field-value-value.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
@@ -292,29 +292,37 @@ When set to *string*, HHDataList displays stringified record field values:
 <tr><th>Default:</th><td><code>null</code></td></tr>
 </table>
 
-The *recordFields* value is an array of objects, each representing a record field:
+The *recordFields* option defines an array of objects, each representing a record field:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
-    { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
-    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide' }
+    { name: "key", label: "Key", isChecked: false },
+    { name: "type", label: "Type", isChecked: false, transform: (value) => value.key },
+    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
+    { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' },
+    { name: "first_publish_date", label: "First Published Date", isEditable: true },
+    { name: "first_sentence", label: "First Sentence", subtype: { name: "text" }, transform: (value) => value.value },
+    { name: "subjects", label: "Subjects" },
+    { name: "links", label: "Links", subtype: { name: "link" } }
   ],
 });
 ```
 
-Each `field` object must include a `name` property and may include additional properties (e.g. `label`, `isChecked`, `isEditable`, `isRequired`, `colWidth`, `get`, and/or `subtype`.). Typically, during the initial phase of HHDataList development, while beginning to explore the contents of response data, developers omit the *recordFields* option, adding it later to control the order, appearance, and behavior of record fields. Adding a *recordFields* option has the following effects:
+Note the following:
 
-1. A *recordFields* option makes the display of the *Fields* and *New* tabs possible, but not inevitable.
-1. A *recordFields* option specifies the order that fields appear on the *Fields* tab and in expanded records. Otherwise, the order of record properties inside response data dictates the order of fields in an expanded record.
-1. A *recordFields* option can define aliases (which appear in expanded records) for record field names.
-1. A *recordFields* option can specify which fields are initially displayed in expanded records.
-1. A *recordFields* option can specify which fields are editable.
-1. A *recordFields* option can specify which fields are required in *New Record* forms.
-1. A *recordFields* option can format and modify record field values.
-1. A *recordFields* option can specify screen widths for particular fields.
+1. Each `field` object must include a `name` property and may include additional properties.
+1. The order of `field` objects determines the order of fields on the *Fields* tab and in expanded records.
+1. The `field.name` property ties a `field` object to a record property in `REST API` response data.
+1. The `field.label` property is a user-friendly alias for a `field.name`.
+1. The `field.isChecked` property dictates field visibility on page load.
+1. The `field.isEditable` property declares that the field can participate in `POST`, `PUT`, and `PATCH` operations.
+1. The `field.isRequired` property indicates that the field is required in `POST` operations.
+1. The `field.colWidth` property sets the field width for that particular field.
+1. The `field.transform` function modifies and formats field values.
+1. The `field.subtype` property further characterizes the field value.
 
-The sections below list and describe each *field* property.
+The sections below describe each *field* property in more detail.
 
 ## field.name
 
@@ -323,7 +331,7 @@ The sections below list and describe each *field* property.
 <tr><th>Type:</th><td><code>string</code></td></tr>
 </table>
 
-Consider the following REST API response data:
+Consider the `key` and `title` properties in following REST API response data:
 
 ``` nonum
 {
@@ -332,7 +340,7 @@ Consider the following REST API response data:
 }
 ```
 
-`key` and `title` are field names. *recordField* array objects must include a `name` property to reference these fields:
+The *name* property acts as a reference to corresponding response data field:
 
 ``` js nonum
 new HHDataList({
@@ -344,7 +352,7 @@ new HHDataList({
 });
 ```
 
-With no other *field* properties specified, HHDataList implicitly applies the following default property values to the `key` and `title` objects:
+With no other *field* properties specified, HHDataList (internally) applies the following default property values:
 
 ``` js nonum
 new HHDataList({
@@ -357,8 +365,8 @@ new HHDataList({
       isEditable: false, 
       isRequired: false, 
       colWidth: 'medium',
-      get: (value) => value,
-      subtype: { name: 'input' }
+      transform: (value) => value,
+      subtype: { name: 'none' }
     },
     {
       name: 'title', 
@@ -367,8 +375,8 @@ new HHDataList({
       isEditable: false, 
       isRequired: false, 
       colWidth: 'medium',
-      get: (value) => value, 
-      subtype: { name: 'input' }
+      transform: (value) => value, 
+      subtype: { name: 'none' }
     }
   ],
 });
@@ -447,7 +455,7 @@ new HHDataList({
 });
 ```
 
-The caveat is a field can be editable only if the field subtype is *input* or *text*.
+The caveat is a field can be editable only if the field subtype is *none* or *text*.
 
 ## field.isRequired
 
@@ -509,13 +517,15 @@ new HHDataList({
 
 To learn more, see the [recordColWidth](#recordcolwidth) option.
 
-## field.get
+## field.transform
 
 <table class="options-table h2">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>function</code></td></tr>
 <tr><th>Default:</th><td><code>(value) => value</code></td></tr>
 </table>
+
+The `field.transform` function modifies and formats field values.
 
 ### Example 1
 
@@ -532,25 +542,25 @@ Consider the `created` field in the following response data:
 }
 ```
 
-The `created` field value is an object with two properties: `type` and `value`. Note also the format for the `value` timestamp. Now, consider the (developer-chosen) display format of the `created` field value in an expanded record:
+The `created` field value is an object with two properties: `type` and `value`. And, `value` is a timestamp with a particular format. Now, consider the (developer-chosen) display format of the `created` field value in an expanded record:
 
 <p><img src="record-fields-009.png" class="img-fluid d-block" width=410 loading="lazy"></p>
 
-A *get* function is the bridge between raw data and formatted data for a field:
+A *transform* function is the bridge between raw data and display data for a field:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
     { name: "key", label: "Key", isChecked: false }, 
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "created", label: "Created", isChecked: false, get: (value) => 
+    { name: "created", label: "Created", isChecked: false, transform: (value) => 
       new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
     },
   ],
 });
 ```
 
-HHDataList invokes `field.get(value)`, passing the raw data. The client-defined `get` function modifies the raw value as needed, and returns the modified value.
+HHDataList invokes `field.transform(value)`, passing the raw data. The client-defined `transform` function modifies the raw value as needed, and returns the modified value.
 
 ### Example 2
 
@@ -567,7 +577,7 @@ The *title* value needs no modification prior to display:
 
 <p><img src="record-fields-010.png" class="img-fluid d-block" width=410 loading="lazy"></p>
 
-The default `get` function (e.g. `(value) => value`) returns the raw value unchanged, so there is no need to specify a `get` property for the *title* field:
+The default `transform` function (e.g. `(value) => value`) returns the raw value unchanged, so there is no need to specify a `transform` function for this particular *title* field:
 
 ``` js nonum
 new HHDataList({
@@ -605,18 +615,15 @@ The first is a string and the second is an object, but the display format for bo
 
 <p><img src="record-fields-011.png" class="img-fluid d-block" width=760 loading="lazy"></p>
 
-So, the `get` function must account for both possibilities:
+So, the `transform` function must account for both possibilities:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "description", label: "Description", isEditable: true, colWidth: 'wide', get: (value) => {
-      if (typeof value === 'object') {
-        return value.value;
-      } else {
-        return value;
-      }
+    { name: "description", label: "Description", isEditable: true, colWidth: 'wide', transform: (value) => {
+      if (typeof value === 'object') { return value.value; } 
+      else { return value; }
     }}
   ],
 });
@@ -664,13 +671,13 @@ The transformation from raw to display requires two steps:
     ['Alvin Tresselt', 'Roger Duvoisin', 'Catherine Bonhomme']
     ```
 
-The `field.get` function targets the first step:
+The `field.transform` function targets the first step:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "authors", label: "Authors", get: (value) => {
+    { name: "authors", label: "Authors", transform: (value) => {
       const a = [];
       for (let i of value) { a.push(i.author.key); }
       return a;
@@ -683,13 +690,13 @@ The result is an array of keys:
 
 <p><img src="record-fields-013.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-The second step involves the inclusion of a `field.subtype` object:
+The second step involves the use of a `field.subtype` object:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, get: (value) => {
+    { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, transform: (value) => {
       const a = [];
       for (let i of value) { a.push(i.author.key); }
       return a;
