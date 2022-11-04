@@ -116,4 +116,14 @@ export const routes = (app) => {
 
   app.route('/api/baseball/v1/teams/:id')
     .get(controllers.getBaseballTeam);
+
+  /************************************************************************************************
+  * Trees
+  ************************************************************************************************/
+
+  app.route('/api/famous/v1/trees')
+    .get(controllers.getFamousTrees);
+
+  app.route('/api/famous/v1/trees/:id')
+    .get(controllers.getFamousTree);
 };

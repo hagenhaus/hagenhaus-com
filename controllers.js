@@ -1,7 +1,7 @@
 // import bcrypt from 'bcrypt';
 // import jwt from 'jsonwebtoken';
 import fs from 'fs';
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import util from 'util';
 
 const baseballDb = mysql.createPool({
@@ -207,7 +207,9 @@ export const getRecord = (db, table, idField, req, res) => {
       conn.query(proc, (error, results, flds) => {
         conn.release();
         if (error) { sendError(res, error); }
-        else { res.status(200).send(results[0][0]); }
+        else {
+          res.status(200).send(results[0][0]);
+        }
       });
     }
   });
@@ -436,6 +438,13 @@ export const postBaseballPark = (req, res) => {
     }
   });
 };
+
+/************************************************************************************************
+* Famous
+************************************************************************************************/
+
+export const getFamousTrees = (req, res) => { getRecords(hagenhausDb, 'trees', req, res); };
+export const getFamousTree = (req, res) => { getRecord(hagenhausDb, 'trees', 'id', req, res); };
 
 /************************************************************************************************
 * getValue

@@ -255,34 +255,65 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="record-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# recordFieldValue
+# recordFieldAnalyzer
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>value</code></td></tr>
-<tr><th>Choices:</th><td><code>type, string, value</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ aspect: 'value', isTransformed: true }</code></td></tr>
 </table>
 
-The *recordFieldValue* option is a debugging tool:
+The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value, (2) a stringified version of each field value, or (3) each field value itself:
 
 ``` js nonum
 new HHDataList({
-  recordFieldValue: 'value',
+  recordFieldAnalyzer: { 
+    aspect: 'type', // type, stringified, or value
+    isTransformed: true 
+  },
 });
 ```
 
-When *recordFieldValue* is set to *value*, HHDataList displays normal record field values:
+Below are examples of each:
 
-<p><img src="record-field-value-value.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+### aspect: 'type'
 
-When set to *type*, HHDataList displays record field types:
+<div class="row">
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: false</div>
+<div><img src="record-field-analyzer-type-false.png" class="img-fluid" loading="lazy"></div>
+</div>
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: true</div>
+<div><img src="record-field-analyzer-type-true.png" class="img-fluid" loading="lazy"></div>
+</div>
+</div>
 
-<p><img src="record-field-value-type.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+### aspect: 'stringified'
 
-When set to *string*, HHDataList displays stringified record field values:
+<div class="row">
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: false</div>
+<div><img src="record-field-analyzer-stringified-false.png" class="img-fluid" loading="lazy"></div>
+</div>
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: true</div>
+<div><img src="record-field-analyzer-stringified-true.png" class="img-fluid" loading="lazy"></div>
+</div>
+</div>
 
-<p><img src="record-field-value-string.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+### aspect: 'value'
+
+<div class="row">
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: false</div>
+<div><img src="record-field-analyzer-value-false.png" class="img-fluid" loading="lazy"></div>
+</div>
+<div class="col-12 col-lg-6">
+<div style="color:#404040;text-align: center;">isTransformed: true</div>
+<div><img src="record-field-analyzer-value-true.png" class="img-fluid" loading="lazy"></div>
+</div>
+</div>
 
 # recordFields
 

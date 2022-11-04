@@ -34,7 +34,6 @@
       }
     },
     recordColWidth: 'narrow',
-    recordFieldValue: 'value',
     recordFields: [
       { name: 'playerID', label: 'Player ID', isChecked: false },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
@@ -193,57 +192,56 @@
     },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', none: '*', default: 'name=john'},
+      filter: { name: 'q', none: '*', default: 'john'},
       order: { name: 'sort' }, 
       offset: { name: 'offset' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
     },
     recordColWidth: 'narrow',
-    recordFieldValue: 'value',
     recordFields: [
-      { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium' }, 
-      { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, colWidth: 'medium', transform: (value) => value.key }, 
-      { name:"name", label:"Name", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"alternate_names", label:"Alternate Names", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"personal_name", label:"Personal Name", isChecked:false, isEditable:false, colWidth: 'medium'},
-      { name:"title", label:"Title/Status", isChecked:false, isEditable:false, colWidth: 'medium'},
-      { name:"birth_date", label:"Birth Date", isChecked:true, isEditable:false, colWidth: 'medium', transform: (value) => 
+      { name: "key", label: "Key", isChecked: false, colWidth: 'medium' }, 
+      { name: "type", label: "Type", isChecked: false, colWidth: 'medium', transform: (value) => value.key }, 
+      { name:"name", label:"Name", colWidth: 'medium'},
+      { name:"alternate_names", label:"Alternate Names", colWidth: 'medium'},
+      { name:"personal_name", label:"Personal Name", isChecked:false, colWidth: 'medium'},
+      { name:"title", label:"Title/Status", isChecked:false, colWidth: 'medium'},
+      { name:"birth_date", label:"Birth Date", colWidth: 'medium', transform: (value) => 
         new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      { name:"death_date", label:"Death Date", isChecked:true, isEditable:false, colWidth: 'medium', transform: (value) => 
+      { name:"death_date", label:"Death Date", colWidth: 'medium', transform: (value) => 
         new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      { name:"bio", label:"Biography", isChecked:true, isEditable:false, colWidth: 'wide', subtype: { name: "text" }, transform: (value) => {
+      { name:"bio", label:"Biography", colWidth: 'wide', subtype: { name: "text" }, transform: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }}, 
-      { name:"wikipedia", label:"Wikipedia", isChecked:true, isEditable:false, colWidth: 'medium', subtype: { name: "link" }, transform: (value) => {
+      { name:"wikipedia", label:"Wikipedia", colWidth: 'medium', subtype: { name: "link" }, transform: (value) => {
         // return value.length ? 'Wikipedia'.link(value) : value;
         return {url: value, title: 'Wikipedia'};
       }},
-      { name:"photos", label:"Photos", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"source_records", label:"Source Records", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"remote_ids", label:"Remote IDs", isChecked:true, isEditable:false, colWidth: 'medium', transform: (value) => {
+      { name:"photos", label:"Photos", colWidth: 'medium'},
+      { name:"source_records", label:"Source Records", colWidth: 'medium'},
+      { name:"remote_ids", label:"Remote IDs", colWidth: 'medium', transform: (value) => {
         const a = [];
         for (const property in value) {
           a.push(`${property}:${value[property]}`);
         }
         return a;
       }},
-      { name:"photograph", label:"Photograph", isChecked:false, isEditable:false},
-      { name:"revision", label:"Revision", isChecked:false, isEditable:false},
-      { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false, transform: (value) => 
+      { name:"photograph", label:"Photograph", isChecked:false},
+      { name:"revision", label:"Revision", isChecked:false},
+      { name: "created", label: "Created", isChecked: false, transform: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false, transform: (value) => 
+      { name: "last_modified", label: "Last Modified", isChecked: false, transform: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
     ],
     recordIdField: 'key',
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordTitle: {
       fields: ['name'],
       format: (f, r) => `${r[f[0]]}`
@@ -285,11 +283,11 @@
       limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
     recordFields: [
-      { name:"key", label:"Key", isChecked:false, isEditable:false, colWidth: 'medium'},
-      { name:"subject_type", label:"Type", isChecked:false, isEditable:false, colWidth: 'medium'},
-      { name:"name", label:"Subject Name", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"work_count", label:"Number of Works", isChecked:true, isEditable:false, colWidth: 'medium'},
-      { name:"works", label:"Sample Works", isChecked:true, isEditable:false, colWidth: 'wide', transform: (value) => {
+      { name:"key", label:"Key", isChecked:false, colWidth: 'medium'},
+      { name:"subject_type", label:"Type", isChecked:false, colWidth: 'medium'},
+      { name:"name", label:"Subject Name", colWidth: 'medium'},
+      { name:"work_count", label:"Number of Works", colWidth: 'medium'},
+      { name:"works", label:"Sample Works", colWidth: 'wide', transform: (value) => {
         const a = [];
         for (let i of value) { a.push(i.title); }
         return a;
@@ -337,30 +335,29 @@
       filter: { name: 'q', none: '*', default: 'snow' }, // Snow Falling on Cedars, On San Piedro
       order: { name: 'sort' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 5 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 1 }
     },
     recordColWidth: 'medium',
-    recordFieldValue: 'value',
     recordFields: [
-      { name: "key", label: "Key", isChecked: false, isEditable: false, isRequired: false }, 
-      { name: "type", label: "Type", isChecked: false, isEditable: false, isRequired: false, transform: (value) => value.key }, 
-      { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true, colWidth: 'wide' }, 
-      { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, isRequired: false, colWidth: 'wide' }, 
-      { name: "authors", label: "Authors", isChecked: true, isEditable: false, isRequired: false, subtype: { name: "endpoint", field: (data) => data.name }, transform: (value) => {
+      { name: "key", label: "Key", isChecked: false }, 
+      { name: "type", label: "Type", isChecked: false, transform: (value) => value.key }, 
+      { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }, 
+      { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' }, 
+      { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, transform: (value) => {
         const a = [];
         for (let i of value) { a.push(i.author.key); }
         return a;
       }},
-      { name: "first_publish_date", label: "First Published Date", isChecked: true, isEditable: true, isRequired: false }, 
-      { name: "description", label: "Description", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text", rows: 4 }, transform: (value) => {
+      { name: "first_publish_date", label: "First Published Date", isEditable: true }, 
+      { name: "description", label: "Description", isEditable: true, colWidth: 'wide', subtype: {name: "text", rows: 4 }, transform: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }},
-      { name: "first_sentence", label: "First Sentence", isChecked: true, isEditable: true, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => value.value }, 
-      { name: "excerpts", label: "Excerpt", isChecked: false, isEditable: false, isRequired: false, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => {
+      { name: "first_sentence", label: "First Sentence", isEditable: true, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => value.value }, 
+      { name: "excerpts", label: "Excerpt", isChecked: false, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => {
         if(Array.isArray(value) && value.length && typeof value[0] === 'object' && 'excerpt' in value[0]) {
           if(typeof value[0].excerpt === 'string') {
             return value[0].excerpt;
@@ -373,23 +370,23 @@
           return '';
         }
       }},
-      { name: "subjects", label: "Subjects", isChecked: true, isEditable: false, isRequired: false}, 
-      { name: "subject_places", label: "Subject Places", isChecked: true, isEditable: false, isRequired: false},
-      { name: "subject_people", label: "Subject People", isChecked: true, isEditable: false, isRequired: false}, 
-      { name: "subject_times", label: "Subject Times", isChecked: true, isEditable: false, isRequired: false },
-      { name: "covers", label: "Covers", isChecked: true, isEditable: false, isRequired: false }, 
+      { name: "subjects", label: "Subjects"}, 
+      { name: "subject_places", label: "Subject Places"},
+      { name: "subject_people", label: "Subject People"}, 
+      { name: "subject_times", label: "Subject Times" },
+      { name: "covers", label: "Covers" }, 
       { name: "links", label: "Links", subtype: {name: "link" }}, 
-      { name: "dewey_number", label: "Dewey Number", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
-      { name: "revision", label: "Revision", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow' }, 
-      { name: "created", label: "Created", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', transform: (value) => 
+      { name: "dewey_number", label: "Dewey Number", isChecked: false, colWidth: 'narrow' }, 
+      { name: "revision", label: "Revision", isChecked: false, colWidth: 'narrow' }, 
+      { name: "created", label: "Created", isChecked: false, colWidth: 'narrow', transform: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      { name: "last_modified", label: "Last Modified", isChecked: false, isEditable: false, isRequired: false, colWidth: 'narrow', transform: (value) => 
+      { name: "last_modified", label: "Last Modified", isChecked: false, colWidth: 'narrow', transform: (value) => 
         new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       }
     ],
     recordIdField: 'key',
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordTitle: {
       fields: ['title'],
       format: (f, r) => `${r[f[0]]}`
