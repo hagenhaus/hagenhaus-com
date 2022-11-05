@@ -1,7 +1,7 @@
 # Themes
 
 <script>
-  const queryParams = {
+  var queryParams = {
     fields: { name: 'fields' },
     filter: { name: 'filter' },
     order: { name: 'order' },
@@ -9,7 +9,7 @@
     limit: { name: 'limit' }
   };
 
-  const recordFields = [
+  var recordFields = [
     { name: 'ID', label: 'ID', isChecked: false },
     { name: 'parkname', label: 'Name', isEditable: true, isRequired: true },
     { name: 'parkkey', label: 'Key', isEditable: true, isChecked: false },
@@ -19,16 +19,17 @@
     { name: 'country', label: 'Country', isEditable: true }
   ];
 
-  const recordTitle = {
+  var recordTitle = {
     fields: ['parkname']
   };
     
-  const responseHelper = {
-    recordsArray: (data) => data.records,
-    numPages: (data, limit) => data.metadata.numTotalPages,
-    numResponseRecords: (data) => data.metadata.numResponseRecords,
-    numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-    numTotalRecords: (data) => data.metadata.numTotalRecords
+  var responseHelper = {
+    record: (res) => res.data,
+    records: (res) => res.data.records,
+    numPages: (res, limit) => res.data.metadata.numTotalPages,
+    numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+    numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+    numTotalRecords: (res) => res.data.metadata.numTotalRecords
   };
 </script>
 

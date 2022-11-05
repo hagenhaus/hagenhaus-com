@@ -743,12 +743,12 @@ See [field.subtype](#fieldsubtype) below.
 <table class="options-table h2">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>{ name: 'input' }</code></td></tr>
+<tr><th>Default:</th><td><code>{ name: 'none' }</code></td></tr>
 </table>
 
-### Example 1: text
+### key
 
-### Example 2: link
+### link
 
 Consider the `links` field in the following response data:
 
@@ -779,7 +779,7 @@ The `links` field is an array of objects. Each object represents a link, and inc
 
 <p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-### Example 3: endpoint
+### text
 
 # recordIdField
 

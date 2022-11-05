@@ -86,11 +86,12 @@
     // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.records,
-      numPages: (data, limit) => data.metadata.numTotalPages,
-      numResponseRecords: (data) => data.metadata.numResponseRecords,
-      numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-      numTotalRecords: (data) => data.metadata.numTotalRecords
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     showTabDescriptions: true,
     tabDescriptions: {
@@ -166,11 +167,12 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.records,
-      numPages: (data, limit) => data.metadata.numTotalPages,
-      numResponseRecords: (data) => data.metadata.numResponseRecords,
-      numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-      numTotalRecords: (data) => data.metadata.numTotalRecords
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     url: `${getDomain()}/api/baseball/v1/teams`,
   });
@@ -250,10 +252,11 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.docs,
-      numPages: (data, limit) => Math.ceil(data.numFound / limit),
-      numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound
+      record: (res) => res.data,
+      records: (res) => res.data.docs,
+      numPages: (res, limit) => Math.ceil(res.data.numFound / limit),
+      numResponseRecords: (res) => res.data.docs.length,
+      numMatchedRecords: (res) => res.data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {
@@ -303,10 +306,11 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.docs,
-      numPages: (data, limit) => Math.ceil(data.numFound / limit),
-      numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound
+      record: (res) => res.data,
+      records: (res) => res.data.docs,
+      numPages: (res, limit) => Math.ceil(res.data.numFound / limit),
+      numResponseRecords: (res) => res.data.docs.length,
+      numMatchedRecords: (res) => res.data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {
@@ -343,7 +347,7 @@
       { name: "type", label: "Type", isChecked: false, transform: (value) => value.key }, 
       { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }, 
       { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' }, 
-      { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, transform: (value) => {
+      { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (res) => res.data.name }, transform: (value) => {
         const a = [];
         for (let i of value) { a.push(i.author.key); }
         return a;
@@ -403,10 +407,11 @@
     // },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.docs,
-      numPages: (data, limit) => Math.ceil(data.numFound / limit),
-      numResponseRecords: (data) => data.docs.length,
-      numMatchedRecords: (data) => data.numFound
+      record: (res) => res.data,
+      records: (res) => res.data.docs,
+      numPages: (res, limit) => Math.ceil(res.data.numFound / limit),
+      numResponseRecords: (res) => res.data.docs.length,
+      numMatchedRecords: (res) => res.data.numFound
     },
     themeName: 'Wheatgerm',
     urls: {

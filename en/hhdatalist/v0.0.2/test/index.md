@@ -14,7 +14,7 @@
       filter: { name: 'filter' },
       order: { name: 'order' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 5 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3 }
     },
     recordColWidth: 'medium',
     recordFieldAnalyzer: { 
@@ -22,26 +22,77 @@
       isTransformed: true 
     },
     recordFields: [
-      { name: 'id', label: 'ID', isChecked: false },
-      { name: 'name', label: 'Name' },
-      { name: 'species', label: 'Species', subtype: { name: "link" }, transform: (v) => { 
-        return { url: v.link, title: v.text };
-      }},
-      { name: 'description', label: 'Description', colWidth: 'wide', subtype: { name: 'text' } },
-      { name: 'city', label: 'City' },
-      { name: 'country', label: 'Country' },
-      { name: 'coordinates', label: 'Latitude, Longitude', transform: (v) => `${v.latitude}, ${v.longitude}` },
-      { name: 'age', label: 'Age (years)' },
-      { name: 'height', label: 'Height (meters)', transform: (v) => Math.round(v * 0.3048) },
-      { name: 'links', label: 'Links', subtype: { name: "link" }, transform: (v) => {
-        const a = [];
-        for (let i of v) { a.push({ url: i.link, title: i.text }); }
-        return a;
-      }}
+      { 
+        name: 'id', 
+        label: 'ID', 
+        isChecked: false 
+      },
+      { 
+        name: 'name', 
+        label: 'Name' 
+      },
+      { 
+        name: 'species', 
+        label: 'Species', 
+        transform: (v) => { 
+          return { url: v.link, title: v.text };
+        },
+        subtype: { 
+          name: 'link' 
+        }
+      },
+      { 
+        name: 'description', 
+        label: 'Description', 
+        colWidth: 'wide', 
+        subtype: { 
+          name: 'text' 
+        } 
+      },
+      { 
+        name: 'city', 
+        label: 'Nearby City'
+      },
+      { 
+        name: 'country', 
+        label: 'Country', 
+        subtype: { 
+          name: 'key', 
+          url: (value) => `http://localhost:8081/api/devportals/v1/countries/${value}`, 
+          value: (res) => res.data.name 
+        }
+      },
+      { 
+        name: 'coordinates', 
+        label: 'Latitude, Longitude', 
+        transform: (v) => `${v.latitude}, ${v.longitude}` 
+      },
+      { 
+        name: 'germinationYear', 
+        label: 'Age (years)',
+        transform: (v) => `${new Date().getFullYear() - v}`
+      },
+      { 
+        name: 'height', 
+        label: 'Height (meters)', 
+        transform: (v) => Math.round(v * 0.3048) 
+      },
+      { 
+        name: 'links', 
+        label: 'Links', 
+        transform: (v) => {
+          const a = [];
+          for (let i of v) { a.push({ url: i.link, title: i.text }); }
+          return a;
+        },
+        subtype: { 
+          name: 'link' 
+        },
+      }
     ],
     recordIdField: 'id',
     recordParity: true,
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordsAreNumbered: true,
     recordTitle: {
       fields: ['name'],
@@ -51,11 +102,12 @@
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
     responseHelper: {
-      recordsArray: (data) => data.records,
-      numPages: (data, limit) => data.metadata.numTotalPages,
-      numResponseRecords: (data) => data.metadata.numResponseRecords,
-      numMatchedRecords: (data) => data.metadata.numFilteredRecords,
-      numTotalRecords: (data) => data.metadata.numTotalRecords
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     // reportTheme: (theme) => { 
     //   const t1 = JSON.stringify(theme, null, 2);
