@@ -38,7 +38,7 @@
       { name: 'playerID', label: 'Player ID', isChecked: false },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
       { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
-      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true, subtype: { name: "input" }, transform: (value) => {
+      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true, transform: (value) => {
         if (value === null) {
           return '';
         } else {
@@ -213,14 +213,14 @@
       { name:"death_date", label:"Death Date", colWidth: 'medium', transform: (value) => 
         new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      { name:"bio", label:"Biography", colWidth: 'wide', subtype: { name: "text" }, transform: (value) => {
+      { name:"bio", label:"Biography", colWidth: 'wide', specialty: { type: 'text' }, transform: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }}, 
-      { name:"wikipedia", label:"Wikipedia", colWidth: 'medium', subtype: { name: "link" }, transform: (value) => {
+      { name:"wikipedia", label:"Wikipedia", colWidth: 'medium', specialty: { type: 'link' }, transform: (value) => {
         // return value.length ? 'Wikipedia'.link(value) : value;
         return {url: value, title: 'Wikipedia'};
       }},
@@ -347,21 +347,21 @@
       { name: "type", label: "Type", isChecked: false, transform: (value) => value.key }, 
       { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }, 
       { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' }, 
-      { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (res) => res.data.name }, transform: (value) => {
+      { name: "authors", label: "Authors", specialty: { type: 'endpoint', field: (res) => res.data.name }, transform: (value) => {
         const a = [];
         for (let i of value) { a.push(i.author.key); }
         return a;
       }},
       { name: "first_publish_date", label: "First Published Date", isEditable: true }, 
-      { name: "description", label: "Description", isEditable: true, colWidth: 'wide', subtype: {name: "text", rows: 4 }, transform: (value) => {
+      { name: "description", label: "Description", isEditable: true, colWidth: 'wide', specialty: {type: 'text', rows: 4 }, transform: (value) => {
         if (typeof value === 'object') {
           return value.value;
         } else {
           return value;
         }
       }},
-      { name: "first_sentence", label: "First Sentence", isEditable: true, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => value.value }, 
-      { name: "excerpts", label: "Excerpt", isChecked: false, colWidth: 'wide', subtype: {name: "text" }, transform: (value) => {
+      { name: "first_sentence", label: "First Sentence", isEditable: true, colWidth: 'wide', specialty: {type: 'text' }, transform: (value) => value.value }, 
+      { name: "excerpts", label: "Excerpt", isChecked: false, colWidth: 'wide', specialty: {type: 'text' }, transform: (value) => {
         if(Array.isArray(value) && value.length && typeof value[0] === 'object' && 'excerpt' in value[0]) {
           if(typeof value[0].excerpt === 'string') {
             return value[0].excerpt;
@@ -379,7 +379,7 @@
       { name: "subject_people", label: "Subject People"}, 
       { name: "subject_times", label: "Subject Times" },
       { name: "covers", label: "Covers" }, 
-      { name: "links", label: "Links", subtype: {name: "link" }}, 
+      { name: "links", label: "Links", specialty: {type: 'link' }}, 
       { name: "dewey_number", label: "Dewey Number", isChecked: false, colWidth: 'narrow' }, 
       { name: "revision", label: "Revision", isChecked: false, colWidth: 'narrow' }, 
       { name: "created", label: "Created", isChecked: false, colWidth: 'narrow', transform: (value) => 

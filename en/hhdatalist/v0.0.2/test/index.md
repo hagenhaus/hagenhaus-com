@@ -12,9 +12,9 @@
     queryParams: {
       fields: { name: 'fields', default: '*' },
       filter: { name: 'filter' },
-      order: { name: 'order' },
+      order: { name: 'order', default: 'name' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
     },
     recordColWidth: 'medium',
     recordFieldAnalyzer: { 
@@ -26,73 +26,67 @@
         name: 'id', 
         label: 'ID', 
         isChecked: false 
-      },
-      { 
+      }, { 
         name: 'name', 
-        label: 'Name' 
-      },
-      { 
+        label: 'Name'
+      }, { 
         name: 'species', 
         label: 'Species', 
-        transform: (v) => { 
-          return { url: v.link, title: v.text };
-        },
-        subtype: { 
-          name: 'link' 
-        }
-      },
-      { 
+        isChecked: true,
+        transform: (v) => ({ url: v.link, title: v.text }),
+        specialty: { type: 'link' }
+      }, { 
         name: 'description', 
         label: 'Description', 
+        isChecked: true,
         colWidth: 'wide', 
-        subtype: { 
-          name: 'text' 
-        } 
-      },
-      { 
+        specialty: { type: 'text', rows: 3 } 
+      }, { 
         name: 'city', 
-        label: 'Nearby City'
-      },
-      { 
+        label: 'Nearby City',
+        isChecked: true,
+      }, { 
         name: 'country', 
         label: 'Country', 
-        subtype: { 
-          name: 'key', 
+        isChecked: true,
+        specialty: { 
+          type: 'key', 
           url: (value) => `http://localhost:8081/api/devportals/v1/countries/${value}`, 
           value: (res) => res.data.name 
         }
-      },
-      { 
+      }, { 
         name: 'coordinates', 
         label: 'Latitude, Longitude', 
-        transform: (v) => `${v.latitude}, ${v.longitude}` 
-      },
-      { 
+        isChecked: true,
+        transform: (v) => ({ 
+          url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
+          title: `${v.lat}, ${v.long}` 
+        }),
+        specialty: { type: 'link' }
+      }, { 
         name: 'germinationYear', 
         label: 'Age (years)',
-        transform: (v) => `${new Date().getFullYear() - v}`
-      },
-      { 
+        isChecked: true,
+        transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
+      }, { 
         name: 'height', 
         label: 'Height (meters)', 
         transform: (v) => Math.round(v * 0.3048) 
-      },
-      { 
+      }, { 
         name: 'links', 
         label: 'Links', 
+        isChecked: true,
         transform: (v) => {
           const a = [];
           for (let i of v) { a.push({ url: i.link, title: i.text }); }
           return a;
         },
-        subtype: { 
-          name: 'link' 
-        },
+        specialty: { type: 'link' }
       }
     ],
     recordIdField: 'id',
     recordParity: true,
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordsAreNumbered: true,
     recordTitle: {
       fields: ['name'],

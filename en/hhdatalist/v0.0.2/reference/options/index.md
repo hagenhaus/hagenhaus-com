@@ -263,7 +263,7 @@ Each of the three choices accommodates responsive screen widths:
 <tr><th>Default:</th><td><code>{ aspect: 'value', isTransformed: true }</code></td></tr>
 </table>
 
-The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value, (2) a stringified version of each field value, or (3) each field value itself:
+The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value or (2) a stringified version of each field value or (3) each field value itself:
 
 ``` js nonum
 new HHDataList({
@@ -333,9 +333,9 @@ new HHDataList({
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
     { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' },
     { name: "first_publish_date", label: "First Published Date", isEditable: true },
-    { name: "first_sentence", label: "First Sentence", subtype: { name: "text" }, transform: (value) => value.value },
+    { name: "first_sentence", label: "First Sentence", transform: (value) => value.value, specialty: { type: "text" } },
     { name: "subjects", label: "Subjects" },
-    { name: "links", label: "Links", subtype: { name: "link" } }
+    { name: "links", label: "Links", specialty: { type: "link" } }
   ],
 });
 ```
@@ -350,8 +350,8 @@ Note the following:
 1. The `field.isEditable` property declares that the field can participate in `POST`, `PUT`, and `PATCH` operations.
 1. The `field.isRequired` property indicates that the field is required in `POST` operations.
 1. The `field.colWidth` property sets the field width for that particular field.
-1. The `field.transform` function modifies and formats field values.
-1. The `field.subtype` property further characterizes the field value.
+1. The `field.transform` function presents an opportunity to modify a field value.
+1. The `field.specialty` property defines any special instructions for a transformed field value.
 
 The sections below describe each *field* property in more detail.
 
@@ -397,7 +397,7 @@ new HHDataList({
       isRequired: false, 
       colWidth: 'medium',
       transform: (value) => value,
-      subtype: { name: 'none' }
+      specialty: { type: 'none' },
     },
     {
       name: 'title', 
@@ -407,7 +407,7 @@ new HHDataList({
       isRequired: false, 
       colWidth: 'medium',
       transform: (value) => value, 
-      subtype: { name: 'none' }
+      specialty: { type: 'none' }
     }
   ],
 });
@@ -486,7 +486,7 @@ new HHDataList({
 });
 ```
 
-The caveat is a field can be editable only if the field subtype is *none* or *text*.
+The caveat is a field can be editable only if the specialty type is *none* or *text*.
 
 ## field.isRequired
 
@@ -556,7 +556,7 @@ To learn more, see the [recordColWidth](#recordcolwidth) option.
 <tr><th>Default:</th><td><code>(value) => value</code></td></tr>
 </table>
 
-The `field.transform` function modifies and formats field values.
+The `field.transform` function presents an opportunity to modify a field value.
 
 ### Example 1
 
@@ -577,7 +577,7 @@ The `created` field value is an object with two properties: `type` and `value`. 
 
 <p><img src="record-fields-009.png" class="img-fluid d-block" width=410 loading="lazy"></p>
 
-A *transform* function is the bridge between raw data and display data for a field:
+A *transform* function is part of the bridge between raw data and display data for a field:
 
 ``` js nonum
 new HHDataList({
@@ -721,34 +721,39 @@ The result is an array of keys:
 
 <p><img src="record-fields-013.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-The second step involves the use of a `field.subtype` object:
+The second step involves the use of a `field.specialty` object:
 
 ``` js nonum
 new HHDataList({
   recordFields: [
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "authors", label: "Authors", subtype: { name: "endpoint", field: (data) => data.name }, transform: (value) => {
-      const a = [];
-      for (let i of value) { a.push(i.author.key); }
-      return a;
-    }},
+    { name: "authors", label: "Authors", 
+      transform: (value) => {
+        const a = [];
+        for (let i of value) { a.push(i.author.key); }
+        return a;
+      },
+      specialty: { type: "endpoint", field: (data) => data.name }
+    },
   ],
 });
 ```
 
-See [field.subtype](#fieldsubtype) below.
+See [field.specialty](#fieldspecialty) below.
 
-## field.subtype
+## field.specialty
 
 <table class="options-table h2">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>{ name: 'none' }</code></td></tr>
+<tr><th>Default:</th><td><code>{ type: 'none' }</code></td></tr>
 </table>
 
-### key
+The *field.specialty* option defines any special instructions for a transformed field value.
 
-### link
+### type = key
+
+### type = link
 
 Consider the `links` field in the following response data:
 
@@ -779,7 +784,9 @@ The `links` field is an array of objects. Each object represents a link, and inc
 
 <p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-### text
+### type = none
+
+### type = text
 
 # recordIdField
 
