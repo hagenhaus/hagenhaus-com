@@ -333,9 +333,9 @@ new HHDataList({
     { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
     { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' },
     { name: "first_publish_date", label: "First Published Date", isEditable: true },
-    { name: "first_sentence", label: "First Sentence", transform: (value) => value.value, specialty: { type: "text" } },
+    { name: "first_sentence", label: "First Sentence", transform: (value) => value.value, display: { type: "text" } },
     { name: "subjects", label: "Subjects" },
-    { name: "links", label: "Links", specialty: { type: "link" } }
+    { name: "links", label: "Links", display: { type: "link" } }
   ],
 });
 ```
@@ -351,7 +351,7 @@ Note the following:
 1. The `field.isRequired` property indicates that the field is required in `POST` operations.
 1. The `field.colWidth` property sets the field width for that particular field.
 1. The `field.transform` function presents an opportunity to modify a field value.
-1. The `field.specialty` property defines any special instructions for a transformed field value.
+1. The `field.display` property defines any special instructions for a transformed field value.
 
 The sections below describe each *field* property in more detail.
 
@@ -397,7 +397,7 @@ new HHDataList({
       isRequired: false, 
       colWidth: 'medium',
       transform: (value) => value,
-      specialty: { type: 'none' },
+      display: { type: 'none' },
     },
     {
       name: 'title', 
@@ -407,7 +407,7 @@ new HHDataList({
       isRequired: false, 
       colWidth: 'medium',
       transform: (value) => value, 
-      specialty: { type: 'none' }
+      display: { type: 'none' }
     }
   ],
 });
@@ -486,7 +486,7 @@ new HHDataList({
 });
 ```
 
-The caveat is a field can be editable only if the specialty type is *none* or *text*.
+The caveat is a field can be editable only if the display type is *none* or *text*.
 
 ## field.isRequired
 
@@ -721,7 +721,7 @@ The result is an array of keys:
 
 <p><img src="record-fields-013.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-The second step involves the use of a `field.specialty` object:
+The second step involves the use of a `field.display` object:
 
 ``` js nonum
 new HHDataList({
@@ -733,15 +733,15 @@ new HHDataList({
         for (let i of value) { a.push(i.author.key); }
         return a;
       },
-      specialty: { type: "endpoint", field: (data) => data.name }
+      display: { type: "endpoint", field: (data) => data.name }
     },
   ],
 });
 ```
 
-See [field.specialty](#fieldspecialty) below.
+See [field.display](#fieldspecialty) below.
 
-## field.specialty
+## field.display
 
 <table class="options-table h2">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -749,11 +749,15 @@ See [field.specialty](#fieldspecialty) below.
 <tr><th>Default:</th><td><code>{ type: 'none' }</code></td></tr>
 </table>
 
-The *field.specialty* option defines any special instructions for a transformed field value.
+The *field.display* option specifies display instructions.
 
-### type = key
+### type = default
+
+### type = text
 
 ### type = link
+
+For a single link, search *works* for *"a wild swan"*.
 
 Consider the `links` field in the following response data:
 
@@ -783,10 +787,6 @@ Consider the `links` field in the following response data:
 The `links` field is an array of objects. Each object represents a link, and includes a `url` and a `title`. The target display is the following:
 
 <p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-### type = none
-
-### type = text
 
 # recordIdField
 

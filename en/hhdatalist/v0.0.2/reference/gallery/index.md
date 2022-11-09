@@ -38,13 +38,9 @@
       { name: 'playerID', label: 'Player ID', isChecked: false },
       { name: 'nameFirst', label: 'First Name', isEditable: true, isRequired: true },
       { name: 'nameLast', label: 'Last Name', isEditable: true, isRequired: true },
-      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true, transform: (value) => {
-        if (value === null) {
-          return '';
-        } else {
-          return value;
-        }
-      }},
+      { name: 'nameGiven', label: 'Given Name', isChecked: false, isEditable: true, 
+        transform: (v) => v === null ? '' : v
+      },
       { name: 'birthDay', label: 'Birth Day', isEditable: true },
       { name: 'birthMonth', label: 'Birth Month', isEditable: true },
       { name: 'birthYear', label: 'Birth Year', isEditable: true },
@@ -178,6 +174,99 @@
   });
 </script>
 
+# Famous Data
+
+## Famous Trees
+
+<div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
+
+<script>
+  new HHDataList({
+    controlsAreSmall: false,
+    fieldColWidth: 'narrow',
+    id: 'famous-trees-datalist',
+    queryParams: {
+      fields: { name: 'fields', default: '*' },
+      filter: { name: 'filter' },
+      order: { name: 'order', default: 'name' },
+      page: { name: 'page' },
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
+    },
+    recordColWidth: 'medium',
+    recordFieldAnalyzer: { 
+      aspect: 'value',
+      isTransformed: true 
+    },
+    recordFields: [
+      { name: 'id', label: 'ID', isChecked: false }, 
+      { name: 'name', label: 'Name' }, 
+      { name: 'species', label: 'Species',
+        transform: (v) => ({ url: v.link, title: v.text }),
+        display: { type: 'link' }
+      }, 
+      { name: 'description', label: 'Description', colWidth: 'wide', 
+        display: { type: 'text', rows: 3 }
+      }, 
+      { name: 'city', label: 'Nearby City' },
+      { name: 'country', label: 'Country',
+        transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+      },
+      { name: 'coordinates', label: 'Latitude, Longitude', 
+        transform: (v) => ({ 
+          url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
+          title: `${v.lat}, ${v.long}` 
+        }),
+        display: { type: 'link' }
+      }, 
+      { name: 'germinationYear', label: 'Age (years)',
+        transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
+      }, 
+      { name: 'height', label: 'Height (meters)', 
+        transform: (v) => Math.round(v * 0.3048)
+      }, 
+      { name: 'links', label: 'Links', 
+        transform: (v) => {
+          const a = [];
+          for (let i of v) { a.push({ url: i.link, title: i.text }); }
+          return a;
+        },
+        display: { type: 'link' }
+      }
+    ],
+    recordIdField: 'id',
+    recordParity: true,
+    recordsAreExpanded: true,
+    recordsAreNumbered: true,
+    recordTitle: {
+      fields: ['name'],
+      format: (f, r) => `${r[f[0]]}`
+    },
+    reportError: (title, detail) => { reportError(title, detail); },
+    reportInfo: (title, detail) => { reportInfo(title, detail); },
+    reportWarning: (type, title, detail) => { reportWarning(type, title, detail); },
+    responseHelper: {
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
+    },
+    // reportTheme: (theme) => { 
+    //   const t1 = JSON.stringify(theme, null, 2);
+    //   const t2 = t1.replace(/"([^"]+)":/g, '$1:');
+    //   const t3 = t2.replace(/"/g, "'");      
+    //   console.log(t3);
+    // },
+    // themeFromPaletteName: {
+    //   paletteName: 'Wheatgerm',
+    //   newThemeName: 'Wheatgerm'
+    // },
+    themeName: 'Thistle',
+    url: `${getDomain()}/api/famous/v1/trees`,
+  });
+</script>
+
 # Open Library
 
 ## Authors
@@ -202,44 +291,47 @@
     recordColWidth: 'narrow',
     recordFields: [
       { name: "key", label: "Key", isChecked: false, colWidth: 'medium' }, 
-      { name: "type", label: "Type", isChecked: false, colWidth: 'medium', transform: (value) => value.key }, 
+      { name: "type", label: "Type", isChecked: false, colWidth: 'medium', 
+        transform: (v) => v.key 
+      }, 
       { name:"name", label:"Name", colWidth: 'medium'},
       { name:"alternate_names", label:"Alternate Names", colWidth: 'medium'},
       { name:"personal_name", label:"Personal Name", isChecked:false, colWidth: 'medium'},
       { name:"title", label:"Title/Status", isChecked:false, colWidth: 'medium'},
-      { name:"birth_date", label:"Birth Date", colWidth: 'medium', transform: (value) => 
-        new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+      { name:"birth_date", label:"Birth Date", colWidth: 'medium', 
+        transform: (v) => 
+        new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      { name:"death_date", label:"Death Date", colWidth: 'medium', transform: (value) => 
-        new Date(value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+      { name:"death_date", label:"Death Date", colWidth: 'medium', 
+        transform: (v) => 
+        new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
-      { name:"bio", label:"Biography", colWidth: 'wide', specialty: { type: 'text' }, transform: (value) => {
-        if (typeof value === 'object') {
-          return value.value;
-        } else {
-          return value;
-        }
-      }}, 
-      { name:"wikipedia", label:"Wikipedia", colWidth: 'medium', specialty: { type: 'link' }, transform: (value) => {
-        // return value.length ? 'Wikipedia'.link(value) : value;
-        return {url: value, title: 'Wikipedia'};
-      }},
+      { name:"bio", label:"Biography", colWidth: 'wide', 
+        transform: (v) => typeof v === 'object' ? v.value : v,
+        display: { type: 'text' }
+      }, 
+      { name:"wikipedia", label:"Wikipedia", colWidth: 'medium', 
+        transform: (v) => ( {url: v, title: 'Wikipedia'} ), 
+        display: { type: 'link' }
+      },
       { name:"photos", label:"Photos", colWidth: 'medium'},
       { name:"source_records", label:"Source Records", colWidth: 'medium'},
-      { name:"remote_ids", label:"Remote IDs", colWidth: 'medium', transform: (value) => {
-        const a = [];
-        for (const property in value) {
-          a.push(`${property}:${value[property]}`);
+      { name:"remote_ids", label:"Remote IDs", colWidth: 'medium', 
+        transform: (v) => {
+          const a = [];
+          for (const property in v) { a.push(`${property}:${v[property]}`); }
+          return a;
         }
-        return a;
-      }},
+      },
       { name:"photograph", label:"Photograph", isChecked:false},
       { name:"revision", label:"Revision", isChecked:false},
-      { name: "created", label: "Created", isChecked: false, transform: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      { name: "created", label: "Created", isChecked: false, 
+        transform: (v) => 
+          new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      { name: "last_modified", label: "Last Modified", isChecked: false, transform: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      { name: "last_modified", label: "Last Modified", isChecked: false, 
+        transform: (v) => 
+          new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
     ],
     recordIdField: 'key',
@@ -290,9 +382,10 @@
       { name:"subject_type", label:"Type", isChecked:false, colWidth: 'medium'},
       { name:"name", label:"Subject Name", colWidth: 'medium'},
       { name:"work_count", label:"Number of Works", colWidth: 'medium'},
-      { name:"works", label:"Sample Works", colWidth: 'wide', transform: (value) => {
+      { name:"works", label:"Sample Works", colWidth: 'wide', 
+        transform: (v) => {
         const a = [];
-        for (let i of value) { a.push(i.title); }
+        for (let i of v) { a.push(i.title); }
         return a;
       }}
     ],
@@ -336,7 +429,7 @@
     },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', none: '*', default: 'snow' }, // Snow Falling on Cedars, On San Piedro
+      filter: { name: 'q', none: '*', default: 'huckleberry' }, // Snow Falling on Cedars, On San Piedro
       order: { name: 'sort' },
       page: { name: 'page' },
       limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 1 }
@@ -344,49 +437,69 @@
     recordColWidth: 'medium',
     recordFields: [
       { name: "key", label: "Key", isChecked: false }, 
-      { name: "type", label: "Type", isChecked: false, transform: (value) => value.key }, 
+      { name: "type", label: "Type", isChecked: false, 
+        transform: (v) => v.key 
+      }, 
       { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }, 
       { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' }, 
-      { name: "authors", label: "Authors", specialty: { type: 'endpoint', field: (res) => res.data.name }, transform: (value) => {
-        const a = [];
-        for (let i of value) { a.push(i.author.key); }
-        return a;
-      }},
-      { name: "first_publish_date", label: "First Published Date", isEditable: true }, 
-      { name: "description", label: "Description", isEditable: true, colWidth: 'wide', specialty: {type: 'text', rows: 4 }, transform: (value) => {
-        if (typeof value === 'object') {
-          return value.value;
-        } else {
-          return value;
+      { name: "authors", label: "Authors", 
+        transform: async (v) => {
+          let responses = [];
+          for (let i of v) {
+            responses.push(HHDataList.get(`https://openlibrary.org${i.author.key}.json`));
+          }
+          await Promise.all(responses);
+          let names = [];
+          responses.forEach(p => {
+            p.then(res => {
+              names.push(res.data.name);
+            });
+          });
+          return names;
         }
-      }},
-      { name: "first_sentence", label: "First Sentence", isEditable: true, colWidth: 'wide', specialty: {type: 'text' }, transform: (value) => value.value }, 
-      { name: "excerpts", label: "Excerpt", isChecked: false, colWidth: 'wide', specialty: {type: 'text' }, transform: (value) => {
-        if(Array.isArray(value) && value.length && typeof value[0] === 'object' && 'excerpt' in value[0]) {
-          if(typeof value[0].excerpt === 'string') {
-            return value[0].excerpt;
-          } else if (typeof value[0].excerpt === 'object' && 'value' in value[0].excerpt) {
-            return value[0].excerpt.value;
+      },
+      { name: "first_publish_date", label: "First Published Date", isEditable: true }, 
+      { name: "description", label: "Description", isEditable: true, colWidth: 'wide', 
+        transform: (v) => typeof v === 'object' ? v.value : v,
+        display: {type: 'text', rows: 4 }, 
+      },
+      { name: "first_sentence", label: "First Sentence", isEditable: true, colWidth: 'wide', 
+        transform: (v) => v.value,
+        display: {type: 'text' }
+      }, 
+      { name: "excerpts", label: "Excerpt", isChecked: false, colWidth: 'wide', 
+        transform: (v) => {
+          if(Array.isArray(v) && v.length && typeof v[0] === 'object' && 'excerpt' in v[0]) {
+            if(typeof v[0].excerpt === 'string') {
+              return v[0].excerpt;
+            } else if (typeof v[0].excerpt === 'object' && 'value' in v[0].excerpt) {
+              return v[0].excerpt.value;
+            } else {
+              return '';
+            }
           } else {
             return '';
           }
-        } else {
-          return '';
-        }
-      }},
+        },
+        display: {type: 'text' }
+      },
       { name: "subjects", label: "Subjects"}, 
       { name: "subject_places", label: "Subject Places"},
       { name: "subject_people", label: "Subject People"}, 
       { name: "subject_times", label: "Subject Times" },
       { name: "covers", label: "Covers" }, 
-      { name: "links", label: "Links", specialty: {type: 'link' }}, 
+      { name: "links", label: "Links", 
+        display: {type: 'link' }
+      }, 
       { name: "dewey_number", label: "Dewey Number", isChecked: false, colWidth: 'narrow' }, 
       { name: "revision", label: "Revision", isChecked: false, colWidth: 'narrow' }, 
-      { name: "created", label: "Created", isChecked: false, colWidth: 'narrow', transform: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      { name: "created", label: "Created", isChecked: false, colWidth: 'narrow', 
+        transform: (v) => 
+          new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       },
-      { name: "last_modified", label: "Last Modified", isChecked: false, colWidth: 'narrow', transform: (value) => 
-        new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
+      { name: "last_modified", label: "Last Modified", isChecked: false, colWidth: 'narrow', 
+        transform: (v) => 
+          new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
       }
     ],
     recordIdField: 'key',

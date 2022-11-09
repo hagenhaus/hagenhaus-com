@@ -1,10 +1,16 @@
 # Guide
 
-# How to use field.specialty
+# How to use field.transform
 
-## type: none
+# How to use field.get
 
-<p><img src="field-specialty-none.png" class="img-fluid d-block" width=1000 loading="lazy"></p>
+# How to use field.display
+
+<span style="color:red;">Change this to field.display? 'none' changes to 'normal'.</span>
+
+## type: default
+
+<p><img src="field-specialty-default.png" class="img-fluid d-block" width=1000 loading="lazy"></p>
 
 ## type: text
 
@@ -12,18 +18,14 @@
 
 ## type: link
 
-Specifying *field.specialty.type: 'link'* tells HHDataList to build *input* element 
-
-The *link* specialty type requires the data type (returned from the *transform* function) to be an object with a *url* property and a *title* property:
+<span style="color:red;">Handle case for array of links, too.</span>
 
 ``` nonum
 { 
-  url: "https://domain.com/some/path", 
-  title: "Some title"
+  url: "https://domain.com/my/path", 
+  title: "My title"
 }
 ```
 
 <p><img src="field-specialty-link.png" class="img-fluid d-block" width=1000 loading="lazy"></p>
-
-## type: key
 
