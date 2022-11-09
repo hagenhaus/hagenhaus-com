@@ -1,22 +1,30 @@
 # Guide
 
-# How to use field.transform
+# User Interface
 
-# How to use field.get
+The HHDataList user interface is divided into four rows, and the Tabs Row is divided into five tabs. Note that the Tabs row appears above the other three rows which remain visible as the user clicks from tab to tab:
 
-# How to use field.display
+<p><img src="rows-and-tabs.png" class="img-fluid d-block" width=800 height=527 loading="lazy"></p>
 
-<span style="color:red;">Change this to field.display? 'none' changes to 'normal'.</span>
+# Get Records
 
-## type: default
+# Get Record
 
 <p><img src="field-specialty-default.png" class="img-fluid d-block" width=1000 loading="lazy"></p>
 
-## type: text
+# Record Fields
+
+## field.transform
+
+## field.display
+
+### type: default
+
+### type: text
 
 <p><img src="field-specialty-text.png" class="img-fluid d-block" width=1000 loading="lazy"></p>
 
-## type: link
+### type: link
 
 <span style="color:red;">Handle case for array of links, too.</span>
 

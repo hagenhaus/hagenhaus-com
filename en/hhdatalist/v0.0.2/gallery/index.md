@@ -190,7 +190,7 @@
       filter: { name: 'filter' },
       order: { name: 'order', default: 'name' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 20 }
     },
     recordColWidth: 'medium',
     recordFieldAnalyzer: { 
@@ -222,7 +222,7 @@
         transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
       }, 
       { name: 'height', label: 'Height (meters)', 
-        transform: (v) => Math.round(v * 0.3048)
+        transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
       }, 
       { name: 'links', label: 'Links', 
         transform: (v) => {
@@ -235,7 +235,7 @@
     ],
     recordIdField: 'id',
     recordParity: true,
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordsAreNumbered: true,
     recordTitle: {
       fields: ['name'],

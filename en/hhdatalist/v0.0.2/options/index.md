@@ -263,12 +263,12 @@ Each of the three choices accommodates responsive screen widths:
 <tr><th>Default:</th><td><code>{ aspect: 'value', isTransformed: true }</code></td></tr>
 </table>
 
-The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value or (2) a stringified version of each field value or (3) each field value itself:
+The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value or (2) a string version of each field value or (3) each field value itself:
 
 ``` js nonum
 new HHDataList({
   recordFieldAnalyzer: { 
-    aspect: 'type', // type, stringified, or value
+    aspect: 'type', // type, string, or value
     isTransformed: true 
   },
 });
@@ -289,16 +289,16 @@ Below are examples of each:
 </div>
 </div>
 
-### aspect: 'stringified'
+### aspect: 'string'
 
 <div class="row">
 <div class="col-12 col-lg-6">
 <div style="color:#404040;text-align: center;">isTransformed: false</div>
-<div><img src="record-field-analyzer-stringified-false.png" class="img-fluid" loading="lazy"></div>
+<div><img src="record-field-analyzer-string-false.png" class="img-fluid" loading="lazy"></div>
 </div>
 <div class="col-12 col-lg-6">
 <div style="color:#404040;text-align: center;">isTransformed: true</div>
-<div><img src="record-field-analyzer-stringified-true.png" class="img-fluid" loading="lazy"></div>
+<div><img src="record-field-analyzer-string-true.png" class="img-fluid" loading="lazy"></div>
 </div>
 </div>
 
@@ -739,7 +739,7 @@ new HHDataList({
 });
 ```
 
-See [field.display](#fieldspecialty) below.
+See [field.display](#fielddisplay) below.
 
 ## field.display
 
