@@ -11,6 +11,8 @@ new HHDataList({
 
 This page describes all possible options.
 
+# configurations
+
 # confirm
 
 <table class="options-table">
@@ -46,21 +48,25 @@ If the website does not provide a *confirm* option to the HHDataList constructor
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: false, hasUI: false }</code></td></tr>
 </table>
 
-The *controlsAreSmall* option controls whether the sizes of the various HHDataList subcomponents are normal or small. 
+The `controlsAreSmall` option specifies whether HHDataList displays (1) small controls on page load and (2) a checkbox on the Config Tab allowing the user to change `controlsAreSmall.value`.
 
 ``` js nonum
 new HHDataList({
-  controlsAreSmall: false
+  controlsAreSmall: { value: false, hasUI: true }
 });
 ```
 
 The diagram illustrates the effect of this option:
 
 <p><img src="controls-are-small.png" class="img-fluid d-block" width=800 loading="lazy"></p>
+
+The checkbox on the Config Tab looks like this:
+
+<p><img src="controls-are-small-checkbox.png" class="img-fluid d-block" width=200 loading="lazy"></p>
 
 # fieldColWidth
 
@@ -97,6 +103,14 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="field-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
+# formedFieldMakers
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>array</code></td></tr>
+<tr><th>Default:</th><td><code>null</code></td></tr>
+</table>
+
 # id
 
 <table class="options-table">
@@ -116,7 +130,7 @@ new HHDataList({
 });
 ```
 
-# inclusionLevel
+# x inclusionLevel
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -129,7 +143,7 @@ new HHDataList({
 });
 ```
 
-# inclusions
+# x inclusions
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -139,39 +153,9 @@ new HHDataList({
 ``` js nonum
 new HHDataList({
   inclusions: {
-    recordsAreNumberedCbx: true,
-    showTabDescriptionsCbx: true
   },
 });
 ```
-
-# missingFields
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>{ include: true, placeholder: 'No data' }</code></td></tr>
-</table>
-
-Checked fields on the *Fields* tab dictate which fields to return for expanded records:
-
-<p><img src="missing-fields-001.png" class="img-fluid d-block" width=600 loading="lazy"></p>
-
-However, some APIs do not return all fields for all records, even if the fields are checked on the Fields tab:
-
-<p><img src="missing-fields-002.png" class="img-fluid d-block" width=600 loading="lazy"></p>
-
-The *missingFields* option provides a means of instructing HHDataList to display a field label and a field value for each field that, though checked on the Fields tab, does not exist in the returned record:
-
-``` js nonum
-new HHDataList({
-  missingFields: { include: true, placeholder: 'No data'},
-});
-```
-
-An included missing field might look like this:
-
-<p><img src="missing-fields-003.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
 # queryParams
 
@@ -255,7 +239,23 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="record-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# recordFieldAnalyzer
+# recordContentMode
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>values</code></td></tr>
+</table>
+
+# recordCreationMode
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>transformed</code></td></tr>
+</table>
+
+# x recordFieldAnalyzer
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -828,13 +828,13 @@ The example above is appropriate for the following record:
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: false, hasUI: false }</code></td></tr>
 </table>
 
 ``` js nonum
 new HHDataList({
-  recordParity: true,
+  recordParity: { value: true, hasUI: true },
 });
 ```
 
@@ -866,25 +866,25 @@ So, if you know that the *getRecords* operation of the underlying API can return
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: false, hasUI: true }</code></td></tr>
 </table>
 
 The *recordsAreExpanded* option specifies whether records are collapsed or expanded on page load:
 
 ``` js nonum
 new HHDataList({
-  recordsAreExpanded: false,
+  recordsAreExpanded: { value: false, hasUI: true },
 });
 ```
 
 These records are collapsed:
 
-<p><img src="records-are-expanded-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="expand-records-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 These records are expanded:
 
-<p><img src="records-are-expanded-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="expand-records-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 The user can check or uncheck the *Expander* button to alter this setting.
 
@@ -892,27 +892,60 @@ The user can check or uncheck the *Expander* button to alter this setting.
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>true</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: true, hasUI: true }</code></td></tr>
 </table>
 
-The *recordsAreNumbered* option specifies whether records are numbered or unnumbered on page load:
+The `recordsAreNumbered` option specifies whether HHDataList displays (1) record numbers on page load and (2) a checkbox on the Config Tab allowing the user to change `recordsAreNumbered.value`.
 
 ``` js nonum
 new HHDataList({
-  recordsAreNumbered: true,
+  recordsAreNumbered: {
+    value: true,
+    hasUI: true
+  },
 });
 ```
 
 These records are numbered:
 
-<p><img src="records-are-numbered-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="records-are-numbered-true.png" class="img-fluid d-block" width=400 loading="lazy"></p>
 
 These records are unnumbered:
 
-<p><img src="records-are-numbered-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="records-are-numbered-false.png" class="img-fluid d-block" width=400 loading="lazy"></p>
 
-The user can check or uncheck the *Records are numbered* button to alter this setting.
+The checkbox on the Config Tab looks like this:
+
+<p><img src="records-are-numbered-checkbox.png" class="img-fluid d-block" width=200 loading="lazy"></p>
+
+# recordsHaveAllFields
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: true, hasUI: true, fieldValue: '' }</code></td></tr>
+</table>
+
+Checked fields on the *Fields* tab dictate which fields to return for expanded records:
+
+<p><img src="missing-fields-001.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+However, some APIs do not return all fields for all records, even if the fields are checked on the Fields tab:
+
+<p><img src="missing-fields-002.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+The *recordsHaveAllFields* option provides a means of instructing HHDataList to display a field label and a field value for each field that, though checked on the Fields tab, does not exist in a particular returned record:
+
+``` js nonum
+new HHDataList({
+  recordsHaveAllFields: { value: true, hasUI: true, fieldValue: 'No data' },
+});
+```
+
+An included missing field might look like this:
+
+<p><img src="missing-fields-003.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
 # recordTitle
 
@@ -1128,28 +1161,6 @@ Note that this response data does not contain information about the total number
 
 <p><img src="response-helper-002.png" class="img-fluid d-block" width=480 loading="lazy"></p>
 
-# showTabDescriptions
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>true</code></td></tr>
-</table>
-
-The *showTabDescriptions* option specifies whether tab descriptions (if they exist) are displayed on page load. 
-
-``` js nonum
-const dataList = new HHDataList({
-  showTabDescriptions: true
-});
-```
-
-The following diagram shows a tab description:
-
-<p><img src="show-tab-descriptions.png" class="img-fluid d-block" width=500 loading="lazy"></p>
-
-The [tabDescriptions](#tabdescriptions) option defines tab descriptions.
-
 # tabDescriptions
 
 <table class="options-table">
@@ -1190,6 +1201,33 @@ const dataList = new HHDataList({
 The *tabDescription* object above might render like this:
 
 <p><img src="show-tab-descriptions.png" class="img-fluid d-block" width=500 loading="lazy"></p>
+
+# tabsHaveDescriptions
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Default:</th><td><code>{ value: true, hasUI: true }</code></td></tr>
+</table>
+
+The `tabsHaveDescriptions` option specifies whether HHDataList displays (1) tab descriptions on page load and (2) a checkbox on the Config Tab allowing the user to change `tabsHaveDescriptions.value`.
+
+``` js nonum
+new HHDataList({
+  tabsHaveDescriptions: {
+    value: true,
+    hasUI: true
+  },
+});
+```
+
+The following diagram shows a tab description:
+
+<p><img src="tabs-have-descriptions-example.png" class="img-fluid d-block" width=400 loading="lazy"></p>
+
+The checkbox on the Config Tab looks like this:
+
+<p><img src="tabs-have-descriptions-checkbox.png" class="img-fluid d-block" width=200 loading="lazy"></p>
 
 # theme
 

@@ -6,6 +6,8 @@ menuItem: mi-hhdatalist
 
 # HHDataList
 
+Goal is to be able to explain everything about HHDataList by referring to diagrams on the website.
+
 Define method, endpoint, operation, and API here.
 
 Put a video here.

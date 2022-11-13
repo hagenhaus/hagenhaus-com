@@ -24,8 +24,8 @@
       fields: { name: 'fields', default: '*' },
       filter: { 
         name: 'filter', 
-        default: 'playerid like "xyz%"', 
-        // default: 'birthyear is not null and namefirst is not null and namelast is not null', 
+        // default: 'playerid like "xyz%"', 
+        default: 'birthyear is not null and namefirst is not null and namelast is not null', 
         // default: 'birthyear is null',
         placeholder: 'birthyear is not null and namefirst like "John"' },
       order: { name: 'order', default: 'birthyear desc', placeholder: 'birthyear desc, namefirst asc' },
@@ -178,7 +178,7 @@
 
 ## Famous Trees
 
-<div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
+<!-- <div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
 
 <script>
   new HHDataList({
@@ -190,7 +190,7 @@
       filter: { name: 'filter' },
       order: { name: 'order', default: 'name' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 20 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
     },
     recordColWidth: 'medium',
     recordFieldAnalyzer: { 
@@ -235,7 +235,7 @@
     ],
     recordIdField: 'id',
     recordParity: true,
-    recordsAreExpanded: false,
+    recordsAreExpanded: true,
     recordsAreNumbered: true,
     recordTitle: {
       fields: ['name'],
@@ -265,7 +265,7 @@
     themeName: 'Thistle',
     url: `${getDomain()}/api/famous/v1/trees`,
   });
-</script>
+</script> -->
 
 # Open Library
 
@@ -286,7 +286,7 @@
       filter: { name: 'q', none: '*', default: 'john'},
       order: { name: 'sort' }, 
       offset: { name: 'offset' },
-      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 5, 10, 20, 50, 100], default: 5 }
     },
     recordColWidth: 'narrow',
     recordFields: [
@@ -300,11 +300,11 @@
       { name:"title", label:"Title/Status", isChecked:false, colWidth: 'medium'},
       { name:"birth_date", label:"Birth Date", colWidth: 'medium', 
         transform: (v) => 
-        new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+          new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
       { name:"death_date", label:"Death Date", colWidth: 'medium', 
         transform: (v) => 
-        new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+          new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
       },
       { name:"bio", label:"Biography", colWidth: 'wide', 
         transform: (v) => typeof v === 'object' ? v.value : v,
@@ -335,7 +335,7 @@
       },
     ],
     recordIdField: 'key',
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordTitle: {
       fields: ['name'],
       format: (f, r) => `${r[f[0]]}`
@@ -384,10 +384,11 @@
       { name:"work_count", label:"Number of Works", colWidth: 'medium'},
       { name:"works", label:"Sample Works", colWidth: 'wide', 
         transform: (v) => {
-        const a = [];
-        for (let i of v) { a.push(i.title); }
-        return a;
-      }}
+          const a = [];
+          for (let i of v) { a.push(i.title); }
+          return a;
+        }
+      }
     ],
     recordIdField: 'key',
     recordsAreExpanded: false,
@@ -429,10 +430,10 @@
     },
     queryParams: {
       fields: { name: 'fields', default: '*' },
-      filter: { name: 'q', none: '*', default: 'huckleberry' }, // Snow Falling on Cedars, On San Piedro
+      filter: { name: 'q', none: '*', default: 'snow' }, // Snow Falling on Cedars, On San Piedro
       order: { name: 'sort' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 20, 50, 100], default: 5 }
     },
     recordColWidth: 'medium',
     recordFields: [
@@ -451,9 +452,7 @@
           await Promise.all(responses);
           let names = [];
           responses.forEach(p => {
-            p.then(res => {
-              names.push(res.data.name);
-            });
+            p.then(res => { names.push(res.data.name); });
           });
           return names;
         }
@@ -503,7 +502,7 @@
       }
     ],
     recordIdField: 'key',
-    recordsAreExpanded: true,
+    recordsAreExpanded: false,
     recordTitle: {
       fields: ['title'],
       format: (f, r) => `${r[f[0]]}`
