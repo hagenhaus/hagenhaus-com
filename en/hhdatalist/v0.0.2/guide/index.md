@@ -16,15 +16,17 @@ The HHDataList user interface is divided into four rows, and the Tabs Row is div
 
 This section describes the three ways that HHDataList creates expanded records.
 
-## Copied Record Mode
+## Copy Mode
 
-By default, HHDataList copies field names and values from an API response record to an HHDataList expanded record without excluding or reordering any fields. The expanded record is a *Copied Record*. Each field is a *Copied Field*.
+In *Copy* mode, HHDataList copies field names and values from an API response record to an HHDataList expanded record without excluding or reordering any fields. The expanded record is called a *copied* record. Each field is called a *copied* field.
 
-## Managed Record Mode
+## Manage Mode
 
-If the options argument passed to the HHDataList constructor includes an `options.managedFieldDefinitions` array, then HHDataList copies (from the API response record to the HHDataList expanded record) only fields specified in the array. 
+In *Manage* mode, HHDataList copies (from the API response record to the HHDataList expanded record) only fields specified in the `options.fieldDefinitions.manage` array. HHDataList also orders the copied fields according to the order of the fields in the array. HHDataList does not, however, merge fields, alias field names, nor transform field values. The expanded record is called a *managed* record. Each field is called a *managed* field.
 
-## Transformed Record Mode
+## Transform Mode
+
+In *Transform* mode, HHDataList copies (from the API response record to the HHDataList expanded record) only fields specified in the `options.fieldDefinitions.transform` array. HHDataList also orders the copied fields according to the order of the fields in the array. HHDataList may also merge fields, alias field names, and/or transform field values. The expanded record is called a *transformed* record. Each field is called a *transformed* field.
 
 # Record Fields
 

@@ -103,6 +103,17 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="field-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
+# fieldDefs
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
+</table>
+
+## managedFieldDefs
+
+## transformedFieldDefs
+
 # formedFieldMakers
 
 <table class="options-table">
@@ -254,66 +265,6 @@ Each of the three choices accommodates responsive screen widths:
 <tr><th>Type:</th><td><code>string</code></td></tr>
 <tr><th>Default:</th><td><code>transformed</code></td></tr>
 </table>
-
-# x recordFieldAnalyzer
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>{ aspect: 'value', isTransformed: true }</code></td></tr>
-</table>
-
-The *recordFieldAnalyzer* option is a debugging tool that displays, in expanded records, either before or after invocation of the [field.transform](#fieldtransform) function, (1) the data type of each field value or (2) a string version of each field value or (3) each field value itself:
-
-``` js nonum
-new HHDataList({
-  recordFieldAnalyzer: { 
-    aspect: 'type', // type, string, or value
-    isTransformed: true 
-  },
-});
-```
-
-Below are examples of each:
-
-### aspect: 'type'
-
-<div class="row">
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: false</div>
-<div><img src="record-field-analyzer-type-false.png" class="img-fluid" loading="lazy"></div>
-</div>
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: true</div>
-<div><img src="record-field-analyzer-type-true.png" class="img-fluid" loading="lazy"></div>
-</div>
-</div>
-
-### aspect: 'string'
-
-<div class="row">
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: false</div>
-<div><img src="record-field-analyzer-string-false.png" class="img-fluid" loading="lazy"></div>
-</div>
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: true</div>
-<div><img src="record-field-analyzer-string-true.png" class="img-fluid" loading="lazy"></div>
-</div>
-</div>
-
-### aspect: 'value'
-
-<div class="row">
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: false</div>
-<div><img src="record-field-analyzer-value-false.png" class="img-fluid" loading="lazy"></div>
-</div>
-<div class="col-12 col-lg-6">
-<div style="color:#404040;text-align: center;">isTransformed: true</div>
-<div><img src="record-field-analyzer-value-true.png" class="img-fluid" loading="lazy"></div>
-</div>
-</div>
 
 # recordFields
 
@@ -1004,6 +955,8 @@ const dataList = new HHDataList({
 
 The *More* link is not part of the *detail* string. It is, rather, built by this particular client-defined function.
 
+# reportFields
+
 # reportInfo
 
 <table class="options-table">
@@ -1256,14 +1209,14 @@ new HHDataList({
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
 </table>
 
 The *themeName* option is one of many ways to apply a theme to an HHDataList instance (see [Themes](/en/hhdatalist/v0.0.2/reference/themes/)):
 
 ``` js nonum
 new HHDataList({
-  themeName: 'Wheatgerm',
+  themeName: { value: 'firebrick', hasUI: true },
 });
 ```
 
