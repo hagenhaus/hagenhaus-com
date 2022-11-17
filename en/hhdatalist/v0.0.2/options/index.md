@@ -110,9 +110,9 @@ Each of the three choices accommodates responsive screen widths:
 <tr><th>Type:</th><td><code>object</code></td></tr>
 </table>
 
-## managedFieldDefs
+## managed
 
-## transformedFieldDefs
+## transformed
 
 # formedFieldMakers
 
@@ -955,7 +955,7 @@ const dataList = new HHDataList({
 
 The *More* link is not part of the *detail* string. It is, rather, built by this particular client-defined function.
 
-# reportFields
+# reportFieldDefs
 
 # reportInfo
 

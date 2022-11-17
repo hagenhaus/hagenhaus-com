@@ -343,3 +343,45 @@ The functionality that the user sees is based on the following:
 1. Options overriding options describing the API capability which turn off HHDataList functionality.
 
 Certain values should stay in options and be used during construction without being saved in the class instance.
+
+# getRecord
+
+``` nonum
+createCreatedForm(options)
+  findBtn.addEventListener('click', (event) => {
+    (async () => {
+      const queryString = this.toQueryStr(this.queryParams, 'getRecord');
+      let res = await this.getRecord(newId, queryString);
+      let recordEl = await this.createRecordElement(this.responseHelper.record(res), 0);
+    })();
+  });
+ 
+async createRecordElement(record, i)
+  this.setFields();
+  const queryString = this.toQueryStr(this.queryParams, 'getRecord');
+  let res = await this.getRecord(record[this.recordIdField], queryString);
+ 
+updateCreatedRecord
+  (async () => {
+    this.setFields();
+    const queryString = this.toQueryStr(this.queryParams, 'getRecord');
+    let res = await this.getRecord(details.id.substring(4), queryString);
+  })();
+ 
+getAndDisplayRecord(id)
+  this.setFields();
+  const queryString = this.toQueryStr(this.queryParams, 'getRecord');
+  (async () => {
+    this.displayRecord(await this.getRecord(id, queryString), id);
+  })();
+ 
+ async getRecord(id, queryString)
+   return (await axios({ url: `${this.urls.getRecord(id)}?${queryString}`, method: 'get' }));
+   return (await axios({ url: `${this.urls.getRecord(id)}`, method: 'get' }));
+```
+
+# displayRecord
+
+# getCheckedTransformedFieldNames
+
+# getCheckedManagedFieldNames
