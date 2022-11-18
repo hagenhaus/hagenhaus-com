@@ -10,35 +10,36 @@
   new HHDataList({
     controlsAreSmall: { value: false, hasUI: true },
     fieldColWidth: 'narrow',
-    fieldDefs: {
+    fieldContentMode: { value: 'value', hasUI: true },
+    fieldDefinitions: {
       managed: [
-        { name: 'id', label: 'ID', isChecked: false }, 
-        { name: 'name', label: 'Name', isEditable: true }, 
-        { name: 'species', label: 'Species',
+        { fieldName: 'id', label: 'ID', isChecked: false }, 
+        { fieldName: 'name', label: 'Name', isEditable: true }, 
+        { fieldName: 'species', label: 'Species',
           transform: (v) => ({ url: v.link, title: v.text }),
           display: { type: 'link' }
         }, 
-        { name: 'description', label: 'Description', colWidth: 'wide', 
+        { fieldName: 'description', label: 'Description', colWidth: 'wide', 
           display: { type: 'text', rows: 3 }
         }, 
-        { name: 'city', label: 'Nearby City' },
-        { name: 'country', label: 'Country',
+        { fieldName: 'city', label: 'Nearby City' },
+        { fieldName: 'country', label: 'Country',
           transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
         },
-        { name: 'coordinates', label: 'Coordinates', 
+        { fieldName: 'coordinates', label: 'Coordinates', 
           transform: (v) => ({ 
             url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
             title: `${v.lat}, ${v.long}` 
           }),
           display: { type: 'link' }
         }, 
-        { name: 'birthYear', label: 'Age (years)',
+        { fieldName: 'birthYear', label: 'Age (years)',
           transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
         }, 
-        { name: 'height', label: 'Height (meters)', 
+        { fieldName: 'height', label: 'Height (meters)', 
           transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         }, 
-        { name: 'links', label: 'Links', 
+        { fieldName: 'links', label: 'Links', 
           transform: (v) => {
             const a = [];
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
@@ -90,19 +91,18 @@
       filter: { name: 'filter' },
       order: { name: 'order', default: 'name' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 5 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
     },
-    recordColWidth: 'medium',
-    recordContentMode: { value: 'Values', hasUI: true },
-    recordCreationMode: { value: 'Transform', hasUI: true },
+    recordColWidth: { value: 'medium', hasUI: true },
+    recordCreationMode: { hasUI: true },
     recordIdField: 'id',
     recordParity: { value: true, hasUI: true },
-    recordsAreExpanded: { value: false, hasUI: true },
+    recordsAreExpanded: { value: true, hasUI: true },
     recordsAreNumbered: { value: true, hasUI: true },
     recordsHaveAllFields: { value: true, hasUI: true, fieldValue: 'No data' },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
-    reportFieldDefs: { hasUI: true },
+    reportFieldDefinitions: { hasUI: true },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportTheme: { hasUI: true },
     responseHelper: {

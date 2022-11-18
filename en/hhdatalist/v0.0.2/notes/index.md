@@ -381,7 +381,3 @@ getAndDisplayRecord(id)
 ```
 
 # displayRecord
-
-# getCheckedTransformedFieldNames
-
-# getCheckedManagedFieldNames
