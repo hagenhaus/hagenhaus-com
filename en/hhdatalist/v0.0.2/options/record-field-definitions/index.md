@@ -1,4 +1,4 @@
-# fieldDefinitions
+# recordFieldDefinitions
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
@@ -15,6 +15,35 @@ new HHDataList({
 ```
 
 # managed
+
+``` js nonum
+new HHDataList({
+  fieldDefinitions: {
+    managed: [ ]
+  }
+});
+```
+
+# transformed
+
+``` js nonum
+new HHDataList({
+  fieldDefinitions: {
+    transformed: [ ]
+  }
+});
+```
+
+# internal
+
+Internally (within HHDataList), managed and transformed definitions have the same properties, so HHDataList can process them using the same set of functions.
+
+||managed|transformed|
+|-|-|-|
+|`label`|`m.fieldName`|`t.label`|
+|`fieldNames`|`[m.fieldName]`|`t.fieldNames`|
+
+# obsolete
 
 ``` js nonum
 new HHDataList({
@@ -480,5 +509,3 @@ Consider the `links` field in the following response data:
 The `links` field is an array of objects. Each object represents a link, and includes a `url` and a `title`. The target display is the following:
 
 <p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-# transformed

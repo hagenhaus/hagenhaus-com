@@ -66,53 +66,6 @@ The checkbox on the Config Tab looks like this:
 
 <p><img src="controls-are-small-checkbox.png" class="img-fluid d-block" width=200 loading="lazy"></p>
 
-# fieldColWidth
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>narrow</code></td></tr>
-<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
-</table>
-
-The *fieldColWidth* option controls the width of the fields on the Fields tab:
-
-<p><img src="field-col-width-fields-tab.png" class="img-fluid d-block" width=600 loading="lazy"></p>
-
-The choices are *narrow*, *medium*, and *wide*. The diagram above reflects a *narrow* field column width as specified in this code snippet:
-
-``` js nonum
-new HHDataList({
-  fieldColWidth: 'narrow',
-});
-```
-
-Each of the three choices accommodates responsive screen widths:
-
-**narrow**
-
-<p><img src="field-col-width-narrow.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-**medium**
-
-<p><img src="field-col-width-medium.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-**wide**
-
-<p><img src="field-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-# fieldContentMode
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>values</code></td></tr>
-</table>
-
-# fieldDefinitions
-
-See [fieldDefinitions](/en/hhdatalist/v0.0.2/options/field-definitions/).
-
 # id
 
 <table class="options-table">
@@ -171,27 +124,17 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="record-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# recordCreationMode
+# recordFieldContentMode
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>transformed</code></td></tr>
+<tr><th>Default:</th><td><code>values</code></td></tr>
 </table>
 
-If the `options` argument does not include `recordCreationMode`, or if `recordCreationMode` does not include a `value` property, then HHDataList uses the following criteria to determine `recordCreationMode.value`:
+# recordFieldDefinitions
 
-1. If `fieldDefinitions` includes a `transform` array, then `recordCreationMode.value = 'transform'`. 
-1. Else if `fieldDefinitions` includes a `manage` array, then `recordCreationMode.value = 'manage'`.
-1. Else `recordCreationMode.value = 'copy'`.
-
-If the `options` argument does not include `recordCreationMode`, or if `recordCreationMode` does not include a `hasUI` property, then HHDataList sets `recordCreationMode.hasUI = false`.
-
-``` js nonum
-new HHDataList({
-  recordCreationMode: { value: 'transform', hasUI: true },
-});
-```
+See [recordFieldDefinitions](/en/hhdatalist/v0.0.2/options/record-field-definitions/).
 
 # recordIdField
 
@@ -266,6 +209,28 @@ And, here is the response data from the corresponding *getRecord* operation:
 HHDataList displays a page of expanded records differently depending on whether the underlying *getRecords* operation possesses record parity. If so, HHDataList, through a single call to *getRecords*, obtains all the data it needs to display a page of expanded records. If not, HHDataList calls *getRecords* to return an array of barebones records, and then it calls *getRecord* for each record in the array to return and display record properties.
 
 So, if you know that the *getRecords* operation of the underlying API can return all the record properties that the *getRecord* operation can, then you can set this option to *true* thus enabling HHDataList to use a more efficient technique for scrolling expanded pages of records.
+
+# recordProcessingMode
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>transformed</code></td></tr>
+</table>
+
+If the `options` argument does not include `recordProcessingMode`, or if `recordProcessingMode` does not include a `value` property, then HHDataList uses the following criteria to determine `recordProcessingMode.value`:
+
+1. If `fieldDefinitions` includes a `transform` array, then `recordProcessingMode.value = 'transform'`. 
+1. Else if `fieldDefinitions` includes a `manage` array, then `recordProcessingMode.value = 'manage'`.
+1. Else `recordProcessingMode.value = 'copy'`.
+
+If the `options` argument does not include `recordProcessingMode`, or if `recordProcessingMode` does not include a `hasUI` property, then HHDataList sets `recordProcessingMode.hasUI = false`.
+
+``` js nonum
+new HHDataList({
+  recordProcessingMode: { value: 'transform', hasUI: true },
+});
+```
 
 # recordsAreExpanded
 
@@ -409,11 +374,11 @@ const dataList = new HHDataList({
 
 The *More* link is not part of the *detail* string. It is, rather, built by this particular client-defined function.
 
-# reportFieldDefinitions
+# reportRecordFieldDefinitions
 
 ``` nonum
 const dataList = new HHDataList({
-  reportFieldDefinitions: {
+  reportRecordFieldDefinitions: {
     function: (fieldDefs) => { console.log(JSON.stringify(fieldDefs, null, 2)); },
     hasUI: true
   },
@@ -485,6 +450,41 @@ To learn more, see [Themes](/en/hhdatalist/v0.0.2/reference/themes/).
 # responseHelper
 
 See [responseHelper](/en/hhdatalist/v0.0.2/options/response-helper/).
+
+# selectableFieldColWidth
+
+<table class="options-table">
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
+<tr><th>Default:</th><td><code>narrow</code></td></tr>
+<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
+</table>
+
+The *selectableFieldColWidth* option controls the width of the fields on the Fields tab:
+
+<p><img src="field-col-width-fields-tab.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+The choices are *narrow*, *medium*, and *wide*. The diagram above reflects a *narrow* field column width as specified in this code snippet:
+
+``` js nonum
+new HHDataList({
+  selectableFieldColWidth: 'narrow',
+});
+```
+
+Each of the three choices accommodates responsive screen widths:
+
+**narrow**
+
+<p><img src="field-col-width-narrow.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+**medium**
+
+<p><img src="field-col-width-medium.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+**wide**
+
+<p><img src="field-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
 # tabDescriptions
 
