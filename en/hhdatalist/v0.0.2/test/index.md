@@ -112,8 +112,8 @@
     tabDescriptions: {
       home: 'This is the home description.',
       search: 'This is the search description.',
-      formedFieldNames: 'This is the formed field names description.',
-      simpleFieldNames: 'This is the simple field names description.',
+      transformedSelectableFields: 'This is the formed field names description.',
+      selectableFields: 'This is the simple field names description.',
       new: 'This is the new description.',
       created: 'This is the created description.',
       config: 'This is the config description.'
