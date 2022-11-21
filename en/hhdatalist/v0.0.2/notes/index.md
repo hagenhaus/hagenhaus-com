@@ -381,33 +381,3 @@ getAndDisplayRecord(id)
 ```
 
 # displayRecord
-
-# Current
-
-``` nonum
-createManagedRecordFieldDefinition
-createSelectableFieldsPane
-displaySelectableFields
-getCheckedSelectableFieldLabels
-getCheckedSelectableFieldNames
-
-recordProcessingMode.definitions
-recordProcessingMode.definitionsMap
-
-    for (const definition of this.recordProcessingMode.definitions) {
-      this.recordProcessingMode.definitionsMap.set(definition.label, definition);
-    }
-    for (const value of this.recordProcessingMode.definitionsMap.values()) {
-      console.log(value);
-    }
-    console.log(this.recordProcessingMode.definitionsMap.size);
-
-//-------------------
-
-//-------------------
-
-createTransformedRecordFieldDefinition
-
-createTransformedFieldLabelsPane
-displayTransformedFieldLabels
-```
