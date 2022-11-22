@@ -6,7 +6,11 @@ When a user clicks on a collapsed record, HHDataList does the following:
 1. Calls `getRecord` to return an API response record consisting of a set of properties.
 1. Copies the properties from the API response record to an HHDataList expanded record, potentially modifying the properties in transit.
 
-The process of copying and modifying properties is called *record processing*. There are three record processing modes: copy, manage, and transform. The following table shows the processing actions that are valid for each mode:
+The process of copying and modifying properties is called *record processing*. There are three record processing modes: copy, manage, and transform. 
+
+## Actions per processing mode
+
+The following table shows the processing actions that are valid for each mode:
 
 <style>
   table.record-creation-mode td {
@@ -69,6 +73,8 @@ The process of copying and modifying properties is called *record processing*. T
   </tbody>
 </table>
 
+## Actions per record type
+
 The copy, manage, and transform modes yield copied, managed, and transformed types of records respectively. Each type of record has certain capabilities:
 
 <table class="record-creation-mode">
@@ -97,6 +103,41 @@ The copy, manage, and transform modes yield copied, managed, and transformed typ
       <th>Delete Record</th>
       <td><i class="fas fa-check"></i></td>
       <td><i class="fas fa-check"></i></td>
+      <td><i class="fas fa-check"></i></td>
+    </tr>
+  </tbody>
+</table>
+
+## Content per record type
+
+Shall we support pre and post transformation?
+
+<table class="record-creation-mode">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Copied</th>
+      <th>Managed</th>
+      <th>Transformed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>type</th>
+      <td><i class="fas fa-check"></i></td>
+      <td><i class="fas fa-check"></i></td>
+      <td><i class="fas fa-check"></i></td>
+    </tr>
+    <tr>
+      <th>string</th>
+      <td><i class="fas fa-check"></i></td>
+      <td><i class="fas fa-check"></i></td>
+      <td><i class="fas fa-check"></i></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td></td>
+      <td></td>
       <td><i class="fas fa-check"></i></td>
     </tr>
   </tbody>

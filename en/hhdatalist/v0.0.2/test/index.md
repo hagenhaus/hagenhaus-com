@@ -21,6 +21,7 @@
         { fieldName: 'name', isEditable: true }, 
         { fieldName: 'species',
           transform: (v) => ({ url: v.link, title: v.text }),
+          // transformer: (v) => ({ url: v.link, title: v.text }),
           display: { type: 'link' }
         }, 
         { fieldName: 'description', colWidth: 'wide', 
@@ -28,20 +29,27 @@
         }, 
         { fieldName: 'city' },
         { fieldName: 'country',
-          transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+          transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name,
+          // transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
         },
         { fieldName: 'coordinates', 
           transform: (v) => ({ 
             url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
             title: `${v.lat}, ${v.long}` 
           }),
+          // transformer: (v) => ({ 
+          //   url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
+          //   title: `${v.lat}, ${v.long}` 
+          // }),
           display: { type: 'link' }
         }, 
         { fieldName: 'birthYear',
-          transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
+          transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`,
+          // transformer: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
         }, 
         { fieldName: 'height', 
-          transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+          transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown',
+          // transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         }, 
         { fieldName: 'links', 
           transform: (v) => {
@@ -49,6 +57,11 @@
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
             return a;
           },
+          // transformer: (v) => {
+          //   const a = [];
+          //   for (let i of v) { a.push({ url: i.link, title: i.text }); }
+          //   return a;
+          // },
           display: { type: 'link' }
         }
       ],

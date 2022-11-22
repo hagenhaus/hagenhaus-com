@@ -135,6 +135,19 @@ export const postMessage = (req, res) => {
 };
 
 /************************************************************************************************
+* addTicks
+************************************************************************************************/
+
+function addTicks(fields) {
+  let arr = fields.split(',');
+  let newArr = [];
+  for (const item of arr) {
+    newArr.push(`\`${item}\``);
+  }
+  return `"${newArr.join(',')}"`;
+}
+
+/************************************************************************************************
 * Records
 ************************************************************************************************/
 
@@ -145,7 +158,7 @@ export const getRecords = (db, table, req, res) => {
       const query = util.promisify(conn.query).bind(conn);
       (async () => {
         try {
-          const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(`${req.query.fields}`) : null;
+          const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
           const filter = 'filter' in req.query && req.query.filter.length ? conn.escape(`where ${req.query.filter}`) : null;
           const order = 'order' in req.query && req.query.order.length ? conn.escape(`order by ${req.query.order}`) : null;
           const limit = 'limit' in req.query && req.query.limit.length ? req.query.limit : 10;
@@ -202,7 +215,7 @@ export const getRecord = (db, table, idField, req, res) => {
   db.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const fields = 'fields' in req.query ? conn.escape(`${req.query.fields}`) : null;
+      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const proc = `call selectRecord("${table}", "${idField}", "${req.params.id}", ${fields})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
@@ -275,7 +288,8 @@ export const postPortal = (req, res) => {
   hagenhausDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
       const name = 'name' in req.body ? req.body.name : null;
@@ -328,7 +342,8 @@ export const postBaseballPlayer = (req, res) => {
   baseballDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
       const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
@@ -408,7 +423,8 @@ export const postBaseballPark = (req, res) => {
   baseballDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
+      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
       const parkalias = getValue('parkalias', req);
