@@ -246,6 +246,12 @@ The *recordsAreExpanded* option specifies whether records are collapsed or expan
 ``` js nonum
 new HHDataList({
   recordsAreExpanded: { value: false, hasUI: true },
+
+  recordsAreExpanded: { 
+    value: true, 
+    showConfig: true, 
+    showWidget: true
+  },
 });
 ```
 

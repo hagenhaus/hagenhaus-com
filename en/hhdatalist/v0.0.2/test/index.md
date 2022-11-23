@@ -118,7 +118,11 @@
     recordIdField: 'id',
     recordParity: { value: true, hasUI: true },
     recordProcessingMode: { hasUI: true },
-    recordsAreExpanded: { value: true, hasUI: true },
+    recordsAreExpanded: { 
+      value: true, 
+      showConfig: true,
+      showWidget: false
+    },
     recordsAreNumbered: { value: true, hasUI: true },
     recordsHaveAllFields: { value: true, hasUI: true, fieldValue: 'No data' },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
