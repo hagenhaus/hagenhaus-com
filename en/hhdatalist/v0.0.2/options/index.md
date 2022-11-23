@@ -124,12 +124,13 @@ Each of the three choices accommodates responsive screen widths:
 
 <p><img src="record-col-width-wide.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-# recordFieldContentMode
+# recordContentMode
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
 <tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>values</code></td></tr>
+<tr><th>Default:</th><td><code>value</code></td></tr>
+<tr><th>Choices:</th><td><code>type, string, value</code></td></tr>
 </table>
 
 # recordFieldDefinitions

@@ -7,21 +7,21 @@
     controlsAreSmall: { value: false, hasUI: true },
     id: 'famous-trees-datalist',
     queryParams: {
-      fields: { name: 'fields', default: '*' },
+      fields: { name: 'fields' },
       filter: { name: 'filter' },
-      order: { name: 'order', default: 'name' },
+      order: { name: 'order' },
       page: { name: 'page' },
       limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
     },
     recordColWidth: { value: 'medium', hasUI: true },
-    recordFieldContentMode: { value: 'value', hasUI: true },
+    recordContentMode: { value: 'value', hasUI: true },
     recordFieldDefinitions: {
       managed: [
         { fieldName: 'id', isChecked: false }, 
         { fieldName: 'name', isEditable: true }, 
         { fieldName: 'species',
           transform: (v) => ({ url: v.link, title: v.text }),
-          // transformer: (v) => ({ url: v.link, title: v.text }),
+          transformer: (v) => ({ url: v.link, title: v.text }),
           display: { type: 'link' }
         }, 
         { fieldName: 'description', colWidth: 'wide', 
@@ -30,26 +30,26 @@
         { fieldName: 'city' },
         { fieldName: 'country',
           transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name,
-          // transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+          transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
         },
         { fieldName: 'coordinates', 
           transform: (v) => ({ 
             url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
             title: `${v.lat}, ${v.long}` 
           }),
-          // transformer: (v) => ({ 
-          //   url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
-          //   title: `${v.lat}, ${v.long}` 
-          // }),
+          transformer: (v) => ({ 
+            url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
+            title: `${v.lat}, ${v.long}` 
+          }),
           display: { type: 'link' }
         }, 
         { fieldName: 'birthYear',
           transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`,
-          // transformer: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
+          transformer: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
         }, 
         { fieldName: 'height', 
           transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown',
-          // transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+          transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         }, 
         { fieldName: 'links', 
           transform: (v) => {
@@ -57,11 +57,11 @@
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
             return a;
           },
-          // transformer: (v) => {
-          //   const a = [];
-          //   for (let i of v) { a.push({ url: i.link, title: i.text }); }
-          //   return a;
-          // },
+          transformer: (v) => {
+            const a = [];
+            for (let i of v) { a.push({ url: i.link, title: i.text }); }
+            return a;
+          },
           display: { type: 'link' }
         }
       ],
@@ -70,6 +70,7 @@
         { label: 'Name', fieldNames: ['name'] }, 
         { label: 'Species', fieldNames: ['species'],
           transform: (v) => ({ url: v.link, title: v.text }),
+          transformer: (v) => ({ url: v.link, title: v.text }),
           display: { type: 'link' }
         }, 
         { label: 'Description', fieldNames: ['description'], colWidth: 'wide', 
@@ -77,23 +78,35 @@
         }, 
         { label: 'Nearby City', fieldNames: ['city'] },
         { label: 'Country', fieldNames: ['country'],
-          transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+          transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name,
+          transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
         },
         { label: 'Coordinates', fieldNames: ['lat', 'long'], 
           transform: (v) => ({ 
             url: `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.long}`, 
             title: `${v.lat}, ${v.long}` 
           }),
+          transformer: (lat, long) => ({ 
+            url: `https://www.google.com/maps/search/?api=1&query=${lat},${long}`, 
+            title: `${lat}, ${long}` 
+          }),
           display: { type: 'link' }
         }, 
         { label: 'Age (years)', fieldNames: ['birthYear'],
-          transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
+          transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`,
+          transformer: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
         }, 
         { label: 'Height (meters)', fieldNames: ['height'], 
-          transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+          transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown',
+          transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         }, 
         { label: 'Links', fieldNames: ['links'], 
           transform: (v) => {
+            const a = [];
+            for (let i of v) { a.push({ url: i.link, title: i.text }); }
+            return a;
+          },
+         transformer: (v) => {
             const a = [];
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
             return a;
