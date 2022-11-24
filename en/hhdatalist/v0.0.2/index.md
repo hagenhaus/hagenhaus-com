@@ -15,3 +15,9 @@ Put a video here.
 List current limitations:
 
 1. Limited i18n support.
+
+Add table with all the theme names. Put creator name next to theme name.
+
+I need to identify and publish metrics like number of integrations. 
+
+See [Image to Sketch AI](https://imagetosketch.com/).

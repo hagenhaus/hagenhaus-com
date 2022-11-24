@@ -4,17 +4,17 @@
 
 <script>
   new HHDataList({
-    controlsAreSmall: { value: false, hasUI: true },
+    controlsAreSmall: { value: true, showConfig: true },
     id: 'famous-trees-datalist',
     queryParams: {
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showConfig: true, showWidget: false }
     },
-    recordColWidth: { value: 'medium', hasUI: true },
-    recordContentMode: { value: 'value', hasUI: true },
+    recordColWidth: { value: 'medium', showConfig: true },
+    recordContentMode: { value: 'value', showConfig: true, showWidget: false },
     recordFieldDefinitions: {
       managed: [
         { fieldName: 'id', isChecked: false }, 
@@ -116,20 +116,17 @@
       ]
     },
     recordIdField: 'id',
-    recordParity: { value: true, hasUI: true },
-    recordProcessingMode: { hasUI: true },
-    recordsAreExpanded: { 
-      value: true, 
-      showConfig: true,
-      showWidget: false
-    },
-    recordsAreNumbered: { value: true, hasUI: true },
-    recordsHaveAllFields: { value: true, hasUI: true, fieldValue: 'No data' },
+    recordParity: { value: true, showConfig: true },
+    recordProcessingMode: { showConfig: true, showWidget: false },
+    recordsAreExpanded: { value: true, showConfig: true, showWidget: false },
+    recordsAreNumbered: { value: true, showConfig: true },
+    recordsHaveAllFields: { value: true, showConfig: true, fieldValue: 'No data' },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
-    reportRecordFieldDefinitions: { hasUI: true },
-    reportTheme: { hasUI: true },
+    reportQueryParams: { showConfig: true },
+    reportRecordFieldDefinitions: { showConfig: true },
+    reportTheme: { showConfig: true },
     responseHelper: {
       record: (res) => res.data,
       records: (res) => res.data.records,
@@ -148,11 +145,14 @@
       created: 'This is the created description.',
       config: 'This is the config description.'
     },
-    tabsHaveDescriptions: { value: true, hasUI: true },
-    themeName: { value: 'dodger blue', hasUI: true },
+    tabsHaveDescriptions: { value: true, showConfig: true },
+    themeName: { value: 'dodger blue', showConfig: true, showWidget: false },
     // themeFromPaletteName: {
-    //   paletteName: 'dodger blue',
-    //   newThemeName: 'My Theme'
+    //   paletteName: 'firebrick',
+    //   newThemeName: 'My Theme',
+    //   overrides: {
+    //     configTitleColor: 'blue'
+    //   }      
     // },
     url: `${getDomain()}/api/famous/v1/trees`,
   });
