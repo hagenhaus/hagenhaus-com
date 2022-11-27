@@ -1,4 +1,46 @@
+---
+hasOtp: false
+---
+
 # Notes
+
+# Records Are Small
+
+|State|Selector|Element|
+|-|-|-|
+|x|`div.hh-records-are-expanded-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-record-limit-per-page-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-record-content-mode-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-record-processing-mode-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-theme-name-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-controls-are-small-widget div.input-group`|`<div class="input-group input-group-sm">`|
+|x|`div.hh-filter-group`|`<div class="input-group hh-filter-group input-group-sm">`|
+|x|`div.hh-order-group`|`<div class="input-group hh-order-group input-group-sm">`|
+|x|`div.hh-paginator`|`<div class="btn-group hh-paginator btn-group-sm">`|
+|x|`div.hh-record-field div.hh-data-row div.hh-col-data input`|`<input type="text" class="form-control record form-control-sm">`|
+|x|`div.hh-new-record form.hh-new-record-form input`|`<input type="text" class="form-control record form-control-sm">`|
+|x|`div.hh-record-field div.hh-data-row div.hh-col-data a`|`<a class="form-control link form-control-sm">`|
+|x|`div.hh-record-field div.hh-data-row div.hh-col-data textarea`|`<textarea class="form-control form-control-sm">`|
+|x|`div.hh-record-field div.hh-data-row div.hh-col-data select`|`<select class="form-select form-select-sm">`|
+|x|`div.hh-record-field div.hh-data-row div.hh-col-btn button`|`<button class="btn btn-sm">`|
+|x|`div.hh-new-record form.hh-new-record-form button`|`<button class="btn btn-sm">`|
+
+|State|Bootstrap Class|HH Class|
+|-|-|-|
+|x|`input-group-sm`|`hh-input-group-smallable`|
+|x|`btn-group-sm`|`hh-btn-group-smallable`|
+|x|`form-control-sm`|`hh-form-control-smallable`|
+|x|`form-select-sm`|`hh-form-select-smallable`|
+|x|`btn-sm`|`hh-btn-smallable`|
+
+``` html nonum
+<div class="input-group input-group-sm">
+<div class="btn-group btn-group-sm">
+<a class="form-control form-control-sm">
+<input class="form-control form-control-sm" type="text">
+<select class="form-select form-select-sm">
+<button class="btn btn-sm">
+```
 
 # queryParams option
 
@@ -381,3 +423,4 @@ getAndDisplayRecord(id)
 ```
 
 # displayRecord
+

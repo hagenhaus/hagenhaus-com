@@ -4,7 +4,7 @@
 
 <script>
   new HHDataList({
-    controlsAreSmall: { value: true, showConfig: true },
+    controlsAreSmall: { value: true, showConfig: true, showWidget: false },
     id: 'famous-trees-datalist',
     queryParams: {
       fields: { name: 'fields' },
@@ -13,7 +13,7 @@
       page: { name: 'page' },
       limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showConfig: true, showWidget: false }
     },
-    recordColWidth: { value: 'medium', showConfig: true },
+    recordColWidth: { value: 'medium', showConfig: true, showWidget: false },
     recordContentMode: { value: 'value', showConfig: true, showWidget: false },
     recordFieldDefinitions: {
       managed: [
@@ -116,16 +116,17 @@
       ]
     },
     recordIdField: 'id',
-    recordParity: { value: true, showConfig: true },
+    recordParity: { value: true, showConfig: true, showWidget: false },
     recordProcessingMode: { showConfig: true, showWidget: false },
     recordsAreExpanded: { value: true, showConfig: true, showWidget: false },
-    recordsAreNumbered: { value: true, showConfig: true },
-    recordsHaveAllFields: { value: true, showConfig: true, fieldValue: 'No data' },
+    recordsAreNumbered: { value: true, showConfig: true, showWidget: false },
+    recordsAreUniform: { value: true, fieldValue: 'No data', showConfig: true, showWidget: false },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportQueryParams: { showConfig: true },
     reportRecordFieldDefinitions: { showConfig: true },
+    reportRequests: { value: false, showConfig: true, showWidget: false },
     reportTheme: { showConfig: true },
     responseHelper: {
       record: (res) => res.data,
@@ -139,8 +140,7 @@
     tabDescriptions: {
       home: 'This is the home description.',
       search: 'This is the search description.',
-      transformedSelectableFields: 'This is the formed field names description.',
-      selectableFields: 'This is the simple field names description.',
+      checkableFields: 'This is the checkable fields description.',
       new: 'This is the new description.',
       created: 'This is the created description.',
       config: 'This is the config description.'
@@ -148,7 +148,7 @@
     tabsHaveDescriptions: { value: true, showConfig: true },
     themeName: { value: 'dodger blue', showConfig: true, showWidget: false },
     // themeFromPaletteName: {
-    //   paletteName: 'firebrick',
+    //   paletteName: 'dodger blue',
     //   newThemeName: 'My Theme',
     //   overrides: {
     //     configTitleColor: 'blue'
