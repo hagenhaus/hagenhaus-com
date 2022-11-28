@@ -4,17 +4,17 @@
 
 <script>
   new HHDataList({
-    controlsAreSmall: { value: true, showConfig: true, showTool: false },
+    controlsAreSmall: { value: true, showConfig: true, showTool: true },
     id: 'famous-trees-datalist',
     queryParams: {
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showConfig: true, showTool: false }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showConfig: true, showTool: true }
     },
-    recordColWidth: { value: 'medium', showConfig: true, showTool: false },
-    recordContentMode: { value: 'value', showConfig: true, showTool: false },
+    recordColWidth: { value: 'medium', showConfig: true, showTool: true },
+    recordContentMode: { value: 'value', showConfig: true, showTool: true },
     recordFieldDefinitions: {
       managed: [
         { fieldName: 'id', isChecked: false }, 
@@ -116,17 +116,17 @@
       ]
     },
     recordIdField: 'id',
-    recordParity: { value: true, showConfig: true, showTool: false },
-    recordProcessingMode: { showConfig: true, showTool: false },
-    recordsAreExpanded: { value: true, showConfig: true, showTool: false },
-    recordsAreNumbered: { value: true, showConfig: true, showTool: false },
-    recordsAreUniform: { value: true, fieldValue: 'No data', showConfig: true, showTool: false },
+    recordParity: { value: true, showConfig: true, showTool: true },
+    recordProcessingMode: { showConfig: true, showTool: true },
+    recordsAreExpanded: { value: true, showConfig: true, showTool: true },
+    recordsAreNumbered: { value: true, showConfig: true, showTool: true },
+    recordsAreUniform: { value: true, fieldValue: 'No data', showConfig: true, showTool: true },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportQueryParams: { showConfig: true },
     reportRecordFieldDefinitions: { showConfig: true },
-    reportRequests: { value: false, showConfig: true, showTool: false },
+    reportRequests: { value: false, showConfig: true, showTool: true },
     reportTheme: { showConfig: true },
     responseHelper: {
       record: (res) => res.data,
@@ -145,8 +145,8 @@
       created: 'This is the created description.',
       config: 'This is the config description.'
     },
-    tabsHaveDescriptions: { value: true, showConfig: true },
-    themeName: { value: 'dodger blue', showConfig: true, showTool: false },
+    tabsHaveDescriptions: { value: false, showConfig: false },
+    themeName: { value: 'dodger blue', showConfig: true, showTool: true },
     // themeFromPaletteName: {
     //   paletteName: 'dodger blue',
     //   newThemeName: 'My Theme',

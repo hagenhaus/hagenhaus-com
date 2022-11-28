@@ -4,15 +4,15 @@ hasOtp: false
 
 # Notes
 
-# Definitions
+# Cleaning up styles
 
-|Old|New|
-|-|-|
-|`this.getDefinition`|`this.recordFieldDefinitions.get`|
-|`this.getDefinitions`|`this.recordFieldDefinitions.getAll`|
-|`this.getCheckedDefinitions`|`this.recordFieldDefinitions.getChecked`|
-|`this.getCheckedDefinitionFieldNames`|`this.recordFieldDefinitions.getCheckedFieldNames`|
-|`this.getEditableDefinitions`|`this.recordFieldDefinitions.getEditable`|
+``` nonum
+--hh-checkbox-border-color
+--hh-checkbox-background-color
+--hh-checkbox-border-color-checked
+--hh-checkbox-background-color-checked
+--hh-checkbox-label-color
+```
 
 # Records Are Small
 
