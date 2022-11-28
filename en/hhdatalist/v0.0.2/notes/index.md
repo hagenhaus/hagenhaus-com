@@ -4,6 +4,16 @@ hasOtp: false
 
 # Notes
 
+# Definitions
+
+|Old|New|
+|-|-|
+|`this.getDefinition`|`this.recordFieldDefinitions.get`|
+|`this.getDefinitions`|`this.recordFieldDefinitions.getAll`|
+|`this.getCheckedDefinitions`|`this.recordFieldDefinitions.getChecked`|
+|`this.getCheckedDefinitionFieldNames`|`this.recordFieldDefinitions.getCheckedFieldNames`|
+|`this.getEditableDefinitions`|`this.recordFieldDefinitions.getEditable`|
+
 # Records Are Small
 
 |State|Selector|Element|
