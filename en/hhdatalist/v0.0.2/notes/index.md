@@ -4,16 +4,6 @@ hasOtp: false
 
 # Notes
 
-# Cleaning up styles
-
-``` nonum
---hh-checkbox-border-color
---hh-checkbox-background-color
---hh-checkbox-border-color-checked
---hh-checkbox-background-color-checked
---hh-checkbox-label-color
-```
-
 # Records Are Small
 
 |State|Selector|Element|
