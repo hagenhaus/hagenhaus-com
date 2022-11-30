@@ -14,7 +14,7 @@
       limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showConfig: true, showTool: false }
     },
     recordColWidth: { value: 'medium', showConfig: true, showTool: false },
-    recordContentMode: { value: 'value', showConfig: true, showTool: false },
+    recordContentMode: { value: 'value', showConfig: true, showTool: true },
     recordFieldDefinitions: {
       managed: [
         { fieldName: 'id', isChecked: false }, 
