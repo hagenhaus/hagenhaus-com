@@ -5,15 +5,16 @@
 <script>
   new HHDataList({
     controlsAreSmall: { value: true, showTool: false },
+    fieldsWidth: { value: 'narrow', showTool: false },
+    toolsWidth: { value: 'narrow', showTool: false },
     id: 'famous-trees-datalist',
     queryParams: {
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: false }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
     },
-    recordColWidth: { value: 'medium', showTool: false },
     recordContentMode: { value: 'value', showTool: false },
     recordFieldDefinitions: {
       managed: [
@@ -118,9 +119,10 @@
     recordIdField: 'id',
     recordParity: { value: true, showTool: false },
     recordProcessingMode: { showTool: false },
-    recordsAreExpanded: { value: false, showTool: false },
+    recordsAreExpanded: { value: false, showTool: true },
     recordsAreNumbered: { value: true, showTool: false },
     recordsAreUniform: { value: true, fieldValue: 'No data', showTool: false },
+    recordsWidth: { value: 'medium', showTool: false },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
@@ -136,16 +138,7 @@
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
-    selectableFieldColWidth: 'narrow',
-    tabDescriptions: {
-      home: 'This is the home description.',
-      search: 'This is the search description.',
-      fields: 'This is the fields description.',
-      created: 'This is the created description.',
-      tools: 'This is the tools description.',
-      config: 'This is the config description.',
-      new: 'This is the new description.',
-    },
+    tabDescriptions: { },
     tabsHaveDescriptions: { value: true, showTool: false },
     themeName: { value: 'dodger blue', showTool: false },
     // themeFromPaletteName: {
