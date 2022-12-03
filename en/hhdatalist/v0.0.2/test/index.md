@@ -6,7 +6,7 @@
   new HHDataList({
     small: { value: true, showTool: false },
     fieldDefinitions: {
-      managed: [
+      manage: [
         { fieldName: 'id', isChecked: false }, 
         { fieldName: 'name', isEditable: true }, 
         { fieldName: 'species',
@@ -55,7 +55,7 @@
           display: { type: 'link' }
         }
       ],
-      transformed: [
+      transform: [
         { label: 'ID', fieldNames: ['id'], isChecked: false }, 
         { label: 'Name', fieldNames: ['name'] }, 
         { label: 'Species', fieldNames: ['species'],
@@ -130,6 +130,7 @@
     reportQueryParams: { showTool: false },
     reportRequests: { value: false, showTool: false },
     reportTheme: { showTool: false },
+    reportThemes: { showTool: false },
     responseHelper: {
       record: (res) => res.data,
       records: (res) => res.data.records,
@@ -138,8 +139,7 @@
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
-    tabDescriptions: { },
-    tabsHaveDescriptions: { value: true, showTool: false },
+    descriptions: { value: true, showTool: false },
     themeName: { value: 'dodger blue', showTool: false },
     // themeFromPaletteName: {
     //   paletteName: 'dodger blue',
