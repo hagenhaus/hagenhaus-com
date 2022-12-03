@@ -5,18 +5,7 @@
 <script>
   new HHDataList({
     controlsAreSmall: { value: true, showTool: false },
-    fieldsWidth: { value: 'narrow', showTool: false },
-    toolsWidth: { value: 'narrow', showTool: false },
-    id: 'famous-trees-datalist',
-    queryParams: {
-      fields: { name: 'fields' },
-      filter: { name: 'filter' },
-      order: { name: 'order' },
-      page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
-    },
-    recordContentMode: { value: 'value', showTool: false },
-    recordFieldDefinitions: {
+    fieldDefinitions: {
       managed: [
         { fieldName: 'id', isChecked: false }, 
         { fieldName: 'name', isEditable: true }, 
@@ -116,6 +105,17 @@
         }
       ]
     },
+    fieldsWidth: { value: 'narrow', showTool: false },
+    toolsWidth: { value: 'narrow', showTool: false },
+    id: 'famous-trees-datalist',
+    queryParams: {
+      fields: { name: 'fields' },
+      filter: { name: 'filter' },
+      order: { name: 'order' },
+      page: { name: 'page' },
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
+    },
+    recordContentMode: { value: 'value', showTool: false },
     recordIdField: 'id',
     recordParity: { value: true, showTool: false },
     recordProcessingMode: { showTool: false },
@@ -125,9 +125,9 @@
     recordsWidth: { value: 'medium', showTool: false },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
     reportError: (title, detail) => { reportError(title, detail); },
+    reportFieldDefinitions: { showTool: false },
     reportInfo: (title, detail) => { reportInfo(title, detail); },
     reportQueryParams: { showTool: false },
-    reportRecordFieldDefinitions: { showTool: false },
     reportRequests: { value: false, showTool: false },
     reportTheme: { showTool: false },
     responseHelper: {
