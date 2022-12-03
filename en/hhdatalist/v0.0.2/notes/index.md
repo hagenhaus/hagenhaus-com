@@ -4,6 +4,29 @@ hasOtp: false
 
 # Notes
 
+Click All: 
+
+
+Click None:
+
+
+Click Defaults:
+
+
+Click Checkable:
+
+
+``` nonum
+const radioBtnsListener = (event) => {
+  for (const checkable of checkables.getAll()) {
+    let isChecked = event.target.value === 'All' ? true : event.target.value === 'None' ? false : checkable.isCheckedDefault;
+    checkable.isChecked = isChecked;
+    this.el.querySelector(`div.hh-${checkables.name}-checklist input.form-check-input[name="${checkable.label}"]`).checked = isChecked;
+  }
+  checkables.onClickRadioBtn();
+};
+```
+
 # Records Are Small
 
 |State|Selector|Element|

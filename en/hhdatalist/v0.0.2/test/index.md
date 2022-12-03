@@ -145,7 +145,6 @@
     //   paletteName: 'dodger blue',
     //   newThemeName: 'My Theme',
     //   overrides: {
-    //     configTitleColor: 'blue'
     //   }      
     // },
     url: `${getDomain()}/api/famous/v1/trees`,
