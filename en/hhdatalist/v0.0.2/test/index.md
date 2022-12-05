@@ -4,7 +4,16 @@
 
 <script>
   new HHDataList({
-    small: { value: true, showTool: false },
+    colWidths: {
+      fields: { value: 'narrow', showTool: true },
+      records: { value: 'medium', showTool: false },
+      tools: { value: 'narrow', showTool: true }
+    },
+    confirm: confirm,
+    contentMode: { showTool: true },
+    descriptions: { value: true, showTool: false },
+    error: (title, detail) => { reportError(title, detail); },
+    expand: { value: true, showTool: false },
     fieldDefinitions: {
       manage: [
         { fieldName: 'id', isChecked: false }, 
@@ -96,7 +105,7 @@
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
             return a;
           },
-         transformer: (v) => {
+          transformer: (v) => {
             const a = [];
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
             return a;
@@ -105,32 +114,27 @@
         }
       ]
     },
-    fieldColumns: { value: 'narrow', showTool: false },
-    toolColumns: { value: 'narrow', showTool: false },
     id: 'famous-trees-datalist',
+    info: (title, detail) => { reportInfo(title, detail); },
+    inspectors: {
+      fieldDefinitions: { showTool: false },
+      queryParams: { showTool: false },
+      requests: { value: false, showTool: false },
+      theme: { showTool: false },
+      themes: { showTool: false }
+    },
+    number: { value: true, showTool: false },
+    parity: { value: true, showTool: false },
+    processMode: { showTool: true },
     queryParams: {
       fields: { name: 'fields' },
       filter: { name: 'filter' },
       order: { name: 'order' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showTool: false }
     },
-    processMode: { showTool: false },
-    contentMode: { showTool: false },
     recordIdField: 'id',
-    parity: { value: true, showTool: false },
-    expand: { value: false, showTool: true },
-    number: { value: true, showTool: false },
-    uniform: { value: true, fieldValue: 'No data', showTool: false },
-    recordColumns: { value: 'medium', showTool: false },
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
-    reportError: (title, detail) => { reportError(title, detail); },
-    reportFieldDefinitions: { showTool: false },
-    reportInfo: (title, detail) => { reportInfo(title, detail); },
-    reportQueryParams: { showTool: false },
-    reportRequests: { value: false, showTool: false },
-    reportTheme: { showTool: false },
-    reportThemes: { showTool: false },
     responseHelper: {
       record: (res) => res.data,
       records: (res) => res.data.records,
@@ -139,7 +143,7 @@
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
-    descriptions: { value: true, showTool: false },
+    small: { value: true, showTool: false },
     themeName: { value: 'dodger blue', showTool: false },
     // themeFromPaletteName: {
     //   paletteName: 'dodger blue',
@@ -147,6 +151,7 @@
     //   overrides: {
     //   }      
     // },
+    uniform: { value: true, fieldValue: 'No data', showTool: false },
     url: `${getDomain()}/api/famous/v1/trees`,
   });
 </script>
