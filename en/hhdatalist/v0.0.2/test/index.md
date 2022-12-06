@@ -3,6 +3,12 @@
 <div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
 
 <script>
+  HHDataList.addStandardTheme('dodger blue');
+  HHDataList.addStandardTheme('firebrick');
+  // HHDataList.addStandardThemes(['orangewood', 'plum']);
+  // HHDataList.addStandardThemes(['orangewood', 'plum', 'wheatgerm']);
+  // HHDataList.addAllStandardThemes();
+
   new HHDataList({
     colWidths: {
       fields: { value: 'narrow', showTool: true },
@@ -144,13 +150,11 @@
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     small: { value: true, showTool: false },
-    themeName: { value: 'dodger blue', showTool: false },
-    // themeFromPaletteName: {
-    //   paletteName: 'dodger blue',
-    //   newThemeName: 'My Theme',
-    //   overrides: {
-    //   }      
-    // },
+    themeDefinition: {
+      name: 'Forest Green', 
+      hasTool: false,
+      showTool: false
+    },
     uniform: { value: true, fieldValue: 'No data', showTool: false },
     url: `${getDomain()}/api/famous/v1/trees`,
   });
