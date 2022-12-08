@@ -3,12 +3,6 @@
 <div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
 
 <script>
-  HHDataList.addStandardTheme('dodger blue');
-  HHDataList.addStandardTheme('firebrick');
-  // HHDataList.addStandardThemes(['orangewood', 'plum']);
-  // HHDataList.addStandardThemes(['orangewood', 'plum', 'wheatgerm']);
-  // HHDataList.addAllStandardThemes();
-
   new HHDataList({
     colWidths: {
       fields: { value: 'narrow', showTool: true },
@@ -122,13 +116,6 @@
     },
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
-    inspectors: {
-      fieldDefinitions: { showTool: false },
-      queryParams: { showTool: false },
-      requests: { value: false, showTool: false },
-      theme: { showTool: false },
-      themes: { showTool: false }
-    },
     number: { value: true, showTool: false },
     parity: { value: true, showTool: false },
     processMode: { showTool: true },
@@ -141,6 +128,13 @@
     },
     recordIdField: 'id',
     recordTitle: { fields: ['name'], format: (f, r) => `${r[f[0]]}` },
+    reporters: {
+      fieldDefinitions: { showTool: false },
+      queryParams: { showTool: false },
+      requests: { value: false, showTool: false },
+      theme: { showTool: false },
+      themes: { showTool: false }
+    },
     responseHelper: {
       record: (res) => res.data,
       records: (res) => res.data.records,
@@ -150,11 +144,11 @@
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     small: { value: true, showTool: false },
-    themeDefinition: {
-      name: 'Forest Green', 
-      hasTool: false,
-      showTool: false
-    },
+    // themeDefinition: {
+    //   name: 'silverberry', 
+    //   hasTool: true,
+    //   showTool: true
+    // },
     uniform: { value: true, fieldValue: 'No data', showTool: false },
     url: `${getDomain()}/api/famous/v1/trees`,
   });

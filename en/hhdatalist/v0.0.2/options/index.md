@@ -18,8 +18,6 @@
 
 # info
 
-# inspectors
-
 # number
 
 # parity
@@ -31,6 +29,8 @@
 # recordIdField
 
 # recordTitle
+
+# reporters
 
 # responseHelper
 
