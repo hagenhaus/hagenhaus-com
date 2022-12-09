@@ -17,7 +17,7 @@ HHDataList.addPalette({
 console.log(HHDataList.getPaletteNames());
 
 console.log(HHDataList.addTheme({
-  name: 'Add Theme',
+  name: 'My Add Theme',
   tabButtonColor: '#961d1d',
   tabBorderColor: '#961d1d',
   controlColor: '#ffffff',
@@ -128,18 +128,18 @@ console.log(HHDataList.addThemeFromPalette(
     color6: '#702970'
   }, 
   { checkableLabelColor: 'var(--bs-body-color)' }, 
-  'Add Theme From Palette'
+  'My Add Theme From Palette'
 ));
 
 console.log(HHDataList.addThemeFromPaletteName(
   'Silverberry', 
   { checkableLabelColor: 'var(--bs-body-color)' }, 
-  'Add Theme From Palette Name'
+  'My Add Theme From Palette Name'
 ));
 
 console.log(HHDataList.addThemeFromThemeName(
   'Orangewood', 
   { checkableLabelColor: 'var(--bs-body-color)' }, 
-  'Add Theme From Theme Name'
+  'My Add Theme From Theme Name'
 ));
 ```

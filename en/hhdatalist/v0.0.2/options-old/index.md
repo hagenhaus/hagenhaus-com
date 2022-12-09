@@ -66,25 +66,6 @@ The checkbox on the Config Tab looks like this:
 
 <p><img src="controls-are-small-checkbox.png" class="img-fluid d-block" width=200 loading="lazy"></p>
 
-# id
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>true</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-</table>
-
-The *id* value specifies the id of the html element into which the HHDataList constructor should append the HHDataList component:
-
-``` html nonum
-<div id="my-datalist" class="hh-data-list mt-4"></div>
-```
-
-``` js nonum
-new HHDataList({
-  id: 'my-datalist',
-});
-```
-
 # queryParams
 
 See [queryParams](/en/hhdatalist/v0.0.2/options/query-params/).

@@ -5,25 +5,7 @@ hasOtp: false
 # Notes
 
 ``` nonum
-  static buildThemeFromPalette(palette, newThemeName, overrides) {
-    let p = HHDataList002.getGlobalPalette();
-    for (let i = 1; i <= 6; i++) {
-      if (`color${i}` in palette) {
-        p[`color${i}`] = palette[`color${i}`];
-      }
-    }
-
-    let theme = {};
-    if (newThemeName && !HHDataList002.hasTheme(newThemeName)) {
-      theme.name = newThemeName;
-    } else {
-      theme.name = `Theme-${new Date().toISOString()}`;
-    }
-
-    overrides = overrides ? overrides : {};
-    HHDataList002.mapPaletteToTheme(theme, p, overrides);
-    return theme;
-  }
+http://localhost:8081/api/baseball/v1/players/luciael01?fields=*
 ```
 
 # Records Are Small
