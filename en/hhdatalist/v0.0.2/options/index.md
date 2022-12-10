@@ -53,14 +53,14 @@ If the website does not provide a *confirm* option to the HHDataList constructor
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
+<tr><th>Type:</th><td><code>string</code></td></tr>
 </table>
 
-The `contentMode` option specifies the type of content displayed in the fields of expanded records. Valid values for the `value` property are `['type', 'string', 'value']`. Below are default values:
+The `contentMode` option specifies the type of content displayed in the fields of expanded records. Valid values are `['type', 'string', 'value']`. Below is the default value:
 
 ``` js nonum
 new HHDataList({
-  contentMode: { value: 'value', hasTool: true, showTool: false },
+  contentMode: 'value,
 });
 ```
 
@@ -109,17 +109,20 @@ new HHDataList({
 # ? expand
 
 <table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
+<tr><th>Required:</th><td><code>false</code></td></tr>
+<tr><th>Type:</th><td><code>object</code></td></tr>
 </table>
 
 The `sss` option ...
 
 ``` js nonum
 new HHDataList({
-  sss: null,
+  expand: {
+    value: false,
+    hasTool: true,
+    showTool: false,
+    toolLabel: 'Expand'
+  },
 });
 ```
 
@@ -366,24 +369,7 @@ new HHDataList({
 });
 ```
 
-# ? toolDefinitions
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
-The `toolDefinitions` option ...
-
-``` js nonum
-new HHDataList({
-  sss: null,
-});
-```
-
-# ? uniform
+# ? uniformity
 
 <table class="options-table">
 <tr><th>Required:</th><td><code>sss</code></td></tr>
