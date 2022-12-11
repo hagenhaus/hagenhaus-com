@@ -4,27 +4,6 @@ hasOtp: false
 
 # Notes
 
-``` nonum
-let tda = [
-  this.contentMode,
-  this.descriptions,
-  this.expand,
-  this.reporters.fieldDefinitions,
-  this.limit,
-  this.number,
-  this.parity,
-  this.processMode,
-  this.reporters.queryParams,
-  this.colWidths.records,
-  this.reporters.requests,
-  this.small,
-  this.themeDefinition,
-  this.reporters.theme,
-  this.reporters.themes,
-  this.uniform
-];
-```
-
 # Records Are Small
 
 |State|Selector|Element|

@@ -1,11 +1,6 @@
 # Options
 
-# colWidths
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-</table>
+# ? colWidths
 
 The `colWidths` option specifies the initial widths of columns associated with the Fields Tab, expanded records, and the Tools Tab. Valid values for the `value` property are `['narrow','medium','wide']`. Below are default values:
 
@@ -19,12 +14,7 @@ new HHDataList({
 });
 ```
 
-# confirm
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>function</code></td></tr>
-</table>
+# ? confirm
 
 The `confirm` option must be a function with four parameters:
 
@@ -49,12 +39,7 @@ The job of the *confirm* function is to present the *yesLabel* to the user, obta
 
 If the website does not provide a *confirm* option to the HHDataList constructor, HHDataList performs all actions without pausing to ask the user for confirmations.
 
-# contentMode
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-</table>
+# ? contentMode
 
 The `contentMode` option specifies the type of content displayed in the fields of expanded records. Valid values are `['type', 'string', 'value']`. Below is the default value:
 
@@ -64,12 +49,7 @@ new HHDataList({
 });
 ```
 
-# descriptions
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-</table>
+# ? descriptions
 
 The `descriptions` option specifies strings that may appear at the top of one or more tabs. Below are default values:
 
@@ -91,13 +71,6 @@ new HHDataList({
 
 # ? error
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -107,11 +80,6 @@ new HHDataList({
 ```
 
 # ? expand
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-</table>
 
 The `sss` option ...
 
@@ -128,13 +96,6 @@ new HHDataList({
 
 # ? fieldDefinitions
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -143,12 +104,7 @@ new HHDataList({
 });
 ```
 
-# id
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>true</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-</table>
+# ? id (R)
 
 The `id` option specifies the id of the html element to which the HHDataList constructor should append the HHDataList component:
 
@@ -176,13 +132,6 @@ HHDataList Error: The id option does not correspond to an html element on the pa
 
 # ? info
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -192,13 +141,6 @@ new HHDataList({
 ```
 
 # ? number
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
 
 The `sss` option ...
 
@@ -210,13 +152,6 @@ new HHDataList({
 
 # ? parity
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -226,13 +161,6 @@ new HHDataList({
 ```
 
 # ? processMode
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
 
 The `processMode` option specifies how HHDataList processes REST API records into expanded records. Valid values for the `value` property are `['copy', 'manage', 'transform']`. Below are default values for the `hasTool` and `showTool` properties:
 
@@ -250,13 +178,6 @@ Notes about `processMode`:
 
 # ? queryParams
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -266,13 +187,6 @@ new HHDataList({
 ```
 
 # ? recordIdField
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
 
 The `sss` option ...
 
@@ -284,13 +198,6 @@ new HHDataList({
 
 # ? recordTitle
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -300,13 +207,6 @@ new HHDataList({
 ```
 
 # ? reporters
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
 
 The `sss` option ...
 
@@ -318,13 +218,6 @@ new HHDataList({
 
 # ? responseHelper
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -333,12 +226,7 @@ new HHDataList({
 });
 ```
 
-# small
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-</table>
+# ? small
 
 The `small` option specifies whether HHDataList displays small controls on page load:
 
@@ -354,13 +242,6 @@ The diagram illustrates the effect of this option:
 
 # ? themeDefinition
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
 The `sss` option ...
 
 ``` js nonum
@@ -371,12 +252,15 @@ new HHDataList({
 
 # ? uniformity
 
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
+The `sss` option ...
+
+``` js nonum
+new HHDataList({
+  sss: null,
+});
+```
+
+# ? url (R*)
 
 The `sss` option ...
 
@@ -386,31 +270,7 @@ new HHDataList({
 });
 ```
 
-# ? url
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
-
-The `sss` option ...
-
-``` js nonum
-new HHDataList({
-  sss: null,
-});
-```
-
-# ? urls
-
-<table class="options-table">
-<tr><th>Required:</th><td><code>sss</code></td></tr>
-<tr><th>Type:</th><td><code>sss</code></td></tr>
-<tr><th>Default:</th><td><code>sss</code></td></tr>
-<tr><th>Choices:</th><td><code>sss</code></td></tr>
-</table>
+# ? urls (R*)
 
 The `sss` option ...
 
