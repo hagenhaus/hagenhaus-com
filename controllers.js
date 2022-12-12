@@ -288,7 +288,6 @@ export const postPortal = (req, res) => {
   hagenhausDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
@@ -342,7 +341,6 @@ export const postBaseballPlayer = (req, res) => {
   baseballDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
@@ -423,7 +421,6 @@ export const postBaseballPark = (req, res) => {
   baseballDb.getConnection((err, conn) => {
     if (err) { sendError(res, err); }
     else {
-      // const fields = 'fields' in req.query && req.query.fields.length ? conn.escape(req.query.fields) : null;
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
@@ -461,6 +458,49 @@ export const postBaseballPark = (req, res) => {
 
 export const getFamousTrees = (req, res) => { getRecords(hagenhausDb, 'trees', req, res); };
 export const getFamousTree = (req, res) => { getRecord(hagenhausDb, 'trees', 'id', req, res); };
+
+export const postFamousTree = (req, res) => {
+  hagenhausDb.getConnection((err, conn) => {
+    if (err) { sendError(res, err); }
+    else {
+      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
+
+      const birthYear = getValue('birthYear', req);
+      const city = getValue('city', req);
+      const country = getValue('country', req);
+      const description = getValue('description', req);
+      const girth = getValue('girth', req);
+      const height = getValue('height', req);
+      const lat = getValue('lat', req);
+      const links = getValue('links', req);
+      const lng = getValue('lng', req);
+      const name = getValue('name', req);
+      const species = getValue('species', req);
+
+      if (!name) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
+      else {
+        const proc = `call insertTree(
+          ${birthYear},
+          ${city},
+          ${country},
+          ${description},
+          ${girth},
+          ${height},
+          ${lat},
+          ${links},
+          ${lng},
+          ${name},
+          ${species},
+          ${fields})`;
+        conn.query(proc, (error, results, flds) => {
+          conn.release();
+          if (error) { sendError(res, error); }
+          else { res.status(201).send(results[0][0]); }
+        });
+      }
+    }
+  });
+};
 
 /************************************************************************************************
 * getValue

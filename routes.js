@@ -122,6 +122,7 @@ export const routes = (app) => {
   ************************************************************************************************/
 
   app.route('/api/famous/v1/trees')
+    .post(controllers.postFamousTree)
     .get(controllers.getFamousTrees);
 
   app.route('/api/famous/v1/trees/:id')

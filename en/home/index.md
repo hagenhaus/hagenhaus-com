@@ -11,7 +11,7 @@ menuItem: mi-home
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div class='row justify-content-center'>
-  <div class='col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8'>
+  <div class='col-12 col-md-11 col-lg-10 col-xl-9'>
     <div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
   </div>
 </div>
@@ -30,18 +30,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     expand: { value: true },
     fieldDefinitions: {
       manage: [
-        { fieldName: 'id' },
-        { fieldName: 'name' },
-        { fieldName: 'species' },
-        { fieldName: 'description' },
-        { fieldName: 'city' },
-        { fieldName: 'country' },
-        { fieldName: 'lat' },
-        { fieldName: 'long' },
-        { fieldName: 'birthYear' },
-        { fieldName: 'height' },
-        { fieldName: 'girth' },
-        { fieldName: 'links' },
+        { fieldName: 'id', isChecked: false },
+        { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium', newValue: 'Koiwai Farm Ipponzakura' },
+        { fieldName: 'species', isEditable: true, colWidth: 'medium', 
+          newValue: `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}` 
+        },
+        { fieldName: 'description', isEditable: true, colWidth: 'wide',
+          newValue: `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate’s capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`
+        },
+        { fieldName: 'city', isEditable: true, newValue: 'Morioka' },
+        { fieldName: 'country', isEditable: true, newValue: 'JPN' },
+        { fieldName: 'lat', isEditable: true, newValue: '39.7560461061616' },
+        { fieldName: 'lng', isEditable: true, newValue: '141.004011260734' },
+        { fieldName: 'birthYear', isEditable: true, newValue: '1922' },
+        { fieldName: 'height', isEditable: true, newValue: '0' },
+        { fieldName: 'girth', isEditable: true, isChecked: false, newValue: '0' },
+        { fieldName: 'links', isEditable: true, newValue: `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]` },
       ],
       transform: [
         { label: 'ID', fieldNames: ['id'], isChecked: false }, 
@@ -59,10 +63,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
           transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name,
           transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
         },
-        { label: 'Coordinates', fieldNames: ['lat', 'long'], 
-          transformer: (lat, long) => ({ 
-            url: `https://www.google.com/maps/search/?api=1&query=${lat},${long}`, 
-            title: `${lat}, ${long}` 
+        { label: 'Coordinates', fieldNames: ['lat', 'lng'], 
+          transformer: (lat, lng) => ({ 
+            url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, 
+            title: `${lat}, ${lng}` 
           }),
           display: { type: 'link' }
         }, 
@@ -139,14 +143,11 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ``` js nonum
-<script>
-  new HHDataList({
-    id: 'famous-trees-datalist',
-    recordIdField: 'id',
-    recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
-    url: `${getDomain()}/api/famous/v1/trees`
-  });
-</script>
+new HHDataList({
+  id: 'famous-trees-datalist',
+  recordIdField: 'id',
+  url: 'https://domain.com/api/famous/v1/trees'
+});
 ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
