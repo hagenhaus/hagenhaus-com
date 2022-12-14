@@ -1,6 +1,6 @@
 # Options
 
-# ? colWidths
+# colWidths
 
 The `colWidths` option specifies the initial widths of columns associated with the Fields Tab, expanded records, and the Tools Tab. Valid values for the `value` property are `['narrow','medium','wide']`. Below are default values:
 
@@ -14,7 +14,7 @@ new HHDataList({
 });
 ```
 
-# ? confirm
+# confirm
 
 The `confirm` option must be a function with four parameters:
 
@@ -39,7 +39,7 @@ The job of the *confirm* function is to present the *yesLabel* to the user, obta
 
 If the website does not provide a *confirm* option to the HHDataList constructor, HHDataList performs all actions without pausing to ask the user for confirmations.
 
-# ? contentMode
+# contentMode
 
 The `contentMode` option specifies the type of content displayed in the fields of expanded records. Valid values are `['type', 'string', 'value']`. Below is the default value:
 
@@ -49,7 +49,7 @@ new HHDataList({
 });
 ```
 
-# ? descriptions
+# descriptions
 
 The `descriptions` option specifies strings that may appear at the top of one or more tabs. Below are default values:
 
@@ -69,7 +69,7 @@ new HHDataList({
 });
 ```
 
-# ? error
+# error
 
 The `sss` option ...
 
@@ -79,7 +79,7 @@ new HHDataList({
 });
 ```
 
-# ? expand
+# expand
 
 The `sss` option ...
 
@@ -94,7 +94,7 @@ new HHDataList({
 });
 ```
 
-# ? fieldDefinitions
+# fieldDefinitions
 
 The `sss` option ...
 
@@ -104,7 +104,13 @@ new HHDataList({
 });
 ```
 
-# ? id (R)
+### manage
+
+* popValue
+
+### transform
+
+# id
 
 The `id` option specifies the id of the html element to which the HHDataList constructor should append the HHDataList component:
 
@@ -130,7 +136,7 @@ If the html element is missing, the HHDataList constructor writes the following 
 HHDataList Error: The id option does not correspond to an html element on the page.
 ```
 
-# ? info
+# info
 
 The `sss` option ...
 
@@ -140,7 +146,7 @@ new HHDataList({
 });
 ```
 
-# ? number
+# number
 
 The `sss` option ...
 
@@ -150,7 +156,7 @@ new HHDataList({
 });
 ```
 
-# ? parity
+# parity
 
 The `sss` option ...
 
@@ -160,7 +166,7 @@ new HHDataList({
 });
 ```
 
-# ? processMode
+# processMode
 
 The `processMode` option specifies how HHDataList processes REST API records into expanded records. Valid values for the `value` property are `['copy', 'manage', 'transform']`. Below are default values for the `hasTool` and `showTool` properties:
 
@@ -176,7 +182,7 @@ Notes about `processMode`:
 
 1. In `copy` mode, `queryParams.fields` is never included in the request url.
 
-# ? queryParams
+# queryParams
 
 The `sss` option ...
 
@@ -186,7 +192,7 @@ new HHDataList({
 });
 ```
 
-# ? recordIdField
+# recordIdField
 
 The `sss` option ...
 
@@ -196,7 +202,7 @@ new HHDataList({
 });
 ```
 
-# ? recordTitle
+# recordTitle
 
 The `sss` option ...
 
@@ -206,7 +212,7 @@ new HHDataList({
 });
 ```
 
-# ? reporters
+# reporters
 
 The `sss` option ...
 
@@ -216,7 +222,7 @@ new HHDataList({
 });
 ```
 
-# ? responseHelper
+# responseHelper
 
 The `sss` option ...
 
@@ -226,7 +232,7 @@ new HHDataList({
 });
 ```
 
-# ? small
+# small
 
 The `small` option specifies whether HHDataList displays small controls on page load:
 
@@ -240,7 +246,7 @@ The diagram illustrates the effect of this option:
 
 <p><img src="small.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
-# ? themeDefinition
+# themeDefinition
 
 The `sss` option ...
 
@@ -250,7 +256,7 @@ new HHDataList({
 });
 ```
 
-# ? uniformity
+# uniformity
 
 The `sss` option ...
 
@@ -260,7 +266,7 @@ new HHDataList({
 });
 ```
 
-# ? url (R*)
+# url
 
 The `sss` option ...
 
@@ -270,7 +276,7 @@ new HHDataList({
 });
 ```
 
-# ? urls (R*)
+# urls
 
 The `sss` option ...
 
