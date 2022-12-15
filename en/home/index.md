@@ -22,7 +22,7 @@ menuItem: mi-home
 </div>
 
 <script>
-  const popValues = new Map()
+  var popValues = new Map()
     .set('name', 'Koiwai Farm Ipponzakura')
     .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
     .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate’s capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
@@ -44,7 +44,7 @@ menuItem: mi-home
     confirm: confirm,
     contentMode: { value: 'string', showTool: true },
     descriptions: { 
-      home: 'Welcome to the Famous Trees sample dataset.',
+      home: 'Each record is an individual famous tree.',
       value: true 
     },
     error: (title, detail) => { reportError(title, detail); },
@@ -113,7 +113,10 @@ menuItem: mi-home
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
     number: { value: true },
-    parity: { value: true },
+    parity: {
+      get: { value: true },
+      post: { value: true }
+    },
     populate: (fieldName) => popValues.get(fieldName),
     processMode: { value: 'transform', showTool: true },
     queryParams: {
