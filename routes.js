@@ -126,5 +126,7 @@ export const routes = (app) => {
     .get(controllers.getFamousTrees);
 
   app.route('/api/famous/v1/trees/:id')
-    .get(controllers.getFamousTree);
+    .get(controllers.getFamousTree)
+    .patch(controllers.patchFamousTree)
+    .delete(controllers.deleteFamousTree);
 };

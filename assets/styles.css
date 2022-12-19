@@ -11,6 +11,11 @@ body {
   overflow: hidden;
 }
 
+b {
+  color:black;
+  font-weight:500;
+}
+
 /* body {--bs-bg-opacity: 1; background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity));} */
 #book-col,
 #page-col,

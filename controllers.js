@@ -453,11 +453,13 @@ export const postBaseballPark = (req, res) => {
 };
 
 /************************************************************************************************
-* Famous
+* Famous Trees
 ************************************************************************************************/
 
 export const getFamousTrees = (req, res) => { getRecords(hagenhausDb, 'trees', req, res); };
 export const getFamousTree = (req, res) => { getRecord(hagenhausDb, 'trees', 'id', req, res); };
+export const patchFamousTree = (req, res) => { patchRecord(hagenhausDb, 'trees', 'id', req, res); };
+export const deleteFamousTree = (req, res) => { deleteRecord(hagenhausDb, 'trees', 'id', req, res); };
 
 export const postFamousTree = (req, res) => {
   hagenhausDb.getConnection((err, conn) => {
@@ -494,7 +496,7 @@ export const postFamousTree = (req, res) => {
           ${fields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) { sendError(res, error); }
+          if (error) { res.status(422).send(error); }
           else { res.status(201).send(results[0][0]); }
         });
       }

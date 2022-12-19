@@ -33,33 +33,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a id="mi-hhdatalist" class="nav-link follow" href="/en/hhdatalist/v0.0.2/"><span>HHDataList</span></a></li>
+        </ul>
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a id="mi-hhdatalist" class="nav-link follow" href="/en/hhdatalist/v0.0.2/"><span>HHDataList</span></a>
-          </li>
-          <!-- <li class="nav-item">
-            <a id="mi-hhrestapi" class="nav-link follow" href="/en/hhrestapi/v0.0.2/"><span>HHRestApi</span></a>
-          </li> -->
-          <!--
-          <li class="nav-item dropdown">
-            <a id="mi-hhdatalist" class="nav-link dropdown-toggle" style="padding:.5rem;" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span>HHDataList</span></a>
-            <ul class="dropdown-menu">
-              <li><a class="nav-link follow" href="/en/hhdatalist/v0.0.2/"><span>Version 0.0.2</span></a></li>
-              <li><a class="nav-link follow" href="/en/hhdatalist/v0.0.1/"><span>Version 0.0.1</span></a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="nav-link follow" href="/en/hhdatalist/"><span>All versions</span></a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a id="mi-hhrestapi" class="nav-link dropdown-toggle" style="padding:.5rem;" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span>HHRestApi</span></a>
-            <ul class="dropdown-menu">
-              <li><a class="nav-link follow" href="/en/hhrestapi/v0.0.2/"><span>Version 0.0.2</span></a></li>
-              <li><a class="nav-link follow" href="/en/hhrestapi/v0.0.1/"><span>Version 0.0.1</span></a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="nav-link follow" href="/en/hhrestapi/"><span>All versions</span></a></li>
-            </ul>
-          </li>
-          -->
+          <li class="nav-item"><a id="mi-hhdatalist" class="nav-link follow" href="https://gitter.im/hagenhaus/hhdatalist"><span><i class="fab fa-gitter"></i></span></a></li>
         </ul>
       </div>
     </header>
@@ -217,6 +195,10 @@
         else if (level === 'warning') { return 'bg-warning'; }
         else { return 'bg-success'; }
       };
+      const btnOutline = (level) => {
+        if (level === 'warning') { return 'btn-outline-dark'; }
+        else { return 'btn-outline-light'; }
+      };
       header.classList.add('toast-header', foreground(level), background(level));
 
       let strong = document.createElement('strong');
@@ -225,7 +207,7 @@
 
       let btn = document.createElement('button');
       btn.type = 'button';
-      btn.classList.add('btn', 'btn-sm', 'btn-outline-light');
+      btn.classList.add('btn', 'btn-sm', btnOutline(level));
       btn.setAttribute('data-bs-dismiss', 'toast');
 
       let i = document.createElement('i');
@@ -256,23 +238,12 @@
     const warningPageUrl = `${window.location.origin}/en/docs/messages`;
     const errorPageUrl = `${window.location.origin}/en/docs/messages`;
 
-    function reportError(title, detail) {
-      let type = title.toLowerCase().replaceAll(' ', '-');
-      showToast('error', title, `${detail} <a href='${errorPageUrl}/#${type}' target='_blank'>More</a>.`);
-    }
-
-    function reportInfo(title, detail) {
-      showToast('info', title, detail);
-    }
-
-    function reportWarning(type, title, detail) {
-      showToast('warning', title, `${detail} <a href='${warningPageUrl}/#${type}' target='_blank'>More</a>.`);
-    }
+    function reportError(title, detail) { showToast('error', title, detail.message); }
+    function reportInfo(title, detail) { showToast('info', title, detail); }
+    function reportWarning(title, detail) { showToast('warning', title, detail); }
 
     const hhApiDomainArray = ['http://localhost:8081', 'https://hagenhaus.com:3002'];
-    function getDomain() {
-      return hhApiDomainArray[0];
-    }
+    function getDomain() { return hhApiDomainArray[0]; }
   </script>
 
 </body>

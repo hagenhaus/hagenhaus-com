@@ -9,15 +9,16 @@ menuItem: mi-home
 # Home
 
 <div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-9'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-10'>
 
-<span style="color:black;font-weight:500;">HHDataList</span> is an option-rich <span style="color:black;font-weight:500;">UI Component Class</span>. Instances interact with <span style="color:black;font-weight:500;">REST APIs</span>. Try the example below. [See the docs](/en/hhdatalist/v0.0.2/) to add instances to your website. Submit feature requests, issues, and questions via [GitHub]().
+<b>HHDataList</b> is a JavaScript class. Instances enable websites to interact with REST APIs. Here is an example:
+
 </div>
 </div>
 
-<div class='row justify-content-center'>
-  <div class='col-12 col-md-11 col-lg-10 col-xl-9'>
-    <div id="famous-trees-datalist" class="hh-data-list mt-3"></div>
+<div class='row justify-content-center my-2'>
+  <div class='col-12 col-md-11 col-lg-10 col-xl-10'>
+    <div id="famous-trees-datalist" class="hh-data-list"></div>
   </div>
 </div>
 
@@ -34,7 +35,9 @@ menuItem: mi-home
     .set('height', '0')
     .set('girth', '0')
     .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+</script>
 
+<script>
   new HHDataList({
     colWidths: {
       fields: { value: 'narrow' },
@@ -42,13 +45,17 @@ menuItem: mi-home
       tools: { value: 'narrow' }
     },
     confirm: confirm,
-    contentMode: { value: 'string', showTool: true },
+    contentMode: { value: 'string' },
     descriptions: { 
-      home: 'Each record is an individual famous tree.',
+      home: 'This data list interacts with a REST API that provides access to a small dataset of famous trees.',
+      search: 'Search and order syntax is API-specific.',
+      fields: 'Checked fields appear in records.',
+      tools: 'Checked tools appear on the toolbar.',
+      new: 'The New Record form consists of managed fields.',
       value: true 
     },
     error: (title, detail) => { reportError(title, detail); },
-    expand: { value: true },
+    expand: { value: false, showTool: true },
     fieldDefinitions: {
       manage: [
         { fieldName: 'id', isChecked: false },
@@ -62,7 +69,7 @@ menuItem: mi-home
         { fieldName: 'birthYear', isEditable: true },
         { fieldName: 'height', isEditable: true },
         { fieldName: 'girth', isEditable: true },
-        { fieldName: 'links', isEditable: true },
+        { fieldName: 'links', isEditable: true }
       ],
       transform: [
         { label: 'ID', fieldNames: ['id'], isChecked: false }, 
@@ -112,6 +119,17 @@ menuItem: mi-home
     },
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
+    methods: {
+      createRecord: () => { 
+        reportWarning('Cannot Create Record', 'This feature is disabled for this data list.'); 
+      },
+      deleteRecord: () => { 
+        reportWarning('Cannot Delete Record', 'This feature is disabled for this data list.'); 
+      },
+      patchRecord: () => {
+        reportWarning('Cannot Modify Record Field', 'This feature is disabled for this data list.');
+      }
+    },
     number: { value: true },
     parity: {
       get: { value: true },
@@ -121,10 +139,10 @@ menuItem: mi-home
     processMode: { value: 'transform', showTool: true },
     queryParams: {
       fields: { name: 'fields' },
-      filter: { name: 'filter' },
+      filter: { name: 'filter',  placeholder: 'name like "%tree%" and country like "AUS"' },
       order: { name: 'order', default: 'name asc' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1 }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
     },
     recordIdField: 'id',
     recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
@@ -144,26 +162,15 @@ menuItem: mi-home
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
     small: { value: true },
-    themeDefinition: {
-      // name: 'shadowbox', 
-      // hasTool: true,
-      // showTool: true
-    },
+    themeDefinition: { showTool: true },
     uniformity: { value: true, fieldValue: 'No data' },
     url: `${getDomain()}/api/famous/v1/trees`
   });
 </script>
 
 <div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-9'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-10'>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.
-
-At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. 
-
-Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
-
+An <b>HHDataList</b> instance is highly configurable, so it can serve as an enduser interface or a developer tool. To learn how to add instances to your website, see the [HHDataList](/en/hhdatalist/v0.0.2/) docs. You are welcome to submit feature requests, ask questions, and report bugs on [Gitter](https://gitter.im/hagenhaus/hhdatalist).
 </div>
 </div>

@@ -6,18 +6,28 @@ menuItem: mi-hhdatalist
 
 # HHDataList
 
-Goal is to be able to explain everything about HHDataList by referring to diagrams on the website.
+The following video introduces HHDataList <small>v0.0.2</small>, a pre-release, proof-of-concept version of the software:
 
-Define method, endpoint, operation, and API here.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ahUzp1ib32Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Put a video here.
+Video Outline:
 
-List current limitations:
+1. What is the problem and how does HHDataList solve it?
 
-1. Limited i18n support.
+1. A demo video is different than a tutorial video.
 
-Add table with all the theme names. Put creator name next to theme name.
+1. Call to action.
 
-I need to identify and publish metrics like number of integrations. 
+[User Interface](/en/hhdatalist/v0.0.2/user-interface/)
 
-See [Image to Sketch AI](https://imagetosketch.com/).
+[Tutorial](/en/hhdatalist/v0.0.2/tutorial/)
+
+[Guide](/en/hhdatalist/v0.0.2/guide/)
+
+[Options](/en/hhdatalist/v0.0.2/options)
+
+[Themes](/en/hhdatalist/v0.0.2/themes/)
+
+[Gallery](/en/hhdatalist/v0.0.2/gallery/)
+
+[OpenAPI](/en/hhdatalist/v0.0.2/openapi/)
