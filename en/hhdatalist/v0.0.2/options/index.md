@@ -7,9 +7,9 @@ The `colWidths` option specifies the initial widths of columns associated with t
 ``` js nonum
 new HHDataList({
   colWidths: {
-    fields: { value: 'narrow', hasTool: true, showTool: false },
+    fields: { value: 'narrow', showTool: false },
     records: { value: 'narrow', hasTool: true, showTool: false },
-    tools: { value: 'narrow', hasTool: true, showTool: false }
+    tools: { value: 'narrow', showTool: false }
   },
 });
 ```
@@ -146,6 +146,8 @@ new HHDataList({
 });
 ```
 
+# methods
+
 # number
 
 The `sss` option ...
@@ -165,6 +167,8 @@ new HHDataList({
   sss: null,
 });
 ```
+
+# populate
 
 # processMode
 
