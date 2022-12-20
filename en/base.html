@@ -238,7 +238,18 @@
     const warningPageUrl = `${window.location.origin}/en/docs/messages`;
     const errorPageUrl = `${window.location.origin}/en/docs/messages`;
 
-    function reportError(title, detail) { showToast('error', title, detail.message); }
+    function reportError(error) {
+      let title = 'Unknown Error';
+      let message = 'Unknown Message';
+      if ('response' in error && 'status' in error.response && error.response.status && 'statusText' in error.response && error.response.statusText) {
+        title = `${error.response.status}: ${error.response.statusText}`;
+      }
+      else if ('message' in error && error.message) { title = error.message; }
+      if ('response' in error && 'data' in error.response && error.response.data) { message = error.response.data; }
+      else if ('name' in error && error.name) { message = error.name; }
+      showToast('error', title, message);
+    }
+
     function reportInfo(title, detail) { showToast('info', title, detail); }
     function reportWarning(title, detail) { showToast('warning', title, detail); }
 

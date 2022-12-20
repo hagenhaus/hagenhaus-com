@@ -1,5 +1,5 @@
 ---
-hasOtp: true
+hasOtp: false
 hasPageHeader: false
 hasScrollbar: false
 hhdatalist: v0.0.2
@@ -54,7 +54,7 @@ menuItem: mi-home
       new: 'The New Record form consists of managed fields.',
       value: true 
     },
-    error: (title, detail) => { reportError(title, detail); },
+    error: (error) => { reportError(error); },
     expand: { value: false, showTool: true },
     fieldDefinitions: {
       manage: [

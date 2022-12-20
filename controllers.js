@@ -110,29 +110,29 @@ export const getApiInformation = (req, res) => {
 * Messages
 ************************************************************************************************/
 
-export const postMessage = (req, res) => {
-  const record = {};
-  record.timestamp = new Date().toISOString();
-  record.method = req.method;
-  record.endpoint = req.url;
-  record.name = req.body.name;
-  record.email = req.body.email;
-  record.website = req.body.website;
-  record.message = req.body.message;
-  record.userAgent = req.headers['user-agent'];
+// export const postMessage = (req, res) => {
+//   const record = {};
+//   record.timestamp = new Date().toISOString();
+//   record.method = req.method;
+//   record.endpoint = req.url;
+//   record.name = req.body.name;
+//   record.email = req.body.email;
+//   record.website = req.body.website;
+//   record.message = req.body.message;
+//   record.userAgent = req.headers['user-agent'];
 
-  try {
-    const stats = fs.statSync('messages.log');
-    if (stats.size < 1000000) {
-      fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
-      res.status(204).end();
-    } else {
-      res.status(429).end();
-    }
-  } catch (err) {
-    res.status(404).end();
-  }
-};
+//   try {
+//     const stats = fs.statSync('messages.log');
+//     if (stats.size < 1000000) {
+//       fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
+//       res.status(204).end();
+//     } else {
+//       res.status(429).end();
+//     }
+//   } catch (err) {
+//     res.status(404).end();
+//   }
+// };
 
 /************************************************************************************************
 * addTicks
@@ -152,8 +152,8 @@ function addTicks(fields) {
 ************************************************************************************************/
 
 export const getRecords = (db, table, req, res) => {
-  db.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  db.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const query = util.promisify(conn.query).bind(conn);
       (async () => {
@@ -204,7 +204,7 @@ export const getRecords = (db, table, req, res) => {
 
           res.status(200).send(data);
         }
-        catch (error) { sendError(res, error); }
+        catch (error) { sendSqlError(res, error, 'Error getting records from DB.'); }
         finally { conn.release(); }
       })();
     }
@@ -212,31 +212,29 @@ export const getRecords = (db, table, req, res) => {
 };
 
 export const getRecord = (db, table, idField, req, res) => {
-  db.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  db.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const proc = `call selectRecord("${table}", "${idField}", "${req.params.id}", ${fields})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) { sendError(res, error); }
-        else {
-          res.status(200).send(results[0][0]);
-        }
+        if (error) { sendSqlError(res, error, 'Error getting record from DB.'); }
+        else { res.status(200).send(results[0][0]); }
       });
     }
   });
 };
 
 export const patchRecord = (db, table, idField, req, res) => {
-  db.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  db.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const updates = 'updates' in req.body ? conn.escape(`${req.body.updates}`) : null;
       const proc = `call updateRecord("${table}", "${idField}", "${req.params.id}", ${updates})`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) { sendError(res, error); }
+        if (error) { sendSqlError(res, error, 'Error patching record in DB.'); }
         else { res.status(204).send(); }
       });
     }
@@ -244,13 +242,13 @@ export const patchRecord = (db, table, idField, req, res) => {
 };
 
 export const deleteRecord = (db, table, idField, req, res) => {
-  db.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  db.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
       conn.query(proc, (error, results, flds) => {
         conn.release();
-        if (error) { sendError(res, error); }
+        if (error) { sendSqlError(res, error, 'Error deleting record from DB.'); }
         else { res.status(204).send(); }
       });
     }
@@ -285,8 +283,8 @@ export const getSubindustries = (req, res) => { getRecords(hagenhausDb, 'subindu
 export const getSubindustry = (req, res) => { getRecord(hagenhausDb, 'subindustries', 'id', req, res); };
 
 export const postPortal = (req, res) => {
-  hagenhausDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  hagenhausDb.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
@@ -295,9 +293,9 @@ export const postPortal = (req, res) => {
       const url = 'url' in req.body ? req.body.url : null;
       const companyId = 'companyId' in req.body ? req.body.companyId : null;
 
-      if (!name || !name.length) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
-      else if (!url || !url.length) { sendError(res, { code: 'required-field', subMessage: 'url' }); }
-      else if (!companyId || !companyId.length) { sendError(res, { code: 'required-field', subMessage: 'companyId' }); }
+      if (!name || !name.length) { sendError(res, 422, 'name field is required.'); }
+      else if (!url || !url.length) { sendError(res, 422, 'url field is required.'); }
+      else if (!companyId || !companyId.length) { sendError(res, 422, 'companyId field is required.'); }
       else {
         const proc = `call insertPortal(
           ${mysql.escape(name)},
@@ -307,10 +305,9 @@ export const postPortal = (req, res) => {
           ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) { sendError(res, error); }
+          if (error) { sendSqlError(res, error, 'Error creating record.'); }
           else { res.status(201).send(results[0][0]); }
         });
-        sendError(res, { code: 'unauthorized' });
       }
     }
   });
@@ -338,8 +335,8 @@ export const patchBaseballPark = (req, res) => { patchRecord(baseballDb, 'parks'
 export const deleteBaseballPark = (req, res) => { deleteRecord(baseballDb, 'parks', 'ID', req, res); };
 
 export const postBaseballPlayer = (req, res) => {
-  baseballDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  baseballDb.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
@@ -373,8 +370,8 @@ export const postBaseballPlayer = (req, res) => {
       const finalgame_date = getValue('finalgame_date', req);
       const death_date = getValue('death_date', req);
 
-      if (!nameFirst) { sendError(res, { code: 'required-field', subMessage: 'nameFirst' }); }
-      else if (!nameLast) { sendError(res, { code: 'required-field', subMessage: 'nameLast' }); }
+      if (!nameFirst) { sendError(res, 422, 'nameFirst field is required.'); }
+      else if (!nameLast) { sendError(res, 422, 'nameLast field is required.'); }
       else {
         const proc = `call insertPlayer(
           ${playerID},
@@ -409,7 +406,7 @@ export const postBaseballPlayer = (req, res) => {
           ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) { sendError(res, error); }
+          if (error) { sendSqlError(res, error, 'Error creating record.'); }
           else { res.status(201).send(results[0][0]); }
         });
       }
@@ -418,8 +415,8 @@ export const postBaseballPlayer = (req, res) => {
 };
 
 export const postBaseballPark = (req, res) => {
-  baseballDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  baseballDb.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
@@ -431,7 +428,7 @@ export const postBaseballPark = (req, res) => {
       const state = getValue('state', req);
       const country = getValue('country', req);
 
-      if (!parkname) { sendError(res, { code: 'required-field', subMessage: 'parkname' }); }
+      if (!parkname) { sendError(res, 422, 'parkname field is required.'); }
       else {
         const proc = `call insertPark(
           ${parkalias},
@@ -444,7 +441,7 @@ export const postBaseballPark = (req, res) => {
           ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) { sendError(res, error); }
+          if (error) { sendSqlError(res, error, 'Error creating record.'); }
           else { res.status(201).send(results[0][0]); }
         });
       }
@@ -462,11 +459,10 @@ export const patchFamousTree = (req, res) => { patchRecord(hagenhausDb, 'trees',
 export const deleteFamousTree = (req, res) => { deleteRecord(hagenhausDb, 'trees', 'id', req, res); };
 
 export const postFamousTree = (req, res) => {
-  hagenhausDb.getConnection((err, conn) => {
-    if (err) { sendError(res, err); }
+  hagenhausDb.getConnection((error, conn) => {
+    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
     else {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
-
       const birthYear = getValue('birthYear', req);
       const city = getValue('city', req);
       const country = getValue('country', req);
@@ -479,7 +475,7 @@ export const postFamousTree = (req, res) => {
       const name = getValue('name', req);
       const species = getValue('species', req);
 
-      if (!name) { sendError(res, { code: 'required-field', subMessage: 'name' }); }
+      if (!name) { sendError(res, 422, 'name field is required.'); }
       else {
         const proc = `call insertTree(
           ${birthYear},
@@ -496,7 +492,7 @@ export const postFamousTree = (req, res) => {
           ${fields})`;
         conn.query(proc, (error, results, flds) => {
           conn.release();
-          if (error) { res.status(422).send(error); }
+          if (error) { sendSqlError(res, error, 'Error creating record.'); }
           else { res.status(201).send(results[0][0]); }
         });
       }
@@ -521,130 +517,17 @@ function getValue(field, req) {
 }
 
 /************************************************************************************************
-* sendError
-* 
-* This function translates internal error formats to a single standard message format that requesting 
-* apps understand. 
+* sendSqlError
 ************************************************************************************************/
 
-function sendError(res, error) {
-  console.log(JSON.stringify(error, null, 2));
+function sendSqlError(res, error, msg) {
+  sendError(res, 400, `${'sqlMessage' in error ? error.sqlMessage : msg}`);
+}
 
-  let status = null;
-  let message = null;
+/************************************************************************************************
+* sendError
+************************************************************************************************/
 
-  switch (error.code) {
-    case 'ER_BAD_FIELD_ERROR':
-      status = 400;
-      let detail = error.sqlMessage
-        .replace('column', 'field')
-        .replace("'where clause'", "filter")
-        .replace("'order clause'", "order");
-      message = {
-        "type": "unknown-field",
-        "title": "Unknown Field",
-        "detail": `${detail}.`
-      };
-      break;
-
-    case 'ER_DBACCESS_DENIED_ERROR':
-      status = 500;
-      message = {
-        "type": "server-data-access",
-        "title": "Server Data Access",
-        "detail": `The server could not access the database.`
-      };
-      break;
-
-    case 'ER_NO_REFERENCED_ROW_2':
-      status = 400;
-      message = {
-        "type": "invalid-value",
-        "title": "Invalid Value",
-        "detail": `A value in the request is invalid.`
-      };
-      break;
-
-    case 'ER_PARSE_ERROR':
-      status = 400;
-      message = {
-        "type": "invalid-value",
-        "title": "Invalid Value",
-        "detail": `A value in the request is invalid.`
-      };
-      break;
-
-    case 'ER_SP_WRONG_NO_OF_ARGS':
-      status = 500;
-      message = {
-        "type": "wrong-number-of-arguments",
-        "title": "Wrong Number of Arguments",
-        "detail": `The server passed the wrong number of arguments to the database.`
-      };
-      break;
-
-    case 'ER_SP_DOES_NOT_EXIST':
-      status = 500;
-      message = {
-        "type": "missing-stored-procedure",
-        "title": "Missing Stored Procedure",
-        "detail": `The database is missing a stored procedure.`
-      };
-      break;
-
-    case 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD':
-      status = 500;
-      message = {
-        "type": "wrong-value-for-field",
-        "title": "Wrong Value for Field",
-        "detail": `The server passed the wrong type of value to the database for a field.`
-      };
-      break;
-
-    case 'ER_NO_SUCH_TABLE':
-      status = 500;
-      message = {
-        "type": "no-such-table",
-        "title": "No Such Table",
-        "detail": `The requisite database table does not exist.`
-      };
-      break;
-
-    case 'ER_DATA_TOO_LONG':
-      status = 500;
-      message = {
-        "type": "data-too-long",
-        "title": "Data Too Long",
-        "detail": `An argument to a stored procedure was too long for the field.`
-      };
-      break;
-
-    case 'required-field':
-      status = 422;
-      message = {
-        "type": "required-field",
-        "title": "Required Field",
-        "detail": `The required field '${error.subMessage}' is missing from the request.`
-      };
-
-    case 'unauthorized':
-      status = 401;
-      message = {
-        "type": "unauthorized",
-        "title": "Unauthorized",
-        "detail": `Authorization token is missing or invalid.`
-      };
-      break;
-
-    default:
-      status = 400;
-      message = {
-        "type": "miscellaneous",
-        "title": "Miscellaneous",
-        "detail": `An error occurred, but it is not documented yet.`
-      };
-  }
-
-  message.status = status;
-  res.status(status).send(message);
+function sendError(res, code, msg) {
+  res.status(code).send(msg);
 }

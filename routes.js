@@ -19,8 +19,8 @@ export const routes = (app) => {
   * Messages
   ************************************************************************************************/
 
-  app.route('/api/v1/messages')
-    .post(controllers.postMessage);
+  // app.route('/api/v1/messages')
+  //   .post(controllers.postMessage);
 
   /************************************************************************************************
   * Portals
