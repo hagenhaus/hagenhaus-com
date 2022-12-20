@@ -8,7 +8,7 @@ menuItem: mi-hhdatalist
 
 The following video introduces HHDataList <small>v0.0.2</small>, a pre-release, proof-of-concept version of the software:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ahUzp1ib32Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s9UjrJRCxhQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Video Outline:
 
