@@ -162,7 +162,7 @@ em {
  body buttons
 ************************************************/
 
-button,
+/* button,  */
 a[role="button"]:not(.step) {
   border-color: rgba(0, 0, 0, 0.1) !important;
   color: #6c757d;
@@ -172,6 +172,11 @@ a[role="button"]:not(.step) {
 /************************************************
  header .navbar-dark .navbar-nav .nav-link
 ************************************************/
+
+header button.navbar-toggler {
+  color:white !important;
+  border-color:transparent !important;
+}
 
 header a.navbar-brand,
 header ul.navbar-nav>li.nav-item>a.nav-link {

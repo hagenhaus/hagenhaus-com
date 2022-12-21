@@ -581,3 +581,46 @@ getWebpage(window.location.pathname, window.location.hash, true);
 //}
 //window.setTimeout(callGetWebpage, 500);
 
+export function myFunc() {
+  console.log(`Message from myFunc.`);
+}
+
+export const signInFormListener = (event) => {
+  event.preventDefault();
+  let data = {};
+  Object.keys(event.target.elements).forEach(key => {
+    let element = event.target.elements[key];
+    if (element.type !== 'submit') {
+      data[element.name] = element.value;
+    }
+  });
+  console.log(data);
+  (async () => {
+    try {
+      const res = await axios({ url: `http://localhost:8081/api/v1/tokens`, method: 'post', data: data });
+      console.log(res.data);
+      document.getElementById('mi-sign-in').style.display = 'none';
+      document.getElementById('mi-account').style.display = 'block';
+      followLink('/en/account/');
+    } catch (error) { reportError(error); }
+  })();
+};
+
+export const signUpFormListener = (event) => {
+  event.preventDefault();
+  console.log('Submitted Sign-up form.');
+  let data = {};
+  Object.keys(event.target.elements).forEach(key => {
+    let element = event.target.elements[key];
+    if (element.type !== 'submit') { data[element.name] = element.value; }
+  });
+  (async () => {
+    try {
+      const res = await axios({ url: `http://localhost:8081/api/v1/users`, method: 'post', data: data });
+      console.log(res.data);
+      event.target.reset();
+      reportInfo('Success', 'User account created successfully.');
+      document.getElementById('sign-in-form').elements['email'].value = res.data.email;
+    } catch (error) { reportError(error); }
+  })();
+}

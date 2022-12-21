@@ -1,8 +1,10 @@
-// import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mysql from 'mysql2';
 import util from 'util';
+
+const saltRounds = process.env.saltRounds | 0;
 
 const baseballDb = mysql.createPool({
   connectionLimit: process.env.dbConnectionLimit,
@@ -26,7 +28,33 @@ const hagenhausDb = mysql.createPool({
 });
 
 /************************************************************************************************
- * authenticate
+* API Information
+************************************************************************************************/
+
+export const getApiInformation = (req, res) => {
+  res.status(200).send({
+    'name': 'Hagenhaus API',
+    'method': req.method,
+    'url': req.url,
+    'timestamp': new Date().toISOString()
+  });
+};
+
+/************************************************************************************************
+* addTicks
+************************************************************************************************/
+
+function addTicks(fields) {
+  let arr = fields.split(',');
+  let newArr = [];
+  for (const item of arr) {
+    newArr.push(`\`${item}\``);
+  }
+  return `"${newArr.join(',')}"`;
+}
+
+/************************************************************************************************
+ * Authentication
  * 
  * This function authenticates the caller given either (1) a "token" cookie containing a valid token
  * or (2) an "Authorization" header containing "Bearer" + a valid token.
@@ -93,59 +121,73 @@ const hagenhausDb = mysql.createPool({
 //   }
 // }
 
-/************************************************************************************************
-* API Information
-************************************************************************************************/
+export const postToken = (req, res) => {
+  const email = getValue('email', req);
+  const password = 'password' in req.body ? req.body.password : null;
+  if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
+  if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
+  else {
+    hagenhausDb.getConnection((error, conn) => {
+      if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+      else {
+        const proc = `call selectUserByEmail(${email})`;
+        conn.query(proc, (error, results, fields) => {
+          conn.release();
+          if (error) { sendSqlError(res, error, 'Error selecting user by email.'); }
+          else {
+            let user = results[0][0];
+            console.log(user);
+            bcrypt.compare(password, user.password, (error, result) => {
+              if (error) { sendError(res, 401, 'bcrypt.compare failed.'); }
+              else if (result) {
+                const payload = { id: user.id };
+                const token = jwt.sign(payload, process.env.jwtSecret, {
+                  algorithm: 'HS256',
+                  expiresIn: parseInt(process.env.jwtExpiresIn)
+                });
+                res.status(201).send({ 'token': token, 'userId': user.id });
+              } else { sendError(res, 401, 'Email and/or password invalid.'); }
+            });
+          }
+        });
+      }
+    });
+  }
+};
 
-export const getApiInformation = (req, res) => {
-  res.status(200).send({
-    'name': 'Hagenhaus API',
-    'method': req.method,
-    'url': req.url,
-    'timestamp': new Date().toISOString()
-  });
+export const deleteToken = (req, res) => {
+  res.status(200).send({ 'name': 'Hagenhaus API', 'method': req.method, 'url': req.url, 'timestamp': new Date().toISOString() });
 };
 
 /************************************************************************************************
-* Messages
+* Users
 ************************************************************************************************/
 
-// export const postMessage = (req, res) => {
-//   const record = {};
-//   record.timestamp = new Date().toISOString();
-//   record.method = req.method;
-//   record.endpoint = req.url;
-//   record.name = req.body.name;
-//   record.email = req.body.email;
-//   record.website = req.body.website;
-//   record.message = req.body.message;
-//   record.userAgent = req.headers['user-agent'];
-
-//   try {
-//     const stats = fs.statSync('messages.log');
-//     if (stats.size < 1000000) {
-//       fs.appendFileSync('messages.log', JSON.stringify(record, null, 2));
-//       res.status(204).end();
-//     } else {
-//       res.status(429).end();
-//     }
-//   } catch (err) {
-//     res.status(404).end();
-//   }
-// };
-
-/************************************************************************************************
-* addTicks
-************************************************************************************************/
-
-function addTicks(fields) {
-  let arr = fields.split(',');
-  let newArr = [];
-  for (const item of arr) {
-    newArr.push(`\`${item}\``);
+export const postUser = (req, res) => {
+  const firstName = getValue('firstName', req);
+  const lastName = getValue('lastName', req);
+  const email = getValue('email', req);
+  const password = 'password' in req.body ? req.body.password : null;
+  if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
+  else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
+  else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
+  else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
+  else {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      hagenhausDb.getConnection((error, conn) => {
+        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+        else {
+          const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
+          conn.query(proc, (error, results, fields) => {
+            conn.release();
+            if (error) { sendSqlError(res, error, 'Error creating record.'); }
+            else { res.status(201).send(results[0][0]); }
+          });
+        }
+      });
+    });
   }
-  return `"${newArr.join(',')}"`;
-}
+};
 
 /************************************************************************************************
 * Records

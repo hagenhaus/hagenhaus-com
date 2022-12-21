@@ -16,17 +16,25 @@ export const routes = (app) => {
     .get(controllers.getApiInformation);
 
   /************************************************************************************************
-  * Messages
+  * Authentication
   ************************************************************************************************/
 
-  // app.route('/api/v1/messages')
-  //   .post(controllers.postMessage);
+   app.route('/api/v1/tokens')
+   .post(controllers.postToken)
+   .delete(controllers.deleteToken);
+
+  /************************************************************************************************
+  * Users
+  ************************************************************************************************/
+
+   app.route('/api/v1/users')
+   .post(controllers.postUser);
 
   /************************************************************************************************
   * Portals
   ************************************************************************************************/
 
-  app.route('/api/devportals/v1/companies')
+   app.route('/api/devportals/v1/companies')
     .get(controllers.getCompanies);
 
   app.route('/api/devportals/v1/companies/:id')
