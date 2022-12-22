@@ -140,7 +140,6 @@ menuItem: mi-account
       const user = JSON.parse(localStorage.getItem('user'));
       if(user) {
         const res = await axios({ url: `http://localhost:8081/api/v1/users/${user.userId}`, method: 'get' });
-        console.log(res.data);
         const firstNameForm = document.getElementById('first-name-form');
         firstNameForm.querySelector('input').value = res.data.firstName;
         const lasttNameForm = document.getElementById('last-name-form');

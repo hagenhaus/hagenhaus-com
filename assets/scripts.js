@@ -580,11 +580,10 @@ window.signInFormListener = (event) => {
       data[element.name] = element.value;
     }
   });
-  console.log(data);
   (async () => {
     try {
       let res = await axios({ url: `http://localhost:8081/api/v1/tokens`, method: 'post', data: data });
-      console.log(res.data);
+      // console.log(res.data);
       localStorage.setItem('user', JSON.stringify(res.data));
 
       res = await axios({ url: `http://localhost:8081/api/v1/users/${res.data.userId}`, method: 'get' });
@@ -607,7 +606,6 @@ window.signInFormListener = (event) => {
 
 window.signUpFormListener = (event) => {
   event.preventDefault();
-  console.log('Submitted Sign-up form.');
   let data = {};
   Object.keys(event.target.elements).forEach(key => {
     let element = event.target.elements[key];
