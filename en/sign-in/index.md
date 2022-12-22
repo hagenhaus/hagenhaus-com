@@ -49,14 +49,12 @@ menuItem: mi-sign-in
 </div>
 </div>
 
-<script>
-(async () => {
-  var { signInFormListener, signUpFormListener } = await import('/assets/scripts.js');
+<script type="module">
+  import { signInFormListener, signUpFormListener } from '/assets/scripts.js';
 
   var signInForm = document.getElementById('sign-in-form');
   signInForm.addEventListener('submit', signInFormListener);
 
   var signUpForm = document.getElementById('sign-up-form');
   signUpForm.addEventListener('submit', signUpFormListener);
-})();
 </script>

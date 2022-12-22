@@ -19,22 +19,25 @@ export const routes = (app) => {
   * Authentication
   ************************************************************************************************/
 
-   app.route('/api/v1/tokens')
-   .post(controllers.postToken)
-   .delete(controllers.deleteToken);
+  app.route('/api/v1/tokens')
+    .post(controllers.postToken)
+    .delete(controllers.deleteToken);
 
   /************************************************************************************************
   * Users
   ************************************************************************************************/
 
-   app.route('/api/v1/users')
-   .post(controllers.postUser);
+  app.route('/api/v1/users')
+    .post(controllers.postUser);
+
+  app.route('/api/v1/users/:id')
+    .get(controllers.getUser);
 
   /************************************************************************************************
   * Portals
   ************************************************************************************************/
 
-   app.route('/api/devportals/v1/companies')
+  app.route('/api/devportals/v1/companies')
     .get(controllers.getCompanies);
 
   app.route('/api/devportals/v1/companies/:id')

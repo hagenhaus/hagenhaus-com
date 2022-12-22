@@ -163,6 +163,8 @@ export const deleteToken = (req, res) => {
 * Users
 ************************************************************************************************/
 
+export const getUser = (req, res) => { getRecord(hagenhausDb, 'users', 'id', req, res); };
+
 export const postUser = (req, res) => {
   const firstName = getValue('firstName', req);
   const lastName = getValue('lastName', req);
