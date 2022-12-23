@@ -2,7 +2,6 @@
 hasOtp: false
 hasPageHeader: false
 hasScrollbar: false
-menuItem: mi-account
 ---
 
 # Account
@@ -57,7 +56,7 @@ menuItem: mi-account
   <a id="delete-account-link" class="hh-no-follow" href="">Delete my account</a>
 </p>
 <div class="row gx-3">
-<form id="first-name-form" class="col-12 col-md-6">
+<form id="first-name-form" class="col-12 col-md-6 update-account-field">
 <div class="row gx-3">
   <div class="col-12">
     <label for="firstName" class="form-label">First name</label>
@@ -72,7 +71,7 @@ menuItem: mi-account
   </div>
 </div>
 </form>
-<form id="last-name-form" class="col-12 col-md-6">
+<form id="last-name-form" class="col-12 col-md-6 update-account-field">
 <div class="row gx-3">
   <div class="col-12">
     <label for="lastName" class="form-label">Last name</label>
@@ -95,14 +94,11 @@ menuItem: mi-account
 </div>
 <div class="row gx-2 mb-3">
   <div class="col">
-    <input name="email" type="email" class="form-control" autocomplete="username email" value="" required="">
-  </div>
-  <div class="col-auto">
-    <button type="submit" class="btn btn-secondary"><i class="fas fa-check size"></i></button>
+    <input name="email" type="email" class="form-control" autocomplete="username email" value="" required="" disabled>
   </div>
 </div>
 </form>
-<form id="password-form" class="col-12 col-md-6">
+<form id="password-form" class="col-12 col-md-6 update-account-field">
 <div class="row gx-3">
   <div class="col-12">
     <label for="password" class="form-label">Password</label>
@@ -110,7 +106,6 @@ menuItem: mi-account
 </div>
 <div class="row gx-2 mb-3">
   <div class="col">
-    <input type="text" autocomplete="username" hidden="">
     <input name="password" type="password" class="form-control" autocomplete="current-password" required="">
   </div>
   <div class="col-auto">
@@ -126,20 +121,63 @@ menuItem: mi-account
 <script type="module">
   (async () => {
     document.getElementById('sign-in-form').addEventListener('submit', signInFormListener);
+
     document.getElementById('sign-up-form').addEventListener('submit', signUpFormListener);
+
+    for(const form of document.querySelectorAll('form.update-account-field')) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        (async () => {
+          try {
+            const input = event.target.querySelector('input');
+            const user = localStorage.getItem('user');
+            if(user) {
+              const res = await axios({ 
+                url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, 
+                method: 'patch',
+                headers: { authorization: `Bearer ${JSON.parse(user).token}` },
+                data: { updates: `${input.name}="${input.value}"` }
+              });
+              reportInfo('Success', 'Field updated successfully.');
+            }
+          } catch (error) { reportError(error); }
+        })();
+      });
+    }
+
     document.getElementById('sign-out-link').addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('sign out');
+      confirm('Sign out', 'Click "Sign out" to sign out or "Cancel" to remain signed in.', 'Sign out', () => {
+      localStorage.removeItem('user');
+      document.getElementById('account').style.display = 'none';
+      document.getElementById('sign-in').style.display = 'block';
+      });
     });
+
     document.getElementById('delete-account-link').addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('delete account');
+      confirm('Delete my account', 'Click "Delete" to delete your account or "Cancel" to retain your account.', 'Delete', () => {
+      (async () => {
+        try {
+          const user = localStorage.getItem('user');
+          if(user) {
+            const res = await axios({ url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, method: 'delete' });
+            localStorage.removeItem('user');
+          }
+          document.getElementById('account').style.display = 'none';
+          document.getElementById('sign-in').style.display = 'block';
+          reportInfo('Success', 'User account deleted successfully.');
+        } catch (error) { 
+          reportError(error); 
+        }
+      })();
+      });
     });
 
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = localStorage.getItem('user');
       if(user) {
-        const res = await axios({ url: `http://localhost:8081/api/v1/users/${user.userId}`, method: 'get' });
+        const res = await axios({ url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, method: 'get' });
         const firstNameForm = document.getElementById('first-name-form');
         firstNameForm.querySelector('input').value = res.data.firstName;
         const lasttNameForm = document.getElementById('last-name-form');

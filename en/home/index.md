@@ -38,7 +38,19 @@ menuItem: mi-home
 </script>
 
 <script>
+function getBearerToken() {
+  let user = localStorage.getItem('user');
+  return user ? `Bearer ${JSON.parse(user).token}` : null;
+}
+</script>
+
+<script>
   new HHDataList({
+    auths: {
+      deleteRecord: getBearerToken,
+      patchRecord: getBearerToken,
+      postRecord: getBearerToken
+    },
     colWidths: {
       fields: { value: 'narrow' },
       records: { value: 'medium' },
@@ -119,17 +131,17 @@ menuItem: mi-home
     },
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
-    methods: {
-      createRecord: () => { 
-        reportWarning('Cannot Create Record', 'This feature is disabled for this data list.'); 
-      },
-      deleteRecord: () => { 
-        reportWarning('Cannot Delete Record', 'This feature is disabled for this data list.'); 
-      },
-      // patchRecord: () => {
-      //   reportWarning('Cannot Modify Record Field', 'This feature is disabled for this data list.');
-      // }
-    },
+    // methods: {
+    //   deleteRecord: () => { 
+    //     reportWarning('Cannot Delete Record', 'This feature is disabled for this data list.'); 
+    //   },
+    //   patchRecord: () => {
+    //     reportWarning('Cannot Modify Record Field', 'This feature is disabled for this data list.');
+    //   },
+    //   postRecord: () => { 
+    //     reportWarning('Cannot Create Record', 'This feature is disabled for this data list.'); 
+    //   }
+    // },
     number: { value: true },
     parity: {
       get: { value: true },

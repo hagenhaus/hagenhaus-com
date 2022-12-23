@@ -20,8 +20,7 @@ export const routes = (app) => {
   ************************************************************************************************/
 
   app.route('/api/v1/tokens')
-    .post(controllers.postToken)
-    .delete(controllers.deleteToken);
+    .post(controllers.postToken);
 
   /************************************************************************************************
   * Users
@@ -31,7 +30,9 @@ export const routes = (app) => {
     .post(controllers.postUser);
 
   app.route('/api/v1/users/:id')
-    .get(controllers.getUser);
+    .get(controllers.getUser)
+    .patch(controllers.patchUser)
+    .delete(controllers.deleteUser);
 
   /************************************************************************************************
   * Portals

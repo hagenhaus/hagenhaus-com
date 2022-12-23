@@ -55,71 +55,46 @@ function addTicks(fields) {
 
 /************************************************************************************************
  * Authentication
- * 
- * This function authenticates the caller given either (1) a "token" cookie containing a valid token
- * or (2) an "Authorization" header containing "Bearer" + a valid token.
  ************************************************************************************************/
 
-//  const AuthState = Object.freeze({
-//   unauth: { isAuthenticated: false, description: 'No JWT' },
-//   unauthInvalidJwt: { isAuthenticated: false, description: 'Invalid JWT' },
-//   unauthObsoleteJwt: { isAuthenticated: false, description: 'Valid JWT but invalid user' },
-//   authenticated: { isAuthenticated: true, description: 'Valid JWT and valid user' },
-//   unauthlogDbConnError: { isAuthenticated: false, description: 'Valid JWT but db connection error' },
-//   unauthlogDbQueryError: { isAuthenticated: false, description: 'Valid JWT but db query error' },
-//   noAuthorizationHeader: { isAuthenticated: false, description: 'No authorization header' },
-//   malformedAuthorizationHeader: { isAuthenticated: false, description: 'Malformed authorization header' },
-//   noTokenCookieNorAuthHeader: { isAuthenticated: false, description: 'No token cookie nor bearer authorization header' },
-//   noBearer: { isAuthenticated: false, description: 'No Bearer in authorization header' },
-//   dbConnError: { isAuthenticated: false, description: 'DB Connection Error' },
-//   dbQueryError: { isAuthenticated: false, description: 'DB Query Error' },
-//   noSuchUser: { isAuthenticated: false, description: 'No such user' },
-//   invalidToken: { isAuthenticated: false, description: 'Invalid token' },
-//   valid: { isAuthenticated: true, description: 'Valid token and valid user' }
-// });
+const AuthState = Object.freeze({
+  malformedAuthHeader: { isAuthenticated: false, description: 'Malformed authorization header' },
+  noAuthHeader: { isAuthenticated: false, description: 'This operation requires authentication.' },
+  noBearer: { isAuthenticated: false, description: 'No Bearer in authorization header' },
+  dbConnError: { isAuthenticated: false, description: 'DB Connection Error' },
+  dbQueryError: { isAuthenticated: false, description: 'DB Query Error' },
+  noSuchUser: { isAuthenticated: false, description: 'No such user' },
+  invalidToken: { isAuthenticated: false, description: 'The authentication token is invalid.' },
+  notYourAccount: { isAuthenticated: false, description: 'User ID in JWT !== User ID in request.' },
+  valid: { isAuthenticated: true, description: 'Valid token and valid user' }
+});
 
-// function authenticate(req, res, cb) {
-//   let token = null;
-//   if ('token' in req.cookies) {
-//     token = req.cookies.token;
-//   } else if ('authorization' in req.headers) {
-//     let arr = req.headers.authorization.split(' ');
-//     if (arr.length != 2) {
-//       cb(AuthState.malformedAuthorizationHeader, null);
-//     } else if (arr[0] !== 'Bearer') {
-//       cb(AuthState.noBearer, null);
-//     }
-//     token = arr[1];
-//   } else {
-//     cb(AuthState.noTokenCookieNorAuthHeader, null);
-//   }
-
-//   if (token) {
-//     try {
-//       let payload = jwt.verify(token, process.env.jwtSecret); // synchronous
-//       dbPool.getConnection((err, conn) => {
-//         if (err) {
-//           logDbConnError(err);
-//           cb(AuthState.dbConnError, null);
-//         } else {
-//           conn.query(`call verifyUser(${payload.id})`, (error, results, fields) => {
-//             conn.release();
-//             if (error) {
-//               logDbQueryError(error);
-//               cb(AuthState.dbQueryError, null);
-//             } else if (results[0][0].exists) {
-//               cb(AuthState.valid, payload.id);
-//             } else {
-//               cb(AuthState.noSuchUser, null);
-//             }
-//           });
-//         }
-//       });
-//     } catch (err) {
-//       cb(AuthState.invalidToken, null);
-//     }
-//   }
-// }
+function authenticate(req, cb) {
+  if ('authorization' in req.headers) {
+    let arr = req.headers.authorization.split(' ');
+    if (arr.length != 2) { cb(AuthState.malformedAuthHeader, null); }
+    else if (arr[0] !== 'Bearer') { cb(AuthState.noBearer, null); }
+    else {
+      const token = arr[1];
+      try {
+        let payload = jwt.verify(token, process.env.jwtSecret); // synchronous
+        hagenhausDb.getConnection((err, conn) => {
+          if (err) { cb(AuthState.dbConnError, null); }
+          else {
+            conn.query(`call verifyUser(${payload.id})`, (error, results, fields) => {
+              conn.release();
+              if (error) { cb(AuthState.dbQueryError, null); }
+              else if (results[0][0].exists) { cb(AuthState.valid, payload.id); }
+              else { cb(AuthState.noSuchUser, null); }
+            });
+          }
+        });
+      } catch (err) {
+        cb(AuthState.invalidToken, null);
+      }
+    }
+  } else { cb(AuthState.noAuthHeader, null); }
+}
 
 export const postToken = (req, res) => {
   const email = getValue('email', req);
@@ -136,7 +111,6 @@ export const postToken = (req, res) => {
           if (error) { sendSqlError(res, error, 'Error selecting user by email.'); }
           else {
             let user = results[0][0];
-            console.log(user);
             bcrypt.compare(password, user.password, (error, result) => {
               if (error) { sendError(res, 401, 'bcrypt.compare failed.'); }
               else if (result) {
@@ -151,42 +125,6 @@ export const postToken = (req, res) => {
           }
         });
       }
-    });
-  }
-};
-
-export const deleteToken = (req, res) => {
-  res.status(200).send({ 'name': 'Hagenhaus API', 'method': req.method, 'url': req.url, 'timestamp': new Date().toISOString() });
-};
-
-/************************************************************************************************
-* Users
-************************************************************************************************/
-
-export const getUser = (req, res) => { getRecord(hagenhausDb, 'users', 'id', req, res); };
-
-export const postUser = (req, res) => {
-  const firstName = getValue('firstName', req);
-  const lastName = getValue('lastName', req);
-  const email = getValue('email', req);
-  const password = 'password' in req.body ? req.body.password : null;
-  if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
-  else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
-  else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
-  else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
-  else {
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      hagenhausDb.getConnection((error, conn) => {
-        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
-        else {
-          const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
-          conn.query(proc, (error, results, fields) => {
-            conn.release();
-            if (error) { sendSqlError(res, error, 'Error creating record.'); }
-            else { res.status(201).send(results[0][0]); }
-          });
-        }
-      });
     });
   }
 };
@@ -286,16 +224,20 @@ export const patchRecord = (db, table, idField, req, res) => {
 };
 
 export const deleteRecord = (db, table, idField, req, res) => {
-  db.getConnection((error, conn) => {
-    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
-    else {
-      const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
-      conn.query(proc, (error, results, flds) => {
-        conn.release();
-        if (error) { sendSqlError(res, error, 'Error deleting record from DB.'); }
-        else { res.status(204).send(); }
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      db.getConnection((error, conn) => {
+        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+        else {
+          const proc = `call deleteRecord("${table}", "${idField}", "${req.params.id}")`;
+          conn.query(proc, (error, results, flds) => {
+            conn.release();
+            if (error) { sendSqlError(res, error, 'Error deleting record from DB.'); }
+            else { res.status(204).send(); }
+          });
+        }
       });
-    }
+    } else { res.status(401).send(authState.description); }
   });
 };
 
@@ -499,29 +441,45 @@ export const postBaseballPark = (req, res) => {
 
 export const getFamousTrees = (req, res) => { getRecords(hagenhausDb, 'trees', req, res); };
 export const getFamousTree = (req, res) => { getRecord(hagenhausDb, 'trees', 'id', req, res); };
-export const patchFamousTree = (req, res) => { patchRecord(hagenhausDb, 'trees', 'id', req, res); };
-export const deleteFamousTree = (req, res) => { deleteRecord(hagenhausDb, 'trees', 'id', req, res); };
+
+export const patchFamousTree = (req, res) => {
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      patchRecord(hagenhausDb, 'trees', 'id', req, res);
+    } else { res.status(401).send(authState.description); }
+  });
+};
+
+export const deleteFamousTree = (req, res) => {
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      deleteRecord(hagenhausDb, 'trees', 'id', req, res);
+    } else { res.status(401).send(authState.description); }
+  });
+};
 
 export const postFamousTree = (req, res) => {
-  hagenhausDb.getConnection((error, conn) => {
-    if (error) { sendError(res, 500, 'Server could not connect to database.'); }
-    else {
-      const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
-      const birthYear = getValue('birthYear', req);
-      const city = getValue('city', req);
-      const country = getValue('country', req);
-      const description = getValue('description', req);
-      const girth = getValue('girth', req);
-      const height = getValue('height', req);
-      const lat = getValue('lat', req);
-      const links = getValue('links', req);
-      const lng = getValue('lng', req);
-      const name = getValue('name', req);
-      const species = getValue('species', req);
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      hagenhausDb.getConnection((error, conn) => {
+        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+        else {
+          const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
+          const birthYear = getValue('birthYear', req);
+          const city = getValue('city', req);
+          const country = getValue('country', req);
+          const description = getValue('description', req);
+          const girth = getValue('girth', req);
+          const height = getValue('height', req);
+          const lat = getValue('lat', req);
+          const links = getValue('links', req);
+          const lng = getValue('lng', req);
+          const name = getValue('name', req);
+          const species = getValue('species', req);
 
-      if (!name) { sendError(res, 422, 'name field is required.'); }
-      else {
-        const proc = `call insertTree(
+          if (!name) { sendError(res, 422, 'name field is required.'); }
+          else {
+            const proc = `call insertTree(
           ${birthYear},
           ${city},
           ${country},
@@ -534,14 +492,66 @@ export const postFamousTree = (req, res) => {
           ${name},
           ${species},
           ${fields})`;
-        conn.query(proc, (error, results, flds) => {
-          conn.release();
-          if (error) { sendSqlError(res, error, 'Error creating record.'); }
-          else { res.status(201).send(results[0][0]); }
-        });
-      }
-    }
+            conn.query(proc, (error, results, flds) => {
+              conn.release();
+              if (error) { sendSqlError(res, error, 'Error creating record.'); }
+              else { res.status(201).send(results[0][0]); }
+            });
+          }
+        }
+      });
+    } else { res.status(401).send(authState.description); }
   });
+};
+
+/************************************************************************************************
+* Users
+************************************************************************************************/
+
+export const getUser = (req, res) => { getRecord(hagenhausDb, 'users', 'id', req, res); };
+
+export const patchUser = (req, res) => {
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      if ((userId * 1) !== (req.params.id * 1)) { res.status(401).send(AuthState.notYourAccount.description); }
+      else { patchRecord(hagenhausDb, 'users', 'id', req, res); }
+    } else { res.status(401).send(authState.description); }
+  });
+};
+
+export const deleteUser = (req, res) => {
+  authenticate(req, (authState, userId) => {
+    if (authState.isAuthenticated) {
+      if ((userId * 1) !== (req.params.id * 1)) { res.status(401).send(AuthState.notYourAccount.description); }
+      else { deleteRecord(hagenhausDb, 'users', 'id', req, res); }
+    } else { res.status(401).send(authState.description); }
+  });
+};
+
+export const postUser = (req, res) => {
+  const firstName = getValue('firstName', req);
+  const lastName = getValue('lastName', req);
+  const email = getValue('email', req);
+  const password = 'password' in req.body ? req.body.password : null;
+  if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
+  else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
+  else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
+  else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
+  else {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      hagenhausDb.getConnection((error, conn) => {
+        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+        else {
+          const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
+          conn.query(proc, (error, results, fields) => {
+            conn.release();
+            if (error) { sendSqlError(res, error, 'Error creating record.'); }
+            else { res.status(201).send(results[0][0]); }
+          });
+        }
+      });
+    });
+  }
 };
 
 /************************************************************************************************
