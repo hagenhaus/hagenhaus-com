@@ -9,8 +9,10 @@ hasScrollbar: false
 <div class='row justify-content-center'>
 <div class='col-12 col-md-11 col-lg-10 col-xl-9'>
 
+# Account
+
 <div id="sign-in" style="display:none;">
-<h1>Sign in</h1>
+<h2>Sign in</h2>
 <form id="sign-in-form" class="row gx-3">
   <div class="col-md-6 mb-3">
     <label for="email" class="form-label">Email</label>
@@ -18,13 +20,14 @@ hasScrollbar: false
   </div>
   <div class="col-md-6 mb-3">
     <label for="password" class="form-label">Password</label>
-    <input name="password" type="password" class="form-control" style="-webkit-text-security: disc;" required="">
+    <input name="password" type="password" class="form-control" required="">
   </div>
   <div class="col-12 mb-3">
     <button type="submit" class="btn btn-secondary hh-normal">Sign in</button>
   </div>
 </form>
-<h1>Sign up</h1>
+<h2>Sign up</h2>
+<p>You do not need a Hagenhaus account to access <a href="/en/hhdatalist/v0.0.2/">HHDataList</a> docs or deploy HHDataList instances. Accounts are used primarily for testing.</p>
 <form id="sign-up-form" class="row gx-3 mb-3">
   <div class="col-md-6 mb-3">
     <label for="firstName" class="form-label">First name</label>
@@ -42,6 +45,10 @@ hasScrollbar: false
     <label for="password" class="form-label">Password</label>
     <input name="password" type="text" class="form-control" style="-webkit-text-security: disc;" required="">
   </div>
+  <div class="col-md-6 mb-3">
+    <label for="partnerId" class="form-label">Partner ID</label>
+    <input name="partnerId" type="text" class="form-control" required="">
+  </div>
   <div class="col-12">
     <button type="submit" class="btn btn-secondary hh-normal">Sign up</button>
   </div>
@@ -49,7 +56,6 @@ hasScrollbar: false
 </div>
 
 <div id="account" style="display:none;">
-<h1>Account</h1>
 <p>
   <a id="sign-out-link" class="hh-no-follow" href="">Sign out</a>
   <span> or </span>
@@ -120,64 +126,16 @@ hasScrollbar: false
 
 <script type="module">
   (async () => {
-    document.getElementById('sign-in-form').addEventListener('submit', signInFormListener);
-
-    document.getElementById('sign-up-form').addEventListener('submit', signUpFormListener);
-
-    for(const form of document.querySelectorAll('form.update-account-field')) {
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        (async () => {
-          try {
-            const input = event.target.querySelector('input');
-            const user = localStorage.getItem('user');
-            if(user) {
-              const res = await axios({ 
-                url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, 
-                method: 'patch',
-                headers: { authorization: `Bearer ${JSON.parse(user).token}` },
-                data: { updates: `${input.name}="${input.value}"` }
-              });
-              reportInfo('Success', 'Field updated successfully.');
-            }
-          } catch (error) { reportError(error); }
-        })();
-      });
-    }
-
-    document.getElementById('sign-out-link').addEventListener('click', (event) => {
-      event.preventDefault();
-      confirm('Sign out', 'Click "Sign out" to sign out or "Cancel" to remain signed in.', 'Sign out', () => {
-      localStorage.removeItem('user');
-      document.getElementById('account').style.display = 'none';
-      document.getElementById('sign-in').style.display = 'block';
-      });
-    });
-
-    document.getElementById('delete-account-link').addEventListener('click', (event) => {
-      event.preventDefault();
-      confirm('Delete my account', 'Click "Delete" to delete your account or "Cancel" to retain your account.', 'Delete', () => {
-      (async () => {
-        try {
-          const user = localStorage.getItem('user');
-          if(user) {
-            const res = await axios({ url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, method: 'delete' });
-            localStorage.removeItem('user');
-          }
-          document.getElementById('account').style.display = 'none';
-          document.getElementById('sign-in').style.display = 'block';
-          reportInfo('Success', 'User account deleted successfully.');
-        } catch (error) { 
-          reportError(error); 
-        }
-      })();
-      });
-    });
+    document.getElementById('sign-in-form').addEventListener('submit', signInListener);
+    document.getElementById('sign-up-form').addEventListener('submit', signUpListener);
+    document.getElementById('sign-out-link').addEventListener('click', signOutListener);
+    document.getElementById('delete-account-link').addEventListener('click', deleteAccountListener);
+    for(const form of document.querySelectorAll('form.update-account-field')) { form.addEventListener('submit', updateAccountListener); }
 
     try {
       const user = localStorage.getItem('user');
       if(user) {
-        const res = await axios({ url: `http://localhost:8081/api/v1/users/${JSON.parse(user).userId}`, method: 'get' });
+        const res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`, method: 'get' });
         const firstNameForm = document.getElementById('first-name-form');
         firstNameForm.querySelector('input').value = res.data.firstName;
         const lasttNameForm = document.getElementById('last-name-form');

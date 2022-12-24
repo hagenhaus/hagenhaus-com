@@ -140,7 +140,7 @@
   <script src="http://localhost:8080/axios/axios.min.js"></script>
   <script src="http://localhost:8080/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="http://localhost:8080/swagger/swagger-ui-bundle.js" crossorigin></script>
-
+  
   <script src="/assets/scripts.js?v=47" type="module"></script>
 
   <!-- 
@@ -162,102 +162,6 @@
   <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist-themes-from-palette-names.js?v=47"></script>
   <!-- <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist-themes.js?v=47"></script> -->
   <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist.js?v=47"></script>
-
-  <script>
-    const modalDefaultYesCb = () => { console.log('Default yesCb'); };
-    var modalYesCb = modalDefaultYesCb;
-    const modalEl = document.getElementById('modal');
-    const modal = new bootstrap.Modal(modalEl);
-    modalEl.querySelector('button.yes').addEventListener('click', (event) => {
-      modal.hide();
-      modalYesCb();
-      modalYesCb = modalDefaultYesCb;
-    });
-
-    const showToast = (level, title, message) => {
-      let toast = document.createElement('div');
-      toast.classList.add('toast', 'fade', 'text-dark', 'bg-light', 'border-0');
-      toast.setAttribute('data-bs-autohide', 'false');
-      toast.setAttribute('role', 'alert');
-      toast.setAttribute('aria-live', 'assertive');
-      toast.setAttribute('aria-atomic', 'true');
-      toast.setAttribute('solid', 'true');
-      toast.addEventListener('hidden.bs.toast', (event) => {
-        event.target.remove();
-      });
-
-      let header = document.createElement('div');
-      const foreground = (level) => {
-        if (level === 'warning') { return 'text-dark'; }
-        else { return 'text-white'; }
-      };
-      const background = (level) => {
-        if (level === 'error') { return 'bg-danger'; }
-        else if (level === 'warning') { return 'bg-warning'; }
-        else { return 'bg-success'; }
-      };
-      const btnOutline = (level) => {
-        if (level === 'warning') { return 'btn-outline-dark'; }
-        else { return 'btn-outline-light'; }
-      };
-      header.classList.add('toast-header', foreground(level), background(level));
-
-      let strong = document.createElement('strong');
-      strong.classList.add('me-auto');
-      strong.innerHTML = title;
-
-      let btn = document.createElement('button');
-      btn.type = 'button';
-      btn.classList.add('btn', 'btn-sm', btnOutline(level));
-      btn.setAttribute('data-bs-dismiss', 'toast');
-
-      let i = document.createElement('i');
-      i.classList.add('fas');
-      i.classList.add('fa-times');
-
-      let body = document.createElement('div');
-      body.classList.add('toast-body');
-      body.innerHTML = message;
-
-      btn.appendChild(i);
-      header.appendChild(strong);
-      header.appendChild(btn);
-      toast.appendChild(header);
-      toast.appendChild(body);
-      document.getElementById('toast-list').appendChild(toast);
-      new bootstrap.Toast(toast, {}).show();
-    };
-
-    function confirm(title, body, yesLabel, yesCb) {
-      modalEl.querySelector('h5.modal-title').textContent = title;
-      modalEl.querySelector('div.modal-body').textContent = body;
-      modalEl.querySelector('button.yes').innerHTML = yesLabel;
-      modalYesCb = yesCb;
-      modal.show();
-    }
-
-    const warningPageUrl = `${window.location.origin}/en/docs/messages`;
-    const errorPageUrl = `${window.location.origin}/en/docs/messages`;
-
-    function reportError(error) {
-      let title = 'Unknown Error';
-      let message = 'Unknown Message';
-      if ('response' in error && 'status' in error.response && error.response.status && 'statusText' in error.response && error.response.statusText) {
-        // title = `${error.response.status}: ${error.response.statusText}`;
-        title = `${error.response.statusText}`;
-      }
-      else if ('message' in error && error.message) { title = error.message; }
-      if ('response' in error && 'data' in error.response && error.response.data) { message = error.response.data; }
-      else if ('name' in error && error.name) { message = error.name; }
-      showToast('error', title, message);
-    }
-
-    function reportInfo(title, detail) { showToast('info', title, detail); }
-    function reportWarning(title, detail) { showToast('warning', title, detail); }
-
-    const hhApiDomainArray = ['http://localhost:8081', 'https://hagenhaus.com:3002'];
-    function getDomain() { return hhApiDomainArray[0]; }
-  </script>
 
 </body>
 

@@ -5,6 +5,6 @@ The HHDataList constructor requires an *options* argument of type *object*. Belo
 ``` js nonum
 new HHDataList({
   id: 'my-data-list',
-  url: `https://domain.com/api/v1/records`,
+  url: `https://hagenhaus.com:3000/api/famous/v1/trees`,
 });
 ```

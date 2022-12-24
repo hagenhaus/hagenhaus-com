@@ -59,7 +59,7 @@ function getBearerToken() {
     confirm: confirm,
     contentMode: { value: 'value' },
     descriptions: { 
-      home: 'This data list interacts with a REST API that provides access to a small dataset of famous trees.',
+      home: 'This HHDataList instance interacts with a REST API that provides access to a small dataset of famous tree records.',
       search: 'Search and order syntax is API-specific.',
       fields: 'Checked fields appear in records.',
       tools: 'Checked tools appear on the toolbar.',
@@ -131,17 +131,17 @@ function getBearerToken() {
     },
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
-    // methods: {
-    //   deleteRecord: () => { 
-    //     reportWarning('Cannot Delete Record', 'This feature is disabled for this data list.'); 
-    //   },
-    //   patchRecord: () => {
-    //     reportWarning('Cannot Modify Record Field', 'This feature is disabled for this data list.');
-    //   },
-    //   postRecord: () => { 
-    //     reportWarning('Cannot Create Record', 'This feature is disabled for this data list.'); 
-    //   }
-    // },
+    methods: {
+      deleteRecord: () => { 
+        reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); 
+      },
+      patchRecord: () => {
+        reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.');
+      },
+      postRecord: () => { 
+        reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); 
+      }
+    },
     number: { value: true },
     parity: {
       get: { value: true },
@@ -176,7 +176,7 @@ function getBearerToken() {
     small: { value: true },
     themeDefinition: { showTool: true },
     uniformity: { value: true, fieldValue: 'No data' },
-    url: `${getDomain()}/api/famous/v1/trees`
+    url: `${getHHApiDomain()}/api/famous/v1/trees`
   });
 </script>
 

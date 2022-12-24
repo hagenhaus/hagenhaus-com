@@ -529,29 +529,30 @@ export const deleteUser = (req, res) => {
 };
 
 export const postUser = (req, res) => {
-  const firstName = getValue('firstName', req);
-  const lastName = getValue('lastName', req);
-  const email = getValue('email', req);
-  const password = 'password' in req.body ? req.body.password : null;
-  if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
-  else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
-  else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
-  else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
-  else {
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      hagenhausDb.getConnection((error, conn) => {
-        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
-        else {
-          const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
-          conn.query(proc, (error, results, fields) => {
-            conn.release();
-            if (error) { sendSqlError(res, error, 'Error creating record.'); }
-            else { res.status(201).send(results[0][0]); }
-          });
-        }
-      });
-    });
-  }
+  sendError(res, 401, 'Invalid Partner ID');
+  // const firstName = getValue('firstName', req);
+  // const lastName = getValue('lastName', req);
+  // const email = getValue('email', req);
+  // const password = 'password' in req.body ? req.body.password : null;
+  // if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
+  // else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
+  // else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
+  // else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
+  // else {
+  //   bcrypt.hash(password, saltRounds, (err, hash) => {
+  //     hagenhausDb.getConnection((error, conn) => {
+  //       if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+  //       else {
+  //         const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
+  //         conn.query(proc, (error, results, fields) => {
+  //           conn.release();
+  //           if (error) { sendSqlError(res, error, 'Error creating record.'); }
+  //           else { res.status(201).send(results[0][0]); }
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
 };
 
 /************************************************************************************************

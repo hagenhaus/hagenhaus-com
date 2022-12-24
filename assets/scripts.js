@@ -568,10 +568,10 @@ document.getElementById('about-this-book').addEventListener('click', (event) => 
 document.getElementById('page-col').addEventListener('scroll', scrollHandler);
 
 /************************************************************************************************
-* signInFormListener
+* Account page listeners
 ************************************************************************************************/
 
-window.signInFormListener = (event) => {
+window.signInListener = (event) => {
   event.preventDefault();
   let data = {};
   Object.keys(event.target.elements).forEach(key => {
@@ -583,7 +583,6 @@ window.signInFormListener = (event) => {
   (async () => {
     try {
       let res = await axios({ url: `http://localhost:8081/api/v1/tokens`, method: 'post', data: data });
-      // console.log(res.data);
       localStorage.setItem('user', JSON.stringify(res.data));
 
       res = await axios({ url: `http://localhost:8081/api/v1/users/${res.data.userId}`, method: 'get' });
@@ -600,11 +599,7 @@ window.signInFormListener = (event) => {
   })();
 };
 
-/************************************************************************************************
-* signUpFormListener
-************************************************************************************************/
-
-window.signUpFormListener = (event) => {
+window.signUpListener = (event) => {
   event.preventDefault();
   let data = {};
   Object.keys(event.target.elements).forEach(key => {
@@ -614,13 +609,163 @@ window.signUpFormListener = (event) => {
   (async () => {
     try {
       const res = await axios({ url: `http://localhost:8081/api/v1/users`, method: 'post', data: data });
-      // console.log(res.data);
       event.target.reset();
       reportInfo('Success', 'User account created successfully.');
       document.getElementById('sign-in-form').elements['email'].value = res.data.email;
     } catch (error) { reportError(error); }
   })();
 };
+
+window.signOutListener = (event) => {
+  event.preventDefault();
+  confirm('Sign out', 'Click "Sign out" to sign out or "Cancel" to remain signed in.', 'Sign out', () => {
+    localStorage.removeItem('user');
+    document.getElementById('account').style.display = 'none';
+    document.getElementById('sign-in').style.display = 'block';
+  });
+};
+
+window.updateAccountListener = (event) => {
+  event.preventDefault();
+  (async () => {
+    try {
+      const input = event.target.querySelector('input');
+      const user = localStorage.getItem('user');
+      if (user) {
+        const res = await axios({
+          url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`,
+          method: 'patch',
+          headers: { authorization: `Bearer ${JSON.parse(user).token}` },
+          data: { updates: `${input.name}="${input.value}"` }
+        });
+        reportInfo('Success', 'Field updated successfully.');
+      }
+    } catch (error) { reportError(error); }
+  })();
+};
+
+window.deleteAccountListener = (event) => {
+  event.preventDefault();
+  confirm('Delete my account', 'Click "Delete" to delete your account or "Cancel" to retain your account.', 'Delete', () => {
+    (async () => {
+      try {
+        const user = localStorage.getItem('user');
+        if (user) {
+          const res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`, method: 'delete' });
+          localStorage.removeItem('user');
+        }
+        document.getElementById('account').style.display = 'none';
+        document.getElementById('sign-in').style.display = 'block';
+        reportInfo('Success', 'User account deleted successfully.');
+      } catch (error) {
+        reportError(error);
+      }
+    })();
+  });
+};
+
+/************************************************************************************************
+* Modal-related
+************************************************************************************************/
+
+const modalDefaultYesCb = () => { console.log('Default yesCb'); };
+var modalYesCb = modalDefaultYesCb;
+const modalEl = document.getElementById('modal');
+const modal = new bootstrap.Modal(modalEl);
+modalEl.querySelector('button.yes').addEventListener('click', (event) => {
+  modal.hide();
+  modalYesCb();
+  modalYesCb = modalDefaultYesCb;
+});
+
+window.confirm = (title, body, yesLabel, yesCb) => {
+  modalEl.querySelector('h5.modal-title').textContent = title;
+  modalEl.querySelector('div.modal-body').textContent = body;
+  modalEl.querySelector('button.yes').innerHTML = yesLabel;
+  modalYesCb = yesCb;
+  modal.show();
+};
+
+/************************************************************************************************
+* Toast-related
+************************************************************************************************/
+
+window.showToast = (level, title, message) => {
+  let toast = document.createElement('div');
+  toast.classList.add('toast', 'fade', 'text-dark', 'bg-light', 'border-0');
+  toast.setAttribute('data-bs-autohide', 'false');
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'assertive');
+  toast.setAttribute('aria-atomic', 'true');
+  toast.setAttribute('solid', 'true');
+  toast.addEventListener('hidden.bs.toast', (event) => {
+    event.target.remove();
+  });
+
+  let header = document.createElement('div');
+  const foreground = (level) => {
+    if (level === 'warning') { return 'text-dark'; }
+    else { return 'text-white'; }
+  };
+  const background = (level) => {
+    if (level === 'error') { return 'bg-danger'; }
+    else if (level === 'warning') { return 'bg-warning'; }
+    else { return 'bg-success'; }
+  };
+  const btnOutline = (level) => {
+    if (level === 'warning') { return 'btn-outline-dark'; }
+    else { return 'btn-outline-light'; }
+  };
+  header.classList.add('toast-header', foreground(level), background(level));
+
+  let strong = document.createElement('strong');
+  strong.classList.add('me-auto');
+  strong.innerHTML = title;
+
+  let btn = document.createElement('button');
+  btn.type = 'button';
+  btn.classList.add('btn', 'btn-sm', btnOutline(level));
+  btn.setAttribute('data-bs-dismiss', 'toast');
+
+  let i = document.createElement('i');
+  i.classList.add('fas');
+  i.classList.add('fa-times');
+
+  let body = document.createElement('div');
+  body.classList.add('toast-body');
+  body.innerHTML = message;
+
+  btn.appendChild(i);
+  header.appendChild(strong);
+  header.appendChild(btn);
+  toast.appendChild(header);
+  toast.appendChild(body);
+  document.getElementById('toast-list').appendChild(toast);
+  new bootstrap.Toast(toast, {}).show();
+};
+
+window.reportError = (error) => {
+  let title = 'Unknown Error';
+  let message = 'Unknown Message';
+  if ('response' in error && 'status' in error.response && error.response.status && 'statusText' in error.response && error.response.statusText) {
+    // title = `${error.response.status}: ${error.response.statusText}`;
+    title = `${error.response.statusText}`;
+  }
+  else if ('message' in error && error.message) { title = error.message; }
+  if ('response' in error && 'data' in error.response && error.response.data) { message = error.response.data; }
+  else if ('name' in error && error.name) { message = error.name; }
+  showToast('error', title, message);
+};
+
+window.reportInfo = (title, detail) => { showToast('info', title, detail); };
+window.reportWarning = (title, detail) => { showToast('warning', title, detail); };
+
+/************************************************************************************************
+* Hagenhaus API Domain
+************************************************************************************************/
+
+const hhApiDomainArray = ['http://localhost:8081', 'https://hagenhaus.com:3002'];
+window.getHHApiDomain = () => { return hhApiDomainArray[0]; };
 
 /************************************************************************************************
 * on load
