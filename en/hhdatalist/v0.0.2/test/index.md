@@ -88,8 +88,8 @@ function getBearerToken() {
         }, 
         { label: 'Nearby City', fieldNames: ['city'] },
         { label: 'Country', fieldNames: ['country'],
-          transform: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name,
-          transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+          transform: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name,
+          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
         },
         { label: 'Coordinates', fieldNames: ['lat', 'lng'], 
           transformer: (lat, lng) => ({ 
