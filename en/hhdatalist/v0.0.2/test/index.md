@@ -1,26 +1,18 @@
----
-hasOtp: false
-hasPageHeader: false
-hasScrollbar: false
-hhdatalist: v0.0.2
-menuItem: mi-home
----
-
 # Test
 
-<div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-10'>
+<!-- <div class='row justify-content-center'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
 
 <b>HHDataList</b> is a UI component that enables websites to interact with REST APIs. Here is an example:
 
-</div>
-</div>
+<!-- </div>
+</div> -->
 
-<div class='row justify-content-center my-2'>
-  <div class='col-12 col-md-11 col-lg-10 col-xl-10'>
-    <div id="famous-trees-datalist" class="hh-data-list"></div>
-  </div>
-</div>
+<!-- <div class='row justify-content-center my-2'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
+<div id="famous-trees-datalist" class="hh-data-list"></div>
+<!-- </div>
+</div> -->
 
 <script>
   var popValues = new Map()
@@ -180,10 +172,10 @@ function getBearerToken() {
   });
 </script>
 
-<div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-10'>
+<!-- <div class='row justify-content-center'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
 
 An <b>HHDataList</b> instance is highly configurable, so it can serve as an enduser interface or a developer tool. To learn how to add instances to your website, see the [HHDataList](/en/hhdatalist/v0.0.2/) docs. You are welcome to submit feature requests, ask questions, and report bugs on [Gitter](https://gitter.im/hagenhaus/hhdatalist).
 
-</div>
-</div>
+<!-- </div>
+</div> -->
