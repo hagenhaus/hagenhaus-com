@@ -1,8 +1,12 @@
-install -D -m 644 ~/hagenhaus-com/assets/favicon.png ~/htdocs/assets/favicon.png
-install -D -m 644 ~/hagenhaus-com/assets/logo-transparent.png ~/htdocs/assets/logo-transparent.png
-install -D -m 644 ~/hagenhaus-com/assets/styles.min.css ~/htdocs/assets/styles.min.css
-install -D -m 644 ~/hagenhaus-com/assets/scripts.min.js ~/htdocs/assets/scripts.min.js
-install -D -m 644 ~/hagenhaus-com/index.html ~/htdocs/index.html
-install -D -m 644 ~/hagenhaus-com/en/index.html ~/htdocs/en/index.html
-install -D -m 644 ~/hagenhaus-com/en/home/config.json ~/htdocs/en/home/config.json
-install -D -m 644 ~/hagenhaus-com/en/home/*.html ~/htdocs/en/home/
+cp ./index.html ~/htdocs/index.html
+find ./assets -name 'favicon.png' | cpio -pdm  ~/htdocs
+find ./assets -name 'logo-transparent.png' | cpio -pdm  ~/htdocs
+find ./assets -name 'styles.min.css' | cpio -pdm  ~/htdocs
+find ./assets -name 'scripts.min.js' | cpio -pdm  ~/htdocs
+find ./en -name 'base.html' | cpio -pdm  ~/htdocs
+find ./en -name 'book.html' | cpio -pdm  ~/htdocs
+find ./en -name 'config.json' | cpio -pdm  ~/htdocs
+find ./en -name 'otp.html' | cpio -pdm  ~/htdocs
+find ./en -name 'page.html' | cpio -pdm  ~/htdocs
+find ./en -name 'index.html' | cpio -pdm  ~/htdocs
+find ./en -name '*.png' | cpio -pdm  ~/htdocs
