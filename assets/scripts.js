@@ -582,10 +582,10 @@ window.signInListener = (event) => {
   });
   (async () => {
     try {
-      let res = await axios({ url: `http://localhost:8081/api/v1/tokens`, method: 'post', data: data });
+      let res = await axios({ url: `${getHHApiDomain()}/api/v1/tokens`, method: 'post', data: data });
       localStorage.setItem('user', JSON.stringify(res.data));
 
-      res = await axios({ url: `http://localhost:8081/api/v1/users/${res.data.userId}`, method: 'get' });
+      res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${res.data.userId}`, method: 'get' });
       let firstNameForm = document.getElementById('first-name-form');
       firstNameForm.querySelector('input').value = res.data.firstName;
       let lasttNameForm = document.getElementById('last-name-form');
@@ -608,7 +608,7 @@ window.signUpListener = (event) => {
   });
   (async () => {
     try {
-      const res = await axios({ url: `http://localhost:8081/api/v1/users`, method: 'post', data: data });
+      const res = await axios({ url: `${getHHApiDomain()}/api/v1/users`, method: 'post', data: data });
       event.target.reset();
       reportInfo('Success', 'User account created successfully.');
       document.getElementById('sign-in-form').elements['email'].value = res.data.email;
