@@ -47,7 +47,7 @@ hasScrollbar: false
   </div>
   <div class="col-md-6 mb-3">
     <label for="partnerId" class="form-label">Partner ID</label>
-    <input name="partnerId" type="text" class="form-control" required="">
+    <input name="partnerId" type="text" class="form-control" style="-webkit-text-security: disc;" required="">
   </div>
   <div class="col-12">
     <button type="submit" class="btn btn-secondary hh-normal">Sign up</button>

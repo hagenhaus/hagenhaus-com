@@ -765,7 +765,7 @@ window.reportWarning = (title, detail) => { showToast('warning', title, detail);
 ************************************************************************************************/
 
 const hhApiDomainArray = ['http://localhost:8081', 'https://hagenhaus.com:3002'];
-window.getHHApiDomain = () => { return hhApiDomainArray[1]; };
+window.getHHApiDomain = () => { return hhApiDomainArray[0]; };
 
 /************************************************************************************************
 * on load

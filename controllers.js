@@ -21,7 +21,6 @@ const hagenhausDb = mysql.createPool({
   host: process.env.dbHost,
   user: process.env.dbUser,
   password: process.env.dbPassword,
-  // database: process.env.dbDatabase,
   database: 'hagenhaus',
   charset: 'utf8mb4',
   dateStrings: true
@@ -162,11 +161,11 @@ export const getRecords = (db, table, req, res) => {
           }
 
           if (hasMetadata) {
-            data.metadata.numTotalRecords = (await query(`select count(*) as count from ${table}`))[0].count;
+            data.metadata.numTotalRecords = Number((await query(`select count(*) as count from ${table}`))[0].count);
             if (filter) {
-              data.metadata.numFilteredRecords = (await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count;
+              data.metadata.numFilteredRecords = Number((await query(`call selectRecordCount("${table}", ${filter})`))[0][0].count);
             } else {
-              data.metadata.numFilteredRecords = data.metadata.numTotalRecords;
+              data.metadata.numFilteredRecords = Number(data.metadata.numTotalRecords);
             }
             if (hasRecords) {
               data.metadata.numResponseRecords = data.records.length;
@@ -529,30 +528,32 @@ export const deleteUser = (req, res) => {
 };
 
 export const postUser = (req, res) => {
-  sendError(res, 401, 'Invalid Partner ID');
-  // const firstName = getValue('firstName', req);
-  // const lastName = getValue('lastName', req);
-  // const email = getValue('email', req);
-  // const password = 'password' in req.body ? req.body.password : null;
-  // if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
-  // else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
-  // else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
-  // else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
-  // else {
-  //   bcrypt.hash(password, saltRounds, (err, hash) => {
-  //     hagenhausDb.getConnection((error, conn) => {
-  //       if (error) { sendError(res, 500, 'Server could not connect to database.'); }
-  //       else {
-  //         const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
-  //         conn.query(proc, (error, results, fields) => {
-  //           conn.release();
-  //           if (error) { sendSqlError(res, error, 'Error creating record.'); }
-  //           else { res.status(201).send(results[0][0]); }
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
+  const firstName = getValue('firstName', req);
+  const lastName = getValue('lastName', req);
+  const email = getValue('email', req);
+  const password = 'password' in req.body ? req.body.password : null;
+  const partnerId = 'partnerId' in req.body ? req.body.partnerId : null;
+  if (!partnerId || !partnerId.length) { sendError(res, 422, 'Partner ID is required.'); }
+  else if (partnerId !== '1809') { sendError(res, 422, 'Invalid Partner ID.'); }
+  else if (!firstName || !firstName.length) { sendError(res, 422, 'First name is required.'); }
+  else if (!lastName || !lastName.length) { sendError(res, 422, 'Last name is required.'); }
+  else if (!email || !email.length) { sendError(res, 422, 'Email is required.'); }
+  else if (!password || !password.length) { sendError(res, 422, 'Password is required.'); }
+  else {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      hagenhausDb.getConnection((error, conn) => {
+        if (error) { sendError(res, 500, 'Server could not connect to database.'); }
+        else {
+          const proc = `call insertUser(${firstName},${lastName},${email},"${hash}","","","","","")`;
+          conn.query(proc, (error, results, fields) => {
+            conn.release();
+            if (error) { sendSqlError(res, error, 'Error creating record.'); }
+            else { res.status(201).send(results[0][0]); }
+          });
+        }
+      });
+    });
+  }
 };
 
 /************************************************************************************************
