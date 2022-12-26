@@ -283,9 +283,9 @@ export const postPortal = (req, res) => {
       else if (!companyId || !companyId.length) { sendError(res, 422, 'companyId field is required.'); }
       else {
         const proc = `call insertPortal(
-          ${mysql.escape(name)},
-          ${mysql.escape(url)},
-          ${mysql.escape(companyId)},
+          ${conn.escape(name)},
+          ${conn.escape(url)},
+          ${conn.escape(companyId)},
           ${fields},
           ${hasJoinedFields})`;
         conn.query(proc, (error, results, flds) => {
@@ -326,7 +326,7 @@ export const postBaseballPlayer = (req, res) => {
       const fields = 'fields' in req.query && req.query.fields.length ? addTicks(req.query.fields) : null;
       const hasJoinedFields = 'hasJoinedFields' in req.query ? req.query.hasJoinedFields.toLowerCase() === 'true' : true;
 
-      const playerID = mysql.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
+      const playerID = conn.escape(`xyz${Math.floor(Math.random() * 90000) + 10000}`);
       const nameFirst = getValue('nameFirst', req);
       const nameLast = getValue('nameLast', req);
       const birthYear = getValue('birthYear', req);
@@ -563,11 +563,8 @@ export const postUser = (req, res) => {
 function getValue(field, req) {
   let value = null;
   if (field in req.body && req.body[field].length) {
-    if (typeof field == 'string') {
-      value = mysql.escape(req.body[field]);
-    } else {
-      value = req.body[field];
-    }
+    if (typeof field == 'string') { value = hagenhausDb.escape(req.body[field]); }
+    else { value = req.body[field]; }
   }
   return value;
 }

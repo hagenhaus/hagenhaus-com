@@ -123,17 +123,17 @@ function getBearerToken() {
     },
     id: 'famous-trees-datalist',
     info: (title, detail) => { reportInfo(title, detail); },
-    methods: {
-      deleteRecord: () => { 
-        reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); 
-      },
-      patchRecord: () => {
-        reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.');
-      },
-      postRecord: () => { 
-        reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); 
-      }
-    },
+    // methods: {
+    //   deleteRecord: () => { 
+    //     reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); 
+    //   },
+    //   patchRecord: () => {
+    //     reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.');
+    //   },
+    //   postRecord: () => { 
+    //     reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); 
+    //   }
+    // },
     number: { value: true },
     parity: {
       get: { value: true },
