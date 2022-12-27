@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import fs from 'fs';
 import mysql from 'mysql2';
 import util from 'util';
 
