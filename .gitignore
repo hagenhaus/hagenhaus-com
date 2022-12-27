@@ -12,7 +12,7 @@ logs/
 messages.log
 package-lock.json
 axios
-bootstrap/
-fontawesome/
+bootstrap
+fontawesome
 hhdatalist/
-swagger/
+swagger
