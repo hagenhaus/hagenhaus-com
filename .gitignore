@@ -11,3 +11,8 @@ logs/
 .env
 messages.log
 package-lock.json
+axios/
+bootstrap/
+fontawesome/
+hhdatalist/
+swagger/
