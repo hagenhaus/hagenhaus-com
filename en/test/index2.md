@@ -1,18 +1,26 @@
+---
+hasOtp: false
+hasPageHeader: false
+hasScrollbar: false
+hhdatalist: v0.0.2
+menuItem: mi-home
+---
+
 # Test
 
-<!-- <div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
+<div class='row justify-content-center'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-9'>
 
 <b>HHDataList</b> is a UI component that enables websites to interact with REST APIs. Here is an example:
 
-<!-- </div>
-</div> -->
+</div>
+</div>
 
-<!-- <div class='row justify-content-center my-2'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
+<div class='row justify-content-center my-2'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-9'>
 <div id="famous-trees-datalist" class="hh-data-list"></div>
-<!-- </div>
-</div> -->
+</div>
+</div>
 
 <script>
   var popValues = new Map()
@@ -30,18 +38,11 @@
 </script>
 
 <script>
-function getBearerToken() {
-  let user = localStorage.getItem('user');
-  return user ? `Bearer ${JSON.parse(user).token}` : null;
-}
-</script>
-
-<script>
   new HHDataList({
     auths: {
-      deleteRecord: getBearerToken,
-      patchRecord: getBearerToken,
-      postRecord: getBearerToken
+      deleteRecord: window.getBearerToken,
+      patchRecord: window.getBearerToken,
+      postRecord: window.getBearerToken
     },
     colWidths: {
       fields: { value: 'narrow' },
@@ -58,8 +59,8 @@ function getBearerToken() {
       new: 'The New Record form consists of managed fields.',
       value: true 
     },
-    error: (error) => { reportError(error); },
-    expand: { value: false, showTool: true },
+    error: reportError,
+    expand: { value: true, showTool: true },
     fieldDefinitions: {
       manage: [
         { fieldName: 'id', isChecked: false },
@@ -76,19 +77,17 @@ function getBearerToken() {
         { fieldName: 'links', isEditable: true }
       ],
       transform: [
-        { label: 'ID', fieldNames: ['id'], isChecked: false }, 
-        { label: 'Name', fieldNames: ['name'] }, 
-        { label: 'Species', fieldNames: ['species'],
-          transform: (v) => ({ url: v.link, title: v.text }),
+        { label: 'ID', fieldName: 'id', isChecked: false }, 
+        { label: 'Name', fieldName: 'name' }, 
+        { label: 'Species', fieldName: 'species',
           transformer: (v) => ({ url: v.link, title: v.text }),
           display: { type: 'link' }
         }, 
-        { label: 'Description', fieldNames: ['description'], colWidth: 'wide', 
+        { label: 'Description', fieldName: 'description', colWidth: 'wide', 
           display: { type: 'text', rows: 3 }
         }, 
         { label: 'Nearby City', fieldNames: ['city'] },
         { label: 'Country', fieldNames: ['country'],
-          transform: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name,
           transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
         },
         { label: 'Coordinates', fieldNames: ['lat', 'lng'], 
@@ -99,19 +98,12 @@ function getBearerToken() {
           display: { type: 'link' }
         }, 
         { label: 'Age (years)', fieldNames: ['birthYear'],
-          transform: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`,
           transformer: (v) => `${ (new Date().getFullYear() - v).toLocaleString() }`
         }, 
         { label: 'Height (meters)', fieldNames: ['height'], 
-          transform: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown',
           transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         }, 
         { label: 'Links', fieldNames: ['links'], 
-          transform: (v) => {
-            const a = [];
-            for (let i of v) { a.push({ url: i.link, title: i.text }); }
-            return a;
-          },
           transformer: (v) => {
             const a = [];
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
@@ -122,18 +114,18 @@ function getBearerToken() {
       ]
     },
     id: 'famous-trees-datalist',
-    info: (title, detail) => { reportInfo(title, detail); },
-    // methods: {
-    //   deleteRecord: () => { 
-    //     reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); 
-    //   },
-    //   patchRecord: () => {
-    //     reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.');
-    //   },
-    //   postRecord: () => { 
-    //     reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); 
-    //   }
-    // },
+    info: reportInfo,
+    methods: {
+      deleteRecord: () => { 
+        reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); 
+      },
+      patchRecord: () => {
+        reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.');
+      },
+      postRecord: () => { 
+        reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); 
+      }
+    },
     number: { value: true },
     parity: {
       get: { value: true },
@@ -146,7 +138,7 @@ function getBearerToken() {
       filter: { name: 'filter',  placeholder: 'name like "%tree%" and country like "AUS"' },
       order: { name: 'order', default: 'name asc' },
       page: { name: 'page' },
-      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 3, showTool: true }
+      limit: { name: 'limit', choices: [1, 3, 5, 10, 15, 20, 50, 100], default: 1, showTool: true }
     },
     recordIdField: 'id',
     recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
@@ -172,10 +164,10 @@ function getBearerToken() {
   });
 </script>
 
-<!-- <div class='row justify-content-center'>
-<div class='col-12 col-md-11 col-lg-10 col-xl-10'> -->
+<div class='row justify-content-center'>
+<div class='col-12 col-md-11 col-lg-10 col-xl-9'>
 
-An <b>HHDataList</b> instance is highly configurable, so it can serve as an enduser interface or a developer tool. To learn how to add instances to your website, see the [HHDataList](/en/hhdatalist/v0.0.2/) docs. You are welcome to submit feature requests, ask questions, and report bugs on [Gitter](https://gitter.im/hagenhaus/hhdatalist).
+An <b>HHDataList</b> instance is highly configurable, so it can serve as an enduser interface or a developer tool. To learn how to add instances to your website, see the [HHDataList](/en/hhdatalist/v0.0.2/) docs. Submit requests, questions, and issues on [Gitter](https://gitter.im/hagenhaus/hhdatalist).
 
-<!-- </div>
-</div> -->
+</div>
+</div>

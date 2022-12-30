@@ -1,5 +1,12 @@
 # small
 
+<table class="options-table">
+  <tr>
+    <th>Necessity:</th>
+    <td>Optional</td>
+  </tr>
+</table>
+
 The `small` option specifies whether HHDataList displays small controls on page load:
 
 ``` js nonum

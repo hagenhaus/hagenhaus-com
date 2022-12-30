@@ -1,10 +1,24 @@
 # confirm
 
-The `confirm` option must be a function with four parameters:
+<table class="options-table">
+  <tr><th>Necessity:</th><td>Recommended</td></tr>
+</table>
+
+The `confirm` option specifies a function for HHDataList to call before doing certain actions (e.g. deleting a record).
+
+# Primary Example
 
 ``` js nonum
+const confirm = (title, body, yesLabel, yesCb) => {
+  modalEl.querySelector('h5.modal-title').textContent = title;
+  modalEl.querySelector('div.modal-body').textContent = body;
+  modalEl.querySelector('button.yes').innerHTML = yesLabel;
+  modalYesCb = yesCb;
+  modal.show();
+};
+ 
 new HHDataList({
-  confirm: (title, body, yesLabel, yesCb) => { ... },
+  confirm: confirm,
 });
 ```
 

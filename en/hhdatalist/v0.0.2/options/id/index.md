@@ -1,5 +1,12 @@
 # id
 
+<table class="options-table">
+  <tr>
+    <th>Necessity:</th>
+    <td>Required</td>
+  </tr>
+</table>
+
 The `id` option specifies the id of the html element to which the HHDataList constructor should append the HHDataList component:
 
 ``` html nonum

@@ -1,6 +1,16 @@
 # processMode
 
-The `processMode` option specifies how HHDataList processes and displays REST API response record fields. Valid values for the `value` property are `['copy', 'manage', 'transform']`. Below are default values for the `hasTool` and `showTool` properties:
+<table class="options-table">
+  <tr>
+    <th>Necessity:</th>
+    <td>Optional</td>
+  </tr>
+</table>
+
+The `processMode` option specifies how HHDataList processes and displays record fields. 
+
+
+ and displays REST API response record fields. Valid values for the `value` property are `['copy', 'manage', 'transform']`. Below are default values for the `hasTool` and `showTool` properties:
 
 ``` js nonum
 new HHDataList({

@@ -30,7 +30,7 @@
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     },
-    url: `${getDomain()}/api/baseball/v1/players`
+    url: `${getHHApiDomain()}/api/baseball/v1/players`
   });
 </script>
 

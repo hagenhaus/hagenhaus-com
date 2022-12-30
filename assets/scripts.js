@@ -665,6 +665,15 @@ window.deleteAccountListener = (event) => {
 };
 
 /************************************************************************************************
+* Local Storage
+************************************************************************************************/
+
+window.getBearerToken = () => {
+  let user = localStorage.getItem('user');
+  return user ? `Bearer ${JSON.parse(user).token}` : null;
+}
+
+/************************************************************************************************
 * Modal-related
 ************************************************************************************************/
 
@@ -759,13 +768,6 @@ window.reportError = (error) => {
 
 window.reportInfo = (title, detail) => { showToast('info', title, detail); };
 window.reportWarning = (title, detail) => { showToast('warning', title, detail); };
-
-/************************************************************************************************
-* Hagenhaus API Domain
-************************************************************************************************/
-
-const hhApiDomainArray = ['http://localhost:8081', 'https://hagenhaus.com:3002'];
-window.getHHApiDomain = () => { return hhApiDomainArray[1]; };
 
 /************************************************************************************************
 * on load

@@ -8,26 +8,10 @@ menuItem: mi-hhdatalist
 
 The following video introduces HHDataList <small>v0.0.2</small>, a pre-release, proof-of-concept version of the software:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/s9UjrJRCxhQ" title="YouTube video player" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+<p><img src="img-800.png" class="img-fluid d-block" width=560 height=315 loading="lazy"></p>
 
 Video Outline:
 
 1. What is the problem and how does HHDataList solve it?
-
 1. A demo video is different than a tutorial video.
-
 1. Call to action.
-
-[User Interface](/en/hhdatalist/v0.0.2/user-interface/)
-
-[Tutorial](/en/hhdatalist/v0.0.2/tutorial/)
-
-[Guide](/en/hhdatalist/v0.0.2/guide/)
-
-[Options](/en/hhdatalist/v0.0.2/options)
-
-[Themes](/en/hhdatalist/v0.0.2/themes/)
-
-[Gallery](/en/hhdatalist/v0.0.2/gallery/)
-
-[OpenAPI](/en/hhdatalist/v0.0.2/openapi/)

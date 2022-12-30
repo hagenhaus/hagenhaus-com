@@ -1,6 +1,12 @@
 # descriptions
 
-The `descriptions` option specifies strings that may appear at the top of one or more tabs. Below are default values:
+<table class="options-table">
+  <tr><th>Necessity:</th><td>Optional</td></tr>
+</table>
+
+The `descriptions` option specifies descriptions that appear at the top of tabs.
+
+# Primary Example
 
 ``` js nonum
 new HHDataList({

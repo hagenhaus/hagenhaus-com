@@ -137,11 +137,11 @@ main {
 }
 
 :root {
-  --snippet: #f6f8fa;
+  --snippet: #f2f6fa;
 }
 
 :root {
-  --snippet-border: #c5d2df;
+  --snippet-border: #c8daea;
 }
 
 /************************************************
@@ -441,8 +441,8 @@ p.punch span {
 #page-col div.hh-viewer blockquote {
   background: #fff6e6;
   border-left: 5px solid orange;
-  margin: 20px 0;
-  padding: 3px 12px;
+  margin: 16px 0;
+  padding: 3px 6px;
 }
 
 #page-col div.hh-viewer blockquote h1,
@@ -484,7 +484,7 @@ iframe.gray-scale {
 
 #page-col div.hh-viewer td,
 #page-col div.hh-viewer th {
-  border: 1px solid #ddd;
+  border: 1px solid #9fc6c6;
   line-height: var(--bs-body-line-height);
   /*line-height: normal;*/
   padding: 0.5rem;
@@ -493,7 +493,12 @@ iframe.gray-scale {
 }
 
 #page-col div.hh-viewer th {
+  color: DarkSlateGray;
   font-weight: 500;
+}
+
+#page-col div.hh-viewer td {
+  color: DarkSlateGray;
 }
 
 #page-col div.hh-viewer td:first-child {
@@ -501,9 +506,13 @@ iframe.gray-scale {
 }
 
 table.options-table {
-  border-left: 5px solid orange;
+  border-left: 5px solid #ffd280;
   font-size: 92%;
   width: 100%;
+}
+
+table.options-table tr {
+  background: #fff6e6;
 }
 
 table.options-table th {
@@ -513,8 +522,8 @@ table.options-table th {
 
 table.options-table th, table.options-table td {
   border-width: 0 !important;
-  padding-top: 1px !important;
-  padding-bottom: 1px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
 }
 
 table.options-table.h2 {
@@ -534,6 +543,7 @@ table.options-table.h2 {
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
   margin-bottom: 0;
+  border-left: 5px solid var(--snippet-border);
 }
 
 #page-col div.hh-viewer pre:not(.snippet):not(.microlight) {
@@ -563,7 +573,7 @@ table.options-table.h2 {
   /* github-light modified*/
   font-family: var(--bs-font-monospace);
   font-size: 95%;
-  padding: 1px 12px;
+  padding: 1px 8px;
   white-space: pre;
   color: var(--bs-body-color);
 }

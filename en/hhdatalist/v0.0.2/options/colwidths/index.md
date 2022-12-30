@@ -1,14 +1,33 @@
 # colWidths
 
-The `colWidths` option controls the initial column widths associated with the Fields tab, Tools tab, and expanded records. Valid `width` values are `['narrow','medium','wide']`. Below are default values:
+<table class="options-table">
+  <tr><th>Necessity:</th><td>Optional</td></tr>
+</table>
+
+The `colWidths` option controls the initial column widths associated with the Fields tab, the Tools tab, and expanded records.  Below are default values:
+
+# Primary Example
 
 ``` js nonum
 new HHDataList({
   colWidths: {
-    fields: { width: 'narrow', showTool: false },
-    tools: { width: 'narrow', showTool: false },
-    records: { width: 'narrow', hasTool: true, showTool: false }
+    fields: { 
+      value: 'narrow',
+      showTool: true
+    },
+    records: { 
+      value: 'narrow',
+      hasTool: true,
+      showTool: false,
+      toolLabel: 'Column Width',
+    },
+    tools: { 
+      value: 'narrow',
+      showTool: true
+    }
   },
 });
 ```
+
+* Valid `width` values are `['narrow','medium','wide']`.
 
