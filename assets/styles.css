@@ -360,10 +360,9 @@ i.fas:hover {
 }
 
 #page-col div.hh-viewer h3 {
-  color: #cc006d;
+  color: #ff99aa;
   font-weight: 500;
   font-style: normal;
-  text-decoration: normal;
   font-size: 17px;
 }
 
@@ -442,7 +441,7 @@ p.punch span {
   background: #fff6e6;
   border-left: 5px solid orange;
   margin: 16px 0;
-  padding: 3px 6px;
+  padding: 3px 12px;
 }
 
 #page-col div.hh-viewer blockquote h1,
