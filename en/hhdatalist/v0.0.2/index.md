@@ -6,12 +6,8 @@ menuItem: mi-hhdatalist
 
 # HHDataList
 
-The following video introduces HHDataList <small>v0.0.2</small>, a pre-release, proof-of-concept version of the software:
+Describe the user interface here.
 
-<p><img src="img-800.png" class="img-fluid d-block" width=560 height=315 loading="lazy"></p>
+The HHDataList user interface is divided into four rows, and the Tabs Row is divided into five tabs. Note that the Tabs row appears above the other three rows which remain visible as the user clicks from tab to tab:
 
-Video Outline:
-
-1. What is the problem and how does HHDataList solve it?
-1. A demo video is different than a tutorial video.
-1. Call to action.
+<p><img src="rows-and-tabs.png" class="img-fluid d-block" width=800 height=527 loading="lazy"></p>

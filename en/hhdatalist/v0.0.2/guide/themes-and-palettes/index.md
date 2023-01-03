@@ -4,30 +4,46 @@ This page demonstrates how to theme HHDataList instances.
 
 # What is a theme?
 
-A theme is a set of properties that associate names with HTML colors (#1 in the diagram below). HHDataList applies theme properties to HTML styles associated with an HTML element (#2). A CSS file associates these styles with aspects of HHDataList HTML elements (#3).
+To view the theme of the HHDataList instance below, click the *Theme Reporter* button to generate a JSON object literal in your browser's *Developer Tools* console. 
+
+<div id="what-is-a-theme-datalist" class="hh-data-list"></div>
+<script>
+  var options = DLTrees002.options('what-is-a-theme-datalist');
+  options.descriptions.value = false;
+  options.expand.showTool = false;
+  options.queryParams.limit.showTool = false;
+  options.reporters.theme.showTool = true;
+  options.reporters.themes.showTool = true;
+  options.themeDefinition.name = 'wheatgerm';
+  options.themeDefinition.showTool = true;
+  new HHDataList(options);
+</script>
+
+A theme is a set of properties. Theme properties associate names with HTML colors. In the diagram below, for example, one of the theme properties associates the name `tabButtonColor` with the value `#0059b3`. HHDataList maps theme properties to the styles of an HHDataList instance. In the diagram, HHDataList maps `tabButtonColor` to `--hh-tab-button-color`. Finally, hhdatalist.css associates these styles with individual elements that compose a datalist. In this case, the CSS file associates `--hh-tab-button-color` (and, therefore, `#0059b3`) with a tab button:
 
 <p><img src="apply-theme.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
 ## Theme List
 
-HHDataList maintains one Theme List for a website (in browser memory). The Theme List always contains at least one theme (the [Default Theme](#default-theme)). It can contain standard and/or custom themes. Which themes belong to the Theme List is customizable. Only themes on the Theme List can be applied to HHDataList instances. HHDataList provides the following functions for working with the Theme List:
+HHDataList maintains one theme list for a website (in browser memory). The theme list always contains at least one theme (the default theme). It can contain standard and/or custom themes. Which themes belong to the theme list is customizable. Only themes on the theme list can be applied to HHDataList instances. HHDataList provides the following functions for working with the theme list:
 
-* [addAllStandardThemes]()
-* [addStandardTheme]()
-* [addStandardThemes]()
-* [addTheme]()
-* [addThemeFromPalette]()
-* [addThemeFromPaletteName]()
-* [addThemeFromThemeName]()
-* [getTheme]()
-* [getThemes]()
-* [getThemeCount]()
-* [getThemeNames]()
-* [hasTheme]()
+* [addAllStandardThemes](#addallstandardthemes)
+* [addStandardTheme](#addstandardtheme)
+* [addStandardThemes](#addstandardthemes)
+* [addTheme](#addtheme)
+* [addThemeFromPalette](#addthemefrompalette)
+* [addThemeFromPaletteName](#addthemefrompalettename)
+* [addThemeFromThemeName](#addthemefromthemename)
+* [deleteTheme](#deletetheme)
+* [getTheme](#gettheme)
+* [getThemes](#getthemes)
+* [getThemeCount](#getthemecount)
+* [getThemeNames](#getthemenames)
+* [hasTheme](#hastheme)
 
 ## Default Theme
 
-HHDataList maintains a Default Theme which resides on the Theme List and applies to all HHDataList instances except for those explicitly assigned other themes. Initially, HHDataList sets the Default Theme to the standard theme *Dodger Blue*, but the function [setDefaultThemeName](#setdefaultthemename) can override this initial setting with another standard theme or a custom theme. HHDataList provides the following functions for working with the Default Theme:
+HHDataList maintains a default theme which resides on the theme list and applies to all HHDataList instances except for those explicitly assigned other themes. Initially, HHDataList sets the default theme to the standard theme *Dodger Blue*, but the function [setDefaultThemeName](#setdefaultthemename) can override this initial setting with another standard theme or a custom theme. HHDataList provides the following functions for working with the default theme:
 
 * [getDefaultTheme](#getdefaulttheme)
 * [getDefaultThemeName](#getdefaultthemename)
@@ -37,9 +53,9 @@ HHDataList maintains a Default Theme which resides on the Theme List and applies
 
 HHDataList supplies 13 standard themes. One, *Dodger Blue*, is built into HHDataList. The other 12 are available by including [hhdatalist-themes.js](https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js) and invoking one or more of the following functions:
 
-* [addAllStandardThemes]()
-* [addStandardTheme]()
-* [addStandardThemes]()
+* [addAllStandardThemes](addallstandardthemes)
+* [addStandardTheme](addstandardtheme)
+* [addStandardThemes](#addstandardthemes)
 
 Click the *Theme* dropdown in the instance below to view the standard themes:
 
@@ -49,34 +65,35 @@ Click the *Theme* dropdown in the instance below to view the standard themes:
   options.descriptions.value = false;
   options.expand.showTool = false;
   options.queryParams.limit.showTool = false;
+  // options.themeDefinition.name = 'forest green';
   options.themeDefinition.showTool = true;
   new HHDataList(options);
 </script>
 
-> **Note**: If you have skills and training in the area of website aesthetics, and if would like to improve any of the HHDataList standard themes, (1) become familiar with the [Theming](#theming) section of this page, (2) build a theme that improves upon a standard theme, and (3) contact me via [Gitter](https://gitter.im/hagenhaus/hhdatalist). I would appreciate the help. Thanks.
+> **Note**: If you specialize in UI design and would like to improve a standard theme, (1) read [How to theme](#how-to-theme), (2) build a theme that improves upon a standard theme, and (3) contact me via [Gitter](https://gitter.im/hagenhaus/hhdatalist). I welcome improvements. Thanks.
 
 ## Custom Themes
 
-HHDataList facilitates the generation and application of *temporary* and *permanent* custom themes. Temporary themes are built and applied on the fly with the following functions:
+HHDataList facilitates the generation and application of *temporary* and *persistent* custom themes. Temporary themes are built and applied on the fly with the following functions:
 
-* [addThemeFromPalette]()
-* [addThemeFromPaletteName]()
-* [addThemeFromThemeName]()
+* [addThemeFromPalette](#addthemefrompalette)
+* [addThemeFromPaletteName](#addthemefrompalettename)
+* [addThemeFromThemeName](#addthemefromthemename)
 
-Permanent themes are built with the one of the first three functions below, saved to a file such as `my-hhdatalist-themes.js` which is included in the main html page, and applied with the last function below:
+Persistent themes are built with the one of the first three functions below, saved to a file such as `my-hhdatalist-themes.js` which is included in the main html page, and applied with the last function below:
 
-* [buildThemeFromPalette]()
-* [buildThemeFromPaletteName]()
-* [buildThemeFromThemeName]()
-* [addTheme]()
+* [buildThemeFromPalette](#buildthemefrompalette)
+* [buildThemeFromPaletteName](#buildthemefrompalettename)
+* [buildThemeFromThemeName](#buildthemefromthemename)
+* [addTheme](#addtheme)
 
-See [Theming](#theming) for details. 
+See [How to theme](#how-to-theme) for details. 
 
 # What is a palette?
 
-Like a theme, a palette is also a set of properties that associate names with HTML colors (#1 in the diagram below). The purpose of a palette, however, is to help generate themes (#2).
+A palette is a set of properties. Palette properties associate names with HTML colors.  In the diagram below, one of the palette properties associates the name `color6` with the value `#0059b3`. HHDataList uses palettes to generate themes:
 
-<p><img src="palette-to-theme.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="palette-to-theme.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
 Palettes serve as input to the following functions:
 
@@ -85,31 +102,272 @@ Palettes serve as input to the following functions:
 * [buildThemeFromPalette](#buildthemefrompalette)
 * [buildThemeFromPaletteName](#buildthemefrompalettename)
 
-Palette design often starts by assigning shades of the same color to palette properties where `color1` is white, `color2` is very light, `color3` is light, `color4` is medium light, `color5` is medium, and `color6` is medium dark. Shades vary depending on the color. The following seems to work for *Dodger Blue*:
-
-<p><img src="palette-design.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
 ## Palette List
 
-HHDataList maintains one Palette List for a website (in browser memory). The Palette List always contains at least one palette (the [Default Palette](#default-palette)). It can contain standard and/or custom palettes. Which palettes belong to the Palette List is customizable.
+HHDataList maintains one palette list for a website (in browser memory). The palette list always contains at least one palette (the default palette). It can contain standard and/or custom palettes. Which palettes belong to the palette list is customizable. HHDataList provides the following functions for working with the palette list:
+
+* [addAllStandardPalettes](#addallstandardpalettes)
+* [addStandardPalette](#addstandardpalette)
+* [addStandardPalettes](#addstandardpalettes)
+* [addPalette](#addpalette)
+* [deletePalette](#deletepalette)
+* [getDefaultPalette](#getdefaultpalette)
+* [getDefaultPaletteName](#getdefaultpalettename)
+* [getPalette](#getpalette)
+* [getPaletteCount](#getpalettecount)
+* [getPaletteNames](#getpalettenames)
+* [hasPalette]()
+
+> **Note**: The palette list is useful only because it supports the following functions:
+> * [addThemeFromPaletteName](#addthemefrompalettename)
+> * [buildThemeFromPaletteName](#buildthemefrompalettename)
 
 ## Default Palette
 
+HHDataList maintains a default palette which resides on the palette list. Initially, HHDataList sets the default palette to the standard palette *Dodger Blue*, but the function [setDefaultPaletteName](#setdefaultpalettename) can override this initial setting with another standard palette or a custom palette. HHDataList provides the following functions for working with the default palette:
+
+* [getDefaultPalette](#getdefaultpalette)
+* [getDefaultPaletteName](#getdefaultpalettename)
+* [setDefaultPaletteName](#setdefaultpalettename)
+
 ## Standard Palettes
+
+HHDataList supplies 13 standard palettes. One, *Dodger Blue*, is built into HHDataList. The other 12 are available by including [hhdatalist-palettes.js](https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-palettes.js) and invoking one or more of the following functions:
+
+* [addAllStandardPalettes](#addallstandardpalettes)
+* [addStandardPalette](#addstandardpalette)
+* [addStandardPalettes](#addstandardpalettes)
 
 ## Custom Palettes
 
-See [Theming](#theming) for details. 
+Palette design often starts by assigning shades of the same color to palette properties where `color1` is white, `color2` is very light, `color3` is light, `color4` is medium light, `color5` is medium, and `color6` is medium dark:
 
-# Theming
+<p><img src="palette-design.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-* How do you add only two of the standard themes?
+The following functions can use custom palettes as arguments:
 
-## Generating themes
+* [addThemeFromPalette](#addthemefrompalette)
+* [buildThemeFromPalette](#buildthemefrompalette)
 
-* Applying a standard theme
-* Generating a theme
-* Applying a custom theme
+The following functions can use custom palettes once the palettes have been added to the palette list:
+
+* [addThemeFromPaletteName](#addthemefrompalettename)
+* [buildThemeFromPaletteName](#buildthemefrompalettename)
+
+# What is an override?
+
+Consider the following function:
+
+``` js nonum
+HHDataList.buildThemeFromPalette(palette, overrides, newThemeName)
+```
+
+Without an `overrides` argument, `buildThemeFromPalette` could generate a theme from a palette, but it could not customize individual theme properties. The `overrides` argument allows for the customization of generated themes:
+
+<p><img src="overrides.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+The following functions leverage an `overrides` argument:
+
+* [addThemeFromPalette](#addthemefrompalette)
+* [addThemeFromPaletteName](#addthemefrompalettename)
+* [addThemeFromThemeName](#addthemefromthemename)
+* [buildThemeFromPalette](#buildthemefrompalette)
+* [buildThemeFromPaletteName](#buildthemefrompalettename)
+* [buildThemeFromThemeName](#buildthemefromthemename)
+
+# How to theme
+
+## Apply the default theme
+
+To apply the current default theme to an HHDataList instance, omit the `themeDefinition` option from the constructor:
+
+``` js nonum
+new HHDataList({
+  // No themeDefinition option
+});
+```
+
+Or, include it, but omit the `name` property:
+
+``` js nonum
+new HHDataList({
+  themeDefinition: { showTool: true }, // No name property
+});
+```
+
+To set the default theme, add (if necessary) the standard or custom theme to the theme list, and then call `set`:
+
+``` js nonum
+HHDataList.setDefaultThemeName('firebrick');
+ 
+new HHDataList({
+  // No themeDefinition option
+});
+```
+
+## Apply a standard theme
+
+To apply a standard theme to an HHDataList instance, complete these steps:
+
+1. Include [hhdatalist-themes.js](https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js) in your main HTML file:
+
+    ``` html nonum
+    <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js"></script>
+    ```
+
+1. Add the standard theme to the theme list using one of the following functions:
+
+    * [addAllStandardThemes](addallstandardthemes)
+    * [addStandardTheme](addstandardtheme)
+    * [addStandardThemes](#addstandardthemes)
+  
+    Here is an example:
+
+    ``` js nonum
+    HHDataList002.addStandardTheme('firebrick');
+    ```
+
+1. Specify the theme name in the `themeDefinition` option:
+
+    ``` js nonum
+    new HHDataList({
+      themeDefinition: { name: 'firebrick' },
+    });
+    ```
+
+## Apply a temporary theme
+
+A temporary theme is a custom theme that is (usually) generated and added to the theme list using one of the following functions:
+
+* [addThemeFromPalette](#addthemefrompalette)
+* [addThemeFromPaletteName](#addthemefrompalettename)
+* [addThemeFromThemeName](#addthemefromthemename)
+
+Below are examples:
+
+### Example 1
+
+1. Generate a new theme from a palette object, and add it to the theme list:
+
+    ``` js nonum
+    HHDataList.addThemeFromPalette(
+      {
+        name: 'My Orange Palette',
+        color1: '#ffffff',
+        color2: '#fff6e6',
+        color3: '#ffedcc',
+        color4: '#ffe4b3',
+        color5: '#b37400',
+        color6: '#805300'
+      },
+      {
+        checkableLabelColor: '#212529',
+        recordFieldLabelColor: '#332100'
+      },
+      'My Theme From Palette'
+    );
+    ```
+
+1. Specify the theme in the `themeDefinition` option:
+
+    ``` js nonum
+    new HHDataList({
+      themeDefinition: { name: 'My Theme From Palette' },
+    });
+    ```
+
+### Example 2
+
+1. Generate a new theme from a palette on the palette list, and add it to the theme list:
+
+    ``` js nonum
+    HHDataList.addThemeFromPaletteName(
+      'Orangewood',
+      {
+        checkableLabelColor: '#212529',
+        recordFieldLabelColor: '#332100'
+      },
+      'My Theme From Palette Name'
+    );
+    ```
+
+1. Specify the theme in the `themeDefinition` option:
+
+    ``` js nonum
+    new HHDataList({
+      themeDefinition: { name: 'My Theme From Palette Name' },
+    });
+    ```
+
+### Example 3
+
+1. Generate a new theme from an existing theme (on the theme list) and add it to the theme list:
+
+    ``` js nonum
+    HHDataList.addThemeFromThemeName(
+      'Orangewood',
+      {
+        checkableLabelColor: '#212529',
+        recordFieldLabelColor: '#332100'
+      },
+      'My Theme From Theme Name'
+    );
+    ```
+
+1. Specify the theme in the `themeDefinition` option:
+
+    ``` js nonum
+    new HHDataList({
+      themeDefinition: { name: 'My Theme From Theme Name' },
+    });
+    ```
+
+## Apply a persistent theme
+
+To apply a persistent theme (a custom theme that is generated and persisted) complete the following steps: 
+
+1. Generate the theme. One way to generate a persistent theme is to [Apply a temporary theme](#apply-a-temporary-theme), use the *Theme Reporter* tool to convert the new temporary theme to a JSON object literal, and then delete the code used to apply the temporary theme. See [What is a theme?](#what-is-a-theme) to learn more. Another way is to `console.log` the output of one of the following functions:
+
+    * [buildThemeFromPalette](#buildthemefrompalette)
+    * [buildThemeFromPaletteName](#buildthemefrompalettename)
+    * [buildThemeFromThemeName](#buildthemefromthemename)
+
+1. Save the theme to a file such as `my-hhdatalist-themes.js`:
+
+    ``` js nonum
+    const myHHDataListThemes = [
+      {
+        name: 'My Persistent Theme',
+        tabButtonColor: '#961d1d',
+        tabBorderColor: '#961d1d',
+        controlColor: '#ffffff',
+        controlColorHover: '#ffffff',
+        controlBorderColor: '#da3e3e',
+        controlBorderColorHover: '#961d1d',
+        ...
+      }
+    ];
+    ```
+
+1. Add the theme:
+
+    ``` js nonum
+    if (typeof myHHDataListThemes === 'object') {
+      for (const theme of myHHDataListThemes) {
+        if (theme.name.toLowerCase() === 'My Persistent Theme'.toLowerCase()) {
+          HHDataList.addTheme(theme);
+        }
+      }
+    }
+    ```
+
+1. Specify the theme in the `themeDefinition` option:
+
+    ``` js nonum
+    new HHDataList({
+      themeDefinition: { name: 'My Persistent Theme' },
+    });
+    ```
 
 # Theme Functions
 
@@ -117,7 +375,7 @@ All theme functions are static class functions.
 
 ## addAllStandardThemes
 
-This function adds all the standard themes to the [Theme List](#theme-list).
+This function adds all the standard themes to the theme list.
 
 ### Syntax
 
@@ -131,7 +389,7 @@ HHDataList.addAllStandardThemes()
 
 ## addStandardTheme
 
-This function adds the theme referenced by the theme name to the [Theme List](#theme-list).
+This function adds the theme referenced by the theme name to the theme list.
 
 ### Syntax
 
@@ -153,7 +411,7 @@ HHDataList.addStandardTheme('firebriCK');
 
 ## addStandardThemes
 
-This function adds the themes referenced by the array of theme names to the [Theme List](#theme-list).
+This function adds the themes referenced by the array of theme names to the theme list.
 
 ### Syntax
 
@@ -175,7 +433,7 @@ HHDataList.addStandardThemes(['firebriCK', 'foRESt gREen']);
 
 ## addTheme
 
-This function adds a theme to the [Theme List](#theme-list). 
+This function adds a theme to the theme list. 
 
 ### Syntax
 
@@ -187,9 +445,9 @@ HHDataList.addTheme(
 
 * If successful, returns `true`.
 * If `theme` is invalid, returns `false`.
-* If `theme` is already on [Theme List](#theme-list), returns `false`.
+* If `theme` is already on the theme list, returns `false`.
 
-This function requires the generation of a theme prior to invocation (see [Generating themes](#generating-themes)). By contrast, the other add functions (1) generate themes from existing palettes or themes, and (2) add the newly generated themes to the [Theme List](#theme-list). 
+This function requires the generation of a theme prior to invocation (see [Generating themes](#generating-themes)). By contrast, the other add functions (1) generate themes from existing palettes or themes, and (2) add the newly generated themes to the theme list. 
 
 ### Example
 
@@ -207,7 +465,7 @@ let isAdded = HHDataList.addTheme({
 
 ## addThemeFromPalette
 
-This function generates a theme from the supplied palette, and adds it to the [Theme List](#theme-list).
+This function generates a theme from the supplied palette, and adds it to the theme list.
 
 ### Syntax
 
@@ -221,10 +479,10 @@ HHDataList.addThemeFromPalette(
 
 * If successful, returns `true`.
 * If `palette` is invalid, returns `false`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `false`.
+* If `newThemeName` represents a theme already on the theme list, returns `false`.
 * `overrides` is a partial theme.
 
-This function generates a new theme from `palette`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the [Theme List](#theme-list).
+This function generates a new theme from `palette`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the theme list.
 
 ### Example
 
@@ -238,7 +496,7 @@ let isAdded = HHDataList.addThemeFromPalette(
 
 ## addThemeFromPaletteName
 
-This function generates a theme from the palette on the [Palette List](#palette-list) referenced by the supplied palette name, and adds it to the [Theme List](#theme-list). 
+This function generates a theme from the palette on the palette list referenced by the supplied palette name, and adds it to the theme list. 
 
 ### Syntax
 
@@ -251,12 +509,12 @@ HHDataList.addThemeFromPaletteName(
 ```
 
 * If successful, returns `true`.
-* If `paletteName` does not refer to a palette on the [Palette List](#palette-list), returns `false`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `false`.
+* If `paletteName` does not refer to a palette on the palette list, returns `false`.
+* If `newThemeName` represents a theme already on the theme list, returns `false`.
 * `paletteName` is case-insensitive.
 * `overrides` is a partial theme.
 
-This function generates a new theme from the palette on the [Palette List](#palette-list) referenced by `paletteName`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the [Theme List](#theme-list).
+This function generates a new theme from the palette on the palette list referenced by `paletteName`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the theme list.
 
 ### Example
 
@@ -270,7 +528,7 @@ let isAdded = HHDataList.addThemeFromPaletteName(
 
 ## addThemeFromThemeName
 
-This function generates a theme from the theme on the [Theme List](#theme-list) referenced by the supplied theme name, and adds it to the [Theme List](#theme-list).
+This function generates a theme from the theme on the theme list referenced by the supplied theme name, and adds it to the theme list.
 
 ### Syntax
 
@@ -283,12 +541,12 @@ HHDataList.addThemeFromThemeName(
 ```
 
 * If successful, returns `true`.
-* If `themeName` does not refer to a theme on the [Theme List](#theme-list), returns `false`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `false`.
+* If `themeName` does not refer to a theme on the theme list, returns `false`.
+* If `newThemeName` represents a theme already on the theme list, returns `false`.
 * `themeName` is case-insensitive.
 * `overrides` is a partial theme.
 
-This function generates a new theme from the theme on the [Theme List](#theme-list) referenced by `themeName`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the [Theme List](#theme-list).
+This function generates a new theme from the theme on the theme list referenced by `themeName`, names it `newThemeName`, replaces properties in it with properties included in `overrides`, and adds it to the theme list.
 
 ### Example
 
@@ -316,7 +574,7 @@ HHDataList.buildThemeFromPalette(
 
 * If successful, returns a valid theme object.
 * If `palette` is invalid, returns `null`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `null`.
+* If `newThemeName` represents a theme already on the theme list, returns `null`.
 * `overrides` is a partial theme.
 
 This function generates a new theme from `palette`, names it `newThemeName`, and replaces properties in it with properties included in `overrides`.
@@ -333,7 +591,7 @@ let theme = HHDataList.buildThemeFromPalette(
 
 ## buildThemeFromPaletteName
 
-This function generates a theme from the palette on the [Palette List](#palette-list) referenced by the supplied palette name, and returns it.
+This function generates a theme from the palette on the palette list referenced by the supplied palette name, and returns it.
 
 ### Syntax
 
@@ -346,12 +604,12 @@ HHDataList.buildThemeFromPaletteName(
 ```
 
 * If successful, returns a valid theme object.
-* If `paletteName` does not refer to a palette on the [Palette List](#palette-list), returns `null`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `null`.
+* If `paletteName` does not refer to a palette on the palette list, returns `null`.
+* If `newThemeName` represents a theme already on the theme list, returns `null`.
 * `paletteName` is case-insensitive.
 * `overrides` is a partial theme.
 
-This function generates a new theme from the palette on the [Palette List](#palette-list) referenced by `paletteName`, names it `newThemeName`, and replaces properties in it with properties included in `overrides`.
+This function generates a new theme from the palette on the palette list referenced by `paletteName`, names it `newThemeName`, and replaces properties in it with properties included in `overrides`.
 
 ### Example
 
@@ -365,7 +623,7 @@ let theme = HHDataList.buildThemeFromPaletteName(
 
 ## buildThemeFromThemeName
 
-This function generates a theme from the theme on the [Theme List](#theme-list) referenced by the supplied theme name, and returns it.
+This function generates a theme from the theme on the theme list referenced by the supplied theme name, and returns it.
 
 ### Syntax
 
@@ -378,12 +636,12 @@ HHDataList.buildThemeFromThemeName(
 ```
 
 * If successful, returns a valid theme object.
-* If `themeName` does not refer to a theme on the [Theme List](#theme-list), returns `null`.
-* If `newThemeName` represents a theme already on [Theme List](#theme-list), returns `null`.
+* If `themeName` does not refer to a theme on the theme list, returns `null`.
+* If `newThemeName` represents a theme already on the theme list, returns `null`.
 * `themeName` is case-insensitive.
 * `overrides` is a partial theme.
 
-This function generates a new theme from the theme on the [Theme List](#theme-list) referenced by `themeName`, names it `newThemeName`, and replaces properties in it with properties included in `overrides`. 
+This function generates a new theme from the theme on the theme list referenced by `themeName`, names it `newThemeName`, and replaces properties in it with properties included in `overrides`. 
 
 ### Example
 
@@ -395,9 +653,33 @@ let theme = HHDataList.buildThemeFromThemeName(
 );
 ```
 
+## deleteTheme
+
+This function deletes from the theme list the theme referenced by the specified theme name.
+
+### Syntax
+
+``` js nonum
+HHDataList.deleteTheme(
+  themeName  // string
+)
+```
+
+* If successful, returns `true`.
+* If `themeName` is not associated with a theme, returns `false`.
+* If `themeName` is associated with the default theme, returns `false`.
+* Otherwise, returns `false`.
+* `themeName` is case-insensitive.
+
+### Example
+
+``` js nonum
+let ans = HHDataList.deleteTheme('firebrick');
+```
+
 ## getDefaultTheme
 
-This function returns the [Default Theme](#default-theme) as an object.
+This function returns the default theme as an object.
 
 ### Syntax
 
@@ -413,7 +695,7 @@ let theme = HHDataList.getDefaultTheme();
 
 ## getDefaultThemeName
 
-This function returns the [Default Theme](#default-theme) name as a string.
+This function returns the default theme name as a string.
 
 ### Syntax
 
@@ -429,7 +711,7 @@ let themeName = HHDataList.getDefaultThemeName();
 
 ## getTheme
 
-This function returns the theme on [Theme List](#theme-list) referenced by the supplied theme name.
+This function returns the theme on the theme list referenced by the supplied theme name.
 
 ### Syntax
 
@@ -440,7 +722,7 @@ HHDataList.getTheme(
 ```
 
 * If successful, returns a valid theme object.
-* If `themeName` does not refer to a theme on [Theme List](#theme-list), returns `null`.
+* If `themeName` does not refer to a theme on the theme list, returns `null`.
 * `themeName` is case-insensitive.
 
 ### Example
@@ -451,7 +733,7 @@ let theme = HHDataList.getTheme('firebrick');
 
 ## getThemes
 
-This function returns an array of all themes on [Theme List](#theme-list).
+This function returns an array of all themes on the theme list.
 
 ### Syntax
 
@@ -467,7 +749,7 @@ let themes = HHDataList.getThemes();
 
 ## getThemeCount
 
-This function returns the number of themes on [Theme List](#theme-list).
+This function returns the number of themes on the theme list.
 
 ### Syntax
 
@@ -483,7 +765,7 @@ let count = HHDataList.getThemeCount();
 
 ## getThemeNames
 
-This function returns an array of strings containing the names of the themes on [Theme List](#theme-list).
+This function returns an array of strings containing the names of the themes on the theme list.
 
 ### Syntax
 
@@ -511,7 +793,7 @@ let themeNames = HHDataList.getThemeNames();
 
 ## hasTheme
 
-This function returns `true` or `false` if the specified theme `does` or `does not` exist on [Theme List](#theme-list).
+This function returns `true` or `false` if the specified theme `does` or `does not` exist on the theme list.
 
 ### Syntax
 
@@ -521,7 +803,7 @@ HHDataList.hasTheme(
 )
 ```
 
-* If `themeName` refers to a theme on [Theme List](#theme-list), returns `true`.
+* If `themeName` refers to a theme on the theme list, returns `true`.
 * `themeName` is case-insensitive.
 
 ### Example
@@ -532,7 +814,7 @@ let ans = HHDataList.hasTheme('Frbrck');
 
 ## setDefaultThemeName
 
-This function establishes a new [Default Theme](#default-theme).
+This function establishes a new default theme.
 
 ### Syntax
 
@@ -543,7 +825,7 @@ HHDataList.setDefaultThemeName(
 ```
 
 * If successful, returns `true`.
-* If `themeName` does not refer to a theme on [Theme List](#theme-list), returns `false`.
+* If `themeName` does not refer to a theme on the theme list, returns `false`.
 * `themeName` is case-insensitive.
 
 ### Example
@@ -591,7 +873,7 @@ All palette functions are static class functions.
 
 ## addAllStandardPalettes
 
-This function adds all the standard palettes to the [Palette List](#palette-list).
+This function adds all the standard palettes to the palette list.
 
 ### Syntax
 
@@ -605,7 +887,7 @@ HHDataList.addAllStandardPalettes()
 
 ## addStandardPalette
 
-This function adds the palette referenced by the palette name to the [Palette List](#palette-list).
+This function adds the palette referenced by the palette name to the palette list.
 
 ### Syntax
 
@@ -627,7 +909,7 @@ HHDataList.addStandardPalette('firebriCK');
 
 ## addStandardPalettes
 
-This function adds the palettes referenced by the array of palette names to the [Palette List](#palette-list).
+This function adds the palettes referenced by the array of palette names to the palette list.
 
 ### Syntax
 
@@ -649,7 +931,7 @@ HHDataList.addStandardPalettes(['firebriCK', 'foRESt gREen']);
 
 ## addPalette
 
-This function adds a palette to the [Palette List](#palette-list).
+This function adds a palette to the palette list.
 
 ### Syntax
 
@@ -661,7 +943,7 @@ HHDataList.addPalette(
 
 * If successful, returns `true`.
 * If `palette` is invalid, returns `false`.
-* If `palette` is already on [Palette List](#palette-list), returns `false`.
+* If `palette` is already on the palette list, returns `false`.
 
 ### Example
 
@@ -677,9 +959,32 @@ let isAdded = HHDataList.addPalette({
 })
 ```
 
+## deletePalette
+
+This function deletes from the palette list the palette referenced by the specified palette name.
+
+### Syntax
+
+``` js nonum
+HHDataList.deletePalette(
+  paletteName  // string
+)
+```
+
+* If successful, returns `true`.
+* If `paletteName` is not associated with a palette, returns `false`.
+* If `paletteName` is associated with the default palette, returns `false`.
+* `paletteName` is case-insensitive.
+
+### Example
+
+``` js nonum
+let ans = HHDataList.deletePalette('firebrick');
+```
+
 ## getDefaultPalette
 
-This function returns the [Default Palette](#default-palette) as an object.
+This function returns the default palette as an object.
 
 ### Syntax
 
@@ -695,7 +1000,7 @@ let palette = HHDataList.getDefaultPalette();
 
 ## getDefaultPaletteName
 
-This function returns the [Default Palette](#default-palette) name as a string.
+This function returns the default palette name as a string.
 
 ### Syntax
 
@@ -711,7 +1016,7 @@ let name = HHDataList.getDefaultPaletteName();
 
 ## getPalette
 
-This function returns the palette on the [Palette List](#palette-list) referenced by the supplied palette name.
+This function returns the palette on the palette list referenced by the supplied palette name.
 
 ### Syntax
 
@@ -722,7 +1027,7 @@ HHDataList.getPalette(
 ```
 
 * If successful, returns a valid palette object.
-* If `paletteName` does not refer to a palette on the [Palette List](#palette-list), returns null.
+* If `paletteName` does not refer to a palette on the palette list, returns null.
 * `paletteName` is case-insensitive.
 
 ### Example
@@ -733,7 +1038,7 @@ let palette = HHDataList.getPalette('firebrick');
 
 ## getPaletteCount
 
-This function returns the number of palettes on the [Palette List](#palette-list).
+This function returns the number of palettes on the palette list.
 
 ### Syntax
 
@@ -749,7 +1054,7 @@ let num = HHDataList.getPaletteCount();
 
 ## getPaletteNames
 
-This function returns an array of strings containing the names of the palettes on the [Palette List](#palette-list).
+This function returns an array of strings containing the names of the palettes on the palette list.
 
 ### Syntax
 
@@ -777,7 +1082,7 @@ let names = HHDataList.getPaletteNames();
 
 ## hasPalette
 
-This function returns `true` or `false` if the specified palette `does` or `does not` exist on the [Palette List](#palette-list).
+This function returns `true` or `false` if the specified palette `does` or `does not` exist on the palette list.
 
 ### Syntax
 
@@ -787,7 +1092,7 @@ HHDataList.hasPalette(
 )
 ```
 
-* If paletteName refers to a palette on the [Palette List](#palette-list), returns true.
+* If paletteName refers to a palette on the palette list, returns true.
 * paletteName is case-insensitive.
 
 ### Example
@@ -798,7 +1103,7 @@ let ans = HHDataList.hasPalette('Frbrck');
 
 ## setDefaultPaletteName
 
-This function establishes a new [Default Palette](#default-palette).
+This function establishes a new default palette.
 
 ### Syntax
 
@@ -809,7 +1114,7 @@ HHDataList.setDefaultPaletteName(
 ```
 
 If successful, returns true.
-If `paletteName` does not refer to a palette on the [Palette List](#palette-list), returns false.
+If `paletteName` does not refer to a palette on the palette list, returns false.
 `paletteName` is case-insensitive.
 
 ### Example
