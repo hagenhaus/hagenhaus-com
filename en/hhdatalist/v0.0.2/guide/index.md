@@ -3,7 +3,6 @@
 * [Authorization](/en/hhdatalist/v0.0.2/guide/authorization/)
 * [Column Widths](/en/hhdatalist/v0.0.2/guide/column-widths/)
 * [Content Mode](/en/hhdatalist/v0.0.2/guide/content-mode/)
-* [Field Definitions](/en/hhdatalist/v0.0.2/guide/field-definitions/)
 * [Parity](/en/hhdatalist/v0.0.2/guide/parity/)
 * [Process Mode](/en/hhdatalist/v0.0.2/guide/process-mode/)
 * [Query Parameters](/en/hhdatalist/v0.0.2/guide/query-parameters/)
@@ -16,4 +15,3 @@
 * [Tab Descriptions](/en/hhdatalist/v0.0.2/guide/tab-descriptions/)
 * [Themes and Palettes](/en/hhdatalist/v0.0.2/guide/themes-and-palettes/)
 * [Tools](/en/hhdatalist/v0.0.2/guide/tools/)
-* [User Interface](/en/hhdatalist/v0.0.2/guide/user-interface/)
