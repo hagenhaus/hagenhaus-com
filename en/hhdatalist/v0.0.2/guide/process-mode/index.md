@@ -1,6 +1,6 @@
 # Process Mode
 
-When moving data from REST API responses to expanded records, HHDataList operates in one of three process modes: copy, manage, or transform. Try changing the *Process* dropdown in the HHDataList instance below:
+When processing API responses, HHDataList operates in one of three process modes: copy, manage, or transform. To view these modes in action, try changing the *Process* dropdown in the HHDataList instance below:
 
 <div id="process-mode-datalist" class="hh-data-list my-4"></div>
 <script>
@@ -17,66 +17,162 @@ When moving data from REST API responses to expanded records, HHDataList operate
   new HHDataList(options);
 </script>
 
-With the *Árbol del Tule* record displayed, note the following sampling of differences among the modes:
+With the *Árbol del Tule* record displayed, note the following:
 
-1. In **copy** mode, the *Fields* tab is absent because *copy* mode does not have any [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) as illustrated in the [Process Mode Diagram](#process-mode-diagram) below.
+1. In **copy** mode, the *Fields* tab is absent because, as illustrated in the [Diagrams](#diagrams) below, *copy* mode does not have any [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/).
 
-1. In **manage** mode, the *Fields* tab is present because *manage* mode has [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) which control the appearance and order of record fields. So, the *id* record field can be unchecked, and, compared to *copy* mode, the order of the record fields can be different.  Also, the *Edit* button is present in the record header. Note that the *country* record field value is `MEX`. Note also the presence of the *lat* and *lng* record fields.
+1. In **manage** mode, the *Fields* tab is present because *manage* mode has [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) to control the appearance and order of record fields. Also, the *Edit* button is present in the record header. Note that the *country* record field value is `MEX`. Note also the presence of the *lat* and *lng* record fields.
 
-1. In **transform** mode, the *Fields* tab is also present because *transform* mode has [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/), too, ones with different capabilities. The record field labels are uppercased. The *Country* record field value is now `Mexico` because the corresponding *fieldDefinition* performed an additional GET operation. The *Coordinates* field has replace the *lat* and *lng* record fields, and the field value is a link. 
+1. In **transform** mode, the *Fields* tab is also present because *transform* mode has [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/), too, ones with different capabilities. The record field labels are uppercased. The *Country* record field value is now `Mexico` because the corresponding *fieldDefinition* performed a GET operation. The *Coordinates* field has replace the *lat* and *lng* record fields, and the field value is a link. 
 
-# Process Mode Diagram
+# Diagrams
 
-The diagram below illustrates how data flows from a REST API response to an expanded record via the three process modes. **copy** mode lacks [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/). **manage** mode uses *manage* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/). **transform** mode uses *transform* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/):
+These diagrams illustrate how HHDataList moves data from API records to expanded records. 
+
+## Process Modes
+
+In *copy* mode, HHDataList moves data from an API response to an expanded record unchanged. In *manage* mode, HHDataList uses *manage* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) to order and filter fields. In *transform* mode, HHDataList uses *transform* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) to order, filter, rename, merge, and transform fields:
 
 <p><img src="process-mode-diagram.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
-# Capabilities per mode
+## Filtering
 
-## Copy fields
-
-All process modes copy (in some fashion) fields from REST API response records to expanded records. 
-
-## Filter fields
-
-Only *manage* and *transform* modes can, by omitting certain fieldDefinitions, prevent HHDataList from copying fields from a REST API response record to an expanded record. Below is a *manage* mode example:
+Both *manage* and *transform* modes can, by omitting certain fieldDefinitions, prevent HHDataList from processing certains fields.
 
 <p><img src="filter-fields.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
-## Reorder fields
+# Capabilities
 
-Only *manage* and *transform* modes can, by defining fieldDefinitions in a particular order, direct HHDataList to reorder fields. See the [Process Mode Diagram](#process-mode-diagram).
+The sections below describe which HHDataList capabilities (related to the processing of API responses) are available with each of the three processing modes.
 
-## Rename fields
+## To process fields
 
-Only *transform* mode can direct HHDataList to rename fields. See the [Process Mode Diagram](#process-mode-diagram).
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
 
-## Edit fields
+To process fields means to obtain the names and values of API record fields, optionally apply changes, and then display the results in an HHDataList expanded record. All modes exhibit this capability. 
 
-Only *manage* mode can display Edit icons in record headers. See the diagram in the [Filter fields](#filter-fields) section.
+## To filter fields
 
-## Add fields
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
 
-Only *manage* and *transform* modes can direct HHDataList to add fields to an expanded record. 
+To filter fields means to remove certain fields from the processing pipeline. Both *manage* and *transform* modes can, by omitting certain fieldDefinitions, cause HHDataList to filter fields.
 
-## Merge fields
+## To reorder fields
 
-Only *transform* mode can direct HHDataList to merge fields. See the [Process Mode Diagram](#process-mode-diagram), and note that a *transform* fieldDefinition merges the `lat` and `lng` fields into the `Coordinates` field.
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
 
-## Transform fields
+To reorder fields means to display expanded record fields in a different order than they appeared in API records. Both *manage* and *transform* modes can, by defining fieldDefinitions in a particular order, direct HHDataList to reorder fields.
 
-## Transform display
+## To rename fields
 
-## Create records
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
 
-## Delete records
+To rename fields means to replace API field names with different names in expanded records. Only *transform* mode can cause HHDataList to rename fields. 
+
+## To edit fields
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To edit a field means to display, in an expanded record header, a pencil icon that, when clicked, changes the appearance of *editable* expanded record fields and adds a save button next to each. Only *manage* mode exhibits this capability.
+
+## To add fields
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To add fields means to display fields in an expanded record that did not exist in the API response. See the [uniformity](/en/hhdatalist/v0.0.2/options/uniformity/) option. Both *manage* and *transform* modes exhibit this capability. 
+
+## To merge fields
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To merge fields means to create an expanded record field that represents two or more API record fields (e.g. *Coordinates* field from the *lat* and *lng* fields). Only *transform* mode can direct HHDataList to do this. 
+
+## To transform fields
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To transform fields means to change field values. Changing `MEX` to `Mexico` via an API GET operation to a *Country Codes* API is an example. Only *transform* mode can direct HHDataList to do this. 
+
+## To specify displays
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To specify displays means to display expanded record fields using an HTML element other than a *disabled* `INPUT` element. Currently, the alternatives are `TEXT` and `SELECT`. Only *transform* mode can direct HHDataList to do this. 
+
+## To create records
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+To create records means to display the *plus* icon tab. The current process mode does not influence whether the *plus* tab is visible. Rather, the existence of *manage* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) determines whether the *plus* tab is visible. 
+
+## To delete records
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">copy</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
 
 No process mode prevents users from deleting records. Other factors, however, may. See [url](/en/hhdatalist/v0.0.2/options/url/) and [urls](/en/hhdatalist/v0.0.2/options/urls/).
-
-# Comparison Table
-
-The following table summarizes and compares process-mode capabilities:
-
-|&nbsp;|Copy|Manage|Transform|
-|---|:-:|:-:|:-:|
-|Copy fields|<i class="fas fa-check"></i>|<i class="fas fa-check"></i>|<i class="fas fa-check"></i>|
