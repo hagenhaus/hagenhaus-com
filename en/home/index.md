@@ -22,9 +22,7 @@ menuItem: mi-home
 <div id="famous-trees-datalist" class="hh-data-list"></div>
 <script>
   var options = DLTrees002.options('famous-trees-datalist');
-  // options.expand.value = true;
   options.processMode.showTool = true;
-  // options.queryParams.limit.default = 1;
   options.themeDefinition.showTool = true;
   new HHDataList(options);
 </script>
