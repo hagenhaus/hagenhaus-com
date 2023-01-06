@@ -1,13 +1,10 @@
 # Guide
 
 * [Authorization](/en/hhdatalist/v0.0.2/guide/authorization/)
-* [Column Widths](/en/hhdatalist/v0.0.2/guide/column-widths/)
 * [Content Mode](/en/hhdatalist/v0.0.2/guide/content-mode/)
-* [Parity](/en/hhdatalist/v0.0.2/guide/parity/)
 * [Process Mode](/en/hhdatalist/v0.0.2/guide/process-mode/)
 * [Query Parameters](/en/hhdatalist/v0.0.2/guide/query-parameters/)
-* [Record Expansion](/en/hhdatalist/v0.0.2/guide/record-expansion/)
-* [Record Numbering](/en/hhdatalist/v0.0.2/guide/record-numbering/)
+* [Record Parity](/en/hhdatalist/v0.0.2/guide/record-parity/)
 * [Record Titles](/en/hhdatalist/v0.0.2/guide/record-titles/)
 * [Record Uniformity](/en/hhdatalist/v0.0.2/guide/record-uniformity/)
 * [Reporters](/en/hhdatalist/v0.0.2/guide/reporters/)

@@ -18,3 +18,23 @@ menuItem: mi-hhdatalist
 The HHDataList user interface is divided into four rows, and the Tabs Row is divided into five tabs. Note that the Tabs row appears above the other three rows which remain visible as the user clicks from tab to tab:
 
 <p><img src="rows-and-tabs.png" class="img-fluid d-block" width=600 loading="lazy"></p>
+
+# Home tab
+
+# Search tab
+
+# Fields tab
+
+# Tools tab
+
+# New tab
+
+# Tabs row
+
+# Tools row
+
+## Paginator
+
+# Counters row
+
+# Records row
