@@ -21,7 +21,7 @@ You can demo record parity to yourself using the HHDataList instance below. Note
 1. Open your browser's Developer Tools to view the Console (and consider clearing the console).
 1. Click one of the Paginator arrows once to scroll. This causes HHDataList to issue a single `GET` request that returns all data needed to build the record headers and add the record fields.
 1. Click the `GET Parity` toggle to turn off parity.
-1. Click one of the Paginator arrows again. Now, this causes HHDataList to issue four `GET` requests, one to build the record headers, and three to add record fields.
+1. Click one of the Paginator arrows again. This time, ignoring the fact that the underlying API possesses Record Parity, HHDataList issues four `GET` requests, one to build the record headers, and three (one for each record) to add record fields.
 
 <div id="record-parity-datalist" class="hh-data-list my-4"></div>
 <script>
