@@ -1,19 +1,19 @@
 # auths
 
 <table class="options-table">
-  <tr><th>Necessity:</th><td>Contingent and exclusive with <code>auth</code></td></tr>
+  <tr><th>optional</th></tr>
 </table>
 
 The `auths` option specifies zero or more Authorization headers for zero or more types of API requests.
 
-# Primary Example
+# Example
 
 ``` js nonum
 function getBearerToken() {
   let user = localStorage.getItem('user');
   return user ? `Bearer ${JSON.parse(user).token}` : null;
 }
- 
+
 new HHDataList({
   auths: {
     deleteRecord: getBearerToken,

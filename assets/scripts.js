@@ -671,7 +671,7 @@ window.deleteAccountListener = (event) => {
 window.getBearerToken = () => {
   let user = localStorage.getItem('user');
   return user ? `Bearer ${JSON.parse(user).token}` : null;
-}
+};
 
 /************************************************************************************************
 * Modal-related

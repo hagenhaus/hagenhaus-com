@@ -8,8 +8,7 @@ menuItem: mi-hhdatalist
 
 <div id="ui-datalist" class="hh-data-list"></div>
 <script>
-  var options = DLTrees002.options('ui-datalist');
-  // options.themeDefinition.name = 'forest green';
+  var options = new DLTreesOptions002('ui-datalist');
   new HHDataList(options);
 </script>
 

@@ -4,11 +4,10 @@ Content mode controls how HHDataList displays expanded record values. Possibilit
 
 <div id="content-mode-datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = DLTrees002.options('content-mode-datalist');
+  var options = new DLTreesOptions002('content-mode-datalist');
   options.contentMode.showTool = true;
   options.contentMode.value = 'type';
   options.descriptions.value = false;
-  options.expand.showTool = false;
   options.expand.value = true;
   options.processMode.showTool = true;
   options.processMode.value = 'transform';

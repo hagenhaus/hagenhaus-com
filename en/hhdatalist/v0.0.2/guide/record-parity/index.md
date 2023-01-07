@@ -25,7 +25,7 @@ You can demo record parity to yourself using the HHDataList instance below. Note
 
 <div id="record-parity-datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = DLTrees002.options('record-parity-datalist');
+  var options = new DLTreesOptions002('record-parity-datalist');
   options.expand.showTool = false;
   options.expand.value = true;
   var show = ['Name', 'Species', 'Nearby City', 'Coordinates'];

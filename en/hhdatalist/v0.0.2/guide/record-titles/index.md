@@ -4,8 +4,7 @@ Note the record titles in the following record headers:
 
 <div id="record-titles-datalist" class="hh-data-list mt-4"></div>
 <script>
-  var options = DLPlayers002.options('record-titles-datalist');
-  options.queryParams.limit.default = 3;
+  var options = new DLPlayersOptions002('record-titles-datalist');
   new HHDataList(options);
 </script>
 

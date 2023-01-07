@@ -15,4 +15,13 @@ new HHDataList({
 });
 ```
 
+# Old Stuff
 
+|Operation|Endpoint|
+|-|-|
+|`DELETE`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`GET ONE`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`GET MANY`|`https://domain.com/api/v1/records`|
+|`PATCH`|`https://domain.com/api/v1/records/${options.recordIdField}`|
+|`POST`|`https://domain.com/api/v1/records`|
+|`PUT`|`https://domain.com/api/v1/records/${options.recordIdField}`|

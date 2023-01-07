@@ -8,7 +8,7 @@ To view the theme of the HHDataList instance below, click the *Theme Reporter* b
 
 <div id="what-is-a-theme-datalist" class="hh-data-list"></div>
 <script>
-  var options = DLTrees002.options('what-is-a-theme-datalist');
+  var options = new DLTreesOptions002('what-is-a-theme-datalist');
   options.descriptions.value = false;
   options.expand.showTool = false;
   options.queryParams.limit.showTool = false;
@@ -61,11 +61,10 @@ Click the *Theme* dropdown in the instance below to view the standard themes:
 
 <div id="standard-themes-datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = DLTrees002.options('standard-themes-datalist');
+  var options = new DLTreesOptions002('standard-themes-datalist');
   options.descriptions.value = false;
   options.expand.showTool = false;
   options.queryParams.limit.showTool = false;
-  // options.themeDefinition.name = 'forest green';
   options.themeDefinition.showTool = true;
   new HHDataList(options);
 </script>

@@ -21,7 +21,7 @@ menuItem: mi-home
 
 <div id="famous-trees-datalist" class="hh-data-list"></div>
 <script>
-  var options = DLTrees002.options('famous-trees-datalist');
+  var options = new DLTreesOptions002('famous-trees-datalist');
   options.processMode.showTool = true;
   options.themeDefinition.showTool = true;
   new HHDataList(options);

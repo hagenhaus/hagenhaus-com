@@ -4,7 +4,7 @@ HHDataList provides a toolbox on the *Tools* tab. Which tools appear in the tool
 
 <div id="tools-datalist" class="hh-data-list"></div>
 <script>
-  var options = DLTrees002.options('tools-datalist');
+  var options = new DLTreesOptions002('tools-datalist');
   options.themeDefinition.name = 'firebrick';
   new HHDataList(options);
 </script>

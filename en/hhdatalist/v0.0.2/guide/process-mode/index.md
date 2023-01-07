@@ -4,7 +4,7 @@ When processing API responses, HHDataList operates in one of three process modes
 
 <div id="process-mode-datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = DLTrees002.options('process-mode-datalist');
+  var options = new DLTreesOptions002('process-mode-datalist');
   options.contentMode.showTool = true;
   options.descriptions.value = false;
   options.expand.showTool = false;

@@ -18,3 +18,13 @@ new HHDataList({
   },
 });
 ```
+
+# Old Stuff
+
+These records are collapsed:
+
+<p><img src="expand-records-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+These records are expanded:
+
+<p><img src="expand-records-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
