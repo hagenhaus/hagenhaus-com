@@ -1,6 +1,6 @@
 # contentMode
 
-<table class="options-table"><tr><th>optional</th></tr></table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
 The `contentMode` option controls the display of expanded record values. HHDataList can display the value `type`, the value as a `string`, or the value itself. The option also controls the existence, visibility, and label of the corresponding *Content* tool.
 

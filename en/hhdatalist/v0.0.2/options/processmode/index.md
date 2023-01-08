@@ -1,6 +1,6 @@
 # processMode
 
-<table class="options-table"><tr><th>optional</th></tr></table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
 The `processMode` option controls which data pipeline HHDataList uses to move record data from an API response to expanded records. The option also controls the existence, visibility, and label of the corresponding `Process` tool. 
 

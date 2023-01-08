@@ -1,6 +1,6 @@
 # parity
 
-<table class="options-table"><tr><th>optional</th></tr></table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
 The `parity` option provides websites with a way of informing HHDataList whether the underlying API possesses certain capabilities that HHDataList can leverage to operate more efficiently when scrolling expanded records and/or displaying created records. The option also controls the existence, visibility, and label of the corresponding `GET Parity` and `POST Parity` tools. 
 

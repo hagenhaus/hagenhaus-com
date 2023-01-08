@@ -1,9 +1,12 @@
 # auth
 
-<table class="options-table"><tr><th>optional</th></tr></table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
-The `auth` option provides websites with a mechanism for adding an *Authorization* header to all API request sent by HHDataList. (To add various *Authorization* headers to various types of API requests, use [auths](/en/hhdatalist/v0.0.2/options/auths/).) The `auth` option value must be a function. Here is an example:
+The `auth` option provides websites with a mechanism for adding an *Authorization* header to all API request sent by HHDataList. (To add various *Authorization* headers to various types of API requests, use [auths](/en/hhdatalist/v0.0.2/options/auths/).) The `auth` option value must be a function. 
 
+# Example
+
+In this example, `getBearerToken` is a developer-defined function:
 
 ``` js nonum
 function getBearerToken() {
@@ -16,7 +19,7 @@ new HHDataList({
 });
 ```
 
-The `auth` function returns a string similar to the following:
+This `auth` function returns a string similar to the following:
 
 ``` js nonum
 Bearer eyJhbGciOiJIUzI1N...

@@ -1,12 +1,10 @@
 # confirm
 
-<table class="options-table">
-  <tr><th>Necessity:</th><td>Recommended</td></tr>
-</table>
+<table class="options-table"><tr><th>Optional, but recommended</th></tr></table>
 
 The `confirm` option specifies a function for HHDataList to call before doing certain actions (e.g. deleting a record).
 
-# Primary Example
+# Example
 
 ``` js nonum
 const confirm = (title, body, yesLabel, yesCb) => {

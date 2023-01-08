@@ -25,7 +25,6 @@ class DLBaseOptions002 {
     this.processMode = {};
     this.queryParams = { fields: {}, filter: {}, order: {}, page: {}, limit: { default: 3, showTool: true } };
     this.recordIdField = 'id';
-    this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.reporters = { fieldDefinitions: {}, queryParams: {}, requests: {}, theme: {}, themes: {} };
     this.responseHelper = {};
     this.small = {};
@@ -49,6 +48,7 @@ class DLAuthorsOptions002 extends DLBaseOptions002 {
     this.queryParams.order.name = 'sort';
     this.queryParams.page.name = 'offset';
     this.recordIdField = 'key';
+    this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
       record: (res) => res.data,
       records: (res) => res.data.docs,
@@ -109,6 +109,7 @@ class DLSubjectsOptions002 extends DLBaseOptions002 {
     this.queryParams.order.name = 'sort';
     this.queryParams.page.name = 'offset';
     this.recordIdField = 'key';
+    this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
       record: (res) => res.data,
       records: (res) => res.data.docs,
@@ -233,6 +234,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
     this.populate = (fieldName) => this.popValues.get(fieldName);
     this.queryParams.filter.placeholder = 'name like "%tree%" and country like "AUS"';
     this.queryParams.order.default = 'name asc';
+    this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
       record: (res) => res.data,
       records: (res) => res.data.records,
@@ -306,7 +308,7 @@ class DLWorksOptions002 extends DLBaseOptions002 {
     this.queryParams.order.name = 'sort';
     this.queryParams.page.name = 'page';
     this.recordIdField = 'key';
-    this.recordTitle.fields = ['title'];
+    this.recordTitle = { fields: ['title'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
       record: (res) => res.data,
       records: (res) => res.data.docs,
