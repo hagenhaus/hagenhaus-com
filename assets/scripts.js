@@ -753,19 +753,16 @@ window.showToast = (level, title, message) => {
   new bootstrap.Toast(toast, {}).show();
 };
 
-window.reportError = (error) => {
-  let title = 'Unknown Error';
-  let message = 'Unknown Message';
-  if ('response' in error && 'status' in error.response && error.response.status && 'statusText' in error.response && error.response.statusText) {
-    // title = `${error.response.status}: ${error.response.statusText}`;
-    title = `${error.response.statusText}`;
-  }
-  else if ('message' in error && error.message) { title = error.message; }
-  if ('response' in error && 'data' in error.response && error.response.data) { message = error.response.data; }
-  else if ('name' in error && error.name) { message = error.name; }
-  showToast('error', title, message);
-};
+function getTitleAndMessage(error) {
+  let tm = { title: 'Unknown Error', message: 'Unknown Message' };
+  if ('response' in error && 'statusText' in error.response && error.response.statusText) { tm.title = `${error.response.statusText}`; }
+  else if ('message' in error && error.message) { tm.title = error.message; }
+  if ('response' in error && 'data' in error.response && error.response.data) { tm.message = error.response.data; }
+  else if ('name' in error && error.name) { tm.message = error.name; }
+  return tm;
+}
 
+window.reportError = (error) => { let tm = getTitleAndMessage(error); showToast('error', tm.title, tm.message); };
 window.reportInfo = (title, detail) => { showToast('info', title, detail); };
 window.reportWarning = (title, detail) => { showToast('warning', title, detail); };
 

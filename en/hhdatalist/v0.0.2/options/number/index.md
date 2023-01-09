@@ -1,26 +1,45 @@
 # number
 
-<table class="options-table">
-  <tr>
-    <th>Necessity:</th>
-    <td>Optional</td>
-  </tr>
-</table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
-The `number` option ...
+The `number` option specifies whether records on the records list are numbered. The option also controls the existence, visibility, and label of the corresponding *Number* tool.
+
+# Examples
+
+## Example 1
+
+This example shows the default values for this option.
 
 ``` js nonum
 new HHDataList({
-  number: '',
+  number: {
+    value: true,
+    hasTool: true,
+    showTool: false,
+    toolLabel: 'Number'
+  },
 });
 ```
 
-# Old Stuff
+## Example 2
 
-These records are numbered:
+This example shows a typical setting that relies on most of the defaults:
 
-<p><img src="records-are-numbered-true.png" class="img-fluid d-block" width=400 loading="lazy"></p>
+``` js nonum
+new HHDataList({
+  number: { showTool: true },
+});
+```
 
-These records are unnumbered:
+# Demonstration
 
-<p><img src="records-are-numbered-false.png" class="img-fluid d-block" width=400 loading="lazy"></p>
+To see this option in action, try toggling the *Number* tool:
+
+<div id="datalist" class="hh-data-list"></div>
+<script>
+  var options = new DLTreesOptions002('datalist');
+  options.expand.showTool = false;
+  options.number.showTool = true;
+  options.queryParams.limit.showTool = false;
+  new HHDataList(options);
+</script>

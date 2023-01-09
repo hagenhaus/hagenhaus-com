@@ -21,13 +21,15 @@ new HHDataList({
 
 So, if `options` does not specify a `recordTitle` option, `recordTitle.fields` is an array with one element (`recordIdField`), and `recordTitle.format` is a function that returns `recordIdField` as the record title:
 
-<div id="defaults-datalist" class="hh-data-list mt-4"></div>
+<div id="e1-datalist" class="hh-data-list mt-4"></div>
 <script>
-  var defaultOptions = new DLPlayersOptions002('defaults-datalist');
-  defaultOptions.recordTitle.fields = ['playerID'];
-  defaultOptions.recordTitle.format = (fields, record) => { return record[fields[0]]; };
-  defaultOptions.themeDefinition.name = 'shadowbox';
-  new HHDataList(defaultOptions);
+  var e1Options = new DLPlayersOptions002('e1-datalist');
+  e1Options.expand.showTool = false;
+  e1Options.queryParams.limit.showTool = false;
+  e1Options.recordTitle.fields = ['playerID'];
+  e1Options.recordTitle.format = (fields, record) => { return record[fields[0]]; };
+  e1Options.themeDefinition.name = 'silverberry';
+  new HHDataList(e1Options);
 </script>
 
 ## Example 2
@@ -49,11 +51,13 @@ new HHDataList({
 
 The following datalist reflects these titles:
 
-<div id="better-datalist" class="hh-data-list mt-4"></div>
+<div id="e2-datalist" class="hh-data-list mt-4"></div>
 <script>
-  var betterOptions = new DLPlayersOptions002('better-datalist');
-  betterOptions.themeDefinition.name = 'shadowbox';
-  new HHDataList(betterOptions);
+  var e2Options = new DLPlayersOptions002('e2-datalist');
+  e2Options.expand.showTool = false;
+  e2Options.queryParams.limit.showTool = false;
+  e2Options.themeDefinition.name = 'silverberry';
+  new HHDataList(e2Options);
 </script>
 
 ## Example 3
@@ -71,11 +75,13 @@ new HHDataList({
 
 The following datalist reflects these titles:
 
-<div id="unknown-datalist" class="hh-data-list mt-4"></div>
+<div id="e3-datalist" class="hh-data-list mt-4"></div>
 <script>
-  var unknownOptions = new DLPlayersOptions002('unknown-datalist');
-  unknownOptions.queryParams.filter.default = '';
-  unknownOptions.queryParams.order.default = 'birthyear asc';
-  unknownOptions.themeDefinition.name = 'shadowbox';
-  new HHDataList(unknownOptions);
+  var e3Options = new DLPlayersOptions002('e3-datalist');
+  e3Options.expand.showTool = false;
+  e3Options.queryParams.limit.showTool = false;
+  e3Options.queryParams.filter.default = '';
+  e3Options.queryParams.order.default = 'birthyear asc';
+  e3Options.themeDefinition.name = 'silverberry';
+  new HHDataList(e3Options);
 </script>

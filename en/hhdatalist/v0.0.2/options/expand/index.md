@@ -1,12 +1,14 @@
 # expand
 
-<table class="options-table">
-  <tr><th>Necessity:</th><td>Optional</td></tr>
-</table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
-The `expand` option specifies whether records on the records list are initially expanded or collapsed.
+The `expand` option specifies whether records on the records list are expanded or collapsed. The option also controls the existence, visibility, and label of the corresponding *Expand* tool.
 
-# Primary Example
+# Examples
+
+## Example 1
+
+This example shows the default values for this option.
 
 ``` js nonum
 new HHDataList({
@@ -19,12 +21,23 @@ new HHDataList({
 });
 ```
 
-# Old Stuff
+## Example 2
 
-These records are collapsed:
+This example shows a typical setting that relies on most of the defaults:
 
-<p><img src="expand-records-false.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+``` js nonum
+new HHDataList({
+  expand: { value: true },
+});
+```
 
-These records are expanded:
+# Demonstration
 
-<p><img src="expand-records-true.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+To see this option in action, try toggling the *Expand* tool:
+
+<div id="datalist" class="hh-data-list"></div>
+<script>
+  var options = new DLTreesOptions002('datalist');
+  options.queryParams.limit.showTool = false;
+  new HHDataList(options);
+</script>

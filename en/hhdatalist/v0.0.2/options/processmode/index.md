@@ -26,9 +26,9 @@ Additional notes:
 
 To view these modes in action, try changing the *Process* dropdown in the HHDataList instance below:
 
-<div id="process-mode-datalist" class="hh-data-list my-4"></div>
+<div id="datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = new DLTreesOptions002('process-mode-datalist');
+  var options = new DLTreesOptions002('datalist');
   options.contentMode.showTool = true;
   options.descriptions.value = false;
   options.expand.showTool = false;

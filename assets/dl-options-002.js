@@ -19,7 +19,11 @@ class DLBaseOptions002 {
     this.fieldDefinitions = {};
     this.id = id;
     this.info = reportInfo;
-    this.methods = {};
+    this.methods = {
+      deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+      patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+      postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
+    };
     this.number = {};
     this.parity = { get: { value: false }, post: { value: false } };
     this.processMode = {};
@@ -136,17 +140,17 @@ class DLTeamsOptions002 extends DLBaseOptions002 {
     this.parity.post.value = true;
     this.recordIdField = 'ID';
     this.recordTitle = {
-      fields: ['name','yearID'],
+      fields: ['name', 'yearID'],
       format: (f, r) => `${r[f[0]]} (${r[f[1]]})`
     },
-    this.responseHelper = {
-      record: (res) => res.data,
-      records: (res) => res.data.records,
-      numPages: (res, limit) => res.data.metadata.numTotalPages,
-      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
-      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
-      numTotalRecords: (res) => res.data.metadata.numTotalRecords
-    };
+      this.responseHelper = {
+        record: (res) => res.data,
+        records: (res) => res.data.records,
+        numPages: (res, limit) => res.data.metadata.numTotalPages,
+        numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+        numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+        numTotalRecords: (res) => res.data.metadata.numTotalRecords
+      };
     this.url = `${getHHApiDomain()}/api/baseball/v1/teams`;
   }
 }
@@ -224,11 +228,11 @@ class DLTreesOptions002 extends DLBaseOptions002 {
         }
       ]
     };
-    this.methods = {
-      deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-      patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-      postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
-    };
+    // this.methods = {
+    //   deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+    //   patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+    //   postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
+    // };
     this.parity.get.value = true;
     this.parity.post.value = true;
     this.populate = (fieldName) => this.popValues.get(fieldName);

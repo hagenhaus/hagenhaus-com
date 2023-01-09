@@ -25,9 +25,9 @@ new HHDataList({
 
 To view these modes in action, try changing the *Content* dropdown in the HHDataList instance below:
 
-<div id="content-mode-datalist" class="hh-data-list my-4"></div>
+<div id="datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = new DLTreesOptions002('content-mode-datalist');
+  var options = new DLTreesOptions002('datalist');
   options.contentMode.showTool = true;
   options.contentMode.value = 'type';
   options.descriptions.value = false;

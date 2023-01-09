@@ -38,9 +38,9 @@ You can demo record parity to yourself using the HHDataList instance below. Note
 1. Click the `GET Parity` toggle to turn off parity.
 1. Click one of the Paginator arrows again. This time, ignoring the fact that the underlying API possesses record parity, HHDataList issues four `GET` requests, one to build the record headers, and three (one for each record) to add record fields.
 
-<div id="record-parity-datalist" class="hh-data-list my-4"></div>
+<div id="datalist" class="hh-data-list my-4"></div>
 <script>
-  var options = new DLTreesOptions002('record-parity-datalist');
+  var options = new DLTreesOptions002('datalist');
   options.expand.showTool = false;
   options.expand.value = true;
   var show = ['Name', 'Species', 'Nearby City', 'Coordinates'];

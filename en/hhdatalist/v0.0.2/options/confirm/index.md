@@ -2,11 +2,14 @@
 
 <table class="options-table"><tr><th>Optional, but recommended</th></tr></table>
 
-The `confirm` option specifies a function for HHDataList to call before doing certain actions (e.g. deleting a record).
+The `confirm` option specifies a function that, before deleting records or abandoning the saving of record field modifications, HHDataList invokes to enable the website to ask the user to confirm the action.
 
 # Example
 
+HHDataList passes four action-specific arguments to the `confirm` function: `title`, `body`, `yesLabel`, and `yesCb`.
+
 ``` js nonum
+// developer-defined
 const confirm = (title, body, yesLabel, yesCb) => {
   modalEl.querySelector('h5.modal-title').textContent = title;
   modalEl.querySelector('div.modal-body').textContent = body;
@@ -20,7 +23,7 @@ new HHDataList({
 });
 ```
 
-Before performing certain actions like deleting a record, HHDataList invokes this function to enable the website to ask the user to confirm the action. HHDataList passes action-specific arguments to the function. For example, before deleting a record for a baseball player named *Casey Jones*, HHDataList might pass the following arguments to the function:
+For example, before deleting a record for a baseball player named *Casey Jones*, HHDataList might pass the following arguments to the function:
 
 |Parameter|Argument|
 |-|-|
@@ -34,3 +37,19 @@ The job of the *confirm* function is to present the *yesLabel* to the user, obta
 <p><img src="confirm.png" class="img-fluid d-block" width=400 loading="lazy"></p>
 
 If the website does not provide a *confirm* option to the HHDataList constructor, HHDataList performs all actions without pausing to ask the user for confirmations.
+
+# Demonstration
+
+To see this option in action, try deleting one of the records below:
+
+<div id="datalist" class="hh-data-list mt-4"></div>
+<script>
+  var options = new DLPlayersOptions002('datalist');
+  options.expand.showTool = false;
+  options.queryParams.limit.showTool = false;
+  new HHDataList(options);
+</script>
+
+When a user confirms the *Delete* action, this datalist instance does, indeed, call *deleteRecord*, but (for this instance) HHDataList delete-record functionality has been replaced (via the [methods](/en/hhdatalist/v0.0.2/options/methods/) option) with a function that displays the following:
+
+<p><img src="warning-disabled.png" class="img-fluid d-block" width=320 loading="lazy"></p>

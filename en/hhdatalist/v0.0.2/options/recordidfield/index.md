@@ -1,31 +1,8 @@
 # recordIdField
 
-<table class="options-table">
-  <tr>
-    <th>Necessity:</th>
-    <td>Expected</td>
-  </tr>
-</table>
+<table class="options-table"><tr><th>Required unless the value is "<code>id</code>"</th></tr></table>
 
-The `recordIdField` option ...
-
-``` js nonum
-new HHDataList({
-  recordIdField: '',
-});
-```
-
-# Old Stuff
-
-The *recordIdField* value is the field name of the unique identifier field for the records:
-
-``` js nonum
-new HHDataList({
-  recordIdField: 'key',
-});
-```
-
-The example above is appropriate for the following record:
+The `recordIdField` option specifies (for an API response record) the name of the unique identifier field. In the following response record, for example, the `recordIdField` value is `key`:
 
 ``` js nonum
 {
@@ -43,4 +20,26 @@ The example above is appropriate for the following record:
   ],
   wikipedia: 'http://en.wikipedia.org/wiki/Charles_Dickens'
 }
+```
+
+# Examples
+
+## Example 1
+
+This example shows the default value for this option.
+
+``` js nonum
+new HHDataList({
+  recordIdField: 'id',
+});
+```
+
+## Example 2
+
+This example shows a developer-specified value for this option.
+
+``` js nonum
+new HHDataList({
+  recordIdField: 'key',
+});
 ```

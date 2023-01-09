@@ -24,14 +24,14 @@ new HHDataList({
 
 Like some other APIs, the [Open Library API](https://openlibrary.org/developers) does not return the same fields for each record in a set of the same type of records (e.g. books). To test this, click the forward and backward arrows on the *Paginator* tool below:
 
-<div id="uniformity-datalist" class="hh-data-list mt-4"></div>
+<div id="datalist" class="hh-data-list mt-4"></div>
 <script>
-  var options = new DLWorksOptions002('uniformity-datalist');
+  var options = new DLWorksOptions002('datalist');
   options.expand.value = true;
   options.expand.showTool = false;
   options.queryParams.limit.default = 1;
   options.queryParams.limit.showTool = false;
-  options.themeDefinition.name = 'shadowbox';
+  options.themeDefinition.name = 'wheatgerm';
   options.uniformity.showTool = true;
   options.uniformity.value = false;
   new HHDataList(options);
