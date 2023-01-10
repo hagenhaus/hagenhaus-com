@@ -49,27 +49,17 @@ With the *Árbol del Tule* record displayed, note the following:
 
 1. In **transform** mode, the *Fields* tab is also present because *transform* mode has [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/), too, ones with different capabilities. The record field labels are uppercased. The *Country* record field value is now `Mexico` because the corresponding *fieldDefinition* performed a GET operation. The *Coordinates* field has replace the *lat* and *lng* record fields, and the field value is a link. 
 
-# Diagrams
-
-These diagrams illustrate how HHDataList moves data from API records to expanded records. 
-
-## Process Modes
+# Process Mode Diagram
 
 In *copy* mode, HHDataList moves data from an API response to an expanded record unchanged. In *manage* mode, HHDataList uses *manage* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) to order and filter fields. In *transform* mode, HHDataList uses *transform* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) to order, filter, rename, merge, and transform fields:
 
 <p><img src="process-mode-diagram.png" class="img-fluid d-block" width=800 loading="lazy"></p>
 
-## Filtering
-
-Both *manage* and *transform* modes can, by omitting certain fieldDefinitions, prevent HHDataList from processing certains fields.
-
-<p><img src="filter-fields.png" class="img-fluid d-block" width=800 loading="lazy"></p>
-
 # Capabilities
 
 The sections below describe which HHDataList capabilities (related to the processing of API responses) are available with each of the three processing modes.
 
-## To process fields
+## Process fields
 
 <table class="options-table">
   <tr>
@@ -81,7 +71,7 @@ The sections below describe which HHDataList capabilities (related to the proces
 
 To process fields means to obtain the names and values of API record fields, optionally apply changes, and then display the results in an HHDataList expanded record. All modes exhibit this capability. 
 
-## To filter fields
+## Filter fields
 
 <table class="options-table">
   <tr>
@@ -91,9 +81,11 @@ To process fields means to obtain the names and values of API record fields, opt
   </tr>
 </table>
 
-To filter fields means to remove certain fields from the processing pipeline. Both *manage* and *transform* modes can, by omitting certain fieldDefinitions, cause HHDataList to filter fields.
+To filter fields means to remove certain fields from the processing pipeline. Both *manage* and *transform* modes can, by omitting certain fieldDefinitions, cause HHDataList to filter fields. In the diagram below, the `manage` field definitions array filters out all source API response record fields except four:
 
-## To reorder fields
+<p><img src="filter-fields.png" class="img-fluid d-block" width=800 loading="lazy"></p>
+
+## Reorder fields
 
 <table class="options-table">
   <tr>
@@ -105,7 +97,7 @@ To filter fields means to remove certain fields from the processing pipeline. Bo
 
 To reorder fields means to display expanded record fields in a different order than they appeared in API records. Both *manage* and *transform* modes can, by defining fieldDefinitions in a particular order, direct HHDataList to reorder fields.
 
-## To rename fields
+## Rename fields
 
 <table class="options-table">
   <tr>
@@ -117,7 +109,7 @@ To reorder fields means to display expanded record fields in a different order t
 
 To rename fields means to replace API field names with different names in expanded records. Only *transform* mode can cause HHDataList to rename fields. 
 
-## To edit fields
+## Edit fields
 
 <table class="options-table">
   <tr>
@@ -129,7 +121,7 @@ To rename fields means to replace API field names with different names in expand
 
 To edit a field means to display, in an expanded record header, a pencil icon that, when clicked, changes the appearance of *editable* expanded record fields and adds a save button next to each. Only *manage* mode exhibits this capability.
 
-## To add fields
+## Add fields
 
 <table class="options-table">
   <tr>
@@ -141,7 +133,7 @@ To edit a field means to display, in an expanded record header, a pencil icon th
 
 To add fields means to display fields in an expanded record that did not exist in the API response. See the [uniformity](/en/hhdatalist/v0.0.2/options/uniformity/) option. Both *manage* and *transform* modes exhibit this capability. 
 
-## To merge fields
+## Merge fields
 
 <table class="options-table">
   <tr>
@@ -153,7 +145,7 @@ To add fields means to display fields in an expanded record that did not exist i
 
 To merge fields means to create an expanded record field that represents two or more API record fields (e.g. *Coordinates* field from the *lat* and *lng* fields). Only *transform* mode can direct HHDataList to do this. 
 
-## To transform fields
+## Transform fields
 
 <table class="options-table">
   <tr>
@@ -165,7 +157,7 @@ To merge fields means to create an expanded record field that represents two or 
 
 To transform fields means to change field values. Changing `MEX` to `Mexico` via an API GET operation to a *Country Codes* API is an example. Only *transform* mode can direct HHDataList to do this. 
 
-## To specify displays
+## Specify displays
 
 <table class="options-table">
   <tr>
@@ -177,7 +169,7 @@ To transform fields means to change field values. Changing `MEX` to `Mexico` via
 
 To specify displays means to display expanded record fields using an HTML element other than a *disabled* `INPUT` element. Currently, the alternatives are `TEXT` and `SELECT`. Only *transform* mode can direct HHDataList to do this. 
 
-## To create records
+## Create records
 
 <table class="options-table">
   <tr>
@@ -189,7 +181,7 @@ To specify displays means to display expanded record fields using an HTML elemen
 
 To create records means to display the *plus* icon tab. The current process mode does not influence whether the *plus* tab is visible. Rather, the existence of *manage* [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) determines whether the *plus* tab is visible. 
 
-## To delete records
+## Delete records
 
 <table class="options-table">
   <tr>

@@ -172,7 +172,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
     this.fieldDefinitions = {
       manage: [
         { fieldName: 'id', isChecked: false },
-        { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium' },
+        { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium', popValue: "My Magnificent Tree" },
         { fieldName: 'species', isEditable: true, colWidth: 'medium' },
         { fieldName: 'description', isEditable: true },
         { fieldName: 'city', isEditable: true },
@@ -196,9 +196,9 @@ class DLTreesOptions002 extends DLBaseOptions002 {
           label: 'Description', fieldName: 'description', colWidth: 'wide',
           display: { type: 'text', rows: 3 }
         },
-        { label: 'Nearby City', fieldNames: ['city'] },
+        { label: 'Nearby City', fieldName: 'city' },
         {
-          label: 'Country', fieldNames: ['country'],
+          label: 'Country', fieldName: 'country',
           transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
         },
         {
@@ -210,15 +210,15 @@ class DLTreesOptions002 extends DLBaseOptions002 {
           display: { type: 'link' }
         },
         {
-          label: 'Age (years)', fieldNames: ['birthYear'],
+          label: 'Age (years)', fieldName: 'birthYear',
           transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
         },
         {
-          label: 'Height (meters)', fieldNames: ['height'],
+          label: 'Height (meters)', fieldName: 'height',
           transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
         },
         {
-          label: 'Links', fieldNames: ['links'],
+          label: 'Links', fieldName: 'links',
           transformer: (v) => {
             const a = [];
             for (let i of v) { a.push({ url: i.link, title: i.text }); }
@@ -228,11 +228,6 @@ class DLTreesOptions002 extends DLBaseOptions002 {
         }
       ]
     };
-    // this.methods = {
-    //   deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-    //   patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-    //   postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
-    // };
     this.parity.get.value = true;
     this.parity.post.value = true;
     this.populate = (fieldName) => this.popValues.get(fieldName);
@@ -293,7 +288,10 @@ class DLWorksOptions002 extends DLBaseOptions002 {
         },
         {
           label: 'Description', fieldName: 'description', isChecked: true, colWidth: 'wide',
-          transformer: (v) => typeof v === 'object' ? v.value : v,
+          transformer: (v) => {
+            console.log(JSON.stringify(v, null, 2));
+            return typeof v === 'object' ? v.value : v;
+          },
           display: { type: 'text', rows: 3 },
         },
         { label: 'Subjects', fieldName: 'subjects', isChecked: true, colWidth: 'medium' },

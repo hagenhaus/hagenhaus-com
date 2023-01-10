@@ -1,14 +1,20 @@
 # fieldDefinitions
 
-<table class="options-table">
-  <tr><th>Necessity:</th><td>Recommended</td></tr>
-</table>
+<table class="options-table"><tr><th>Optional</th></tr></table>
 
-The `fieldDefinitions` option helps determine how HHDataList displays expanded records. The object contains up to two properties named `manage` and `transform`. The property values are arrays of field definition objects:
+The `fieldDefinitions` option, a companion to the [processMode](/en/hhdatalist/v0.0.2/options/processmode/) option, helps define what HHDataList displays in expanded records. The option value is an object containing a `manage` and/or a `transform` array of field definitions. With *processMode* set to *manage*, HHDataList uses *manage* field definitions to process API response fields into expanded record fields:
+
+<p><img src="manage-fds.png" class="img-fluid d-block" width=700 height=541 loading="lazy"></p>
+
+With *processMode* set to *transform*, HHDataList uses *transform* field definitions to process API response fields into expanded record fields:
+
+<p><img src="transform-fds.png" class="img-fluid d-block" width=700 height=541 loading="lazy"></p>
 
 # Examples
 
-## Default Example
+## Example 1
+
+This example shows the default values for the field definition objects. The default value for the *isChecked* property, for example, is `true`. Normally, a field definition would not specify a default value. See [Example 2](#example-2) for the normal way to define these same field definitions. See [Field definition properties](#field-definition-properties) for a description of each property.
 
 ``` js nonum
 new HHDataList({
@@ -58,7 +64,7 @@ new HHDataList({
         colWidth: null,
         transformer: (v) => v,
         contentMode: null,
-        display: { type: 'none' }
+        display: { type: 'normal' }
       }, 
       { 
         label: 'Name', 
@@ -67,7 +73,7 @@ new HHDataList({
         colWidth: null,
         transformer: (v) => v,
         contentMode: null,
-        display: { type: 'none' }
+        display: { type: 'normal' }
       }, 
       { 
         label: 'Coordinates', 
@@ -86,7 +92,9 @@ new HHDataList({
 });
 ```
 
-## Common Example
+## Example 2
+
+This example takes advantage of default values.
 
 ``` js nonum
 new HHDataList({
@@ -100,8 +108,7 @@ new HHDataList({
     transform: [
       { label: 'ID', fieldName: 'id', isChecked: false },
       { label: 'Name', fieldName: 'name' },
-      { 
-        label: 'Coordinates',
+      { label: 'Coordinates',
         fieldNames: ['lat', 'lng'],
         transformer: (lat, lng) => ({
           url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
@@ -114,546 +121,543 @@ new HHDataList({
 });
 ```
 
-## Manage Field Definition
+# Demonstration
 
-Below is a manage field definition showing default values:
+This demo datalist may be helpful while exploring the field definition properties below.
 
-``` js nonum
-{ 
-  fieldName: 'name',   // required
-  isChecked: true,
-  isEditable: false, 
-  isRequired: false, 
-  colWidth: null,      // options.colWidths.records.value 
-  contentMode: null,   // options.contentMode.value
-  popValue: null       // options.populate(fieldName)
-}
-```
+<div id="datalist" class="hh-data-list"></div>
+<script>
+  var options = new DLTreesOptions002('datalist');
+  options.colWidths.records.showTool = true;
+  options.descriptions.value = false;
+  options.expand.showTool = false;
+  options.expand.value = true;
+  options.processMode.showTool = true;
+  options.queryParams.limit.default = 1;
+  options.queryParams.limit.showTool = false;
+  new HHDataList(options);
+</script>
 
-## Transform Field Definition
+# Field definition properties
 
-Below is a transform field definition showing default values where applicable:
+Field definitions are composed of properties. Some properties are relevant to both `manage` and `transform` field definitions. Others are relevant to only one type as indicated by the check icons below.
 
-``` js nonum
-{ 
-  label: 'Name', 
-  fieldName: 'name',
-  isChecked: true,
-  colWidth: null,
-  transformer: (v) => v,
-  contentMode: null,
-  display: { type: 'none' }
-}
-```
-
-# Old Stuff
+## colWidth
 
 <table class="options-table">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
 </table>
 
-``` js nonum
-new HHDataList({
-  fieldDefinitions: {
-    managed: [ ],
-    transformed: [ ]
-  }
-});
-```
-
-# managed
+The `colWidth` property sets the column width to `narrow`, `medium`, or `wide` for the expanded record field, overriding the `value` setting of the global `colWidths.records` option. Omitting this property, or setting the property value to `null`, allows the global setting to govern the column width. See also [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/). In the demo datalist above, the *Description* field column width is set to `wide`, so changing the *Column Width* dropdown will not affect it:
 
 ``` js nonum
-new HHDataList({
-  fieldDefinitions: {
-    managed: [ ]
-  }
-});
-```
-
-# transformed
-
-``` js nonum
-new HHDataList({
-  fieldDefinitions: {
-    transformed: [ ]
-  }
-});
-```
-
-# internal
-
-Internally (within HHDataList), managed and transformed definitions have the same properties, so HHDataList can process them using the same set of functions.
-
-||managed|transformed|
-|-|-|-|
-|`label`|`m.fieldName`|`t.label`|
-|`fieldNames`|`[m.fieldName]`|`t.fieldNames`|
-
-# obsolete
-
-``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false },
-    { name: "type", label: "Type", isChecked: false, transform: (value) => value.key },
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "subtitle", label: "Subtitle", isChecked: false, isEditable: true, colWidth: 'wide' },
-    { name: "first_publish_date", label: "First Published Date", isEditable: true },
-    { name: "first_sentence", label: "First Sentence", transform: (value) => value.value, display: { type: "text" } },
-    { name: "subjects", label: "Subjects" },
-    { name: "links", label: "Links", display: { type: "link" } }
-  ],
-});
-```
-
-Note the following:
-
-1. Each `field` object must include a `name` property and may include additional properties.
-1. The order of `field` objects determines the order of fields on the *Fields* tab and in expanded records.
-1. The `field.name` property ties a `field` object to a record property in `REST API` response data.
-1. The `field.label` property is a user-friendly alias for a `field.name`.
-1. The `field.isChecked` property dictates field visibility on page load.
-1. The `field.isEditable` property declares that the field can participate in `POST`, `PUT`, and `PATCH` operations.
-1. The `field.isRequired` property indicates that the field is required in `POST` operations.
-1. The `field.colWidth` property sets the field width for that particular field.
-1. The `field.transform` function presents an opportunity to modify a field value.
-1. The `field.display` property defines any special instructions for a transformed field value.
-
-The sections below describe each *field* property in more detail.
-
-## field.name
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>true</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-</table>
-
-Consider the `key` and `title` properties in following REST API response data:
-
-``` nonum
 {
-  "key": "/works/OL53908W",
-  "title": "Adventures of Huckleberry Finn"
+  label: 'Description', 
+  fieldName: 'description', 
+  colWidth: 'wide', 
+  display: { type: 'text', rows: 3 }
 }
 ```
 
-The *name* property acts as a reference to corresponding response data field:
+## contentMode
 
-``` js nonum
-new HHDataList({
-  recordColWidth: 'medium',
-  recordFields: [
-    { name: "key" }, 
-    { name: "title" }
-  ],
-});
-```
-
-With no other *field* properties specified, HHDataList (internally) applies the following default property values:
-
-``` js nonum
-new HHDataList({
-  recordColWidth: 'medium',
-  recordFields: [
-    {
-      name: 'key', 
-      label: 'key', 
-      isChecked: true, 
-      isEditable: false, 
-      isRequired: false, 
-      colWidth: 'medium',
-      transform: (value) => value,
-      display: { type: 'none' },
-    },
-    {
-      name: 'title', 
-      label: 'title', 
-      isChecked: true, 
-      isEditable: false, 
-      isRequired: false, 
-      colWidth: 'medium',
-      transform: (value) => value, 
-      display: { type: 'none' }
-    }
-  ],
-});
-```
-
-## field.label
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>field.name</code></td></tr>
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
 </table>
 
-Consider the labels in the following expanded record:
+The `contentMode` property sets the content mode to `type`, `string`, or `value` for the expanded record field, overriding the `value` setting of the global `contentMode` option. Omitting this property, or setting the property value to `null`, allows the global setting to govern the content mode. See also [contentMode](#contentmode).
 
-<p><img src="record-fields-002.png" class="img-fluid d-block" width=440 loading="lazy"></p>
+## display
 
-The `label` property can provide a user-friendly alias for the `name` value:
-
-``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key" }, 
-    { name: "title", label: "Title" }
-  ],
-});
-```
-
-## field.isChecked
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>true</code></td></tr>
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
 </table>
 
-Consider the `key` and `title` checkboxes on the following *Fields* tab:
-
-<p><img src="record-fields-003.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
-The `isChecked` property dictates whether a field is (on page load) checked or unchecked on the *Fields* tab:
+The `display` property tells HHDataList to display the field value in a special way. In the demo datalist above, the `display` property of the field definition below causes HHDataList to display the *Description* field in a *textarea* HTML element with 3 rows:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false }, 
-    { name: "title", label: "Title", isChecked: true }
-  ],
-});
+{
+  label: 'Description', 
+  fieldName: 'description', 
+  colWidth: 'wide', 
+  display: { type: 'text', rows: 3 }
+}
 ```
 
-## field.isEditable
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>false</code></td></tr>
-</table>
-
-When the *Edit* button is clicked on the following expanded record, the *Title* field becomes editable:
-
-<p><img src="record-fields-004.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
-And, the *Title* field appears on the following *New Record* form:
-
-<p><img src="record-fields-005.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
-Setting the `isEditable` property to `true` causes (with one caveat) a field (1) to become editable in *Edit* mode, and (2) to appear on the *New Record* form:
+And, the `display` property of the field definition below causes HHDataList to display the *Species* field using an *anchor* HTML element:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false, isEditable: false }, 
-    { name: "title", label: "Title", isChecked: true, isEditable: true }
-  ],
-});
+{
+  label: 'Species', fieldName: 'species',
+  transformer: (v) => ({ url: v.link, title: v.text }),
+  display: { type: 'link' }
+}
 ```
 
-The caveat is a field can be editable only if the display type is *none* or *text*.
-
-## field.isRequired
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>boolean</code></td></tr>
-<tr><th>Default:</th><td><code>false</code></td></tr>
-</table>
-
-On the following *New Record* form, the *Title* field is required:
-
-<p><img src="record-fields-006.png" class="img-fluid d-block" width=440 loading="lazy"></p>
-
-Setting the `isRequired` property to `true` causes this behavior:
+The `link` property requires the following value format:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false }, 
-    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true }
-  ],
-});
+{
+  url: 'https://domain.com/some/endpoint', 
+  title: 'Label for Link'
+}
 ```
 
-## field.colWidth
+Omitting this property, or setting the property value to `normal`, negates any affect.
 
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>string</code></td></tr>
-<tr><th>Default:</th><td><code>options.recordColWidth</code></td></tr>
-<tr><th>Choices:</th><td><code>narrow, medium, wide</code></td></tr>
+## fieldName
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
 </table>
 
-On the following expanded record, with a screen width of large or extra large, fields have various widths:
+For `manage` field definitions, `fieldName`, the name of the field in both the source API response record and the target expanded record, is required:
 
-<p><img src="record-fields-007.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="fieldname-manage.png" class="img-fluid d-block" width=700 loading="lazy"></p>
 
-The `colWidth` property determines the width (e.g. narrow, medium, wide) of a record field element (e.g. input, select, textarea) in an expanded record:
+In contrast, `transform` field definitions require a `fieldName` property for one-to-one mapping or a `fieldNames` property for field merges, and the `label` property specifies the field label in expanded records:
+
+<p><img src="fieldname-transform.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## fieldNames
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+See [fieldName](#fieldname).
+
+## isChecked
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+The `isChecked` property determines (1) whether a checkmark appears next to the field on the Fields tab and (2) whether the field appears in expanded records. For example, consider the following field definitions:
 
 ``` js nonum
-new HHDataList({
-  recordColWidth: 'medium',
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false }, 
-    { name: "title", label: "Title", isChecked: true, isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "subject_places", label: "Subject Places", isChecked: true },
-    { name: "subject_times", label: "Subject Times", isChecked: true },
-    { name: "dewey_number", label: "Dewey Number", isChecked: true, colWidth: 'narrow' }, 
-    { name: "revision", label: "Revision", isChecked: true, colWidth: 'narrow' }, 
-    { name: "created", label: "Created", isChecked: true, colWidth: 'narrow' },
-    { name: "last_modified", label: "Last Modified", isChecked: true, colWidth: 'narrow' }
-  ],
-});
+transform: [
+  { label: 'ID', fieldName: 'id', isChecked: false },
+  { label: 'Name', fieldName: 'name', isChecked: true }
+]
 ```
 
-`colWidth` settings are responsive, so even *narrow* and *medium* settings appear *wide* for narrower screen widths:
+`ID` is unchecked and does not appear in expanded records, and `Name` is checked and does appear:
 
-<p><img src="record-fields-008.png" class="img-fluid d-block" width=500 loading="lazy"></p>
+<p><img src="is-checked.png" class="img-fluid d-block" width=550 loading="lazy"></p>
 
-To learn more, see the [recordColWidth](#recordcolwidth) option.
+The default is `true`.
 
-## field.transform
+## isEditable
 
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>function</code></td></tr>
-<tr><th>Default:</th><td><code>(value) => value</code></td></tr>
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
 </table>
 
-The `field.transform` function presents an opportunity to modify a field value.
+The `isEditable` property determines (1) whether the field becomes editable when the user clicks the pencil icon and (2) whether the field is editable on the New Record form. For example, consider the following field definitions:
+
+``` js nonum
+manage: [
+  { fieldName: 'id', isChecked: true },
+  { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium' }
+]
+```
+
+`id` is not editable, and `name` is editable:
+
+<p><img src="is-editable.png" class="img-fluid d-block" width=550 loading="lazy"></p>
+
+## isRequired
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+The `isRequired` option determines (1) whether an asterisk appears next to the field name on the New Records form and (2) whether a warning appears by the empty field when the user clicks the *Create* button. For example, consider the following field definitions:
+
+``` js nonum
+manage: [
+  { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium' }
+  { fieldName: 'species', isEditable: true, colWidth: 'medium' },
+]
+```
+
+`name` is required, and `species` is not required:
+
+<p><img src="is-required.png" class="img-fluid d-block" width=550 loading="lazy"></p>
+
+## label
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+The `label` property specifies the string to appear as the expanded record field label for `transform` field definitions:
+
+``` js nonum
+transform: [
+  { label: 'ID', fieldName: 'id', isChecked: false },
+  { label: 'Name', fieldName: 'name' },
+  { label: 'Coordinates', fieldNames: ['lat', 'lng'],
+    transformer: (lat, lng) => ({
+      url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+      title: `${lat}, ${lng}`
+    }),
+    display: { type: 'link' }
+  }
+]
+```
+
+Below is an illustration:
+
+<p><img src="label.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## popValue
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+The `popValue` property sets the auto-populate value for the field in the New Record form, overriding the setting of the global [populate](/en/hhdatalist/v0.0.2/options/populate/) option. Omitting this property, or setting the property value to null, allows the global setting to govern the auto-populate value:
+
+``` js nonum
+manage: [
+  { fieldName: 'name', isEditable: true, isRequired: true, popValue: "My Magnificent Tree" }
+]
+```
+
+Below is an illustration:
+
+<p><img src="popvalue.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+
+## transformer
+
+<table class="options-table">
+  <tr>
+  <th style="padding-right:0;"><i class="far fa-circle"></i></th><th style="padding-left:3px;">manage</th>
+  <th style="padding-right:0;"><i class="fas fa-check-circle"></i></th><td style="padding-left:3px;">transform</td>
+  </tr>
+</table>
+
+The `transformer` option specifies a developer-defined function that HHDataList calls to transform the field value before displaying it. HHDataList passes the fieldName(s) to the function, and the function returns the value to be displayed. Below are examples.
 
 ### Example 1
 
-Consider the `created` field in the following response data:
+Input to the transformer function:
 
-``` nonum
+``` js nonum
 {
-  "key": "/works/OL53908W",
-  "title": "Adventures of Huckleberry Finn",
-  "created": {
-    "type": "/type/datetime",
-    "value": "2009-10-15T18:06:09.703894"
-  }
+  link: 'https://en.wikipedia.org/wiki/Taxodium_mucronatum', 
+  text: 'Taxodium mucronatum'
 }
 ```
 
-The `created` field value is an object with two properties: `type` and `value`. And, `value` is a timestamp with a particular format. Now, consider the (developer-chosen) display format of the `created` field value in an expanded record:
-
-<p><img src="record-fields-009.png" class="img-fluid d-block" width=410 loading="lazy"></p>
-
-A *transform* function is part of the bridge between raw data and display data for a field:
+Field Definition with the transformer function:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false }, 
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "created", label: "Created", isChecked: false, transform: (value) => 
-      new Date(value.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' }) 
-    },
-  ],
-});
+transform: [
+  {
+    label: 'Species', fieldName: 'species',
+    transformer: (species) => ({ url: species.link, title: species.text }),
+    display: { type: 'link' }
+  }
+]
 ```
 
-HHDataList invokes `field.transform(value)`, passing the raw data. The client-defined `transform` function modifies the raw value as needed, and returns the modified value.
+Output from the transformer function in a format acceptable to a *display* property of type *link*:
+
+``` js nonum
+{
+  url: 'https://en.wikipedia.org/wiki/Taxodium_mucronatum', 
+  title: 'Taxodium mucronatum'
+}
+```
 
 ### Example 2
 
-Consider the `title` field in the following response data:
+Input to the transformer function:
 
-``` nonum
+``` js nonum
+MEX
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
 {
-  "key": "/works/OL53908W",
-  "title": "Adventures of Huckleberry Finn"
+  label: 'Country', fieldName: 'country',
+  transformer: async (country) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${country}`)).data.name
 }
 ```
 
-The *title* value needs no modification prior to display:
-
-<p><img src="record-fields-010.png" class="img-fluid d-block" width=410 loading="lazy"></p>
-
-The default `transform` function (e.g. `(value) => value`) returns the raw value unchanged, so there is no need to specify a `transform` function for this particular *title* field:
+Output from the transformer function:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "key", label: "Key", isChecked: false }, 
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' }
-  ],
-});
+Mexico
 ```
 
 ### Example 3
 
-Compare the `description` fields of these two records:
-
-``` nonum
-{
-  "key": "/works/OL53908W",
-  "title": "Adventures of Huckleberry Finn",
-  "description": "Adventures of Huckleberry Finn or as it is known ..."
-}
-```
-
-``` nonum
-{
-  "key": "/works/OL4134125W",
-  "title": "The snow goose",
-  "description": {
-    "type": "/type/text",
-    "value": "Against the backdrop of World War II, friendship develops ..."
-  }
-}
-```
-
-The first is a string and the second is an object, but the display format for both should be a string:
-
-<p><img src="record-fields-011.png" class="img-fluid d-block" width=760 loading="lazy"></p>
-
-So, the `transform` function must account for both possibilities:
+Input to the transformer function:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "description", label: "Description", isEditable: true, colWidth: 'wide', transform: (value) => {
-      if (typeof value === 'object') { return value.value; } 
-      else { return value; }
-    }}
-  ],
-});
+17.0465308, -96.6365872
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
+{
+  label: 'Coordinates', fieldNames: ['lat', 'lng'],
+  transformer: (lat, lng) => ({
+    url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+    title: `${lat}, ${lng}`
+  }),
+  display: { type: 'link' }
+}
+```
+
+Output from the transformer function in a format acceptable to a *display* property of type *link*:
+
+``` js nonum
+{
+  url: 'https://www.google.com/maps/search/?api=1&query=17.0465308,-96.6365872,
+  title: '17.0465308, -96.6365872'
+}
 ```
 
 ### Example 4
 
-Consider the `authors` field in the following response data:
+Input to the transformer function:
 
-``` nonum
+``` js nonum
+400
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
 {
-  "title": "White Snow, Bright Snow",
-  "authors": [
-    {
-      "author": { "key": "/authors/OL2763372A" },
-      "type": { "key": "/type/author_role" }
-    },
-    {
-      "author": { "key": "/authors/OL916848A" }
-      "type": { "key": "/type/author_role" },
-    },
-    {
-      "author": { "key": "/authors/OL1300693A" }
-      "type": { "key": "/type/author_role" },
-    }
-  ]
+  label: 'Age (years)', fieldName: 'birthYear',
+  transformer: (birthYear) => `${(new Date().getFullYear() - birthYear).toLocaleString()}`
 }
 ```
 
-The `authors` field is an array of objects. Each object represents an author, and includes a key rather than a name. Regardless, the target display is the following:
-
-<p><img src="record-fields-012.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-The transformation from raw to display requires two steps:
-
-1. Create an array of keys that will fit into a `SELECT` element:
-
-    ``` nonum
-    ['/authors/OL2763372A', '/authors/OL916848A', '/authors/OL1300693A']
-    ```
-
-1. Replace the `key` strings with author names:
-
-    ``` nonum
-    ['Alvin Tresselt', 'Roger Duvoisin', 'Catherine Bonhomme']
-    ```
-
-The `field.transform` function targets the first step:
+Output from the transformer function:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "authors", label: "Authors", transform: (value) => {
-      const a = [];
-      for (let i of value) { a.push(i.author.key); }
-      return a;
-    }},
-  ],
-});
+1,623
 ```
 
-The result is an array of keys:
+### Example 5
 
-<p><img src="record-fields-013.png" class="img-fluid d-block" width=700 loading="lazy"></p>
-
-The second step involves the use of a `field.display` object:
+Input to the transformer function:
 
 ``` js nonum
-new HHDataList({
-  recordFields: [
-    { name: "title", label: "Title", isEditable: true, isRequired: true, colWidth: 'wide' },
-    { name: "authors", label: "Authors", 
-      transform: (value) => {
-        const a = [];
-        for (let i of value) { a.push(i.author.key); }
-        return a;
-      },
-      display: { type: "endpoint", field: (data) => data.name }
-    },
-  ],
-});
+116
 ```
 
-See [field.display](#fielddisplay) below.
+Field Definition with the transformer function:
 
-## field.contentMode
-
-## field.display
-
-<table class="options-table h2">
-<tr><th>Required:</th><td><code>false</code></td></tr>
-<tr><th>Type:</th><td><code>object</code></td></tr>
-<tr><th>Default:</th><td><code>{ type: 'none' }</code></td></tr>
-</table>
-
-The *field.display* option specifies display instructions.
-
-### type = default
-
-### type = text
-
-### type = link
-
-For a single link, search *works* for *"a wild swan"*.
-
-Consider the `links` field in the following response data:
-
-``` nonum
+``` js nonum
 {
-  "title": "The Call of the Wild",
-  "links": [
-    {
-      "url": "https://en.wikipedia.org/wiki/The_Call_of_the_Wild",
-      "title": "Wikipedia",
-      "type": { "key": "/type/link" }
-    },
-    {
-      "url": "https://www.wikidata.org/wiki/Q476871",
-      "title": "Wikidata",
-      "type": { "key": "/type/link" }
-    },
-    {
-      "url": "https://viaf.org/viaf/179138821",
-      "title": "VIAF ID: 179138821",
-      "type": { "key": "/type/link" }
-    }
-  ]
+  label: 'Height (meters)', fieldName: 'height',
+  transformer: (height) => height > 0 ? Math.round(height * 0.3048) : 'Unknown'
 }
 ```
 
-The `links` field is an array of objects. Each object represents a link, and includes a `url` and a `title`. The target display is the following:
+Output from the transformer function:
 
-<p><img src="record-fields-014.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+``` js nonum
+35
+```
+
+### Example 6
+
+Input to the transformer function:
+
+``` js nonum
+[
+  {
+    "link": "https://en.wikipedia.org/wiki/%C3%81rbol_del_Tule",
+    "text": "Wikipedia"
+  },
+  {
+    "link": "https://www.tripadvisor.com/Attraction_Review-g7158692-d155101-Reviews-Tule_Tree-Santa_Maria_del_Tule_Southern_Mexico.html",
+    "text": "TripAdvisor"
+  }
+]
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
+{
+  label: 'Links', fieldName: 'links',
+  transformer: (links) => {
+    const a = [];
+    for (let i of links) { a.push({ url: i.link, title: i.text }); }
+    return a;
+  },
+  display: { type: 'link' }
+}
+```
+
+Output from the transformer function:
+
+``` js nonum
+[
+  {
+    "url": "https://en.wikipedia.org/wiki/%C3%81rbol_del_Tule",
+    "title": "Wikipedia"
+  },
+  {
+    "url": "https://www.tripadvisor.com/Attraction_Review-g7158692-d155101-Reviews-Tule_Tree-Santa_Maria_del_Tule_Southern_Mexico.html",
+    "title": "TripAdvisor"
+  }
+]
+```
+
+### Example 7
+
+Input to the transformer function:
+
+``` js nonum
+[
+  {
+    "type": {
+      "key": "/type/author_role"
+    },
+    "author": {
+      "key": "/authors/OL18933A"
+    }
+  },
+  {
+    "type": {
+      "key": "/type/author_role"
+    },
+    "author": {
+      "key": "/authors/OL2853376A"
+    }
+  }
+]
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
+{
+  label: 'Authors', fieldName: 'authors', isChecked: true, colWidth: 'medium',
+  transformer: async (authors) => {
+    let responses = [];
+    for (let i of authors) {
+      responses.push(HHDataList.get(`https://openlibrary.org${i.author.key}.json`));
+    }
+    await Promise.all(responses);
+    let names = [];
+    responses.forEach(p => {
+      p.then(res => { names.push(res.data.name); });
+    });
+    return names;
+  }
+}
+```
+
+Output from the transformer function:
+
+``` js nonum
+["Flavia Weedn", "Lisa Weedn"]
+```
+
+### Example 8
+
+Input to the transformer function:
+
+``` js nonum
+{
+  "type": "/type/text",
+  "value": "When Kay did not come home that evening or the next, Gerda was in despair."
+}
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
+{
+  label: 'First Sentence', fieldName: 'first_sentence', isChecked: true, colWidth: 'wide',
+  transformer: (v) => v.value,
+  display: { type: 'text' }
+}
+```
+
+Output from the transformer function:
+
+``` js nonum
+When Kay did not come home that evening or the next, Gerda was in despair.
+```
+
+### Example 9
+
+Input to the transformer function. Either of these input types is possible:
+
+``` js nonum
+// Type 1: object
+{
+  "type": "/type/text",
+  "value": "After the Snow Queen abducts her friend Kai, Gerda sets out on a perilous and magical journey to find him."
+}
+ 
+// Type 2: string
+A big-game hunter from New York is shipwrecked on an isolated island in the Caribbean, and is hunted by a Russian aristocrat. The story is an inversion of the big-game hunting safaris in Africa and South America that were fashionable among wealthy Americans in the 1920s.
+```
+
+Field Definition with the transformer function:
+
+``` js nonum
+{
+  label: 'Description', fieldName: 'description', isChecked: true, colWidth: 'wide',
+  transformer: (v) => typeof v === 'object' ? v.value : v,
+  display: { type: 'text', rows: 3 },
+}
+```
+
+Output from the transformer function:
+
+``` js nonum
+// Type 1: object
+After the Snow Queen abducts her friend Kai, Gerda sets out on a perilous and magical journey to find him.
+ 
+// Type 2: string
+A big-game hunter from New York is shipwrecked on an isolated island in the Caribbean, and is hunted by a Russian aristocrat. The story is an inversion of the big-game hunting safaris in Africa and South America that were fashionable among wealthy Americans in the 1920s.
+```
+
