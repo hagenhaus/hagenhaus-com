@@ -75,6 +75,60 @@ class DLPlayersOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
     this.descriptions.home = 'View baseball player records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.';
+    this.fieldDefinitions = {
+      manage: [
+        { fieldName: 'playerID', isChecked: false },
+        { fieldName: 'nameFirst', isEditable: true, isRequired: true },
+        { fieldName: 'nameLast', isEditable: true, isRequired: true },
+        { fieldName: 'nameGiven', isChecked: false, isEditable: true, },
+        { fieldName: 'birthDay', isEditable: true },
+        { fieldName: 'birthMonth', isEditable: true },
+        { fieldName: 'birthYear', isEditable: true },
+        { fieldName: 'birthCity', isEditable: true },
+        { fieldName: 'birthState', isEditable: true },
+        { fieldName: 'birthCountry', isEditable: true },
+        { fieldName: 'deathDay', isChecked: false, isEditable: true },
+        { fieldName: 'deathMonth', isChecked: false, isEditable: true },
+        { fieldName: 'deathYear', isChecked: false, isEditable: true },
+        { fieldName: 'deathCity', isChecked: false, isEditable: true },
+        { fieldName: 'deathState', isChecked: false, isEditable: true },
+        { fieldName: 'deathCountry', isChecked: false, isEditable: true },
+        { fieldName: 'weight', isEditable: true },
+        { fieldName: 'height', isEditable: true },
+        { fieldName: 'bats', isEditable: true },
+        { fieldName: 'throws', isEditable: true },
+        { fieldName: 'debut', isChecked: false, isEditable: true },
+        { fieldName: 'finalGame', isChecked: false, isEditable: true },
+        { fieldName: 'retroID', isChecked: false, isEditable: true },
+        { fieldName: 'bbrefID', isChecked: false, isEditable: true }
+      ],
+      transform: [
+        { label: 'Player ID', fieldName: 'playerID', isChecked: false },
+        { label: 'First Name', fieldName: 'nameFirst' },
+        { label: 'Last Name', fieldName: 'nameLast' },
+        { label: 'Given Name', fieldName: 'nameGiven', isChecked: false },
+        { label: 'Birth Day', fieldName: 'birthDay' },
+        { label: 'Birth Month', fieldName: 'birthMonth' },
+        { label: 'Birth Year', fieldName: 'birthYear' },
+        { label: 'Birth City', fieldName: 'birthCity' },
+        { label: 'Birth State', fieldName: 'birthState' },
+        { label: 'Birth Country', fieldName: 'birthCountry' },
+        { label: 'Death Day', fieldName: 'deathDay', isChecked: false },
+        { label: 'Death Month', fieldName: 'deathMonth', isChecked: false },
+        { label: 'Death Year', fieldName: 'deathYear', isChecked: false },
+        { label: 'Death City', fieldName: 'deathCity', isChecked: false },
+        { label: 'Death State', fieldName: 'deathState', isChecked: false },
+        { label: 'Death Country', fieldName: 'deathCountry', isChecked: false },
+        { label: 'Weight', fieldName: 'weight' },
+        { label: 'Height', fieldName: 'height' },
+        { label: 'Bats', fieldName: 'bats' },
+        { label: 'Throws', fieldName: 'throws' },
+        { label: 'Debut', fieldName: 'debut', isChecked: false },
+        { label: 'Final Game', fieldName: 'finalGame', isChecked: false },
+        { label: 'Retro ID', fieldName: 'retroID', isChecked: false },
+        { label: 'BBRef ID', fieldName: 'bbrefID', isChecked: false }
+      ]
+    };
     this.parity.get.value = true;
     this.parity.post.value = true;
     this.queryParams.filter.default = 'namelast is not null';
@@ -136,6 +190,66 @@ class DLTeamsOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
     this.descriptions.home = 'View baseball team records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.';
+    this.fieldDefinitions = {
+      manage: [
+        { fieldName: 'ID', isChecked: false },
+        { fieldName: 'yearID' },
+        { fieldName: 'lgID' },
+        { fieldName: 'teamID', isChecked: false },
+        { fieldName: 'franchID', isChecked: false },
+        { fieldName: 'divID', isChecked: false },
+        { fieldName: 'teamRank' },
+        { fieldName: 'G' },
+        { fieldName: 'Ghome' },
+        { fieldName: 'W' },
+        { fieldName: 'L' },
+        { fieldName: 'DivWin' },
+        { fieldName: 'WCWin', isChecked: false },
+        { fieldName: 'LgWin' },
+        { fieldName: 'WSWin' },
+        { fieldName: 'R' },
+        { fieldName: 'AB' },
+        { fieldName: 'H' },
+        { fieldName: '2B' },
+        { fieldName: '3B' },
+        { fieldName: 'HR' },
+        { fieldName: 'BB' },
+        { fieldName: 'SO' },
+        { fieldName: 'SB' },
+        { fieldName: 'CS' },
+        { fieldName: 'HBP' },
+        { fieldName: 'SF' }
+      ],
+      transform: [
+        { label: 'ID', fieldName: 'ID', isChecked: false },
+        { label: 'Year ID', fieldName: 'yearID' },
+        { label: 'League ID', fieldName: 'lgID' },
+        { label: 'Team ID', fieldName: 'teamID', isChecked: false },
+        { label: 'Franchise ID', fieldName: 'franchID', isChecked: false },
+        { label: 'Division ID', fieldName: 'divID', isChecked: false },
+        { label: 'Team Rank', fieldName: 'teamRank' },
+        { label: 'Games', fieldName: 'G' },
+        { label: 'Home Games', fieldName: 'Ghome' },
+        { label: 'Wins', fieldName: 'W' },
+        { label: 'Losses', fieldName: 'L' },
+        { label: 'Division Winner', fieldName: 'DivWin' },
+        { label: 'Wildcard Winner', fieldName: 'WCWin', isChecked: false },
+        { label: 'League Champion', fieldName: 'LgWin' },
+        { label: 'World Series Champion', fieldName: 'WSWin' },
+        { label: 'Runs', fieldName: 'R' },
+        { label: 'At Bats', fieldName: 'AB' },
+        { label: 'Hits', fieldName: 'H' },
+        { label: 'Doubles', fieldName: '2B' },
+        { label: 'Triples', fieldName: '3B' },
+        { label: 'Homeruns', fieldName: 'HR' },
+        { label: 'Walks', fieldName: 'BB' },
+        { label: 'Strikeouts', fieldName: 'SO' },
+        { label: 'Steals', fieldName: 'SB' },
+        { label: 'Caught Stealing', fieldName: 'CS' },
+        { label: 'Hit By Pitch', fieldName: 'HBP' },
+        { label: 'Sacrifice Flies', fieldName: 'SF' }
+      ]
+    };
     this.parity.get.value = true;
     this.parity.post.value = true;
     this.recordIdField = 'ID';
