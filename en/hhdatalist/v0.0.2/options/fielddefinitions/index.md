@@ -132,6 +132,9 @@ This demo datalist may be helpful while exploring the field definition propertie
   options.descriptions.value = false;
   options.expand.showTool = false;
   options.expand.value = true;
+  for(field of options.fieldDefinitions.manage) {
+    if(field.fieldName === 'name') { field.popValue = 'My Magnificent Tree'; }
+  }
   options.processMode.showTool = true;
   options.queryParams.limit.default = 1;
   options.queryParams.limit.showTool = false;
@@ -358,7 +361,7 @@ manage: [
 
 Below is an illustration:
 
-<p><img src="popvalue.png" class="img-fluid d-block" width=700 loading="lazy"></p>
+<p><img src="popvalue.png" class="img-fluid d-block" width=600 loading="lazy"></p>
 
 ## transformer
 

@@ -1,11 +1,6 @@
 # queryParams
 
-<table class="options-table">
-  <tr>
-    <th>Necessity:</th>
-    <td>Recommended</td>
-  </tr>
-</table>
+<table class="options-table"><tr><th>Optional, but recommended</th></tr></table>
 
 The `queryParams` option ...
 

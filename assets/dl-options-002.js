@@ -172,7 +172,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
     this.fieldDefinitions = {
       manage: [
         { fieldName: 'id', isChecked: false },
-        { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium', popValue: "My Magnificent Tree" },
+        { fieldName: 'name', isEditable: true, isRequired: true, colWidth: 'medium' },
         { fieldName: 'species', isEditable: true, colWidth: 'medium' },
         { fieldName: 'description', isEditable: true },
         { fieldName: 'city', isEditable: true },
@@ -288,10 +288,7 @@ class DLWorksOptions002 extends DLBaseOptions002 {
         },
         {
           label: 'Description', fieldName: 'description', isChecked: true, colWidth: 'wide',
-          transformer: (v) => {
-            console.log(JSON.stringify(v, null, 2));
-            return typeof v === 'object' ? v.value : v;
-          },
+          transformer: (v) => typeof v === 'object' ? v.value : v,
           display: { type: 'text', rows: 3 },
         },
         { label: 'Subjects', fieldName: 'subjects', isChecked: true, colWidth: 'medium' },
