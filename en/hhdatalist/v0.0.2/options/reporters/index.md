@@ -27,13 +27,23 @@ This example shows the default values. Note that, by default, all reporters *rep
 new HHDataList({
   reporters: {
     fieldDefinitions: {
-      function: (definitions) => { console.log(JSON.stringify(definitions, null, 2)); },
+      function: (definitions) => {
+        let s = JSON.stringify(definitions, null, 2);
+        s = s.replace(/"([^"]+)":/g, '$1:');
+        s = s.replace(/"/g, "'");
+        console.log(s);
+      },
       hasTool: true,
       showTool: false,
       toolLabel: 'Fields Reporter'
     },
     queryParams: {
-      function: (params) => { console.log(JSON.stringify(params, null, 2)); },
+      function: (params) => {
+        let s = JSON.stringify(params, null, 2);
+        s = s.replace(/"([^"]+)":/g, '$1:');
+        s = s.replace(/"/g, "'");
+        console.log(s);
+      },
       hasTool: true,
       showTool: false,
       toolLabel: 'Query Reporter'
@@ -97,7 +107,12 @@ When a user clicks the *Fields Reporter* button, HHDataList calls this function,
 new HHDataList({
   reporters: {
     fieldDefinitions: {
-      function: (definitions) => { console.log(JSON.stringify(definitions, null, 2)); }
+      function: (definitions) => {
+        let s = JSON.stringify(definitions, null, 2);
+        s = s.replace(/"([^"]+)":/g, '$1:');
+        s = s.replace(/"/g, "'");
+        console.log(s);
+      },
     }
   },
 });
@@ -108,39 +123,34 @@ Below is example output:
 ``` js nonum
 [
   {
-    "label": "id",
-    "fieldNames": ["id"],
-    "isChecked": false,
-    "isCheckedDefault": false,
-    "isEditable": false,
-    "isRequired": false,
-    "colWidth": null,
-    "contentMode": null,
-    "display": { "type": "normal" }
+    label: 'ID',
+    fieldNames: ['id'],
+    isChecked: false,
+    isCheckedDefault: false,
+    isEditable: false,
+    colWidth: null,
+    contentMode: null,
+    display: { type: 'normal' }
   },
   {
-    "label": "name",
-    "fieldNames": ["name"],
-    "isChecked": true,
-    "isCheckedDefault": true,
-    "isEditable": true,
-    "isRequired": true,
-    "colWidth": "medium",
-    "contentMode": null,
-    "display": { "type": "normal" },
-    "popValue": "Koiwai Farm Ipponzakura"
+    label: 'Name',
+    fieldNames: ['name'],
+    isChecked: true,
+    isCheckedDefault: true,
+    isEditable: false,
+    colWidth: null,
+    contentMode: null,
+    display: { type: 'normal' }
   },
   {
-    "label": "species",
-    "fieldNames": ["species"],
-    "isChecked": true,
-    "isCheckedDefault": true,
-    "isEditable": true,
-    "isRequired": false,
-    "colWidth": "medium",
-    "contentMode": null,
-    "display": { "type": "normal" },
-    "popValue": "{\"link\":\"https://en.wikipedia.org/wiki/Prunus_serrulata\",\"text\":\"Prunus serrulata\"}"
+    label: 'Species',
+    fieldNames: ['species'],
+    isChecked: true,
+    isCheckedDefault: true,
+    isEditable: false,
+    colWidth: null,
+    contentMode: null,
+    display: { type: 'link' }
   }
 ]
 ```
@@ -153,7 +163,12 @@ When a user clicks the *Query Reporter* button, HHDataList calls this function, 
 new HHDataList({
   reporters: {
     queryParams: {
-      function: (params) => { console.log(JSON.stringify(params, null, 2)); }
+      function: (params) => {
+        let s = JSON.stringify(params, null, 2);
+        s = s.replace(/"([^"]+)":/g, '$1:');
+        s = s.replace(/"/g, "'");
+        console.log(s);
+      },
     }
   },
 });
@@ -163,37 +178,37 @@ Below is example output:
 
 ``` js nonum
 {
-  "fields": {
-    "name": "fields",
-    "default": null,
-    "value": "id,name"
+  fields: {
+    name: 'fields',
+    default: null,
+    value: 'id,name'
   },
-  "filter": {
-    "name": "filter",
-    "none": null,
-    "default": null,
-    "value": null,
-    "placeholder": "name like \"%tree%\" and country like \"AUS\""
+  filter: {
+    name: 'filter',
+    none: null,
+    default: null,
+    value: null,
+    placeholder: 'name like \'%tree%\' and country like \'AUS\''
   },
-  "order": {
-    "name": "order",
-    "default": "name asc",
-    "value": "name asc",
-    "placeholder": ""
+  order: {
+    name: 'order',
+    default: 'name asc',
+    value: 'name asc',
+    placeholder: ''
   },
-  "page": {
-    "name": "page",
-    "value": 1
+  page: {
+    name: 'page',
+    value: 1
   },
-  "limit": {
-    "name": "limit",
-    "choices": [1,3,5,10,20,50,100],
-    "default": 3,
-    "value": 3,
-    "hasTool": true,
-    "showTool": false,
-    "toolLabel": "Limit",
-    "toolClass": "hh-limit-tool"
+  limit: {
+    name: 'limit',
+    choices: [ 1, 3, 5, 10, 20, 50, 100 ],
+    default: 3,
+    value: 3,
+    hasTool: true,
+    showTool: true,
+    toolLabel: 'Limit',
+    toolClass: 'hh-limit-tool'
   }
 }
 ```

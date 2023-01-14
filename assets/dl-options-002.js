@@ -27,7 +27,7 @@ class DLBaseOptions002 {
     this.number = {};
     this.parity = { get: { value: false }, post: { value: false } };
     this.processMode = {};
-    this.queryParams = { fields: {}, filter: {}, order: {}, page: {}, limit: { default: 3, showTool: true } };
+    this.queryParams = { fields: {}, filter: {}, order: {}, limit: { default: 3, showTool: true } };
     this.recordIdField = 'id';
     this.reporters = { fieldDefinitions: {}, queryParams: {}, requests: {}, theme: {}, themes: {} };
     this.responseHelper = {};
@@ -45,12 +45,79 @@ class DLAuthorsOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
     this.descriptions.home = 'View authors from the <a href="https://openlibrary.org/developers">Open Library API</a>.';
+    this.fieldDefinitions = {
+      manage: [
+        { fieldName: "key", isChecked: false, colWidth: 'medium' },
+        { fieldName: "type", isChecked: false, colWidth: 'medium' },
+        { fieldName: "name", colWidth: 'medium' },
+        { fieldName: "alternate_names", colWidth: 'medium' },
+        { fieldName: "personal_name", isChecked: false, colWidth: 'medium' },
+        { fieldName: "title", isChecked: false, colWidth: 'medium' },
+        { fieldName: "birth_date", colWidth: 'medium' },
+        { fieldName: "death_date", colWidth: 'medium' },
+        { fieldName: "bio", colWidth: 'wide' },
+        { fieldName: "wikipedia", colWidth: 'medium' },
+        { fieldName: "photos", colWidth: 'medium' },
+        { fieldName: "source_records", colWidth: 'medium' },
+        { fieldName: "remote_ids", colWidth: 'medium' },
+        { fieldName: "photograph", isChecked: false },
+        { fieldName: "revision", isChecked: false },
+        { fieldName: "created", isChecked: false },
+        { fieldName: "last_modified", isChecked: false }
+      ],
+      transform: [
+        { label: 'Key', fieldName: "key", isChecked: false, colWidth: 'medium' },
+        { label: 'Type', fieldName: "type", isChecked: false, colWidth: 'medium', transformer: (v) => v.key },
+        { label: 'Name', fieldName: "name", colWidth: 'medium' },
+        { label: 'Alternate Names', fieldName: "alternate_names", colWidth: 'medium' },
+        { label: 'Personal Name', fieldName: "personal_name", isChecked: false, colWidth: 'medium' },
+        { label: 'Title/Status', fieldName: "title", isChecked: false, colWidth: 'medium' },
+        {
+          label: 'Birth Date', fieldName: "birth_date", colWidth: 'medium',
+          transformer: (v) => new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+        },
+        {
+          label: 'Death Date', fieldName: "death_date", colWidth: 'medium',
+          transformer: (v) => new Date(v).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+        },
+        {
+          label: 'Biography', fieldName: "bio", colWidth: 'wide',
+          transformer: (v) => typeof v === 'object' ? v.value : v,
+          display: { type: 'text' }
+        },
+        {
+          label: 'Wikipedia', fieldName: "wikipedia", colWidth: 'medium',
+          transformer: (v) => ({ url: v, title: 'Wikipedia' }),
+          display: { type: 'link' }
+        },
+        { label: 'Photos', fieldName: "photos", colWidth: 'medium' },
+        { label: 'Source Records', fieldName: "source_records", colWidth: 'medium' },
+        {
+          label: 'Remote IDs', fieldName: "remote_ids", colWidth: 'medium',
+          transformer: (v) => {
+            const a = [];
+            for (const property in v) { a.push(`${property}:${v[property]}`); }
+            return a;
+          }
+        },
+        { label: 'Photograph', fieldName: "photograph", isChecked: false },
+        { label: 'Revision', fieldName: "revision", isChecked: false },
+        {
+          label: 'Created', fieldName: "created", isChecked: false,
+          transformer: (v) => new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+        },
+        {
+          label: 'Last Modified', fieldName: "last_modified", isChecked: false,
+          transformer: (v) => new Date(v.value).toLocaleDateString(window.navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })
+        }
+      ]
+    };
     this.queryParams.fields.default = '*';
     this.queryParams.filter.name = 'q';
     this.queryParams.filter.none = '*';
-    this.queryParams.filter.default = 'john';
+    this.queryParams.filter.default = 'walt whitman';
     this.queryParams.order.name = 'sort';
-    this.queryParams.page.name = 'offset';
+    this.queryParams.offset = {};
     this.recordIdField = 'key';
     this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
@@ -135,6 +202,7 @@ class DLPlayersOptions002 extends DLBaseOptions002 {
     this.queryParams.filter.placeholder = 'birthyear is not null and namefirst like "John"';
     this.queryParams.order.default = 'birthyear desc';
     this.queryParams.order.placeholder = 'birthyear desc, namefirst asc';
+    this.queryParams.page = {};
     this.recordIdField = 'playerID';
     this.recordTitle = {
       fields: ['nameFirst', 'nameLast', 'birthYear'],
@@ -160,12 +228,11 @@ class DLSubjectsOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
     this.descriptions.home = 'View subjects from the <a href="https://openlibrary.org/developers">Open Library API</a>.';
-    this.queryParams.fields.default = '*';
     this.queryParams.filter.name = 'q';
     this.queryParams.filter.none = '*';
     this.queryParams.filter.default = 'women';
     this.queryParams.order.name = 'sort';
-    this.queryParams.page.name = 'offset';
+    this.queryParams.offset = {};
     this.recordIdField = 'key';
     this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
@@ -252,6 +319,7 @@ class DLTeamsOptions002 extends DLBaseOptions002 {
     };
     this.parity.get.value = true;
     this.parity.post.value = true;
+    this.queryParams.page = {};
     this.recordIdField = 'ID';
     this.recordTitle = {
       fields: ['name', 'yearID'],
@@ -347,6 +415,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
     this.populate = (fieldName) => this.popValues.get(fieldName);
     this.queryParams.filter.placeholder = 'name like "%tree%" and country like "AUS"';
     this.queryParams.order.default = 'name asc';
+    this.queryParams.page = {};
     this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
     this.responseHelper = {
       record: (res) => res.data,
@@ -414,12 +483,11 @@ class DLWorksOptions002 extends DLBaseOptions002 {
         }
       ]
     };
-    this.queryParams.fields.default = '*';
     this.queryParams.filter.name = 'q';
     this.queryParams.filter.none = '*';
     this.queryParams.filter.default = 'snow original';
     this.queryParams.order.name = 'sort';
-    this.queryParams.page.name = 'page';
+    this.queryParams.page = {};
     this.recordIdField = 'key';
     this.recordTitle = { fields: ['title'], format: (f, r) => r[f[0]] };
     this.responseHelper = {

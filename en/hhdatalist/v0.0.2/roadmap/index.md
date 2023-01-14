@@ -1,4 +1,4 @@
-# Issues
+# Roadmap
 
 1. Limited i18n support.
 1. No support yet for PUT. Does support PATCH.
