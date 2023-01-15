@@ -115,7 +115,7 @@ class DLAuthorsOptions002 extends DLBaseOptions002 {
     this.queryParams.fields.default = '*';
     this.queryParams.filter.name = 'q';
     this.queryParams.filter.none = '*';
-    this.queryParams.filter.default = 'walt whitman';
+    this.queryParams.filter.default = 'rebecca';
     this.queryParams.order.name = 'sort';
     this.queryParams.offset = {};
     this.recordIdField = 'key';
