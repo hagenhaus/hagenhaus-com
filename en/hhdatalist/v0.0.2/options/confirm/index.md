@@ -6,13 +6,13 @@ The `confirm` option specifies a function that, before deleting records or aband
 
 # Example
 
-HHDataList passes four action-specific arguments to the `confirm` function: `title`, `body`, `yesLabel`, and `yesCb`.
+HHDataList passes four action-specific arguments to the `confirm` function: `title`, `detail`, `yesLabel`, and `yesCb`.
 
 ``` js nonum
 // developer-defined
-const confirm = (title, body, yesLabel, yesCb) => {
+const confirm = (title, detail, yesLabel, yesCb) => {
   modalEl.querySelector('h5.modal-title').textContent = title;
-  modalEl.querySelector('div.modal-body').textContent = body;
+  modalEl.querySelector('div.modal-body').textContent = detail;
   modalEl.querySelector('button.yes').innerHTML = yesLabel;
   modalYesCb = yesCb;
   modal.show();
@@ -28,7 +28,7 @@ For example, before deleting a record for a baseball player named *Casey Jones*,
 |Parameter|Argument|
 |-|-|
 |*title*|"Delete Record?"|
-|*body*|"Casey Jones (b. 1863)"|
+|*detail*|"Casey Jones (b. 1863)"|
 |*yesLabel*|"Delete"|
 |*yesCb*|HHDataList internal `DELETE` function|
 

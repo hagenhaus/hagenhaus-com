@@ -47,7 +47,7 @@
 </html>
 ```
 
-# Deploy a datalist
+# Deploy a starter datalist
 
 This section shows you how to begin the configuration of a datalist using the [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/) options.
 
@@ -116,8 +116,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  queryParams: {
+    limit: { name: 'limit', default: 3, showTool: true }
+  },
 });
 ```
 
@@ -152,8 +153,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  expand: { showTool: true },
+  queryParams: {
+    page: { name: 'page' },
+  },
 });
 ```
 
@@ -167,10 +170,46 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     constructor(id) {
       super(id);
       this.expand = { showTool: true };
-      this.queryParams.page = {};
+      this.queryParams.page = { name: 'page' };
     }
   };
   new HHDataList(new PageOptions('page-datalist'));
+</script>
+
+### Things to try
+
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+
+# Enable parity
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Code
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+``` js nonum
+new HHDataList({
+  ...
+  ...
+});
+```
+
+### Example
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="parity-datalist" class="hh-data-list my-3"></div>
+<script>
+  var ParityOptions = class extends PageOptions {
+    constructor(id) {
+      super(id);
+      this.parity = { get: { value: true } };
+    }
+  };
+  new HHDataList(new ParityOptions('parity-datalist'));
 </script>
 
 ### Things to try
@@ -207,7 +246,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 <div id="theme-datalist" class="hh-data-list my-3"></div>
 <script>
-  var ThemeOptions = class extends PageOptions {
+  var ThemeOptions = class extends ParityOptions {
     constructor(id) {
       super(id);
       this.themeDefinition = { name: 'firebrick' };
@@ -232,8 +271,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  colWidths: { records: { value: 'medium' } },
 });
 ```
 
@@ -268,8 +306,22 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  fieldDefinitions: {
+    manage: [
+      { fieldName: 'id', isChecked: false },
+      { fieldName: 'name', isEditable: true, isRequired: true },
+      { fieldName: 'species', isEditable: true },
+      { fieldName: 'description', isEditable: true },
+      { fieldName: 'city', isEditable: true },
+      { fieldName: 'country', isEditable: true },
+      { fieldName: 'lat', isEditable: true },
+      { fieldName: 'lng', isEditable: true },
+      { fieldName: 'birthYear', isEditable: true, colWidth: 'narrow' },
+      { fieldName: 'height', isEditable: true, colWidth: 'narrow' },
+      { fieldName: 'girth', isEditable: true, isChecked: false },
+      { fieldName: 'links', isEditable: true }
+    ]
+  },
 });
 ```
 
@@ -318,9 +370,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ``` js nonum
+const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
+ 
 new HHDataList({
-  ...
-  ...
+  confirm: myConfirm,
 });
 ```
 
@@ -328,13 +381,24 @@ new HHDataList({
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
+<div id="confirm-datalist" class="hh-data-list my-3"></div>
+<script>
+  var ConfirmOptions = class extends ManageOptions {
+    constructor(id) {
+      super(id);
+      this.confirm = confirm;
+    }
+  };
+  new HHDataList(new ConfirmOptions('confirm-datalist'));
+</script>
+
 ### Things to try
 
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 
-# Add info and error functions
+# Add an error function
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -343,15 +407,68 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ``` js nonum
+const myReportError = (error) => {
+  alert('response' in error && 'statusText' in error.response && error.response.statusText
+    ? error.response.statusText
+    : 'Unknown Error');
+};
+ 
 new HHDataList({
-  ...
-  ...
+  error: myReportError,
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="error-datalist" class="hh-data-list my-3"></div>
+<script>
+  var ErrorOptions = class extends ConfirmOptions {
+    constructor(id) {
+      super(id);
+      this.error = reportError;
+    }
+  };
+  new HHDataList(new ErrorOptions('error-datalist'));
+</script>
+
+### Things to try
+
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+
+# Add an info function
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Code
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+``` js nonum
+const myReportInfo = (title, detail) => { alert(detail); };
+ 
+new HHDataList({
+  info: myReportInfo,
+});
+```
+
+### Example
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="info-datalist" class="hh-data-list my-3"></div>
+<script>
+  var InfoOptions = class extends ErrorOptions {
+    constructor(id) {
+      super(id);
+      this.info = reportInfo;
+    }
+  };
+  new HHDataList(new InfoOptions('info-datalist'));
+</script>
 
 ### Things to try
 
@@ -368,15 +485,50 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ``` js nonum
+const popValues = new Map()
+  .set('name', 'Koiwai Farm Ipponzakura')
+  .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
+  .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
+  .set('city', 'Morioka')
+  .set('country', 'JPN')
+  .set('lat', '39.7560461061616')
+  .set('lng', '141.004011260734')
+  .set('birthYear', '1922')
+  .set('height', '0')
+  .set('girth', '0')
+  .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+ 
 new HHDataList({
-  ...
-  ...
+  populate: (fieldName) => popValues.get(fieldName),
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="populate-datalist" class="hh-data-list my-3"></div>
+<script>
+  var PopulateOptions = class extends InfoOptions {
+    constructor(id) {
+      super(id);
+      this.populate = (fieldName) => this.popValues.get(fieldName);
+    }
+    popValues = new Map()
+      .set('name', 'Koiwai Farm Ipponzakura')
+      .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
+      .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
+      .set('city', 'Morioka')
+      .set('country', 'JPN')
+      .set('lat', '39.7560461061616')
+      .set('lng', '141.004011260734')
+      .set('birthYear', '1922')
+      .set('height', '0')
+      .set('girth', '0')
+      .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+  };
+  new HHDataList(new PopulateOptions('populate-datalist'));
+</script>
 
 ### Things to try
 
@@ -394,14 +546,26 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  queryParams: {
+    fields: { name: 'fields' },
+  },
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="fields-datalist" class="hh-data-list my-3"></div>
+<script>
+  var FieldsOptions = class extends PopulateOptions {
+    constructor(id) {
+      super(id);
+      this.queryParams.fields = { name: 'fields' };
+    }
+  };
+  new HHDataList(new FieldsOptions('fields-datalist'));
+</script>
 
 ### Things to try
 
@@ -419,14 +583,26 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  queryParams: {
+    filter: { name: 'filter', placeholder: 'country like "AUS"' },
+  },
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="filter-datalist" class="hh-data-list my-3"></div>
+<script>
+  var FilterOptions = class extends FieldsOptions {
+    constructor(id) {
+      super(id);
+      this.queryParams.filter = { name: 'filter', placeholder: 'country like "AUS"' };
+    }
+  };
+  new HHDataList(new FilterOptions('filter-datalist'));
+</script>
 
 ### Things to try
 
@@ -444,8 +620,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  queryParams: {
+    order: { name: 'order', default: 'name asc' },
+  },
 });
 ```
 
@@ -453,30 +630,16 @@ new HHDataList({
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
-# Enable parity
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-### Code
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-``` js nonum
-new HHDataList({
-  ...
-  ...
-});
-```
-
-### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+<div id="order-datalist" class="hh-data-list my-3"></div>
+<script>
+  var OrderOptions = class extends FilterOptions {
+    constructor(id) {
+      super(id);
+      this.queryParams.order = { name: 'order', default: 'name asc' };
+    }
+  };
+  new HHDataList(new OrderOptions('order-datalist'));
+</script>
 
 ### Things to try
 
@@ -494,14 +657,38 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  descriptions: {
+    home: 'This component accesses a small dataset of famous tree records.',
+    search: 'Search and order syntax is API-specific.',
+    fields: 'Checked fields appear in records.',
+    tools: 'Checked tools appear on the toolbar.',
+    new: 'The New Record form consists of managed fields.',
+    value: true
+  },
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="descriptions-datalist" class="hh-data-list my-3"></div>
+<script>
+  var DescriptionsOptions = class extends OrderOptions {
+    constructor(id) {
+      super(id);
+      this.descriptions = {
+        home: 'This component accesses a small dataset of famous tree records.',
+        search: 'Search and order syntax is API-specific.',
+        fields: 'Checked fields appear in records.',
+        tools: 'Checked tools appear on the toolbar.',
+        new: 'The New Record form consists of managed fields.',
+        value: true
+      };
+    }
+  };
+  new HHDataList(new DescriptionsOptions('descriptions-datalist'));
+</script>
 
 ### Things to try
 
@@ -519,14 +706,110 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  fieldDefinitions: {
+    transform: [
+      { label: 'ID', fieldName: 'id', isChecked: false },
+      { label: 'Name', fieldName: 'name' },
+      {
+        label: 'Species', fieldName: 'species',
+        transformer: (v) => ({ url: v.link, title: v.text }),
+        display: { type: 'link' }
+      },
+      {
+        label: 'Description', fieldName: 'description', colWidth: 'wide',
+        display: { type: 'text', rows: 3 }
+      },
+      { label: 'Nearby City', fieldName: 'city' },
+      {
+        label: 'Country', fieldName: 'country',
+        transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+      },
+      {
+        label: 'Coordinates', fieldNames: ['lat', 'lng'],
+        transformer: (lat, lng) => ({
+          url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+          title: `${lat}, ${lng}`
+        }),
+        display: { type: 'link' }
+      },
+      {
+        label: 'Age (years)', fieldName: 'birthYear',
+        transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
+      },
+      {
+        label: 'Height (meters)', fieldName: 'height',
+        transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+      },
+      {
+        label: 'Links', fieldName: 'links',
+        transformer: (v) => {
+          const a = [];
+          for (let i of v) { a.push({ url: i.link, title: i.text }); }
+          return a;
+        },
+        display: { type: 'link' }
+      }
+    ]
+  },
 });
 ```
 
 ### Example
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="transform-datalist" class="hh-data-list my-3"></div>
+<script>
+  var TransformOptions = class extends DescriptionsOptions {
+    constructor(id) {
+      super(id);
+      this.fieldDefinitions.transform = [
+        { label: 'ID', fieldName: 'id', isChecked: false },
+        { label: 'Name', fieldName: 'name' },
+        {
+          label: 'Species', fieldName: 'species',
+          transformer: (v) => ({ url: v.link, title: v.text }),
+          display: { type: 'link' }
+        },
+        {
+          label: 'Description', fieldName: 'description', colWidth: 'wide',
+          display: { type: 'text', rows: 3 }
+        },
+        { label: 'Nearby City', fieldName: 'city' },
+        {
+          label: 'Country', fieldName: 'country',
+          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
+        },
+        {
+          label: 'Coordinates', fieldNames: ['lat', 'lng'],
+          transformer: (lat, lng) => ({
+            url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+            title: `${lat}, ${lng}`
+          }),
+          display: { type: 'link' }
+        },
+        {
+          label: 'Age (years)', fieldName: 'birthYear',
+          transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
+        },
+        {
+          label: 'Height (meters)', fieldName: 'height',
+          transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+        },
+        {
+          label: 'Links', fieldName: 'links',
+          transformer: (v) => {
+            const a = [];
+            for (let i of v) { a.push({ url: i.link, title: i.text }); }
+            return a;
+          },
+          display: { type: 'link' }
+        }
+      ];
+    }
+  };
+  new HHDataList(new TransformOptions('transform-datalist'));
+</script>
 
 ### Things to try
 
@@ -543,9 +826,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ``` js nonum
+const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
+ 
 new HHDataList({
-  ...
-  ...
+  auths: {
+    deleteRecord: myGetToken,
+    patchRecord: myGetToken,
+    postRecord: myGetToken
+  },
 });
 ```
 
@@ -553,8 +841,206 @@ new HHDataList({
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
+<div id="auths-datalist" class="hh-data-list my-3"></div>
+<script>
+  var AuthsOptions = class extends TransformOptions {
+    constructor(id) {
+      super(id);
+      this.auths = {
+        deleteRecord: window.getBearerToken,
+        patchRecord: window.getBearerToken,
+        postRecord: window.getBearerToken
+      };
+    }
+  };
+  new HHDataList(new AuthsOptions('auths-datalist'));
+</script>
+
 ### Things to try
 
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+
+# Override create, update, delete
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Code
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+``` js nonum
+new HHDataList({
+  methods: {
+    deleteRecord: () => { myReportInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+    patchRecord: () => { myReportInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+    postRecord: () => { myReportInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+  },
+});
+```
+
+### Example
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<div id="methods-datalist" class="hh-data-list my-3"></div>
+<script>
+  var MethodsOptions = class extends AuthsOptions {
+    constructor(id) {
+      super(id);
+      this.methods = {
+        deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+        patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+        postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
+      };
+    }
+  };
+  new HHDataList(new MethodsOptions('methods-datalist'));
+</script>
+
+### Things to try
+
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+
+# Final Code
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+``` js nonum
+HHDataList002.addAllStandardThemes();
+ 
+const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
+ 
+const myReportInfo = (title, detail) => { alert(detail); };
+ 
+const myReportError = (error) => {
+  alert('response' in error && 'statusText' in error.response && error.response.statusText
+    ? error.response.statusText
+    : 'Unknown Error');
+};
+ 
+const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
+ 
+const popValues = new Map()
+  .set('name', 'Koiwai Farm Ipponzakura')
+  .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
+  .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
+  .set('city', 'Morioka')
+  .set('country', 'JPN')
+  .set('lat', '39.7560461061616')
+  .set('lng', '141.004011260734')
+  .set('birthYear', '1922')
+  .set('height', '0')
+  .set('girth', '0')
+  .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+ 
+new HHDataList({
+  auths: {
+    deleteRecord: myGetToken,
+    patchRecord: myGetToken,
+    postRecord: myGetToken
+  },
+  colWidths: { records: { value: 'medium' } },
+  confirm: myConfirm,
+  descriptions: {
+    home: 'This component accesses a small dataset of famous tree records.',
+    search: 'Search and order syntax is API-specific.',
+    fields: 'Checked fields appear in records.',
+    tools: 'Checked tools appear on the toolbar.',
+    new: 'The New Record form consists of managed fields.',
+    value: true
+  },
+  error: myReportError,
+  expand: { showTool: true },
+  fieldDefinitions: {
+    manage: [
+      { fieldName: 'id', isChecked: false },
+      { fieldName: 'name', isEditable: true, isRequired: true },
+      { fieldName: 'species', isEditable: true },
+      { fieldName: 'description', isEditable: true },
+      { fieldName: 'city', isEditable: true },
+      { fieldName: 'country', isEditable: true },
+      { fieldName: 'lat', isEditable: true },
+      { fieldName: 'lng', isEditable: true },
+      { fieldName: 'birthYear', isEditable: true, colWidth: 'narrow' },
+      { fieldName: 'height', isEditable: true, colWidth: 'narrow' },
+      { fieldName: 'girth', isEditable: true, isChecked: false },
+      { fieldName: 'links', isEditable: true }
+    ],
+    transform: [
+      { label: 'ID', fieldName: 'id', isChecked: false },
+      { label: 'Name', fieldName: 'name' },
+      {
+        label: 'Species', fieldName: 'species',
+        transformer: (v) => ({ url: v.link, title: v.text }),
+        display: { type: 'link' }
+      },
+      {
+        label: 'Description', fieldName: 'description', colWidth: 'wide',
+        display: { type: 'text', rows: 3 }
+      },
+      { label: 'Nearby City', fieldName: 'city' },
+      {
+        label: 'Country', fieldName: 'country',
+        transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+      },
+      {
+        label: 'Coordinates', fieldNames: ['lat', 'lng'],
+        transformer: (lat, lng) => ({
+          url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+          title: `${lat}, ${lng}`
+        }),
+        display: { type: 'link' }
+      },
+      {
+        label: 'Age (years)', fieldName: 'birthYear',
+        transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
+      },
+      {
+        label: 'Height (meters)', fieldName: 'height',
+        transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+      },
+      {
+        label: 'Links', fieldName: 'links',
+        transformer: (v) => {
+          const a = [];
+          for (let i of v) { a.push({ url: i.link, title: i.text }); }
+          return a;
+        },
+        display: { type: 'link' }
+      }
+    ]
+  },
+  id: 'my-datalist',
+  info: myReportInfo,
+  methods: {
+    deleteRecord: () => { myReportInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+    patchRecord: () => { myReportInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+    postRecord: () => { myReportInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+  },
+  parity: { get: { value: true } },
+  populate: (fieldName) => popValues.get(fieldName),
+  queryParams: {
+    fields: { name: 'fields' },
+    filter: { name: 'filter', placeholder: 'country like "AUS"' },
+    order: { name: 'order', default: 'name asc' },
+    page: { name: 'page' },
+    limit: { name: 'limit', default: 3, showTool: true }
+  },
+  recordIdField: 'id',
+  recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
+  responseHelper: {
+    record: (res) => res.data,
+    records: (res) => res.data.records,
+    numPages: (res, limit) => res.data.metadata.numTotalPages,
+    numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+    numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+    numTotalRecords: (res) => res.data.metadata.numTotalRecords
+  },
+  themeDefinition: { name: 'dodger blue' },
+  url: 'http://localhost:8081/api/famous/v1/trees'
+});
+```

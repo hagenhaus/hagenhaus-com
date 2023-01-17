@@ -687,9 +687,9 @@ modalEl.querySelector('button.yes').addEventListener('click', (event) => {
   modalYesCb = modalDefaultYesCb;
 });
 
-window.confirm = (title, body, yesLabel, yesCb) => {
+window.confirm = (title, detail, yesLabel, yesCb) => {
   modalEl.querySelector('h5.modal-title').textContent = title;
-  modalEl.querySelector('div.modal-body').textContent = body;
+  modalEl.querySelector('div.modal-body').textContent = detail;
   modalEl.querySelector('button.yes').innerHTML = yesLabel;
   modalYesCb = yesCb;
   modal.show();
