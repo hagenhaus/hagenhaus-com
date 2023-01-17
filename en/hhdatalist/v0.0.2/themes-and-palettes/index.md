@@ -223,7 +223,7 @@ To apply a standard theme to an HHDataList instance, complete these steps:
     Here is an example:
 
     ``` js nonum
-    HHDataList002.addStandardTheme('firebrick');
+    HHDataList.addStandardTheme('firebrick');
     ```
 
 1. Specify the theme name in the `themeDefinition` option:
