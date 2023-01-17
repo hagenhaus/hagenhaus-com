@@ -14,6 +14,7 @@ class DLBaseOptions002 {
       new: 'The New Record form consists of managed fields.',
       value: true
     };
+    this.displayLimit = 20;
     this.error = reportError;
     this.expand = { showTool: true };
     this.fieldDefinitions = {};

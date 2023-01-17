@@ -39,8 +39,12 @@ main {
   margin-bottom: 16px;
 }
 
+#page-col div.hh-viewer h3 {
+  margin-top: 20px;
+  margin-bottom: 16px;
+}
+
 #page-col div.hh-viewer p,
-#page-col div.hh-viewer h3,
 #page-col div.hh-viewer h4,
 #page-col div.hh-viewer h6,
 #page-col div.hh-viewer table {
@@ -360,10 +364,12 @@ i.fas:hover {
 }
 
 #page-col div.hh-viewer h3 {
-  color: #ff6680;
-  font-weight: 400;
+  color: #b37400;
+  font-weight: bold;
   font-style: normal;
-  font-size: 16px;
+  font-size: 15px;
+  /* text-decoration: underline; */
+  text-transform: uppercase;
 }
 
 #page-col div.hh-viewer h4 {
