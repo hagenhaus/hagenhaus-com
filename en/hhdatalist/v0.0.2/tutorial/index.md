@@ -94,7 +94,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
         numTotalRecords: (res) => res.data.metadata.numTotalRecords
       };
-      this.url = 'http://localhost:8081/api/famous/v1/trees';
+      this.url = 'https://hagenhaus.com:3002/api/famous/v1/trees';
     }
   };
   new HHDataList(new DeployOptions('deploy-datalist'));
@@ -722,7 +722,7 @@ new HHDataList({
       { label: 'Nearby City', fieldName: 'city' },
       {
         label: 'Country', fieldName: 'country',
-        transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+        transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${v}`)).data.name
       },
       {
         label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -985,7 +985,7 @@ new HHDataList({
       { label: 'Nearby City', fieldName: 'city' },
       {
         label: 'Country', fieldName: 'country',
-        transformer: async (v) => (await HHDataList.get(`http://localhost:8081/api/devportals/v1/countries/${v}`)).data.name
+        transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${v}`)).data.name
       },
       {
         label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -1041,6 +1041,6 @@ new HHDataList({
     numTotalRecords: (res) => res.data.metadata.numTotalRecords
   },
   themeDefinition: { name: 'dodger blue' },
-  url: 'http://localhost:8081/api/famous/v1/trees'
+  url: 'https://hagenhaus.com:3002/api/famous/v1/trees'
 });
 ```
