@@ -6,7 +6,7 @@ menuItem: mi-hhdatalist
 
 # HHDataList
 
-<b>HHDataList</b> is a UI component that enables websites to interact with REST APIs. This page examines the [User Interface](#user-interface). The [Tutorial](/en/hhdatalist/v0.0.2/tutorial/) shows how to use [Options](/en/hhdatalist/v0.0.2/options/) to configure datalists. The [Gallery](/en/hhdatalist/v0.0.2/gallery/) provides examples. HHDataList v0.0.2 is a POC. See the [Roadmap](/en/hhdatalist/v0.0.2/roadmap/) for scheduled fixes and enhancement.
+Welcome! HHDataList is a UI component that enables websites to interact with REST APIs. This page examines the [User Interface](#user-interface). The [Tutorial](/en/hhdatalist/v0.0.2/tutorial/) shows how to use [Options](/en/hhdatalist/v0.0.2/options/) to configure datalists. The [Gallery](/en/hhdatalist/v0.0.2/gallery/) provides examples. The [Roadmap](/en/hhdatalist/v0.0.2/roadmap/) lists enhancement and fixes.
 
 # User Interface
 

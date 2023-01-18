@@ -1,9 +1,82 @@
 # Tutorial
 
+This tutorial helps you add an HHDataList component to an HTML file, point it at the *Famous Trees API*, and configure it with [Options](/en/hhdatalist/v0.0.2/options/).
+
 # Review the Trees API
 
-1. Returns a maximum of 10 records by default.
-1. Supports parity.
+The [Famous Trees API](/en/hhdatalist/v0.0.2/openapi/) provides access to a small number of records representing famous individual international trees. Each record contains fields representing a variety of data types including strings, numbers, objects, and arrays. The API supports `GET`, `POST`, `PATCH`, and `DELETE` methods, the last three requiring `Bearer` authentication. Here are two endpoints:
+
+``` nonum
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees">https://hagenhaus.com:3002/api/famous/v1/trees</a>
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees/1">https://hagenhaus.com:3002/api/famous/v1/trees/1</a>
+```
+
+The `getRecords` operation supports `fields`, `filter`, `order`, `page`, and `limit` query parameters:
+
+``` nonum
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname">https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname</a>
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees?filter=country%20like%20%22AUS%22">https://hagenhaus.com:3002/api/famous/v1/trees?filter=country%20like%20%22AUS%22</a>
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees?order=name%20asc">https://hagenhaus.com:3002/api/famous/v1/trees?order=name%20asc</a>
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees?page=1&limit=3">https://hagenhaus.com:3002/api/famous/v1/trees?page=1&limit=3</a>
+```
+
+A `getRecords` response resembles the following:
+
+``` nonum
+{
+  "metadata": {
+    "numTotalRecords": 10,
+    "numFilteredRecords": 8,
+    "numResponseRecords": 3,
+    "page": 1,
+    "limit": 3,
+    "numTotalPages": 4,
+    "firstItemOnPage": 1
+  },
+  "records": [
+    { "id": 1, ... },
+    { "id": 2, ... },
+    { "id": 3, ... }
+  ]
+}
+```
+
+The `getRecord` operation supports the `fields` query parameters:
+
+``` nonum
+<a href="https://hagenhaus.com:3002/api/famous/v1/trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid">https://hagenhaus.com:3002/api/famous/v1/trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid</a>
+```
+
+A `getRecord` response resembles the following:
+
+``` nonum
+{
+  "id": 1,
+  "birthYear": 1582,
+  "city": "Bahrain",
+  "country": "BHR",
+  "description": "The Tree of Life (Shajarat-al-Hayat) in Bahrain is a 9.75 meters (32 feet) high Prosopis cineraria tree that is over 400 years old. It is on a hill in a barren area of the Arabian Desert, 2 kilometers (1.2 miles) from Jebel Dukhan, the highest point in Bahrain, and 40 kilometers from Manama.",
+  "girth": 0,
+  "height": 32,
+  "lat": "25.9940730",
+  "links": [
+    {
+      "link": "https://en.wikipedia.org/wiki/Tree_of_Life_(Bahrain)",
+      "text": "Wikipedia"
+    },
+    {
+      "link": "https://www.atlasobscura.com/places/tree-of-life",
+      "text": "Atlas Obscura"
+    }
+  ],
+  "lng": "50.5832350",
+  "name": "Tree of Life",
+  "species": {
+    "link": "https://en.wikipedia.org/wiki/Prosopis_cineraria",
+    "text": "Prosopis cineraria"
+  }
+}
+```
 
 # Create a starter file
 
@@ -47,11 +120,11 @@
 </html>
 ```
 
-# Deploy a starter datalist
+# Deploy your datalist
 
-This section shows you how to begin the configuration of a datalist using the [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/) options.
+This section helps you deploy an HHDataList component configured with the following options: [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/).
 
-### Code
+### Steps
 
 This code passes an anonymous *options* object to the HHDataList constructor:
 
@@ -74,8 +147,6 @@ new HHDataList({
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="deploy-datalist" class="hh-data-list my-3"></div>
 <script>
@@ -100,17 +171,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new DeployOptions('deploy-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Limit response record count
 
-And, remove `displayLimit`. Rely on built-in display limit of 100. 
+This section helps you add the `limit` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users see only a limited number of records at one time.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -124,8 +189,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="limit-datalist" class="hh-data-list my-3"></div>
 <script>
   var LimitOptions = class extends DeployOptions {
@@ -137,17 +200,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new LimitOptions('limit-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Paginate records
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `page` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can view pages of records.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -162,8 +219,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="page-datalist" class="hh-data-list my-3"></div>
 <script>
   var PageOptions = class extends LimitOptions {
@@ -176,30 +231,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new PageOptions('page-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Enable parity
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you set the [parity](/en/hhdatalist/v0.0.2/options/parity/) option to `true` for your datalist so HHDataList scrolls expanded records more efficiently.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ``` js nonum
 new HHDataList({
-  ...
-  ...
+  parity: { get: { value: true } },
 });
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="parity-datalist" class="hh-data-list my-3"></div>
 <script>
@@ -212,17 +258,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new ParityOptions('parity-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Specify the theme
 
-This section shows you how to apply a standard theme using the [themeDefinition](/en/hhdatalist/v0.0.2/options/themedefinition/) option.
+This section helps you add the [themeDefinition](/en/hhdatalist/v0.0.2/options/themedefinition/) option to your datalist so you (and, optionally, your users) can set the component theme. HHDataList supports standard and custom themes. To learn more, see [Themes and Palettes](/en/hhdatalist/v0.0.2/themes-and-palettes/).
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -236,36 +276,28 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 HHDataList.addAllStandardThemes();
  
 new HHDataList({
-  themeDefinition: { name: 'firebrick' },
+  themeDefinition: { name: 'wheatgerm' },
 });
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="theme-datalist" class="hh-data-list my-3"></div>
 <script>
   var ThemeOptions = class extends ParityOptions {
     constructor(id) {
       super(id);
-      this.themeDefinition = { name: 'firebrick' };
+      this.themeDefinition = { name: 'wheatgerm' };
     }
   };
   new HHDataList(new ThemeOptions('theme-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Modify default field width
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `records` property of the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option to your datalist to control the default width of fields in expanded records.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -276,8 +308,6 @@ new HHDataList({
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="width-datalist" class="hh-data-list my-3"></div>
 <script>
@@ -290,17 +320,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new WidthOptions('width-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add manage field definitions
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `manage` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. HHDataList moves data from an API response to an expanded record in one of three ways: *copy*, *manage*, or *transform*. Each of these is a [processMode](/en/hhdatalist/v0.0.2/options/processmode/). The *manage* process mode requires the `manage` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option. 
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -326,8 +350,6 @@ new HHDataList({
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="manage-datalist" class="hh-data-list my-3"></div>
 <script>
@@ -355,17 +377,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new ManageOptions('manage-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add a confirm function
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/) option to your datalist so users can confirm record deletions and other actions before committing.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -379,8 +395,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="confirm-datalist" class="hh-data-list my-3"></div>
 <script>
   var ConfirmOptions = class extends ManageOptions {
@@ -392,17 +406,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new ConfirmOptions('confirm-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add an error function
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) option to your datalist so HHDataList can inform users about errors.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -420,8 +428,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="error-datalist" class="hh-data-list my-3"></div>
 <script>
   var ErrorOptions = class extends ConfirmOptions {
@@ -433,17 +439,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new ErrorOptions('error-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add an info function
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [info](/en/hhdatalist/v0.0.2/options/info/) option to your datalist so HHDataList can inform users about completed actions.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -457,8 +457,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="info-datalist" class="hh-data-list my-3"></div>
 <script>
   var InfoOptions = class extends ErrorOptions {
@@ -470,17 +468,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new InfoOptions('info-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Populate the new record form
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [populate](/en/hhdatalist/v0.0.2/options/populate/) option to your datalist so users can easily populate the *New Record* form with test data.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -505,8 +497,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="populate-datalist" class="hh-data-list my-3"></div>
 <script>
   var PopulateOptions = class extends InfoOptions {
@@ -530,17 +520,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new PopulateOptions('populate-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Specify response record fields
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `fields` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so HHDataList can request from the underlying API only required fields.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -554,8 +538,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="fields-datalist" class="hh-data-list my-3"></div>
 <script>
   var FieldsOptions = class extends PopulateOptions {
@@ -567,17 +549,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new FieldsOptions('fields-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Filter response records
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `filter` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that limits returned records.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -591,8 +567,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="filter-datalist" class="hh-data-list my-3"></div>
 <script>
   var FilterOptions = class extends FieldsOptions {
@@ -604,17 +578,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new FilterOptions('filter-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Order response records
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `order` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that orders returned records.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -628,8 +596,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="order-datalist" class="hh-data-list my-3"></div>
 <script>
   var OrderOptions = class extends FilterOptions {
@@ -641,17 +607,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new OrderOptions('order-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add tab descriptions
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [descriptions](/en/hhdatalist/v0.0.2/options/descriptions/) option to your datalist to display text at the top of any or all tabs.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -669,8 +629,6 @@ new HHDataList({
 ```
 
 ### Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 <div id="descriptions-datalist" class="hh-data-list my-3"></div>
 <script>
@@ -690,17 +648,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new DescriptionsOptions('descriptions-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add transform field definitions
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the `transform` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. HHDataList moves data from an API response to an expanded record in one of three ways: *copy*, *manage*, or *transform*. Each of these is a [processMode](/en/hhdatalist/v0.0.2/options/processmode/). The *transform* process mode requires the `transform` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option. 
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -756,8 +708,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="transform-datalist" class="hh-data-list my-3"></div>
 <script>
   var TransformOptions = class extends DescriptionsOptions {
@@ -811,17 +761,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new TransformOptions('transform-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Add authentication
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [auths](/en/hhdatalist/v0.0.2/options/auths/) option to your datalist so HHDataList can complete API operations on behalf of users.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -839,8 +783,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="auths-datalist" class="hh-data-list my-3"></div>
 <script>
   var AuthsOptions = class extends TransformOptions {
@@ -856,17 +798,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   new HHDataList(new AuthsOptions('auths-datalist'));
 </script>
 
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-
 # Override create, update, delete
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/) option to your datalist so you can tell users that certain API operations are disabled.
 
-### Code
+### Steps
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -882,8 +818,6 @@ new HHDataList({
 
 ### Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
 <div id="methods-datalist" class="hh-data-list my-3"></div>
 <script>
   var MethodsOptions = class extends AuthsOptions {
@@ -898,12 +832,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   };
   new HHDataList(new MethodsOptions('methods-datalist'));
 </script>
-
-### Things to try
-
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
 
 # Final Code
 

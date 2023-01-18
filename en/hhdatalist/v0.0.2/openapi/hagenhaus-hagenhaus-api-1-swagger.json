@@ -487,6 +487,46 @@
           }
         }
       }
+    },
+    "/famous/v1/trees" : {
+      "get" : {
+        "tags" : [ "Trees" ],
+        "description" : "This operation returns an array of famous tree objects.",
+        "operationId" : "getFamousTrees",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/Fields"
+        }, {
+          "$ref" : "#/components/parameters/Filter"
+        }, {
+          "$ref" : "#/components/parameters/Order"
+        }, {
+          "$ref" : "#/components/parameters/Page"
+        }, {
+          "$ref" : "#/components/parameters/Limit"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/famous/v1/trees/{id}" : {
+      "get" : {
+        "tags" : [ "Trees" ],
+        "description" : "This operation returns a famous tree object.",
+        "operationId" : "getFamousTree",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/IdInPath"
+        }, {
+          "$ref" : "#/components/parameters/Fields"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
     }
   },
   "components" : {

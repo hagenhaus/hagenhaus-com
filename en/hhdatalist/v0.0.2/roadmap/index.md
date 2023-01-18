@@ -7,3 +7,5 @@ The following improvements are not yet assigned to a future HHDataList version:
 1. Improve what the tools look like.
 1. Add zero-bases to page query parameter.
 1. Add OpenApi (Swagger) support for all APIs.
+1. Minimize dependencies.
+1. Improve the standard themes.
