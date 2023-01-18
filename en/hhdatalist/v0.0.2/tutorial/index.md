@@ -1,6 +1,6 @@
 # Tutorial
 
-This tutorial helps you add an HHDataList component to an HTML file, point it at the *Famous Trees API*, and configure it with [Options](/en/hhdatalist/v0.0.2/options/).
+This tutorial helps you add an HHDataList component to an HTML file, point it at the *Famous Trees API*, and configure it progressively with [Options](/en/hhdatalist/v0.0.2/options/).
 
 # Review the Trees API
 
@@ -11,7 +11,7 @@ The [Famous Trees API](/en/hhdatalist/v0.0.2/openapi/) provides access to a smal
 <a href="https://hagenhaus.com:3002/api/famous/v1/trees/1">https://hagenhaus.com:3002/api/famous/v1/trees/1</a>
 ```
 
-The `getRecords` operation supports `fields`, `filter`, `order`, `page`, and `limit` query parameters:
+The `getRecords` operation supports `fields`, `filter`, `order`, `page`, and `limit` query parameters. The `page` value is one-base. The `page` default is 1. The `limit` default is 10:
 
 ``` nonum
 <a href="https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname">https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname</a>
@@ -80,71 +80,85 @@ A `getRecord` response resembles the following:
 
 # Create a starter file
 
-``` html nonum
-<!doctype html>
-<html lang="en">
+Follow these steps to set up a development environment (editor and browser) and create a project file:
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-  <link rel="stylesheet" type="text/css" href="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist.css">
-  <style>
-    div.page {
-      max-width: 900px;
-    }
+1. Create a file named *starter.html* on your file system.
 
-    p.title {
-      font-weight: 500;
-      display: table;
-      margin: 0 auto;
-    }
-  </style>
-  <title>HHDataList v0.0.2 Tutorial Starter File</title>
-</head>
+1. Open the file in VSCode or another editor.
 
-<body>
-  <div class="container page">
-    <p class="my-3 title">HHDataList v0.0.2 Tutorial Starter File</p>
-    <div id="my-datalist" class="hh-data-list my-3"></div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist.js"></script>
-  <script>
-    // Add HHDataList code here.
-  </script>
-</body>
+1. Add the following HTML to the file and save:
 
-</html>
-```
+    ``` html nonum
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+      <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.css">
+      <style>
+        div.page { max-width: 900px; }
+        p.title { font-weight: 500; display: table; margin: 0 auto; }
+      </style>
+      <title>HHDataList v0.0.2 Tutorial Starter File</title>
+    </head>
+    <body>
+      <div class="container page">
+        <p class="my-3 title">HHDataList v0.0.2 Tutorial Starter File</p>
+        <div id="my-datalist" class="hh-data-list my-3"></div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js"></script>
+      <script>
+        // Add HHDataList code here.
+      </script>
+    </body>
+    </html>
+    ```
 
-# Deploy your datalist
+1. Open the file in a browser tab, too.
 
-This section helps you deploy an HHDataList component configured with the following options: [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/).
+# Deploy a datalist
+
+This section helps you deploy an HHDataList component configured with minimal options.
 
 ### Steps
 
-This code passes an anonymous *options* object to the HHDataList constructor:
+1. Copy the snippet below, paste it into *starter.html* just below the comment `Add HHDataList code here`, and save:
 
-``` js nonum
-new HHDataList({
-  displayLimit: 10,
-  id: 'my-datalist',
-  recordIdField: 'id',
-  recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
-  responseHelper: {
-    record: (res) => res.data,
-    records: (res) => res.data.records,
-    numPages: (res, limit) => res.data.metadata.numTotalPages,
-    numResponseRecords: (res) => res.data.metadata.numResponseRecords,
-    numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
-    numTotalRecords: (res) => res.data.metadata.numTotalRecords
-  },
-  url: 'https://hagenhaus.com:3002/api/famous/v1/trees'
-});
-```
+    ``` js nonum
+    new HHDataList({
+      displayLimit: 8,
+      id: 'my-datalist',
+      recordIdField: 'id',
+      recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
+      responseHelper: {
+        record: (res) => res.data,
+        records: (res) => res.data.records,
+        numPages: (res, limit) => res.data.metadata.numTotalPages,
+        numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+        numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+        numTotalRecords: (res) => res.data.metadata.numTotalRecords
+      },
+      url: 'https://hagenhaus.com:3002/api/famous/v1/trees',
+    });
+    ```
+
+    `HHDataList` is a class. The statement `new HHDataList()` invokes the class constructor to create a new instance. The constructor requires for an argument an object containing a number of properties collectively referred to as the HHDataList [Options](/en/hhdatalist/v0.0.2/options/) including [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/).
+
+1. Refresh your browser and view the datalist.
+
+1. Notice that the default theme is *Dodger Blue*.
+
+1. Notice that the datalist returned 10 records and displayed 8 records. It returned 10 because the *Famous Trees API* returns 10 by default. It displayed 8 because [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) is set to 8. The [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) option is precautionary. Once you implement a record-limiting query parameter, you will remove this option.
+
+1. Expand a record and notice the field order, labels, values, and widths. Currently, the API response is dictating the first three, and the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option default value is controlling the last. Collapse the record again.
+
+1. While viewing the Developer Tools console of your browser, attempt to delete a record. Without displaying a confirmation dialog, the datalist attempts and fails to delete the record. Leave the browser console open.
+
+1. Click the wrench icon. This is the *Tools* tab. Checking any checkbox you see here displays the corresponding tool on the *Tools* row. Check the *Request Reporter* checkbox to display the tool. Then, click the *Request Reporter* tool to enable this functionality. Finally, expand a record, and notice the output in the browser console. Many of these tools will be useful during the tutorial.
 
 ### Example
 
@@ -152,7 +166,7 @@ new HHDataList({
 <script>
   var DeployOptions = class {
     constructor(id) {
-      this.displayLimit = 10;
+      this.displayLimit = 8;
       this.id = id;
       this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
       this.recordIdField = 'id';
@@ -173,19 +187,55 @@ new HHDataList({
 
 # Limit response record count
 
-This section helps you add the `limit` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users see only a limited number of records at one time.
+This section helps you add the `limit` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can limit the number of displayed records.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Copy Lines 2-4 below, add them to the HHDataList options in *starter.html*, and save:
 
-``` js nonum
-new HHDataList({
-  queryParams: {
-    limit: { name: 'limit', default: 3, showTool: true }
-  },
-});
-```
+    ``` js
+    new HHDataList({
+      queryParams: {
+        limit: { name: 'limit', default: 3, showTool: true }
+      },
+    });
+    ```
+
+1. Remove the `displayLimit` option, or set it to a higher value. HHDataList enforces a display limit of 100.
+
+1. Refresh your browser and view the datalist.
+
+1. Notice that the datalist returned 3 records and displayed 3 records.
+
+1. Notice the newly added *Limit* tool which appears on the *Tools* row because `showTool` is set to `true`.
+
+1. Use the *Limit* tool to display varying numbers of records.
+
+1. Use the *Request Reporter* and *Limit* tools to verify that the URL contains a `limit` query parameter.
+
+    ``` nonum
+    GET https://hagenhaus.com:3002/api/famous/v1/trees?limit=5
+    ```
+
+1. Optionally, put the *Request Reporter* tool on the *Tools* row by default by adding this option:
+
+    ``` js nonum
+    new HHDataList({
+      queryParams: {
+        reporters: { requests: { showTool: true } }
+      },
+    });
+    ```
+
+1. Optionally, enable the *Request Reporter* tool by default:
+
+    ``` js nonum
+    new HHDataList({
+      queryParams: {
+        reporters: { requests: { value: true, showTool: true } }
+      },
+    });
+    ```
 
 ### Example
 
@@ -194,6 +244,7 @@ new HHDataList({
   var LimitOptions = class extends DeployOptions {
     constructor(id) {
       super(id);
+      this.displayLimit = 20;
       this.queryParams = { limit: { name: 'limit', default: 3, showTool: true } };
     }
   };
@@ -206,16 +257,39 @@ This section helps you add the `page` property of the [queryParams](/en/hhdatali
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Copy Lines 2-5 below, add them to the HHDataList options in *starter.html*, and save:
 
-``` js nonum
-new HHDataList({
-  expand: { showTool: true },
-  queryParams: {
-    page: { name: 'page' },
-  },
-});
-```
+    ``` js
+    new HHDataList({
+      expand: { showTool: true },
+      queryParams: {
+        page: { name: 'page' },
+      },
+    });
+    ```
+
+1. Refresh your browser and view the datalist.
+
+1. Notice the new *Paginator* tool. Try it. For datalists that paginate, the *Paginator* tool is always visible.
+
+1. Notice the *Expand* tool. Click it. Then, paginate.
+
+1. Use the *Request Reporter* and *Paginator* tools to verify that the URL contains a `page` query parameter.
+
+    ``` nonum
+    GET https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
+    ```
+
+1. With the *Request Reporter* enabled, click *Expand* and then paginate. Note the console output:
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/4
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/5
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/6
+    ```
+
+    By default, not trusting that the `getRecords` operation of the underlying API can return all the fields that the `getRecord` operation can, HHDataList calls `getRecords` to build the record titles, and `getRecord` iteratively to populate each expanded record. If HHDataList knows that the `getRecords` operation of an API can, indeed, return all fields that the `getRecord` operation can, HHDataList can scroll expanded records more efficiently. See the next section.
 
 ### Example
 
