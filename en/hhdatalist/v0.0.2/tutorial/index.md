@@ -1,10 +1,12 @@
 # Tutorial
 
-This tutorial helps you add an HHDataList component to an HTML file, point it at the *Famous Trees API*, and configure it progressively with [Options](/en/hhdatalist/v0.0.2/options/).
+This tutorial shows you how to create an HHDataList component, point it at an API, and configure it with [Options](/en/hhdatalist/v0.0.2/options/).
+
+<p><img src="tutorial-overview.png" class="img-fluid d-block" width=700 width=295 loading="lazy"></p>
 
 # Review the Trees API
 
-The [Famous Trees API](/en/hhdatalist/v0.0.2/openapi/) provides access to a small number of records representing famous individual international trees. Each record contains fields representing a variety of data types including strings, numbers, objects, and arrays. The API supports `GET`, `POST`, `PATCH`, and `DELETE` methods, the last three requiring `Bearer` authentication. Here are two endpoints:
+This tutorial utilizes the [Famous Trees API](/en/hhdatalist/v0.0.2/openapi/) which provides access to a small number of records representing famous individual international trees. Record fields represent a variety of data types including strings, numbers, objects, and arrays. The API supports `GET`, `POST`, `PATCH`, and `DELETE` methods, the last three requiring `Bearer` authentication. Here are two endpoints:
 
 ``` nonum
 <a href="https://hagenhaus.com:3002/api/famous/v1/trees">https://hagenhaus.com:3002/api/famous/v1/trees</a>
@@ -78,13 +80,13 @@ A `getRecord` response resembles the following:
 }
 ```
 
-# Create a starter file
+# Create a project file
 
 Follow these steps to set up a development environment (editor and browser) and create a project file:
 
-1. Create a file named *starter.html* on your file system.
+1. Open vscode or another editor.
 
-1. Open the file in VSCode or another editor.
+1. Create a file named hhdatalist.html on your file system.
 
 1. Add the following HTML to the file and save:
 
@@ -101,18 +103,18 @@ Follow these steps to set up a development environment (editor and browser) and 
         div.page { max-width: 900px; }
         p.title { font-weight: 500; display: table; margin: 0 auto; }
       </style>
-      <title>HHDataList v0.0.2 Tutorial Starter File</title>
+      <title>HHDataList v0.0.2 Tutorial</title>
     </head>
     <body>
       <div class="container page">
-        <p class="my-3 title">HHDataList v0.0.2 Tutorial Starter File</p>
+        <p class="my-3 title">HHDataList v0.0.2 Tutorial</p>
         <div id="my-datalist" class="hh-data-list my-3"></div>
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js"></script>
       <script>
-        // Add HHDataList code here.
+        // Add code here.
       </script>
     </body>
     </html>
@@ -122,43 +124,37 @@ Follow these steps to set up a development environment (editor and browser) and 
 
 # Deploy a datalist
 
-This section helps you deploy an HHDataList component configured with minimal options.
+This section helps you deploy a minimal HHDataList component. Consider this code:
+
+``` js nonum
+new HHDataList({
+  displayLimit: 8,
+  id: 'my-datalist',
+  recordIdField: 'id',
+  recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
+  responseHelper: {
+    record: (res) => res.data,
+    records: (res) => res.data.records,
+    numPages: (res, limit) => res.data.metadata.numTotalPages,
+    numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+    numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+    numTotalRecords: (res) => res.data.metadata.numTotalRecords
+  },
+  url: 'https://hagenhaus.com:3002/api/famous/v1/trees',
+});
+```
+
+`HHDataList` is a class. The statement `new HHDataList()` invokes the class constructor to create a new instance. The constructor requires an object as an argument. Each property in the object is called an option. In the code snippet above, [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id/), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/) are [Options](/en/hhdatalist/v0.0.2/options/).
 
 ### Steps
 
-1. Copy the snippet below, paste it into *starter.html* just below the comment `Add HHDataList code here`, and save:
+1. Copy the snippet above.
 
-    ``` js nonum
-    new HHDataList({
-      displayLimit: 8,
-      id: 'my-datalist',
-      recordIdField: 'id',
-      recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
-      responseHelper: {
-        record: (res) => res.data,
-        records: (res) => res.data.records,
-        numPages: (res, limit) => res.data.metadata.numTotalPages,
-        numResponseRecords: (res) => res.data.metadata.numResponseRecords,
-        numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
-        numTotalRecords: (res) => res.data.metadata.numTotalRecords
-      },
-      url: 'https://hagenhaus.com:3002/api/famous/v1/trees',
-    });
-    ```
+1. Paste it into hhdatalist.html just below the comment `Add code here`.
 
-    `HHDataList` is a class. The statement `new HHDataList()` invokes the class constructor to create a new instance. The constructor requires for an argument an object containing a number of properties collectively referred to as the HHDataList [Options](/en/hhdatalist/v0.0.2/options/) including [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/), [id](/en/hhdatalist/v0.0.2/options/id), [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/), [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/), [responseHelper](/en/hhdatalist/v0.0.2/options/responsehelper/), and [url](/en/hhdatalist/v0.0.2/options/url/).
+1. Save the file.
 
 1. Refresh your browser and view the datalist.
-
-1. Notice that the default theme is *Dodger Blue*.
-
-1. Notice that the datalist returned 10 records and displayed 8 records. It returned 10 because the *Famous Trees API* returns 10 by default. It displayed 8 because [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) is set to 8. The [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) option is precautionary. Once you implement a record-limiting query parameter, you will remove this option.
-
-1. Expand a record and notice the field order, labels, values, and widths. Currently, the API response is dictating the first three, and the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option default value is controlling the last. Collapse the record again.
-
-1. While viewing the Developer Tools console of your browser, attempt to delete a record. Without displaying a confirmation dialog, the datalist attempts and fails to delete the record. Leave the browser console open.
-
-1. Click the wrench icon. This is the *Tools* tab. Checking any checkbox you see here displays the corresponding tool on the *Tools* row. Check the *Request Reporter* checkbox to display the tool. Then, click the *Request Reporter* tool to enable this functionality. Finally, expand a record, and notice the output in the browser console. Many of these tools will be useful during the tutorial.
 
 ### Example
 
@@ -185,63 +181,99 @@ This section helps you deploy an HHDataList component configured with minimal op
   new HHDataList(new DeployOptions('deploy-datalist'));
 </script>
 
-# Limit response record count
+# Monitor API requests
 
-This section helps you add the `limit` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can limit the number of displayed records.
+Throughout this tutorial, HHDataList initiates various API requests to the Famous Trees API. From time to time, it is helpful to examine the URLs of these requests. HHDataList includes the Requests Reporter tool for this purpose. This section helps you work with the Requests Reporter tool which is controlled by the `requests` property of the [reporters](/en/hhdatalist/v0.0.2/options/reporters/) option.
 
 ### Steps
 
-1. Copy Lines 2-4 below, add them to the HHDataList options in *starter.html*, and save:
+1. Click the wrench icon on your datalist. This is the Tools tab. Notice the checkboxes and corresponding labels. Each label is the name of a tool. Checking a checkbox displays the corresponding tool in the Tools row.
+
+1. Check the checkbox beside the Requests Reporter label to display the tool. By default, this tool calls `console.log` to output requests to the Developer Tools console of your browser. Here is example output:
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/1
+    ```
+
+1. Click the tool to enable it.
+
+1. Display your browser console, expand a few records, and notice the output in the browser console.
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/1
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/4
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/5
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/8
+    ```
+
+    Because many of the sections in this tutorial ask you to inspect request URLs, the steps below configure HHDataList to output request URLs to your browser console by default.
+
+1. Copy Line 2 below, add it to the HHDataList options in hhdatalist.html, and save:
+
+    ``` js
+    new HHDataList({
+      reporters: { requests: { value: true } },
+    });
+    ```
+
+1. Refresh your browser, expand records to generate more requests, and view output in the console.
+
+    > The remainder of this tutorial assumes that the Requests Reporter is enabled (though not visible).
+
+### Example
+
+<div id="console-datalist" class="hh-data-list my-3"></div>
+<script>
+  var consoleOptions = class extends DeployOptions {
+    constructor(id) {
+      super(id);
+      this.reporters = { requests: { value: true } };
+    }
+  };
+  new HHDataList(new consoleOptions('console-datalist'));
+</script>
+
+# Limit response record count
+
+Your datalist probably returned 10 records and displayed 8. It returned 10 because the Famous Trees API returns a maximum of 10 by default. It displayed 8 because [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) is set to 8. 
+
+The [displayLimit](/en/hhdatalist/v0.0.2/options/displaylimit/) option does not limit the number of records an API returns. Rather, it limits the number of records HHDataList displays while you explore a new API, protecting HHDataList from APIs that do not enforce a reasonable limit.
+
+Fortunately, the Famous Trees API does have a query parameter (i.e. `limit`) that sets the page size. This section helps you take advantage of this query parameter by adding the `limit` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can limit the number of records returned.
+
+### Steps
+
+1. Add the `queryParams` option (Lines 2-4) to the HHDataList options in hhdatalist.html and save:
 
     ``` js
     new HHDataList({
       queryParams: {
-        limit: { name: 'limit', default: 3, showTool: true }
+        limit: { name: 'limit', default: 3, showTool: true },
       },
     });
     ```
 
 1. Remove the `displayLimit` option, or set it to a higher value. HHDataList enforces a display limit of 100.
 
-1. Refresh your browser and view the datalist.
+1. Refresh your browser.
 
 1. Notice that the datalist returned 3 records and displayed 3 records.
 
-1. Notice the newly added *Limit* tool which appears on the *Tools* row because `showTool` is set to `true`.
+1. Notice the newly added Limit tool which appears in the Tools row because `showTool` is set to `true`.
 
-1. Use the *Limit* tool to display varying numbers of records.
+1. Use the Limit tool to display varying numbers of records.
 
-1. Use the *Request Reporter* and *Limit* tools to verify that the URL contains a `limit` query parameter.
+1. Inspect API requests. Notice the `limit` query parameter. Here is an example:
 
     ``` nonum
     GET https://hagenhaus.com:3002/api/famous/v1/trees?limit=5
-    ```
-
-1. Optionally, put the *Request Reporter* tool on the *Tools* row by default by adding this option:
-
-    ``` js nonum
-    new HHDataList({
-      queryParams: {
-        reporters: { requests: { showTool: true } }
-      },
-    });
-    ```
-
-1. Optionally, enable the *Request Reporter* tool by default:
-
-    ``` js nonum
-    new HHDataList({
-      queryParams: {
-        reporters: { requests: { value: true, showTool: true } }
-      },
-    });
     ```
 
 ### Example
 
 <div id="limit-datalist" class="hh-data-list my-3"></div>
 <script>
-  var LimitOptions = class extends DeployOptions {
+  var LimitOptions = class extends consoleOptions {
     constructor(id) {
       super(id);
       this.displayLimit = 20;
@@ -253,43 +285,29 @@ This section helps you add the `limit` property of the [queryParams](/en/hhdatal
 
 # Paginate records
 
-This section helps you add the `page` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can view pages of records.
+In addition to the `limit` query parameter which sets the page size, the Famous Trees API includes a `page` query parameter which specifies the page number. This section helps you take advantage of this query parameter by adding the `page` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can scroll through pages of records.
 
 ### Steps
 
-1. Copy Lines 2-5 below, add them to the HHDataList options in *starter.html*, and save:
+1. Add the `page` property (Line 3) to the `queryParams` option in hhdatalist.html and save:
 
     ``` js
     new HHDataList({
-      expand: { showTool: true },
       queryParams: {
         page: { name: 'page' },
       },
     });
     ```
 
-1. Refresh your browser and view the datalist.
+1. Refresh your browser.
 
-1. Notice the new *Paginator* tool. Try it. For datalists that paginate, the *Paginator* tool is always visible.
+1. Notice the new Paginator tool. Try it.
 
-1. Notice the *Expand* tool. Click it. Then, paginate.
-
-1. Use the *Request Reporter* and *Paginator* tools to verify that the URL contains a `page` query parameter.
+1. Inspect API requests. Notice the `page` query parameter. Here is an example:
 
     ``` nonum
     GET https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
     ```
-
-1. With the *Request Reporter* enabled, click *Expand* and then paginate. Note the console output:
-
-    ``` nonum
-    GET: https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
-    GET: https://hagenhaus.com:3002/api/famous/v1/trees/4
-    GET: https://hagenhaus.com:3002/api/famous/v1/trees/5
-    GET: https://hagenhaus.com:3002/api/famous/v1/trees/6
-    ```
-
-    By default, not trusting that the `getRecords` operation of the underlying API can return all the fields that the `getRecord` operation can, HHDataList calls `getRecords` to build the record titles, and `getRecord` iteratively to populate each expanded record. If HHDataList knows that the `getRecords` operation of an API can, indeed, return all fields that the `getRecord` operation can, HHDataList can scroll expanded records more efficiently. See the next section.
 
 ### Example
 
@@ -298,26 +316,51 @@ This section helps you add the `page` property of the [queryParams](/en/hhdatali
   var PageOptions = class extends LimitOptions {
     constructor(id) {
       super(id);
-      this.expand = { showTool: true };
       this.queryParams.page = { name: 'page' };
     }
   };
   new HHDataList(new PageOptions('page-datalist'));
 </script>
 
-# Enable parity
+# Scroll expanded records
 
-This section helps you set the [parity](/en/hhdatalist/v0.0.2/options/parity/) option to `true` for your datalist so HHDataList scrolls expanded records more efficiently.
+HHDataList scrolls expanded records more efficiently if (a) the underlying API possesses a certain characteristic called parity and (b) HHDataList is configured to take advantage of this characteristic. Happily, the Famous Trees API does possess parity, and HHDataList can be configured to leverage this quality via the [parity](/en/hhdatalist/v0.0.2/options/parity/) option. This section helps you demonstrate the concept of parity to yourself and enable it for your datalist.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Display the Expand tool in the Tools row of your datalist, and click it to enable it.
 
-``` js nonum
-new HHDataList({
-  parity: { get: { value: true } },
-});
-```
+1. Scroll expanded records and examine the Request URLs. Example:
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/4
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/5
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/6
+    ```
+
+    This is default HHDataList behavior. HHDataList does not assume that the `getRecords` operation of the underlying API can return all the fields that the `getRecord` operation can. So, when displaying a page of expanded records, HHDataList calls `getRecords` to build all the record titles on the page, and then it calls `getRecord` iteratively to populate the fields of each expanded record.
+
+1. Display the GET Parity tool in the Tools row of your datalist, and click it to enable it.
+
+1. Scroll expanded records again and examine the request URLs. Example:
+
+    ``` nonum
+    https://hagenhaus.com:3002/api/famous/v1/trees?page=2&limit=3
+    ```
+
+    With parity enabled, HHDataList calls `getRecords` once to return the data needed to populate a page of expanded records. It does not call `getRecord` iteratively for each expanded record.
+
+1. Add the `expand` and `parity` options to hhdatalist.html and save:
+
+    ``` js nonum
+    new HHDataList({
+      expand: { showTool: true },
+      parity: { get: { value: true } },
+    });
+    ```
+
+1. Refresh your browser.
 
 ### Example
 
@@ -326,6 +369,7 @@ new HHDataList({
   var ParityOptions = class extends PageOptions {
     constructor(id) {
       super(id);
+      this.expand = { showTool: true };
       this.parity = { get: { value: true } };
     }
   };
@@ -334,25 +378,61 @@ new HHDataList({
 
 # Specify the theme
 
-This section helps you add the [themeDefinition](/en/hhdatalist/v0.0.2/options/themedefinition/) option to your datalist so you (and, optionally, your users) can set the component theme. HHDataList supports standard and custom themes. To learn more, see [Themes and Palettes](/en/hhdatalist/v0.0.2/themes-and-palettes/).
+Dodger Blue is the name of the default HHDataList theme. It is one of the standard themes. HHDataList supports both standard and custom themes as explained in [Themes and Palettes](/en/hhdatalist/v0.0.2/themes-and-palettes/). The steps below help you set the theme of your datalist to one of the other standard themes using the [themeDefinition](/en/hhdatalist/v0.0.2/options/themedefinition/) option. The steps also help you explore theme-related tools.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Display the Theme tool in the Tools row. Notice that it contains only Dodger Blue.
 
-``` html nonum
-<script src="http://localhost:8080/hhdatalist/v0.0.2/hhdatalist-themes.js"></script>
-```
+1. Include hhdatalist-themes.js in hhdatalist.html:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    ``` html nonum
+    <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js"></script>
+    ```
 
-``` js nonum
-HHDataList.addAllStandardThemes();
- 
-new HHDataList({
-  themeDefinition: { name: 'wheatgerm' },
-});
-```
+1. Add the `addAllStandardThemes` invocation (Line 1) to hhdatalist.html and save.
+
+    ``` js
+    HHDataList.addAllStandardThemes();
+     
+    new HHDataList({
+      ...
+    });
+    ```
+
+    `addAllStandardThemes` is a static class function that adds all the standard themes to the site-wide theme list.
+
+1. Refresh your browser.
+
+1. Display the Theme tool again, notice the list of standard themes, and try some.
+
+1. Add the  `themeDefinition` option (Line 2) to hhdatalist.html and save.
+
+    ``` js
+    new HHDataList({
+      themeDefinition: { name: 'wheatgerm' },
+    });
+    ```
+
+1. Refresh your browser and notice the new theme.
+
+1. Display the Theme Reporter tool and click it to display the current theme in the browser console. 
+
+    ``` nonum
+    {
+      name: 'Wheatgerm',
+      tabButtonColor: '#875e12',
+      tabBorderColor: '#875e12',
+      controlColor: '#ffffff',
+      controlColorHover: '#ffffff',
+      controlBorderColor: '#e29d1d',
+      ...
+    }
+    ```
+
+1. Display the Themes Reporter tool and click it to display the theme list in the browser console.
+
+    > The Theme Reporter and Themes Reporter tools are useful when creating custom themes. For more information, see [Themes and Palettes](/en/hhdatalist/v0.0.2/themes-and-palettes/).
 
 ### Example
 
@@ -369,23 +449,31 @@ new HHDataList({
 
 # Modify default field width
 
-This section helps you add the `records` property of the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option to your datalist to control the default width of fields in expanded records.
+The default width of fields in expanded records is set by the `records` property of the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option, although it may be overridden (as seen later in this tutorial) by individual `manage` or `transform` [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/). The steps below help you configure the [colWidths](/en/hhdatalist/v0.0.2/options/colwidths/) option.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Expand a record and notice that (on wide screens) there are four fields in one row.
 
-``` js nonum
-new HHDataList({
-  colWidths: { records: { value: 'medium' } },
-});
-```
+1. Display the Column Width tool in the Tools row of your datalist, and select other widths.
+
+1. Add the `colWidths` option to hhdatalist.html and save:
+
+    ``` js nonum
+    new HHDataList({
+      colWidths: { records: { value: 'medium' } },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Expand another record. Notice that the default column width is now `medium`.
 
 ### Example
 
 <div id="width-datalist" class="hh-data-list my-3"></div>
 <script>
-  var WidthOptions = class extends PageOptions {
+  var WidthOptions = class extends ParityOptions {
     constructor(id) {
       super(id);
       this.colWidths = { records: { value: 'medium' } };
@@ -394,40 +482,89 @@ new HHDataList({
   new HHDataList(new WidthOptions('width-datalist'));
 </script>
 
-# Add manage field definitions
+# Control process mode
 
-This section helps you add the `manage` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. HHDataList moves data from an API response to an expanded record in one of three ways: *copy*, *manage*, or *transform*. Each of these is a [processMode](/en/hhdatalist/v0.0.2/options/processmode/). The *manage* process mode requires the `manage` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option. 
+HHDataList moves data from an API response to an expanded record in one of three ways: copy, manage, or transform. Each of these is a [processMode](/en/hhdatalist/v0.0.2/options/processmode/). This section helps you add the [processMode](/en/hhdatalist/v0.0.2/options/processmode/) option to your datalist in a way that displays the Process tool in the Tools row so you can compare process modes as you progress through the tutorial.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `processMode` option to hhdatalist.html and save:
 
-``` js nonum
-new HHDataList({
-  fieldDefinitions: {
-    manage: [
-      { fieldName: 'id', isChecked: false },
-      { fieldName: 'name', isEditable: true, isRequired: true },
-      { fieldName: 'species', isEditable: true },
-      { fieldName: 'description', isEditable: true },
-      { fieldName: 'city', isEditable: true },
-      { fieldName: 'country', isEditable: true },
-      { fieldName: 'lat', isEditable: true },
-      { fieldName: 'lng', isEditable: true },
-      { fieldName: 'birthYear', isEditable: true, colWidth: 'narrow' },
-      { fieldName: 'height', isEditable: true, colWidth: 'narrow' },
-      { fieldName: 'girth', isEditable: true, isChecked: false },
-      { fieldName: 'links', isEditable: true }
-    ]
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      processMode: { showTool: true },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Notice the newly added Process tool in the Tools row. Currently, this dropdown contains only one item. The name of this item is "copy", and it represents the current [processMode](/en/hhdatalist/v0.0.2/options/processmode/). In fact, if no [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) are defined, and none are at this point, copy is the only available process mode.
+
+1. Expand a record to view the record fields. In copy mode, the fields in an expanded record are governed by the API response including the order of the fields and the labels. 
+
+### Example
+
+<div id="process-datalist" class="hh-data-list my-3"></div>
+<script>
+  var ProcessOptions = class extends WidthOptions {
+    constructor(id) {
+      super(id);
+      this.processMode = { showTool: true };
+    }
+  };
+  new HHDataList(new ProcessOptions('process-datalist'));
+</script>
+
+# Add manage field definitions
+
+This section helps you add "manage" to the Process tool dropdown by adding the `manage` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. The `manage` property is an array of field definitions. The order of these field definitions in the array controls the order of fields in expanded records. And, each field definition controls other aspects of a record field. 
+
+In addition to `manage` field definitions, HHDataList also supports `transform` field definitions which are the focus of the [Add transform field definitions](#add-transform-field-definitions) section below. To learn more, see [processMode](/en/hhdatalist/v0.0.2/options/processmode/) and [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/).
+
+### Steps
+
+1. Add the `fieldDefinitions` option to hhdatalist.html and save:
+
+    ``` js nonum
+    new HHDataList({
+      fieldDefinitions: {
+        manage: [
+          { fieldName: 'id', isChecked: false },
+          { fieldName: 'name', isEditable: true, isRequired: true },
+          { fieldName: 'species', isEditable: true },
+          { fieldName: 'description', isEditable: true },
+          { fieldName: 'city', isEditable: true },
+          { fieldName: 'country', isEditable: true },
+          { fieldName: 'lat', isEditable: true },
+          { fieldName: 'lng', isEditable: true },
+          { fieldName: 'birthYear', isEditable: true, colWidth: 'narrow' },
+          { fieldName: 'height', isEditable: true, colWidth: 'narrow' },
+          { fieldName: 'girth', isEditable: true, isChecked: false },
+          { fieldName: 'links', isEditable: true }
+        ],
+      },
+    });
+    ```
+
+    As you can see, `manage` is an array of objects. The properties inside these objects (e.g. `fieldName`, `isChecked`) are called "field definition properties". Each object represents one field in the API response and, if `isChecked` equals `true`, each object also represents a corresponding field in an expanded record.
+
+1. Refresh your browser.
+
+1. Notice that "manage" appears as the default option of the Process tool.
+
+1. Expand a record.
+
+1. Using the Process tool, toggle between copy mode and manage mode. In copy mode, the fields in an expanded record are governed by the API response. In manage mode, the existence and order of the fields are governed by field definitions.
+
+1. Click the newly displayed Fields tab, check and uncheck various fields, and note the appearance and disappearance of fields in the expanded record(s). 
+
+1. Click the newly displayed New tab. All fields marked `isEditable` in `manage` field definitions appear in the New Records form. Of these, all marked `isRequired` are labeled with an asterisk. Try creating a new record without and with a name. You do not need to fill in all the fields. The browser console will display `401 (Unauthorized)`.
 
 ### Example
 
 <div id="manage-datalist" class="hh-data-list my-3"></div>
 <script>
-  var ManageOptions = class extends WidthOptions {
+  var ManageOptions = class extends ProcessOptions {
     constructor(id) {
       super(id);
       this.fieldDefinitions = {
@@ -457,15 +594,21 @@ This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/)
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add `myConfirm` and the `confirm` option to hhdatalist.html and save.
 
-``` js nonum
-const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
- 
-new HHDataList({
-  confirm: myConfirm,
-});
-```
+    ``` js nonum
+    const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
+     
+    new HHDataList({
+      confirm: myConfirm,
+    });
+    ```
+
+    `myConfirm` is an example function that works well as the `confirm` function in example applications. HHDataList instances on hagenhaus.com use a different `confirm` function. 
+
+1. Refresh your browser.
+
+1. Attempt to delete a record. HHDataList should display a [Window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) dialog.
 
 ### Example
 
@@ -482,23 +625,29 @@ new HHDataList({
 
 # Add an error function
 
-This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) option to your datalist so HHDataList can inform users about errors.
+This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) option to your datalist so HHDataList can inform users about API errors.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add `myError` and the `error` option to hhdatalist.html and save.
 
-``` js nonum
-const myReportError = (error) => {
-  alert('response' in error && 'statusText' in error.response && error.response.statusText
-    ? error.response.statusText
-    : 'Unknown Error');
-};
- 
-new HHDataList({
-  error: myReportError,
-});
-```
+    ``` js nonum
+    const myError = (error) => {
+      alert('response' in error && 'statusText' in error.response && error.response.statusText
+        ? error.response.statusText
+        : 'Unknown Error');
+    };
+     
+    new HHDataList({
+      error: myError,
+    });
+    ```
+
+    `myError` is an example function that works well as the `error` function in example applications. HHDataList instances on hagenhaus.com use a different `error` function. 
+
+1. Refresh your browser.
+
+1. Attempt again to delete a record, and confirm the deletion. HHDataList should display a [Window.alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) dialog.
 
 ### Example
 
@@ -519,15 +668,21 @@ This section helps you add the [info](/en/hhdatalist/v0.0.2/options/info/) optio
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add `myInfo` and the `info` option to hhdatalist.html and save.
 
-``` js nonum
-const myReportInfo = (title, detail) => { alert(detail); };
- 
-new HHDataList({
-  info: myReportInfo,
-});
-```
+    ``` js nonum
+    const myInfo = (title, detail) => { alert(detail); };
+     
+    new HHDataList({
+      info: myInfo,
+    });
+    ```
+
+    `myInfo` is an example function that works well as the `info` function in example applications. HHDataList instances on hagenhaus.com use a different `info` function. 
+
+1. Refresh your browser.
+
+1. Display the Uniformity tool in the Tools row of your datalist, and click it to enable it. HHDataList should display a [Window.alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) dialog. For more information about the concept of uniformity, see the [uniformity](/en/hhdatalist/v0.0.2/options/uniformity/) option.
 
 ### Example
 
@@ -544,30 +699,40 @@ new HHDataList({
 
 # Populate the new record form
 
-This section helps you add the [populate](/en/hhdatalist/v0.0.2/options/populate/) option to your datalist so users can easily populate the *New Record* form with test data.
+HHDataList includes a mechanism for auto-populating the New Record form, a feature useful for testing `POST` operations. This section helps you add the [populate](/en/hhdatalist/v0.0.2/options/populate/) option to your datalist so testers can easily populate the New Record form with test data.
+
+> The New tab with its New Record form is visible only when `manage` [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) are defined, as they are in your datalist. Whether the current [processMode](/en/hhdatalist/v0.0.2/options/processmode/) is set to `manage` is irrelevant. 
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add `popValues` and the `populate` option to hhdatalist.html and save.
 
-``` js nonum
-const popValues = new Map()
-  .set('name', 'Koiwai Farm Ipponzakura')
-  .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
-  .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
-  .set('city', 'Morioka')
-  .set('country', 'JPN')
-  .set('lat', '39.7560461061616')
-  .set('lng', '141.004011260734')
-  .set('birthYear', '1922')
-  .set('height', '0')
-  .set('girth', '0')
-  .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
- 
-new HHDataList({
-  populate: (fieldName) => popValues.get(fieldName),
-});
-```
+    ``` js nonum
+    const popValues = new Map()
+      .set('name', 'Koiwai Farm Ipponzakura')
+      .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
+      .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
+      .set('city', 'Morioka')
+      .set('country', 'JPN')
+      .set('lat', '39.7560461061616')
+      .set('lng', '141.004011260734')
+      .set('birthYear', '1922')
+      .set('height', '0')
+      .set('girth', '0')
+      .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+     
+    new HHDataList({
+      populate: (fieldName) => popValues.get(fieldName),
+    });
+    ```
+
+    The `popValues` map is not an essential aspect of the [populate](/en/hhdatalist/v0.0.2/options/populate/) option. It is an example implementation.
+
+1. Refresh your browser, and click the New tab. 
+
+1. Click the Populate button in the top, right corner of the New Record form next to the Clear button. 
+
+1. Click the Clear button.
 
 ### Example
 
@@ -596,19 +761,37 @@ new HHDataList({
 
 # Specify response record fields
 
-This section helps you add the `fields` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so HHDataList can request from the underlying API only required fields.
+If the `GET` operation of the underlying API supports the ability to specify which fields to return, HHDataList leverages this feature to request only necessary fields. 
+
+When scrolling collapsed records, for example, HHDataList requests only the record ID field and any fields needed to build record titles. When scrolling expanded records in `manage` process mode, HHDataList requests only checked fields (i.e. `isChecked === true`). When scrolling expanded records in `transform` process mode, HHDataList requests only fields that contribute to checked fields. 
+
+The steps below help you add the `fields` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so HHDataList can request from the underlying API only necessary fields. To learn more, see [Fields](/en/hhdatalist/v0.0.2/options/queryparams/#fields).
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `fields` property to the `queryParams` option in hhdatalist.html and save:
 
-``` js nonum
-new HHDataList({
-  queryParams: {
-    fields: { name: 'fields' },
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      queryParams: {
+        fields: { name: 'fields' },
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Scroll and inspect API requests. Notice the `fields` query parameter. Here is an example:
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname&page=2&limit=3
+    ```
+
+1. In `manage` process mode, expand a record. Here is example output:
+
+   ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees/4?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid
+    ```
 
 ### Example
 
@@ -625,19 +808,35 @@ new HHDataList({
 
 # Filter response records
 
-This section helps you add the `filter` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that limits returned records.
+This section helps you add the `filter` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that filters response records.
+
+> Filter syntax is API specific. The [descriptions](/en/hhdatalist/v0.0.2/options/descriptions/) option provides a way to add instructions to the top of the Search tab. See the [Add tab descriptions](#add-tab-descriptions) section below.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `filter` property to the `queryParams` option in hhdatalist.html and save:
 
-``` js nonum
-new HHDataList({
-  queryParams: {
-    filter: { name: 'filter', placeholder: 'country like "AUS"' },
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      queryParams: {
+        filter: { name: 'filter', placeholder: 'country like "AUS"' },
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Click the Search tab. 
+
+1. Type `country like "AUS"` in the Filter control.
+
+1. Click the Filter control magnifying glass. HHDataList returns matching records.
+
+1. Notice the `filter` query parameter in request URLs. Example:
+
+    ``` nonum
+    GET: https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname&filter=country%20like%20%22AUS%22&page=1&limit=3
+    ```
 
 ### Example
 
@@ -654,19 +853,29 @@ new HHDataList({
 
 # Order response records
 
-This section helps you add the `order` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that orders returned records.
+This section helps you add the `order` property of the [queryParams](/en/hhdatalist/v0.0.2/options/queryparams/) option to your datalist so users can specify a criteria that orders response records.
+
+> Order syntax is API specific. The [descriptions](/en/hhdatalist/v0.0.2/options/descriptions/) option provides a way to add instructions to the top of the Search tab. See the [Add tab descriptions](#add-tab-descriptions) section below.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `order` property to the `queryParams` option in hhdatalist.html and save:
 
-``` js nonum
-new HHDataList({
-  queryParams: {
-    order: { name: 'order', default: 'name asc' },
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      queryParams: {
+        order: { name: 'order', default: 'name asc' },
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Notice that the order of the returned records is controlled by the option.
+
+1. Click the Search tab.
+
+1. Notice that 'name asc' is in the Order control.
 
 ### Example
 
@@ -687,20 +896,24 @@ This section helps you add the [descriptions](/en/hhdatalist/v0.0.2/options/desc
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `descriptions` option to hhdatalist.html and save.
 
-``` js nonum
-new HHDataList({
-  descriptions: {
-    home: 'This component accesses a small dataset of famous tree records.',
-    search: 'Search and order syntax is API-specific.',
-    fields: 'Checked fields appear in records.',
-    tools: 'Checked tools appear on the toolbar.',
-    new: 'The New Record form consists of managed fields.',
-    value: true
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      descriptions: {
+        home: 'This component accesses a small dataset of famous tree records.',
+        search: 'Search and order syntax is API-specific.',
+        fields: 'Checked fields appear in records.',
+        tools: 'Checked tools appear on the toolbar.',
+        new: 'The New Record form consists of managed fields.',
+        value: true
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Click the tabs and notice the descriptions.
 
 ### Example
 
@@ -724,61 +937,73 @@ new HHDataList({
 
 # Add transform field definitions
 
-This section helps you add the `transform` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. HHDataList moves data from an API response to an expanded record in one of three ways: *copy*, *manage*, or *transform*. Each of these is a [processMode](/en/hhdatalist/v0.0.2/options/processmode/). The *transform* process mode requires the `transform` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option. 
+This section helps you add "transform" to the Process tool dropdown by adding the `transform` property of the [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/) option to your datalist. The `transform` property is an array of field definitions. To learn more, see [processMode](/en/hhdatalist/v0.0.2/options/processmode/) and [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/).  
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `transform` property to the `fieldDefinitions` option in hhdatalist.html and save:
 
-``` js nonum
-new HHDataList({
-  fieldDefinitions: {
-    transform: [
-      { label: 'ID', fieldName: 'id', isChecked: false },
-      { label: 'Name', fieldName: 'name' },
-      {
-        label: 'Species', fieldName: 'species',
-        transformer: (v) => ({ url: v.link, title: v.text }),
-        display: { type: 'link' }
+    ``` js nonum
+    new HHDataList({
+      fieldDefinitions: {
+        transform: [
+          { label: 'ID', fieldName: 'id', isChecked: false },
+          { label: 'Name', fieldName: 'name' },
+          {
+            label: 'Species', fieldName: 'species',
+            transformer: (v) => ({ url: v.link, title: v.text }),
+            display: { type: 'link' }
+          },
+          {
+            label: 'Description', fieldName: 'description', colWidth: 'wide',
+            display: { type: 'text', rows: 3 }
+          },
+          { label: 'Nearby City', fieldName: 'city' },
+          {
+            label: 'Country', fieldName: 'country',
+            transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${v}`)).data.name
+          },
+          {
+            label: 'Coordinates', fieldNames: ['lat', 'lng'],
+            transformer: (lat, lng) => ({
+              url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+              title: `${lat}, ${lng}`
+            }),
+            display: { type: 'link' }
+          },
+          {
+            label: 'Age (years)', fieldName: 'birthYear',
+            transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
+          },
+          {
+            label: 'Height (meters)', fieldName: 'height',
+            transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+          },
+          {
+            label: 'Links', fieldName: 'links',
+            transformer: (v) => {
+              const a = [];
+              for (let i of v) { a.push({ url: i.link, title: i.text }); }
+              return a;
+            },
+            display: { type: 'link' }
+          }
+        ]
       },
-      {
-        label: 'Description', fieldName: 'description', colWidth: 'wide',
-        display: { type: 'text', rows: 3 }
-      },
-      { label: 'Nearby City', fieldName: 'city' },
-      {
-        label: 'Country', fieldName: 'country',
-        transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${v}`)).data.name
-      },
-      {
-        label: 'Coordinates', fieldNames: ['lat', 'lng'],
-        transformer: (lat, lng) => ({
-          url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
-          title: `${lat}, ${lng}`
-        }),
-        display: { type: 'link' }
-      },
-      {
-        label: 'Age (years)', fieldName: 'birthYear',
-        transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
-      },
-      {
-        label: 'Height (meters)', fieldName: 'height',
-        transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
-      },
-      {
-        label: 'Links', fieldName: 'links',
-        transformer: (v) => {
-          const a = [];
-          for (let i of v) { a.push({ url: i.link, title: i.text }); }
-          return a;
-        },
-        display: { type: 'link' }
-      }
-    ]
-  },
-});
-```
+    });
+    ```
+
+    As you can see, `transform` is an array of objects. The properties inside these objects (e.g. `label`, `fieldName`, `fieldNames`, `transformer`) are called "field definition properties". If `isChecked` equals `true`, each object represents a field in an expanded record. Each object also represents one or more fields in the API response. To learn more, see [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/).
+
+1. Refresh your browser.
+
+1. Notice that "transform" appears as the default option of the Process tool.
+
+1. Expand a record.
+
+1. Using the Process tool, toggle among the three modes. Notice that, in transform mode, some field values have been transformed including those of the Species, Country, Age, Height, and Links fields. Notice also a new field named Coordinates which represents the merging of the lat and lng fields. 
+
+1. Click the Fields tab, check and uncheck various fields, and note the appearance and disappearance of fields in the expanded record(s). 
 
 ### Example
 
@@ -835,17 +1060,57 @@ new HHDataList({
   new HHDataList(new TransformOptions('transform-datalist'));
 </script>
 
-# Add authentication
+# Explore content mode
 
-This section helps you add the [auths](/en/hhdatalist/v0.0.2/options/auths/) option to your datalist so HHDataList can complete API operations on behalf of users.
+HHDataList can display (in expanded records) field values in three ways: type, string, or value. This section helps you explore this feature. To learn more, see [contentMode](/en/hhdatalist/v0.0.2/options/contentmode/).
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Expand a record.
+
+1. Display the Content tool in the Tools row of your datalist.
+
+1. Toggle among the three choices of type, string, and value. 
+
+### Example
+
+<div id="content-datalist" class="hh-data-list my-3"></div>
+<script>
+  var ContentOptions = class extends TransformOptions {
+    constructor(id) {
+      super(id);
+    }
+  };
+  new HHDataList(new ContentOptions('content-datalist'));
+</script>
+
+# Add authentication
+
+HHDataList provides two options for authentication: [auth](/en/hhdatalist/v0.0.2/options/auth/) and [auths](/en/hhdatalist/v0.0.2/options/auths/). Both provide a function that returns a string used by HHDataList to build an authorization header in certain API requests. The string provided by this developer-defined function might look like this:
 
 ``` js nonum
-const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
+Bearer abc123
+```
+
+The authorization header that HHDataList builds would, then, look like this:
+
+``` js nonum
+Authorization: Bearer abc123
+```
+
+The [auth](/en/hhdatalist/v0.0.2/options/auth/) option provides a single function that HHDataList uses for all API operations:
+
+``` js nonum
+const myGetToken = () => { return 'Bearer abc123'; };
  
+new HHDataList({
+  auth: myGetToken,
+});
+```
+
+The [auths](/en/hhdatalist/v0.0.2/options/auths/) option specifies which operations require authentication:
+
+``` js nonum
 new HHDataList({
   auths: {
     deleteRecord: myGetToken,
@@ -855,11 +1120,35 @@ new HHDataList({
 });
 ```
 
+This section helps you add the [auths](/en/hhdatalist/v0.0.2/options/auths/) option to your datalist so HHDataList can attempt to acquire a token.
+
+### Steps
+
+1. Add the `myGetToken` and `auths` option to hhdatalist.html and save.
+
+    ``` js nonum
+    const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
+    
+    new HHDataList({
+      auths: {
+        deleteRecord: myGetToken,
+        patchRecord: myGetToken,
+        postRecord: myGetToken
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Click the Trash icon of a record.
+
+1. Confirm that you want to delete the record. Notice the prompt asking for a token. HHDataList instances on this page supply HHDataList with a different `myGetToken` function, one that (if the user is logged in) retrieves the token from browser Local Store rather than asking for a token via a prompt. 
+
 ### Example
 
 <div id="auths-datalist" class="hh-data-list my-3"></div>
 <script>
-  var AuthsOptions = class extends TransformOptions {
+  var AuthsOptions = class extends ContentOptions {
     constructor(id) {
       super(id);
       this.auths = {
@@ -874,21 +1163,27 @@ new HHDataList({
 
 # Override create, update, delete
 
-This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/) option to your datalist so you can tell users that certain API operations are disabled.
+This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/) option to your datalist so you can disable certain API operations and inform users.
 
 ### Steps
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+1. Add the `methods` option to hhdatalist.html and save.
 
-``` js nonum
-new HHDataList({
-  methods: {
-    deleteRecord: () => { myReportInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-    patchRecord: () => { myReportInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-    postRecord: () => { myReportInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
-  },
-});
-```
+    ``` js nonum
+    new HHDataList({
+      methods: {
+        deleteRecord: () => { myInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+        patchRecord: () => { myInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+        postRecord: () => { myInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+      },
+    });
+    ```
+
+1. Refresh your browser.
+
+1. Click the Trash icon of a record.
+
+1. Confirm that you want to delete the record. Notice the message.
 
 ### Example
 
@@ -907,18 +1202,18 @@ new HHDataList({
   new HHDataList(new MethodsOptions('methods-datalist'));
 </script>
 
-# Final Code
+# Accumulated tutorial code
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+After completing the sections above, the code in your project file should resemble the following:
 
 ``` js nonum
 HHDataList.addAllStandardThemes();
  
 const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
  
-const myReportInfo = (title, detail) => { alert(detail); };
+const myInfo = (title, detail) => { alert(detail); };
  
-const myReportError = (error) => {
+const myError = (error) => {
   alert('response' in error && 'statusText' in error.response && error.response.statusText
     ? error.response.statusText
     : 'Unknown Error');
@@ -955,7 +1250,7 @@ new HHDataList({
     new: 'The New Record form consists of managed fields.',
     value: true
   },
-  error: myReportError,
+  error: myError,
   expand: { showTool: true },
   fieldDefinitions: {
     manage: [
@@ -1017,11 +1312,11 @@ new HHDataList({
     ]
   },
   id: 'my-datalist',
-  info: myReportInfo,
+  info: myInfo,
   methods: {
-    deleteRecord: () => { myReportInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-    patchRecord: () => { myReportInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-    postRecord: () => { myReportInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+    deleteRecord: () => { myInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
+    patchRecord: () => { myInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
+    postRecord: () => { myInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
   },
   parity: { get: { value: true } },
   populate: (fieldName) => popValues.get(fieldName),
@@ -1034,6 +1329,7 @@ new HHDataList({
   },
   recordIdField: 'id',
   recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
+  reporters: { requests: { value: true, showTool: true } },
   responseHelper: {
     record: (res) => res.data,
     records: (res) => res.data.records,
@@ -1046,3 +1342,5 @@ new HHDataList({
   url: 'https://hagenhaus.com:3002/api/famous/v1/trees'
 });
 ```
+
+# Organizing your code

@@ -19,7 +19,7 @@ new HHDataList({
 });
 ```
 
-So, if `options` does not specify a `recordTitle` option, `recordTitle.fields` is an array with one element (`recordIdField`), and `recordTitle.format` is a function that returns `recordIdField` as the record title:
+So, if `options` does not specify a `recordTitle` option, `recordTitle.fields` is an array with one element ([recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/)), and `recordTitle.format` is a function that returns `recordIdField` as the record title:
 
 <div id="e1-datalist" class="hh-data-list mt-4"></div>
 <script>

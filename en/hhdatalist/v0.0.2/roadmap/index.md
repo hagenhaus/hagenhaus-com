@@ -9,3 +9,4 @@ The following improvements are not yet assigned to a future HHDataList version:
 1. Add OpenApi (Swagger) support for all APIs.
 1. Minimize dependencies.
 1. Improve the standard themes.
+1. Enable users to save HHDataList configurations.
