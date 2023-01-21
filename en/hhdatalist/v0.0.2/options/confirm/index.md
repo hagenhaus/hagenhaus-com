@@ -27,10 +27,10 @@ For example, before deleting a record for a baseball player named *Casey Jones*,
 
 |Parameter|Argument|
 |-|-|
-|*title*|"Delete Record?"|
-|*detail*|"Casey Jones (b. 1863)"|
-|*yesLabel*|"Delete"|
-|*yesCb*|HHDataList internal `DELETE` function|
+|title|Delete Record?|
+|detail|Casey Jones (b. 1863)|
+|yesLabel|Delete|
+|yesCb|HHDataList internal `DELETE` function|
 
 The job of the *confirm* function is to present the *yesLabel* to the user, obtain a response, and, if the response is affirmative, call *yesCb* with no arguments. For example, a website might display a modal:
 
@@ -50,6 +50,3 @@ To see this option in action, try deleting one of the records below:
   new HHDataList(options);
 </script>
 
-When a user confirms the *Delete* action, this datalist instance does, indeed, call *deleteRecord*, but (for this instance) HHDataList delete-record functionality has been replaced (via the [methods](/en/hhdatalist/v0.0.2/options/methods/) option) with a function that displays the following:
-
-<p><img src="warning-disabled.png" class="img-fluid d-block" width=320 loading="lazy"></p>

@@ -2,17 +2,16 @@
 
 <table class="options-table"><tr><th>Optional, but recommended</th></tr></table>
 
-The `info` option specifies a function for HHDataList to call when reporting that a record was created/deleted or a record field was updated.
+The `info` option specifies a function for HHDataList to call when reporting successes and warnings.
 
 # Example
 
-
-HHDataList passes two action-specific arguments to the `info` function: `title`, and `message`.
+HHDataList passes three action-specific arguments to the `info` function: `code`, `title`, and `message`. HHDataList uses `code` to pass `0` for success and `1` for warning. `info` functions can use `code` to make display decisions (e.g. green for success and orange for warning).
 
 ``` js nonum
 // developer-defined
-const reportInfo = (title, message) => {
-  showToast('info', title, message);
+const reportInfo = (code, title, message) => {
+  showToast(code === 0 ? 'info' : 'warning', title, detail);
 };
  
 new HHDataList({
@@ -24,8 +23,9 @@ For example, after deleting a record for a baseball player named *Casey Jones*, 
 
 |Parameter|Argument|
 |-|-|
-|*title*|"Delete Record?"|
-|*message*|\`Record "Casey Jones (b. 1863)" was deleted.\`|
+|*code*|0|
+|*title*|Success|
+|*message*|Record "Koiwai Farm Ipponzakura" was deleted.|
 
 It is up to the website to decide how to display the information. Below is an example:
 

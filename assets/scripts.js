@@ -665,9 +665,10 @@ window.deleteAccountListener = (event) => {
 * Local Storage
 ************************************************************************************************/
 
+// null means cancel. '' means no auth token.
 window.getBearerToken = () => {
   let user = localStorage.getItem('user');
-  return user ? `Bearer ${JSON.parse(user).token}` : null;
+  return user ? `Bearer ${JSON.parse(user).token}` : '';
 };
 
 /************************************************************************************************
@@ -760,8 +761,7 @@ function getTitleAndMessage(error) {
 }
 
 window.reportError = (error) => { let tm = getTitleAndMessage(error); showToast('error', tm.title, tm.message); };
-window.reportInfo = (title, detail) => { showToast('info', title, detail); };
-window.reportWarning = (title, detail) => { showToast('warning', title, detail); };
+window.reportInfo = (code, title, detail) => { showToast(code === 0 ? 'info' : 'warning', title, detail); };
 
 /************************************************************************************************
 * on load

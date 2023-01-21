@@ -406,7 +406,7 @@ Dodger Blue is the name of the default HHDataList theme. It is one of the standa
 
 1. Display the Theme tool again, notice the list of standard themes, and try some.
 
-1. Add the  `themeDefinition` option (Line 2) to hhdatalist.html and save.
+1. Add the `themeDefinition` option (Line 2) to hhdatalist.html and save.
 
     ``` js
     new HHDataList({
@@ -590,11 +590,13 @@ In addition to `manage` field definitions, HHDataList also supports `transform` 
 
 # Add a confirm function
 
-This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/) option to your datalist so users can confirm record deletions and other actions before committing.
+If a website provides a `confirm` function via the [confirm](/en/hhdatalist/v0.0.2/options/confirm/) option, HHDataList calls it before performing certain actions such as deleting a record. The signature of a `confirm` function is fixed, but the implementation is up to the website developer. Usually, `confirm` functions ask the user via a modal or dialog whether to proceed with the impending action. This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/) option to your datalist so users can confirm record deletions and other actions.
+
+> The `confirm` function used in the tutorial datalist is based on the JS [confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) function which displays a dialog. The datalists on hagenhaus.com use a `confirm` function based on Bootstrap modals.
 
 ### Steps
 
-1. Add `myConfirm` and the `confirm` option to hhdatalist.html and save.
+1. Add the `myConfirm` function and the `confirm` option to hhdatalist.html and save.
 
     ``` js nonum
     const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
@@ -604,11 +606,9 @@ This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/)
     });
     ```
 
-    `myConfirm` is an example function that works well as the `confirm` function in example applications. HHDataList instances on hagenhaus.com use a different `confirm` function. 
-
 1. Refresh your browser.
 
-1. Attempt to delete a record. HHDataList should display a [Window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) dialog.
+1. Attempt to delete a record. HHDataList displays a dialog. If you click OK, the tutorial application does not yet display an Unauthorized error message, an omission remedied in the next section.
 
 ### Example
 
@@ -625,11 +625,13 @@ This section helps you add the [confirm](/en/hhdatalist/v0.0.2/options/confirm/)
 
 # Add an error function
 
-This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) option to your datalist so HHDataList can inform users about API errors.
+If a website provides an `error` function via the [error](/en/hhdatalist/v0.0.2/options/error/) option, HHDataList calls it to report API errors. The signature of an `error` function is fixed, but the implementation is up to the website developer. Usually, `error` functions report errors to users via modals or alerts. They may also log errors. This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) option to your datalist.
+
+> The `error` function used in the tutorial datalist is based on the JS [alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) function which displays a dialog. The datalists on hagenhaus.com use an `error` function based on Bootstrap toasts.
 
 ### Steps
 
-1. Add `myError` and the `error` option to hhdatalist.html and save.
+1. Add the `myError` function and the `error` option to hhdatalist.html and save.
 
     ``` js nonum
     const myError = (error) => {
@@ -643,11 +645,9 @@ This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) opt
     });
     ```
 
-    `myError` is an example function that works well as the `error` function in example applications. HHDataList instances on hagenhaus.com use a different `error` function. 
-
 1. Refresh your browser.
 
-1. Attempt again to delete a record, and confirm the deletion. HHDataList should display a [Window.alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) dialog.
+1. Attempt again to delete a record, and confirm the deletion. HHDataList displays an error message.
 
 ### Example
 
@@ -664,25 +664,29 @@ This section helps you add the [error](/en/hhdatalist/v0.0.2/options/error/) opt
 
 # Add an info function
 
-This section helps you add the [info](/en/hhdatalist/v0.0.2/options/info/) option to your datalist so HHDataList can inform users about completed actions.
+If a website provides an `info` function via the [info](/en/hhdatalist/v0.0.2/options/info/) option, HHDataList calls it to report successes and warnings related to certain non-API events. The signature of an `info` function is fixed, but the implementation is up to the website developer. Usually, `info` functions report successes and warnings to users via modals or alerts. This section helps you add the [info](/en/hhdatalist/v0.0.2/options/info/) option to your datalist.
+
+> The `info` function used in the tutorial datalist is based on the JS [alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) function which displays a dialog. The datalists on hagenhaus.com use an `info` function based on Bootstrap toasts.
 
 ### Steps
 
-1. Add `myInfo` and the `info` option to hhdatalist.html and save.
+1. Add the `myInfo` function and the `info` option to hhdatalist.html and save.
 
     ``` js nonum
-    const myInfo = (title, detail) => { alert(detail); };
+    const myInfo = (code, title, detail) => { alert(`${title}: ${detail}`); };
      
     new HHDataList({
       info: myInfo,
     });
     ```
 
-    `myInfo` is an example function that works well as the `info` function in example applications. HHDataList instances on hagenhaus.com use a different `info` function. 
+1. Notice the `code` argument. HHDataList uses `code` to pass `0` for success and `1` for warning. `info` functions can use `code` to make display decisions (e.g. green for success and orange for warning).
 
 1. Refresh your browser.
 
-1. Display the Uniformity tool in the Tools row of your datalist, and click it to enable it. HHDataList should display a [Window.alert](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert) dialog. For more information about the concept of uniformity, see the [uniformity](/en/hhdatalist/v0.0.2/options/uniformity/) option.
+1. Display the Uniformity tool in the Tools row of your datalist.
+
+1. Click it to enable it. HHDataList displays a Success message.
 
 ### Example
 
@@ -705,7 +709,7 @@ HHDataList includes a mechanism for auto-populating the New Record form, a featu
 
 ### Steps
 
-1. Add `popValues` and the `populate` option to hhdatalist.html and save.
+1. Add the `popValues` map and the `populate` option to hhdatalist.html and save.
 
     ``` js nonum
     const popValues = new Map()
@@ -1122,13 +1126,30 @@ new HHDataList({
 
 This section helps you add the [auths](/en/hhdatalist/v0.0.2/options/auths/) option to your datalist so HHDataList can attempt to acquire a token.
 
-### Steps
+An `auth` function can return `null`, a zero-length string, or a non-zero-length string. Each causes HHDataList to react as follows:
 
-1. Add the `myGetToken` and `auths` option to hhdatalist.html and save.
+* A `null` return value causes HHDataList to abort the operation without any message.
+
+* A zero-length string causes HHDataList to abort the operation and to invoke the following function: 
 
     ``` js nonum
-    const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
-    
+    info(1, 'Warning', 'Auth token does not exist.')
+    ```
+
+* A non-zero-length string causes HHDataList to include the string in an Authorization header, and to proceed with the operation.
+
+> The `auth` function used in the tutorial datalist is based on the JS [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt) function which displays a dialog. The datalists on hagenhaus.com use an `auth` function that accesses browser Local Storage.
+
+### Steps
+
+1. Add the `myGetToken` function and the `auths` option to hhdatalist.html and save.
+
+    ``` js nonum
+    const myGetToken = () => {
+      let val = prompt('Enter auth token', '');
+      return val ? `Bearer ${val}` : val;
+    };
+     
     new HHDataList({
       auths: {
         deleteRecord: myGetToken,
@@ -1138,11 +1159,27 @@ This section helps you add the [auths](/en/hhdatalist/v0.0.2/options/auths/) opt
     });
     ```
 
+    Regarding `myGetToken`, if the user clicks Cancel, `val` is `null`, so HHDataList quietly aborts the operation. If the user clicks `OK` with no input, `val` is `''`, so HHDataList aborts the operation and calls `info` with a warning. If the user types input and clicks `OK`, `val` is a non-zero-length string, so HHDataList builds an Authorization header and proceeds with the operation. 
+
 1. Refresh your browser.
 
-1. Click the Trash icon of a record.
+1. Click the Trash icon of a record. This dialog appears:
 
-1. Confirm that you want to delete the record. Notice the prompt asking for a token. HHDataList instances on this page supply HHDataList with a different `myGetToken` function, one that (if the user is logged in) retrieves the token from browser Local Store rather than asking for a token via a prompt. 
+    <p><img src="auth-dialog.png" class="img-fluid d-block" width=360 loading="lazy"></p>
+
+1. Click Cancel. Nothing appears.
+
+1. Click a Trash icon, and then click OK. This dialog appears:
+
+    <p><img src="no-auth-token.png" class="img-fluid d-block" width=360 loading="lazy"></p>
+
+1. Click a Trash icon, type input, and then click OK. This dialog appears:
+
+    <p><img src="confirm-delete-record.png" class="img-fluid d-block" width=360 loading="lazy"></p>
+
+1. Click OK. This dialog appears:
+
+    <p><img src="unauthorized.png" class="img-fluid d-block" width=360 loading="lazy"></p>
 
 ### Example
 
@@ -1202,7 +1239,7 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
   new HHDataList(new MethodsOptions('methods-datalist'));
 </script>
 
-# Accumulated tutorial code
+# Complete tutorial code
 
 After completing the sections above, the code in your project file should resemble the following:
 

@@ -21,9 +21,9 @@ class DLBaseOptions002 {
     this.id = id;
     this.info = reportInfo;
     this.methods = {
-      deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-      patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-      postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
+      deleteRecord: () => { reportInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
+      patchRecord: () => { reportInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
+      postRecord: () => { reportInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
     };
     this.number = {};
     this.parity = { get: { value: false }, post: { value: false } };
