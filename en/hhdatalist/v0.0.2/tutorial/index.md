@@ -166,7 +166,6 @@ new HHDataList({
       this.id = id;
       this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
       this.recordIdField = 'id';
-      this.responseHelper = {};
       this.responseHelper = {
         record: (res) => res.data,
         records: (res) => res.data.records,
@@ -1209,9 +1208,9 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
     ``` js nonum
     new HHDataList({
       methods: {
-        deleteRecord: () => { myInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-        patchRecord: () => { myInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-        postRecord: () => { myInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+        deleteRecord: () => { myInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
+        patchRecord: () => { myInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
+        postRecord: () => { myInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
       },
     });
     ```
@@ -1220,7 +1219,9 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
 
 1. Click the Trash icon of a record.
 
-1. Confirm that you want to delete the record. Notice the message.
+1. Confirm that you want to delete the record. Notice the message:
+
+    <p><img src="record-deletion-disabled.png" class="img-fluid d-block" width=360 loading="lazy"></p>
 
 ### Example
 
@@ -1230,9 +1231,9 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
     constructor(id) {
       super(id);
       this.methods = {
-        deleteRecord: () => { reportWarning('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-        patchRecord: () => { reportWarning('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-        postRecord: () => { reportWarning('Cannot Create Record', 'This feature is disabled for this instance.'); }
+        deleteRecord: () => { reportInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
+        patchRecord: () => { reportInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
+        postRecord: () => { reportInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
       };
     }
   };
@@ -1244,11 +1245,10 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
 After completing the sections above, the code in your project file should resemble the following:
 
 ``` js nonum
+// Add code here.
 HHDataList.addAllStandardThemes();
  
 const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
- 
-const myInfo = (title, detail) => { alert(detail); };
  
 const myError = (error) => {
   alert('response' in error && 'statusText' in error.response && error.response.statusText
@@ -1256,7 +1256,7 @@ const myError = (error) => {
     : 'Unknown Error');
 };
  
-const myGetToken = () => { return `Bearer ${prompt('Enter auth token', '')}`; };
+const myInfo = (code, title, detail) => { alert(`${title}: ${detail}`); };
  
 const popValues = new Map()
   .set('name', 'Koiwai Farm Ipponzakura')
@@ -1270,6 +1270,11 @@ const popValues = new Map()
   .set('height', '0')
   .set('girth', '0')
   .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+ 
+const myGetToken = () => {
+  let val = prompt('Enter auth token', '');
+  return val ? `Bearer ${val}` : val;
+};
  
 new HHDataList({
   auths: {
@@ -1287,6 +1292,7 @@ new HHDataList({
     new: 'The New Record form consists of managed fields.',
     value: true
   },
+  displayLimit: 20,
   error: myError,
   expand: { showTool: true },
   fieldDefinitions: {
@@ -1351,22 +1357,23 @@ new HHDataList({
   id: 'my-datalist',
   info: myInfo,
   methods: {
-    deleteRecord: () => { myInfo('Cannot Delete Record', 'This feature is disabled for this instance.'); },
-    patchRecord: () => { myInfo('Cannot Modify Record Field', 'This feature is disabled for this instance.'); },
-    postRecord: () => { myInfo('Cannot Create Record', 'This feature is disabled for this instance.'); }
+    deleteRecord: () => { myInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
+    patchRecord: () => { myInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
+    postRecord: () => { myInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
   },
   parity: { get: { value: true } },
   populate: (fieldName) => popValues.get(fieldName),
+  processMode: { showTool: true },
   queryParams: {
     fields: { name: 'fields' },
     filter: { name: 'filter', placeholder: 'country like "AUS"' },
     order: { name: 'order', default: 'name asc' },
+    limit: { name: 'limit', default: 3, showTool: true },
     page: { name: 'page' },
-    limit: { name: 'limit', default: 3, showTool: true }
   },
   recordIdField: 'id',
   recordTitle: { fields: ['name'], format: (f, r) => r[f[0]] },
-  reporters: { requests: { value: true, showTool: true } },
+  reporters: { requests: { value: true } },
   responseHelper: {
     record: (res) => res.data,
     records: (res) => res.data.records,
@@ -1376,8 +1383,152 @@ new HHDataList({
     numTotalRecords: (res) => res.data.metadata.numTotalRecords
   },
   themeDefinition: { name: 'dodger blue' },
-  url: 'https://hagenhaus.com:3002/api/famous/v1/trees'
+  url: 'https://hagenhaus.com:3002/api/famous/v1/trees',
 });
 ```
 
 # Organizing your code
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+
+``` js nonum
+HHDataList.addAllStandardThemes();
+ 
+const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
+ 
+const myError = (error) => {
+  alert('response' in error && 'statusText' in error.response && error.response.statusText
+    ? error.response.statusText
+    : 'Unknown Error');
+};
+ 
+const myInfo = (code, title, detail) => { alert(`${title}: ${detail}`); };
+ 
+const myGetToken = () => {
+  let val = prompt('Enter auth token', '');
+  return val ? `Bearer ${val}` : val;
+};
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+
+``` js nonum
+var WebsiteOptions = class {
+  constructor(id) {
+    this.auths = {
+      deleteRecord: myGetToken,
+      patchRecord: myGetToken,
+      postRecord: myGetToken
+    };
+    this.colWidths = { records: { value: 'medium' } };
+    this.confirm = confirm;
+    this.displayLimit = 20;
+    this.error = reportError;
+    this.expand = { showTool: true },
+      this.id = id;
+    this.parity = { get: { value: true } };
+  }
+};
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+``` js nonum
+var ApiOptions = class extends WebsiteOptions {
+  constructor(id) {
+    super(id);
+    this.fieldDefinitions = {
+      manage: [
+        { fieldName: 'id', isChecked: false },
+        { fieldName: 'name', isEditable: true, isRequired: true },
+        { fieldName: 'species', isEditable: true },
+        { fieldName: 'description', isEditable: true },
+        { fieldName: 'city', isEditable: true },
+        { fieldName: 'country', isEditable: true },
+        { fieldName: 'lat', isEditable: true },
+        { fieldName: 'lng', isEditable: true },
+        { fieldName: 'birthYear', isEditable: true, colWidth: 'narrow' },
+        { fieldName: 'height', isEditable: true, colWidth: 'narrow' },
+        { fieldName: 'girth', isEditable: true, isChecked: false },
+        { fieldName: 'links', isEditable: true }
+      ],
+      transform: [
+        { label: 'ID', fieldName: 'id', isChecked: false },
+        { label: 'Name', fieldName: 'name' },
+        {
+          label: 'Species', fieldName: 'species',
+          transformer: (v) => ({ url: v.link, title: v.text }),
+          display: { type: 'link' }
+        },
+        {
+          label: 'Description', fieldName: 'description', colWidth: 'wide',
+          display: { type: 'text', rows: 3 }
+        },
+        { label: 'Nearby City', fieldName: 'city' },
+        {
+          label: 'Country', fieldName: 'country',
+          transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${v}`)).data.name
+        },
+        {
+          label: 'Coordinates', fieldNames: ['lat', 'lng'],
+          transformer: (lat, lng) => ({
+            url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+            title: `${lat}, ${lng}`
+          }),
+          display: { type: 'link' }
+        },
+        {
+          label: 'Age (years)', fieldName: 'birthYear',
+          transformer: (v) => `${(new Date().getFullYear() - v).toLocaleString()}`
+        },
+        {
+          label: 'Height (meters)', fieldName: 'height',
+          transformer: (v) => v > 0 ? Math.round(v * 0.3048) : 'Unknown'
+        },
+        {
+          label: 'Links', fieldName: 'links',
+          transformer: (v) => {
+            const a = [];
+            for (let i of v) { a.push({ url: i.link, title: i.text }); }
+            return a;
+          },
+          display: { type: 'link' }
+        }
+      ]
+    };
+    this.queryParams = {
+      fields: { name: 'fields' },
+      filter: { name: 'filter', placeholder: 'country like "AUS"' },
+      order: { name: 'order', default: 'name asc' },
+      limit: { name: 'limit', default: 3, showTool: true },
+      page: { name: 'page' },
+    };
+    this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
+    this.recordIdField = 'id';
+    this.responseHelper = {
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
+    };
+    this.url = 'https://hagenhaus.com:3002/api/famous/v1/trees';
+  }
+};
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+``` js nonum
+var dLOptions01 = class extends ApiOptions {
+  constructor(id) {
+    super(id);
+    this.themeDefinition = { name: 'firebrick' };
+  }
+};
+ 
+new HHDataList(new dLOptions01('my-datalist'));
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
