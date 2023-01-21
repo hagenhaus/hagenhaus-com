@@ -1240,12 +1240,11 @@ This section helps you add the [methods](/en/hhdatalist/v0.0.2/options/methods/)
   new HHDataList(new MethodsOptions('methods-datalist'));
 </script>
 
-# Complete tutorial code
+# Final tutorial code
 
 After completing the sections above, the code in your project file should resemble the following:
 
 ``` js nonum
-// Add code here.
 HHDataList.addAllStandardThemes();
  
 const myConfirm = (title, detail, yesLabel, yesCb) => { if (confirm(title)) { yesCb(); } };
@@ -1389,7 +1388,11 @@ new HHDataList({
 
 # Organizing your code
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+When deploying many HHDataList instances on a website, you can organize options into a class hierarchy. A website options class might include options general to the entire website like confirm, error, and info. API options classes might include options general to an entire API like recordIdField and responseHelper. Endpoint options classes might include options general to related endpoints like fieldDefinitions, recordTitle, and url. Finally, instance options classes might include expand and themeDefinition. See the diagram below.
+
+<p><img src="inheritance.png" class="img-fluid d-block" width=400 height=325 loading="lazy"></p>
+
+First, you might organize your functions:
 
 ``` js nonum
 HHDataList.addAllStandardThemes();
@@ -1410,7 +1413,7 @@ const myGetToken = () => {
 };
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+Second, you might define a base class for website-wide options: 
 
 ``` js nonum
 var WebsiteOptions = class {
@@ -1425,16 +1428,43 @@ var WebsiteOptions = class {
     this.displayLimit = 20;
     this.error = reportError;
     this.expand = { showTool: true },
-      this.id = id;
+    this.id = id;
+    this.info = myInfo;
     this.parity = { get: { value: true } };
   }
 };
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Third, you might define one or more classes specific to one or more APIs:
 
 ``` js nonum
-var ApiOptions = class extends WebsiteOptions {
+var Api_1_Options = class extends WebsiteOptions {
+  constructor(id) {
+    super(id);
+    this.queryParams = {
+      fields: { name: 'fields' },
+      filter: { name: 'filter' },
+      order: { name: 'order', default: 'name asc' },
+      limit: { name: 'limit', default: 3, showTool: true },
+      page: { name: 'page' },
+    };
+    this.recordIdField = 'id';
+    this.responseHelper = {
+      record: (res) => res.data,
+      records: (res) => res.data.records,
+      numPages: (res, limit) => res.data.metadata.numTotalPages,
+      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
+      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
+      numTotalRecords: (res) => res.data.metadata.numTotalRecords
+    };
+  }
+};
+```
+
+Fourth, you might define one or more classes specific to one or more endpoints:
+
+``` js nonum
+var Endpoint_1_Options = class extends Api_1_Options {
   constructor(id) {
     super(id);
     this.fieldDefinitions = {
@@ -1496,39 +1526,27 @@ var ApiOptions = class extends WebsiteOptions {
         }
       ]
     };
-    this.queryParams = {
-      fields: { name: 'fields' },
-      filter: { name: 'filter', placeholder: 'country like "AUS"' },
-      order: { name: 'order', default: 'name asc' },
-      limit: { name: 'limit', default: 3, showTool: true },
-      page: { name: 'page' },
-    };
+    this.queryParams.filter.placeholder = 'country like "AUS"';
+    this.queryParams.order.default = 'name asc';
     this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
-    this.recordIdField = 'id';
-    this.responseHelper = {
-      record: (res) => res.data,
-      records: (res) => res.data.records,
-      numPages: (res, limit) => res.data.metadata.numTotalPages,
-      numResponseRecords: (res) => res.data.metadata.numResponseRecords,
-      numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
-      numTotalRecords: (res) => res.data.metadata.numTotalRecords
-    };
     this.url = 'https://hagenhaus.com:3002/api/famous/v1/trees';
   }
 };
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Fifth, you might define one or more classes intended for instantiation:
 
 ``` js nonum
-var dLOptions01 = class extends ApiOptions {
+var Instance_1_Options = class extends Endpoint_1_Options {
   constructor(id) {
     super(id);
     this.themeDefinition = { name: 'firebrick' };
   }
 };
- 
-new HHDataList(new dLOptions01('my-datalist'));
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Finally, you might instantiate HHDataList instances on various pages:
+
+``` js nonum
+new HHDataList(new Instance_1_Options('my-datalist'));
+```
