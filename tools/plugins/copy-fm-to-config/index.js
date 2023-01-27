@@ -9,7 +9,7 @@ export default function attacher(options = {}) {
       visit(tree, 'yaml', (node, index, parent) => {
         let fm = yaml.load(node.value, 'utf8');
 
-        //console.log(JSON.stringify(fm, null, 2));
+        // console.log(JSON.stringify(fm, null, 2));
 
         if(fm.hasOwnProperty('author')) {configJson.author = fm.author;}
         if(fm.hasOwnProperty('background')) {configJson.background = fm.background;}

@@ -289,11 +289,11 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
     // Write published data
     if (configJson.publishedDate) {
-      let date = new Date(configJson.publishedDate);
+      // let date = new Date(configJson.publishedDate);
       if (document.querySelector('div.hh-viewer-wrapper span.author').innerHTML) {
-        document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = `on ${date.toLocaleDateString()}`;
+        document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = `on ${configJson.publishedDate}`;
       } else {
-        document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = `Published on ${date.toLocaleDateString()}`;
+        document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = `Published on ${configJson.publishedDate}`;
       }
     } else {
       document.querySelector('div.hh-viewer-wrapper span.published-date').innerHTML = '';

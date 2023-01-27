@@ -28,7 +28,7 @@ class DLBaseOptions002 {
     this.number = {};
     this.parity = { get: { value: false }, post: { value: false } };
     this.processMode = {};
-    this.queryParams = { fields: {}, filter: {}, order: {}, limit: { default: 3, showTool: true } };
+    this.queryParams = { fields: {}, filter: {}, order: {}, limit: { choices: [1, 2, 3, 5, 10, 20], default: 3, showTool: true } };
     this.recordIdField = 'id';
     this.reporters = { fieldDefinitions: {}, queryParams: {}, requests: {}, theme: {}, themes: {} };
     this.responseHelper = {};

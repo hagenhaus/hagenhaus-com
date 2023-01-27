@@ -7,615 +7,13 @@
   },
   "servers": [
     {
-      "url": "https://hagenhaus.com:3002/api"
+      "url": "http://localhost:8081/api"
     },
     {
-      "url": "http://localhost:8081/api"
+      "url": "https://hagenhaus.com:3002/api"
     }
   ],
   "paths": {
-    "/baseball/v1/players": {
-      "get": {
-        "tags": [
-          "Players"
-        ],
-        "description": "This operation returns an array of baseball player objects.",
-        "operationId": "getBaseballPlayers",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Specifies the types of records that are returnable. Default is all records.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All records": {
-                "value": ""
-              },
-              "Records where field1 is 25": {
-                "value": "field1 = 25"
-              },
-              "Records where field2 is \"abc\"": {
-                "value": "field2 like \"abc\""
-              },
-              "Records where field2 starts with \"abc\"": {
-                "value": "field2 like \"abc%\""
-              },
-              "Records where field2 includes \"xyz\"": {
-                "value": "field2 like \"%xyz%\""
-              },
-              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
-                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
-              }
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Establishing the order of returnable records. Default is random.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "Default order": {
-                "value": ""
-              },
-              "Order by field asc": {
-                "value": "field asc"
-              },
-              "Order by field1 asc, then field2 desc": {
-                "value": "field1 asc, field2 desc"
-              }
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Specifies page number. 1 means first page. Default is 1.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Specifies page size. Default is 10.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "hasFieldList",
-            "in": "query",
-            "description": "True means return list of all record fields. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasRecords",
-            "in": "query",
-            "description": "True means return records. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/baseball/v1/players/{id}": {
-      "get": {
-        "tags": [
-          "Players"
-        ],
-        "description": "This operation returns a baseball player object.",
-        "operationId": "getBaseballPlayer",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Record Id.",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Id"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/baseball/v1/player-stats": {
-      "get": {
-        "tags": [
-          "Player Stats"
-        ],
-        "description": "This operation returns an array of baseball player statistics objects.",
-        "operationId": "getBaseballPlayerStats",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Specifies the types of records that are returnable. Default is all records.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All records": {
-                "value": ""
-              },
-              "Records where field1 is 25": {
-                "value": "field1 = 25"
-              },
-              "Records where field2 is \"abc\"": {
-                "value": "field2 like \"abc\""
-              },
-              "Records where field2 starts with \"abc\"": {
-                "value": "field2 like \"abc%\""
-              },
-              "Records where field2 includes \"xyz\"": {
-                "value": "field2 like \"%xyz%\""
-              },
-              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
-                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
-              }
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Establishing the order of returnable records. Default is random.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "Default order": {
-                "value": ""
-              },
-              "Order by field asc": {
-                "value": "field asc"
-              },
-              "Order by field1 asc, then field2 desc": {
-                "value": "field1 asc, field2 desc"
-              }
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Specifies page number. 1 means first page. Default is 1.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Specifies page size. Default is 10.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "hasFieldList",
-            "in": "query",
-            "description": "True means return list of all record fields. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasRecords",
-            "in": "query",
-            "description": "True means return records. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/devportals/v1/companies": {
-      "get": {
-        "tags": [
-          "Companies"
-        ],
-        "description": "This operation returns an array of company objects.",
-        "operationId": "getCompanies",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Specifies the types of records that are returnable. Default is all records.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All records": {
-                "value": ""
-              },
-              "Records where field1 is 25": {
-                "value": "field1 = 25"
-              },
-              "Records where field2 is \"abc\"": {
-                "value": "field2 like \"abc\""
-              },
-              "Records where field2 starts with \"abc\"": {
-                "value": "field2 like \"abc%\""
-              },
-              "Records where field2 includes \"xyz\"": {
-                "value": "field2 like \"%xyz%\""
-              },
-              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
-                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
-              }
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Establishing the order of returnable records. Default is random.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "Default order": {
-                "value": ""
-              },
-              "Order by field asc": {
-                "value": "field asc"
-              },
-              "Order by field1 asc, then field2 desc": {
-                "value": "field1 asc, field2 desc"
-              }
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Specifies page number. 1 means first page. Default is 1.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Specifies page size. Default is 10.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetCompaniesResponse200"
-                },
-                "example": {
-                  "counts": {
-                    "totalRecords": 35,
-                    "totalFilteredRecords": 7,
-                    "totalResponseRecords": 3
-                  },
-                  "records": [
-                    {
-                      "id": "1eb0dc3e-e0ce-11ec-99fe-3382f1353464",
-                      "name": "Equinix, Inc.",
-                      "url": "https://www.equinix.com/",
-                      "city": "Redwood City",
-                      "region": "California",
-                      "countryCode": "USA"
-                    },
-                    {
-                      "id": "1eb1043e-e0ce-11ec-99fe-3382f1353464",
-                      "name": "FactSet Research Systems Inc.",
-                      "url": "https://www.factset.com/",
-                      "city": "Norwalk",
-                      "region": "Connecticut",
-                      "countryCode": "USA"
-                    },
-                    {
-                      "id": "1ec04bba-e0ce-11ec-99fe-3382f1353464",
-                      "name": "PTC Inc.",
-                      "url": "https://www.ptc.com/",
-                      "city": "Boston",
-                      "region": "Massachusetts",
-                      "countryCode": "USA"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/devportals/v1/companies/{id}": {
-      "get": {
-        "tags": [
-          "Companies"
-        ],
-        "description": "This operation returns a company object.",
-        "operationId": "getCompany",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Universally Unique ID (e.g. 12345678-abcd-abcd-abcd-12345678abcd).",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Uuid"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Company"
-                },
-                "example": {
-                  "id": "1eb0dc3e-e0ce-11ec-99fe-3382f1353464",
-                  "name": "Equinix, Inc.",
-                  "url": "https://www.equinix.com/",
-                  "city": "Redwood City",
-                  "region": "California",
-                  "countryCode": "USA"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/devportals/v1/countries": {
       "get": {
         "tags": [
@@ -742,22 +140,26 @@
                   "$ref": "#/components/schemas/GetCountriesResponse200"
                 },
                 "example": {
-                  "counts": {
-                    "totalRecords": 249,
-                    "totalFilteredRecords": 8,
-                    "totalResponseRecords": 3
+                  "metadata": {
+                    "numTotalRecords": 249,
+                    "numFilteredRecords": 7,
+                    "numResponseRecords": 3,
+                    "page": 1,
+                    "limit": 3,
+                    "numTotalPages": 3,
+                    "firstItemOnPage": 1
                   },
                   "records": [
                     {
-                      "code": "AFG",
+                      "id": "AFG",
                       "name": "Afghanistan"
                     },
                     {
-                      "code": "KAZ",
+                      "id": "KAZ",
                       "name": "Kazakhstan"
                     },
                     {
-                      "code": "KGZ",
+                      "id": "KGZ",
                       "name": "Kyrgyzstan"
                     }
                   ]
@@ -819,576 +221,8 @@
                   "$ref": "#/components/schemas/Country"
                 },
                 "example": {
-                  "code": "AFG",
+                  "id": "AFG",
                   "name": "Afghanistan"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/devportals/v1/portals": {
-      "get": {
-        "tags": [
-          "Portals"
-        ],
-        "description": "This operation returns an array of developer portal objects.",
-        "operationId": "getPortals",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Specifies the types of records that are returnable. Default is all records.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All records": {
-                "value": ""
-              },
-              "Records where field1 is 25": {
-                "value": "field1 = 25"
-              },
-              "Records where field2 is \"abc\"": {
-                "value": "field2 like \"abc\""
-              },
-              "Records where field2 starts with \"abc\"": {
-                "value": "field2 like \"abc%\""
-              },
-              "Records where field2 includes \"xyz\"": {
-                "value": "field2 like \"%xyz%\""
-              },
-              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
-                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
-              }
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Establishing the order of returnable records. Default is random.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "Default order": {
-                "value": ""
-              },
-              "Order by field asc": {
-                "value": "field asc"
-              },
-              "Order by field1 asc, then field2 desc": {
-                "value": "field1 asc, field2 desc"
-              }
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Specifies page number. 1 means first page. Default is 1.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Specifies page size. Default is 10.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "hasFieldList",
-            "in": "query",
-            "description": "True means return list of all record fields. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "hasRecords",
-            "in": "query",
-            "description": "True means return records. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPortalsResponse200"
-                },
-                "example": {
-                  "counts": {
-                    "totalRecords": 35,
-                    "totalFilteredRecords": 4,
-                    "totalResponseRecords": 3
-                  },
-                  "records": [
-                    {
-                      "id": "15ed665a-e19e-11ec-99fe-3382f1353464",
-                      "name": "Barclays",
-                      "url": "https://developer.barclays.com",
-                      "companyId": "1ea14724-e0ce-11ec-99fe-3382f1353464"
-                    },
-                    {
-                      "id": "15ed8b1c-e19e-11ec-99fe-3382f1353464",
-                      "name": "BNI API Digital Services",
-                      "url": "https://digitalservices.bni.co.id",
-                      "companyId": "1ea17c3a-e0ce-11ec-99fe-3382f1353464"
-                    },
-                    {
-                      "id": "15faf7de-e19e-11ec-99fe-3382f1353464",
-                      "name": "bol.com,",
-                      "url": "https://developers.bol.com",
-                      "companyId": "1ea1a82c-e0ce-11ec-99fe-3382f1353464"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Portals"
-        ],
-        "description": "This operation creates a portal record.",
-        "operationId": "postPortal",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/v1_portals_body"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/devportals/v1/portals/{id}": {
-      "get": {
-        "tags": [
-          "Portals"
-        ],
-        "description": "This operation returns a developer portal object.",
-        "operationId": "getPortal",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Universally Unique ID (e.g. 12345678-abcd-abcd-abcd-12345678abcd).",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Uuid"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "hasJoinedFields",
-            "in": "query",
-            "description": "True means include joined fields in response. Default is false.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Portal"
-                },
-                "example": {
-                  "id": "15ec4054-e19e-11ec-99fe-3382f1353464",
-                  "name": "Ably Realtime",
-                  "url": "https://ably.com/docs",
-                  "companyId": "1e921d1c-e0ce-11ec-99fe-3382f1353464"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Portals"
-        ],
-        "description": "This operation deletes the specified portal.",
-        "operationId": "deletePortal",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Universally Unique ID (e.g. 12345678-abcd-abcd-abcd-12345678abcd).",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Uuid"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Portals"
-        ],
-        "description": "This operation updates the specified portal.",
-        "operationId": "patchPortal",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Universally Unique ID (e.g. 12345678-abcd-abcd-abcd-12345678abcd).",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/Uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/portals_id_body"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/devportals/v1/sectors": {
-      "get": {
-        "tags": [
-          "Sectors"
-        ],
-        "description": "This operation returns an array of sector objects.",
-        "operationId": "getSectors",
-        "parameters": [
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "Specifies the types of records that are returnable. Default is all records.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All records": {
-                "value": ""
-              },
-              "Records where field1 is 25": {
-                "value": "field1 = 25"
-              },
-              "Records where field2 is \"abc\"": {
-                "value": "field2 like \"abc\""
-              },
-              "Records where field2 starts with \"abc\"": {
-                "value": "field2 like \"abc%\""
-              },
-              "Records where field2 includes \"xyz\"": {
-                "value": "field2 like \"%xyz%\""
-              },
-              "Records where field2 includes \"abc\" and field3 is \"xyz\"": {
-                "value": "field2 like \"%abc%\" and field3 like \"xyz\""
-              }
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Establishing the order of returnable records. Default is random.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "Default order": {
-                "value": ""
-              },
-              "Order by field asc": {
-                "value": "field asc"
-              },
-              "Order by field1 asc, then field2 desc": {
-                "value": "field1 asc, field2 desc"
-              }
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Specifies page number. 1 means first page. Default is 1.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Specifies page size. Default is 10.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "hasMetadata",
-            "in": "query",
-            "description": "True means return metadata. Default is true.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetSectorsResponse200"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/devportals/v1/sectors/{id}": {
-      "get": {
-        "tags": [
-          "Sectors"
-        ],
-        "description": "This operation returns a sector object.",
-        "operationId": "getSector",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Record identifier",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/StringId"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Specifies the fields to return in each record. Default is all fields.",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "All fields": {
-                "value": ""
-              },
-              "field1": {
-                "value": "field1"
-              },
-              "field1, field2, and field3": {
-                "value": "field1, field2, field3"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Sector"
                 }
               }
             }
@@ -1504,9 +338,103 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTreesResponse200"
+                },
+                "example": {
+                  "metadata": {
+                    "numTotalRecords": 12,
+                    "numFilteredRecords": 2,
+                    "numResponseRecords": 2,
+                    "page": 1,
+                    "limit": 3,
+                    "numTotalPages": 1,
+                    "firstItemOnPage": 1
+                  },
+                  "records": [
+                    {
+                      "id": 4,
+                      "birthYear": 500,
+                      "city": "Derby",
+                      "country": "AUS",
+                      "description": "The Baobab Prison Tree ...",
+                      "girth": 48,
+                      "height": 46,
+                      "lat": -17.3507,
+                      "links": [
+                        {
+                          "link": "https://en.wikipedia.org/...",
+                          "text": "Wikipedia"
+                        },
+                        {
+                          "link": "https://www.monumentaltrees.com/...",
+                          "text": "Monumental Trees"
+                        }
+                      ],
+                      "lng": 123.6699,
+                      "name": "Boab Prison Tree",
+                      "species": {
+                        "link": "https://en.wikipedia.org/...",
+                        "text": "Adansonia gregorii"
+                      }
+                    },
+                    {
+                      "id": 10,
+                      "birthYear": 1780,
+                      "city": "Durham",
+                      "country": "AUS",
+                      "description": "The Dig Tree is ...",
+                      "girth": 0,
+                      "height": 0,
+                      "lat": "-27.6237000",
+                      "links": [
+                        {
+                          "link": "https://en.wikipedia.org/...",
+                          "text": "Wikipedia"
+                        }
+                      ],
+                      "lng": "141.0758000",
+                      "name": "Burke and Wills Dig Tree",
+                      "species": {
+                        "link": "https://en.wikipedia.org/...",
+                        "text": "Eucalyptus"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Trees"
+        ],
+        "description": "This operation creates a famous tree record.",
+        "operationId": "createFamousTree",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1_trees_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/famous/v1/trees/{id}": {
@@ -1553,49 +481,123 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tree"
+                },
+                "example": {
+                  "id": 5,
+                  "birthYear": 400,
+                  "city": "Santa María del Tule",
+                  "country": "MEX",
+                  "description": "El Árbol del Tule is ...",
+                  "girth": 46,
+                  "height": 116,
+                  "lat": 17.0465308,
+                  "links": [
+                    {
+                      "link": "https://en.wikipedia.org/...",
+                      "text": "Wikipedia"
+                    },
+                    {
+                      "link": "https://www.tripadvisor.com/...",
+                      "text": "TripAdvisor"
+                    }
+                  ],
+                  "lng": -96.6365872,
+                  "name": "Árbol del Tule",
+                  "species": {
+                    "link": "https://en.wikipedia.org/...",
+                    "text": "Taxodium mucronatum"
+                  }
+                }
+              }
+            }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Trees"
+        ],
+        "description": "This operation deletes a famous tree record.",
+        "operationId": "deleteFamousTree",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Record Id.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Trees"
+        ],
+        "description": "This operation updates a famous tree record.",
+        "operationId": "modifyFamousTree",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Record Id.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/trees_id_body"
+              },
+              "example": {
+                "properties": {
+                  "updates": "city='Thorndike'"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "Company": {
-        "title": "Company",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "region": {
-            "type": "string"
-          },
-          "countryCode": {
-            "maxLength": 3,
-            "minLength": 3,
-            "pattern": "^[A-Z]{3}$",
-            "type": "string"
-          }
-        }
-      },
-      "CompanyArray": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/Company"
-        }
-      },
-      "Counters": {
-        "title": "Counters",
+      "Metadata": {
+        "title": "Metadata",
         "type": "object",
         "properties": {
           "numTotalRecords": {
@@ -1609,6 +611,22 @@
           "numResponseRecords": {
             "type": "integer",
             "description": "Total number of records in this particular response body."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page (one-based))."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Page size."
+          },
+          "numTotalPages": {
+            "type": "integer",
+            "description": "Math.ceil( numFilteredRecords / limit )."
+          },
+          "firstItemOnPage": {
+            "type": "integer",
+            "description": "Index of first item on page into numFilteredRecords (one-based)."
           }
         }
       },
@@ -1636,47 +654,25 @@
         "pattern": "^[A-Z]{3}$",
         "type": "string"
       },
-      "GetCompaniesResponse200": {
-        "type": "object",
-        "properties": {
-          "counts": {
-            "$ref": "#/components/schemas/Counters"
-          },
-          "records": {
-            "$ref": "#/components/schemas/CompanyArray"
-          }
-        }
-      },
       "GetCountriesResponse200": {
         "type": "object",
         "properties": {
-          "counts": {
-            "$ref": "#/components/schemas/Counters"
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
           },
           "records": {
             "$ref": "#/components/schemas/CountryArray"
           }
         }
       },
-      "GetPortalsResponse200": {
+      "GetTreesResponse200": {
         "type": "object",
         "properties": {
-          "counts": {
-            "$ref": "#/components/schemas/Counters"
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
           },
           "records": {
-            "$ref": "#/components/schemas/PortalArray"
-          }
-        }
-      },
-      "GetSectorsResponse200": {
-        "type": "object",
-        "properties": {
-          "counts": {
-            "$ref": "#/components/schemas/Counters"
-          },
-          "records": {
-            "$ref": "#/components/schemas/SectorArray"
+            "$ref": "#/components/schemas/TreeArray"
           }
         }
       },
@@ -1684,52 +680,74 @@
         "type": "string",
         "description": "Record ID."
       },
-      "Portal": {
-        "title": "Portal",
+      "Link": {
+        "title": "Link",
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "companyId": {
-            "type": "string"
-          }
-        }
-      },
-      "PortalArray": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/Portal"
-        }
-      },
-      "Sector": {
-        "type": "object",
-        "properties": {
-          "id": {
+          "link": {
             "type": "string",
-            "description": "Sector identifier."
+            "description": "Url."
           },
-          "name": {
+          "text": {
             "type": "string",
-            "description": "Sector name."
+            "description": "Text."
           }
-        }
-      },
-      "SectorArray": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/Sector"
         }
       },
       "StringId": {
         "type": "string",
         "description": "Identifier of type string."
+      },
+      "Tree": {
+        "title": "Tree",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "birthYear": {
+            "type": "integer"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "description": {
+            "type": "string"
+          },
+          "girth": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "lng": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "species": {
+            "$ref": "#/components/schemas/Link"
+          }
+        }
+      },
+      "TreeArray": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Tree"
+        }
       },
       "Uuid": {
         "maxLength": 36,
@@ -1738,21 +756,48 @@
         "type": "string",
         "description": "Universally Unique ID."
       },
-      "v1_portals_body": {
+      "v1_trees_body": {
         "type": "object",
         "properties": {
+          "birthYear": {
+            "type": "integer"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "description": {
+            "type": "string"
+          },
+          "girth": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "lng": {
+            "type": "number"
+          },
           "name": {
             "type": "string"
           },
-          "url": {
-            "type": "string"
-          },
-          "companyId": {
-            "$ref": "#/components/schemas/Uuid"
+          "species": {
+            "$ref": "#/components/schemas/Link"
           }
         }
       },
-      "portals_id_body": {
+      "trees_id_body": {
         "type": "object",
         "properties": {
           "updates": {
@@ -1965,6 +1010,12 @@
             "value": "field1=\"New Value\",field2=\"New Value\""
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

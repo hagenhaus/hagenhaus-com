@@ -325,7 +325,7 @@ i.fas:hover {
 }
 
 #page-col div.hh-viewer-wrapper {
-  max-width: 1200px;
+  max-width: 900px;
 }
 
 #page-col div.hh-viewer-wrapper span.title {
@@ -933,4 +933,23 @@ div.swagger-ui .opblock {
 
 div.toast {
   box-shadow: -0.2rem 0.3rem 0.3rem rgb(0 0 0 / 40%);
+}
+
+/************************************************
+ Articles
+************************************************/
+
+div.articles-item div.title a {
+  font-size:125%;
+}
+
+div.articles-item div.byline {
+  font-size:92%;
+  font-weight:500;
+  margin-top:3px;
+}
+
+div.articles-item div.summary {
+  margin-top:6px;
+  margin-bottom:18px;
 }
