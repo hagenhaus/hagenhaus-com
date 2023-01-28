@@ -1,13 +1,8 @@
 ---
-hasOtp: true
-hasPageHeader: true
-hasRefreshBtn: false
 publishedDate: January 25, 2023
 ---
 
 # Hey REST API, Got Parity?
-
-> Please submit comments on [Gitter](https://gitter.im/hagenhaus/hhdatalist). Thanks.
 
 Some REST APIs include a subtle feature that enables frontend UI components to optimize the paging of expanded records, a feature that I call <span style="font-size:92%;font-weight:600;">GET Parity</span>:
 
@@ -112,3 +107,7 @@ Click the Get Parity button to enable the <span style="font-size:92%;font-weight
 ``` nonum
 GET: https://hagenhaus.com:3002/api/baseball/v1/players? ...
 ```
+
+# Feedback
+
+> Please submit comments on [Gitter](https://gitter.im/hagenhaus/hhdatalist). Thanks.
