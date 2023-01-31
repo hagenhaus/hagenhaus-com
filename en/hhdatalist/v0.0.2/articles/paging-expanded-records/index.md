@@ -10,7 +10,7 @@ Some REST APIs include a subtle feature that enables frontend UI components to o
 
 A REST API has <span style="font-size:92%;font-weight:600;">GET Parity</span> if its `getRecords` operation can (not must) return all the fields that its `getRecord` operation can. This one simple capability enables frontend UI components to populate a page of expanded records with a single call to `getRecords` rather than with iterative calls to `getRecord`. 
 
-# Demo
+# Demonstration
 
 You can experiment with <span style="font-size:92%;font-weight:600;">GET Parity</span> using the [HHDataList](/en/hhdatalist/v0.0.2/) instance below. Note that the Get Parity tool is initially disabled. Note also that the Requests Reporter tool is enabled which means the datalist will output all request URLs to your browser console for inspection. Refer to the steps under the datalist.
 
