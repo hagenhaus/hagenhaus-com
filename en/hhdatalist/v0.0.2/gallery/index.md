@@ -22,7 +22,7 @@
 
 # Famous Trees
 
-<div id="famous-trees-datalist" class="hh-data-list"></div>
+<div id="famous-trees-datalist" class="hh-data-list mt-4"></div>
 <script>
   var treesOptions = new DLTreesOptions002('famous-trees-datalist');
   treesOptions.processMode.showTool = true;

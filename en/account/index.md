@@ -27,7 +27,6 @@ hasScrollbar: false
   </div>
 </form>
 <h2>Sign up</h2>
-<p>You do not need a Hagenhaus account to access <a href="/en/hhdatalist/v0.0.2/">HHDataList</a> docs or deploy HHDataList instances. Accounts are used primarily for testing.</p>
 <form id="sign-up-form" class="row gx-3 mb-3">
   <div class="col-md-6 mb-3">
     <label for="firstName" class="form-label">First name</label>
