@@ -10,17 +10,15 @@ menuItem: mi-home
 
 <div class="row">
 <div class="col-auto">
-  <img src="profile.png" class="img-fluid d-block" width=200 loading="lazy">
+  <img src="profile.png" class="img-fluid d-block" width=180 loading="lazy">
 </div>
 <div class="col">
 
 My name is [Matt Hagen](https://www.linkedin.com/in/matthewjosephhagen/), <span style="font-size:92%;">MS.Ed</span>. 
 
-I specialize in developer training, courseware, documentation, and portals.
+I do documentation, courseware, and training for software developers.
 
-I created [HHDataList](/en/hhdatalist/v0.0.2/) to showcase my preference for concise language, diagrams, and runnable examples. Check it out!
-
-I'd be glad to help you with your training or documentation projects. 
+See [HHDataList](/en/hhdatalist/v0.0.2/) for examples.
 
 Contact me via [LinkedIn](https://www.linkedin.com/in/matthewjosephhagen/).
 

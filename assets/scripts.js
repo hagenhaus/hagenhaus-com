@@ -454,16 +454,16 @@ const followLink = async (href) => {
   let a = document.createElement('a');
   a.href = href;
 
-  //console.log(a.pathname);
-  //if(a.hash) {console.log(a.hash)};
+  // console.log(typeof a.port);
+  // if(a.hash) {console.log(a.hash)};
 
   if (a.pathname.endsWith('.pdf')) {
     window.open(a.href, '_blank').focus();
-  } else if (a.hostname === window.location.hostname) {
+  } else if (a.hostname === window.location.hostname && (a.port === null || a.port === '' || a.port === '8080')) {
     if (currentPage.folder == a.pathname && a.hash) {
       scrollPage(a.hash.substring(1));
-      //updateHistory(a.hash.substring(1));
-      //setOtpItemToActive(a.hash.substring(1));
+      // updateHistory(a.hash.substring(1));
+      // setOtpItemToActive(a.hash.substring(1));
     } else {
       await getWebpage(a.pathname, a.hash, true);
     }
