@@ -23,4 +23,3 @@ You can add datalists to your website. Below is a suggested approach:
 1. Reference [Options](/en/hhdatalist/v0.0.2/options/) as needed.
 1. Visit the [Gallery](/en/hhdatalist/v0.0.2/gallery/).
 1. Read an [Article](/en/hhdatalist/v0.0.2/articles/).
-1. Submit feedback on [Gitter](https://gitter.im/hagenhaus/hhdatalist).

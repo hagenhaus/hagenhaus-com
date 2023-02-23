@@ -1,0 +1,16 @@
+<div class="row">
+<div class="col-auto">
+  <img src="profile.png" class="img-fluid d-block" width=160 loading="lazy">
+</div>
+<div class="col">
+
+My name is [Matt Hagen](https://www.linkedin.com/in/matthewjosephhagen/), <span style="font-size:92%;">MS.Ed</span>. 
+
+I specialize in training, courseware, and docs for software developers, REST API design, and frontend/backend development using JS-based toolchains. I also have experience with IoT, search and navigation, databases, big data, streaming, and identity. 
+
+Examples of my work include [HHDataList](/en/hhdatalist/v0.0.2/) and [hagenhaus.com](https://hagenhaus.com).
+
+I'm happy to provide contract services. Contact me via [LinkedIn](https://www.linkedin.com/in/matthewjosephhagen/).
+
+</div>
+</div>
