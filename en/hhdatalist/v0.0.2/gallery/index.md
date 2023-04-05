@@ -29,6 +29,17 @@
   new HHDataList(treesOptions);
 </script>
 
+# Lumen
+
+<div id="lumen-datalist" class="hh-data-list mt-4"></div>
+<script>
+  var lumenOptions = new LumenOptions('lumen-datalist');
+  lumenOptions.processMode.showTool = true;
+  lumenOptions.processMode.value = 'copy';
+  lumenOptions.themeDefinition.showTool = true;
+  new HHDataList(lumenOptions);
+</script>
+
 # Open Library
 
 ## Authors
