@@ -1,11 +1,12 @@
 ---
 author: ''
 hasOtp: false
+menuItem: mi-about
 ---
 
 # About
 
-My name is Matt Hagen. I am a contract software developer, technical writer, technical trainer, and course developer with many years of experience. My services include the following:
+My name is Matt Hagen, a contract software developer, technical writer, technical trainer, and course developer with many years of experience. My services include the following:
 
 * Writing developer documentation on any topic.
 * Drawing diagrams related to software architecture.
