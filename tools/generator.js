@@ -76,11 +76,11 @@ const argv = yargs(process.argv.slice(2))
     choices: ['all', 'base', 'book', 'css', 'folder', 'folders', 'js'],
     demandOption: true
   })
-  .option('version', {
-    alias: 'v',
-    describe: 'Show version.',
-    type: 'boolean'
-  })
+  // .option('version', {
+  //   alias: 'v',
+  //   describe: 'Show version.',
+  //   type: 'boolean'
+  // })
   .wrap(null)
   .example([
     ['$0'],
