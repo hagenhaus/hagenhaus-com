@@ -29,7 +29,7 @@
   new HHDataList(treesOptions);
 </script>
 
-# Open Library
+<!-- # Open Library
 
 ## Authors
 
@@ -56,4 +56,4 @@
   var worksOptions = new DLWorksOptions002('works-datalist');
   worksOptions.processMode.showTool = true;
   new HHDataList(worksOptions);
-</script>
+</script> -->

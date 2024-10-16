@@ -1,6 +1,7 @@
 # Options
 
 The HHDataList constructor requires an argument of type object. This object is referred to as `options`. Each of its properties is an option consisting of a name and a value. Each value type is boolean, string, number, object, array, or function. Here is an example:
+
 ``` js nonum
 new HHDataList({
   expand: { value: true, showTool: true },
