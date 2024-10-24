@@ -9,7 +9,7 @@ menuItem: mi-home
 
 # Introduction
 
-My name is [Matt Hagen](/en/about/), a *freelance* creator of elegant content for software developers. The following responsive diagram illustrates both my webapp, [hagenhaus.com](/en/home/), and intuitive content:
+My name is [Matt Hagen](/en/about/), a *freelance* creator of intuitive content for software developers. The following responsive diagram illustrates both my webapp, [hagenhaus.com](/en/home/), and intuitive content:
 
 <div class="mb-3">
   <div class="d-none d-md-block">
