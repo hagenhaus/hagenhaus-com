@@ -142,7 +142,7 @@ class DLAuthorsOptions002 extends DLBaseOptions002 {
 class DLPlayersOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
-    this.descriptions.home = 'View baseball player records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.';
+    this.descriptions.home = 'View baseball player records in the <a href="http://seanlahman.com/">Lahman Baseball Dataset</a>.';
     this.fieldDefinitions = {
       manage: [
         { fieldName: 'playerID', isChecked: false },
