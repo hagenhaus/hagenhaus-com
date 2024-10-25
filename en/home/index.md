@@ -1,5 +1,4 @@
 ---
-author: ""
 hasOtp: true
 hasPageHeader: true
 hasScrollbar: true
@@ -7,23 +6,25 @@ hhdatalist: v0.0.2
 menuItem: mi-home
 ---
 
-# Introduction
+# Portfolio
 
-My name is [Matt Hagen](/en/about/), a *freelance* creator of intuitive content for software developers. The following responsive diagram illustrates both my webapp, [hagenhaus.com](/en/home/), and intuitive content:
+From simple diagrams, guides, SDK docs, and REST API references to entire developer portals, I create concise content for software engineers. Here, for example, is a concise, responsive diagram of my webapp:
 
 <div class="mb-3">
   <div class="d-none d-md-block">
-    <div><img src="diagram-h.png" class="img-fluid mx-auto d-block" width="800" height="334"; loading="lazy"></div>
+    <div><img src="webapp-h.png" class="img-fluid d-block" height="386"; loading="lazy"></div>
   </div>
   <div class="d-md-none">
-    <div><img src="diagram-v-1.png" class="img-fluid mx-auto d-block" width="391" height="437"; loading="lazy"></div>
-    <div><img src="diagram-v-2.png" class="img-fluid mx-auto d-block" width="391" height="437"; loading="lazy"></div>
+    <div><img src="webapp-v1.png" class="img-fluid d-block" height="437"; loading="lazy"></div>
+    <div><img src="webapp-v2.png" class="img-fluid d-block" height="437"; loading="lazy"></div>
   </div>
 </div>
 
+My name is Matt Hagen, an experienced writer, trainer, software developer, and freelancer, and this website is my portfolio. [Contact me](/en/contact-me/) for help enabling your in-house and third-party developers leverage your cloud services and SDKs.
+
 # HHDataList
 
-Shown in the diagram above, [HHDataList](/en/hhdatalist/v0.0.2/) is a highly configurable UI component for interacting with any REST API. The following instance accesses the [Lahman Baseball Dataset](http://seanlahman.com/) imported into MariaDB behind Hagenhaus API Server:
+HHDataList is a highly configurable UI component for interacting with any REST API. Here is an instance:
 
 <div id="players-datalist" class="hh-data-list mt-4"></div>
 <script>
@@ -32,18 +33,11 @@ Shown in the diagram above, [HHDataList](/en/hhdatalist/v0.0.2/) is a highly con
   new HHDataList(playersOptions);
 </script>
 
-Try the following:
-
-1. Scroll using the arrows.
-1. Click a record to expand. Click it again to collapse.
-1. Click the Expand button to expand all. Scroll. Click Expand again to collapse all.
-1. Click the Wrench icon. Check Theme. Try different themes.
-
-The [HHDataList](/en/hhdatalist/v0.0.2/) documentation is another example of elegant content.
+I created HHDataList as an excuse to write the corresponding concise documentation: [HHDataList Docs](/en/hhdatalist/v0.0.2/).
 
 # Developer Guides
 
-I created the first [Developer Portal](https://docs.aylanetworks.com/) for [Ayla Networks](https://www.aylanetworks.com/), and much of my work remains intact except for small updates. These docs help developers set up and configure devices, developer environments, and test environments by providing elegant explanations, diagrams, steps, and example code:
+I created the first [Developer Portal](https://docs.aylanetworks.com/) for [Ayla Networks](https://www.aylanetworks.com/), and much of my work remains intact except for small updates. These docs help developers set up and configure devices, developer environments, and test environments by providing clear explanations, diagrams, steps, and example code:
 
 * [Ayla Development Kit](https://docs.aylanetworks.com/docs/ayla-development-kit)
 * [Ayla Development Kit-ESP32C3 Module](https://docs.aylanetworks.com/docs/ayla-development-kit-esp32c3-module)
@@ -56,36 +50,26 @@ I created the first [Developer Portal](https://docs.aylanetworks.com/) for [Ayla
 
 # Diagrams
 
-[Handling Ack-enabled Properties](https://docs.aylanetworks.com/docs/handling-ack-enabled-properties)
+## JavaScript Constructors
 
-<p><img src="ayla-two-step-ack-success.png" class="img-fluid d-block" loading="lazy"></p>
+[Diagrams of JavaScript constructors](https://medium.com/hagenhaus/diagrams-of-javascript-constructors-0e348b67dfee)
 
-<p><img src="ayla-ack-enabled-success.png" class="img-fluid d-block" loading="lazy"></p>
+<p><img src="constructor1.png" class="img-fluid d-block" width="672" height="393"; loading="lazy"></p>
 
-[Ayla Rule Service](https://docs.aylanetworks.com/docs/ayla-rule-service-ars-preview)
+<p><img src="constructor2.png" class="img-fluid d-block" width="672" height="393"; loading="lazy"></p>
 
-<p><img src="ayla-rule-service.png" class="img-fluid d-block" loading="lazy"></p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-[Ayla Cloud Events](https://docs.aylanetworks.com/docs/ayla-data-export-and-streaming-features)
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<p><img src="ayla-cloud-events.png" class="img-fluid d-block" loading="lazy"></p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-[Ayla Dataflow Overview](https://docs.aylanetworks.com/docs/message-properties#dataflow-overview)
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<p><img src="ayla-dataflow.png" class="img-fluid d-block" loading="lazy"></p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-[Ayla Development Kit](https://docs.aylanetworks.com/docs/ayla-development-kit).
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<p><img src="ayla-device-cloud-app.png" class="img-fluid d-block" loading="lazy"></p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-[Ayla Host Library](https://docs.aylanetworks.com/docs/ayla-development-kit-esp32c3-module)
-
-<p><img src="ayla-package-organization.png" class="img-fluid d-block" loading="lazy"></p>
-
-[Abstract Rule Expressions](https://docs.aylanetworks.com/docs/rules#abstract-rule-expressions)
-
-<p><img src="ayla-rule.png" class="img-fluid d-block" loading="lazy"></p>
-
-[Aura Main Menu](https://docs.aylanetworks.com/docs/aura-mobile-app#main-menu)
-
-<p><img src="ayla-aura-menu.png" class="img-fluid d-block" loading="lazy"></p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
