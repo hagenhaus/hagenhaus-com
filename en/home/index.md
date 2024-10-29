@@ -20,11 +20,11 @@ From simple diagrams to entire portals, I create concise content for software de
   </div>
 </div>
 
-The remainder of this page demonstrates my freelance services which include creating diagrams, guides, SDK & API references, tutorials, articles, portals, slides, and courseware for software professionals. [Contact Me](/en/contact-me/) to discuss your ideas and needs. Initial consultations, via phone or video conference, are free, and rates are reasonable.
+The remainder of this page demonstrates my freelance services which include creating diagrams, guides, SDK & API references, tutorials, articles, portals, slides, courseware, and internal engineering specifications for software professionals. [Contact Me](/en/contact-me/) to discuss your ideas and needs. The initial consultation via phone or video conference is free, and rates are reasonable.
 
 # HHDataList
 
-The diagram above includes a frontend component named HHDataList. Below is a live instance:
+The diagram above includes a UI component named HHDataList. Below is a live instance. Try clicking on something:
 
 <div id="players-datalist" class="hh-data-list mt-4"></div>
 <script>
@@ -52,7 +52,7 @@ I created the initial [Developer Portal](https://docs.aylanetworks.com/) for [Ay
 
 Good diagrams focus attention on information rather than lines, shapes, and colors. Below are examples.
 
-### Constructors
+## Constructors
 
 In [Diagrams of JavaScript constructors](https://medium.com/hagenhaus/diagrams-of-javascript-constructors-0e348b67dfee), I explore the nuances of JS constructors by presenting an evolution of eleven diagrams based on a single pattern introduced in the first diagram and fully realized in the final one:
 
@@ -60,7 +60,7 @@ In [Diagrams of JavaScript constructors](https://medium.com/hagenhaus/diagrams-o
 
 Instead of confronting the reader with all the information in this final diagram at once, the article uses intermediate diagrams to build understanding, focus attention, and reinforce the underlying pattern which relies on color and position. Note that putting `Function.prototype` in the top-left corner of the pattern uncrossed many wires.
 
-### Digital Twins
+## Digital Twins
 
 In [Ayla Development Kit](https://docs.aylanetworks.com/docs/ayla-development-kit), I explain (to device programmers) how to configure a demo IoT device, connect it to the Ayla IoT Cloud service, prepare a GNU build environment, build a series of example programs, and run them on the device. I created several diagrams for the guide including the following:
 
@@ -68,7 +68,7 @@ In [Ayla Development Kit](https://docs.aylanetworks.com/docs/ayla-development-ki
 
 This diagram illustrates that the Ayla IoT Cloud maintains, for each attached IoT device, a Digital Twin (i.e. state machine) composed of properties corresponding to those declared on the device and accessible to applications like Aura. The diagram also indicates that state changes may be initiated by applications (e.g. Blue_LED) or by devices (e.g. Blue_button).
 
-### Cloud Services
+## Cloud Services
 
 In [Ayla Rule Service](https://docs.aylanetworks.com/docs/ayla-rule-service-ars-preview), I describe (for engineers and administrators) how the Ayla IoT Cloud translates device events into notifications. I created the following diagram as the centerpiece of the article:
 
