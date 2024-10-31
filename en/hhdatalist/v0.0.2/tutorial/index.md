@@ -9,17 +9,17 @@ This tutorial shows you how to create an HHDataList component, point it at an AP
 This tutorial utilizes the [Famous Trees API](/en/hhdatalist/v0.0.2/openapi/) which provides access to a small number of records representing famous individual international trees. Record fields represent a variety of data types including strings, numbers, objects, and arrays. The API supports `GET`, `POST`, `PATCH`, and `DELETE` methods, the last three requiring `Bearer` authentication. Here are two endpoints:
 
 ``` nonum
-<a href="https://hagenhaus.com/api/famous/v1/trees">https://hagenhaus.com/api/famous/v1/trees</a>
-<a href="https://hagenhaus.com/api/famous/v1/trees/1">https://hagenhaus.com/api/famous/v1/trees/1</a>
+<a href="https://hagenhaus.com/api/famous-trees">https://hagenhaus.com/api/famous-trees</a>
+<a href="https://hagenhaus.com/api/famous-trees/1">https://hagenhaus.com/api/famous-trees/1</a>
 ```
 
 The `getRecords` operation supports `fields`, `filter`, `order`, `page`, and `limit` query parameters. The `page` value is one-base. The `page` default is 1. The `limit` default is 10:
 
 ``` nonum
-<a href="https://hagenhaus.com/api/famous/v1/trees?fields=id%2Cname">https://hagenhaus.com/api/famous/v1/trees?fields=id%2Cname</a>
-<a href="https://hagenhaus.com/api/famous/v1/trees?filter=country%20like%20%22AUS%22">https://hagenhaus.com/api/famous/v1/trees?filter=country%20like%20%22AUS%22</a>
-<a href="https://hagenhaus.com/api/famous/v1/trees?order=name%20asc">https://hagenhaus.com/api/famous/v1/trees?order=name%20asc</a>
-<a href="https://hagenhaus.com/api/famous/v1/trees?page=1&limit=3">https://hagenhaus.com/api/famous/v1/trees?page=1&limit=3</a>
+<a href="https://hagenhaus.com/api/famous-trees?fields=id%2Cname">https://hagenhaus.com/api/famous-trees?fields=id%2Cname</a>
+<a href="https://hagenhaus.com/api/famous-trees?filter=country%20like%20%22AUS%22">https://hagenhaus.com/api/famous-trees?filter=country%20like%20%22AUS%22</a>
+<a href="https://hagenhaus.com/api/famous-trees?order=name%20asc">https://hagenhaus.com/api/famous-trees?order=name%20asc</a>
+<a href="https://hagenhaus.com/api/famous-trees?page=1&limit=3">https://hagenhaus.com/api/famous-trees?page=1&limit=3</a>
 ```
 
 A `getRecords` response resembles the following:
@@ -46,7 +46,7 @@ A `getRecords` response resembles the following:
 The `getRecord` operation supports the `fields` query parameters:
 
 ``` nonum
-<a href="https://hagenhaus.com/api/famous/v1/trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid">https://hagenhaus.com/api/famous/v1/trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid</a>
+<a href="https://hagenhaus.com/api/famous-trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid">https://hagenhaus.com/api/famous-trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid</a>
 ```
 
 A `getRecord` response resembles the following:
@@ -140,7 +140,7 @@ new HHDataList({
     numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
     numTotalRecords: (res) => res.data.metadata.numTotalRecords
   },
-  url: 'https://hagenhaus.com/api/famous/v1/trees',
+  url: 'https://hagenhaus.com/api/famous-trees',
 });
 ```
 
@@ -174,7 +174,7 @@ new HHDataList({
         numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
         numTotalRecords: (res) => res.data.metadata.numTotalRecords
       };
-      this.url = 'https://hagenhaus.com/api/famous/v1/trees';
+      this.url = 'https://hagenhaus.com/api/famous-trees';
     }
   };
   new HHDataList(new DeployOptions('deploy-datalist'));
@@ -191,7 +191,7 @@ Throughout this tutorial, HHDataList initiates various API requests to the Famou
 1. Check the checkbox beside the Requests Reporter label to display the tool. By default, this tool calls `console.log` to output requests to the Developer Tools console of your browser. Here is example output:
 
     ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees/1
+    GET: https://hagenhaus.com/api/famous-trees/1
     ```
 
 1. Click the tool to enable it.
@@ -199,10 +199,10 @@ Throughout this tutorial, HHDataList initiates various API requests to the Famou
 1. Display your browser console, expand a few records, and notice the output in the browser console.
 
     ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees/1
-    GET: https://hagenhaus.com/api/famous/v1/trees/4
-    GET: https://hagenhaus.com/api/famous/v1/trees/5
-    GET: https://hagenhaus.com/api/famous/v1/trees/8
+    GET: https://hagenhaus.com/api/famous-trees/1
+    GET: https://hagenhaus.com/api/famous-trees/4
+    GET: https://hagenhaus.com/api/famous-trees/5
+    GET: https://hagenhaus.com/api/famous-trees/8
     ```
 
     Because many of the sections in this tutorial ask you to inspect request URLs, the steps below configure HHDataList to output request URLs to your browser console by default.
@@ -265,7 +265,7 @@ Fortunately, the Famous Trees API does have a query parameter (i.e. `limit`) tha
 1. Inspect API requests. Notice the `limit` query parameter. Here is an example:
 
     ``` nonum
-    GET https://hagenhaus.com/api/famous/v1/trees?limit=5
+    GET https://hagenhaus.com/api/famous-trees?limit=5
     ```
 
 ### Example
@@ -305,7 +305,7 @@ In addition to the `limit` query parameter which sets the page size, the Famous 
 1. Inspect API requests. Notice the `page` query parameter. Here is an example:
 
     ``` nonum
-    GET https://hagenhaus.com/api/famous/v1/trees?page=2&limit=3
+    GET https://hagenhaus.com/api/famous-trees?page=2&limit=3
     ```
 
 ### Example
@@ -332,10 +332,10 @@ HHDataList scrolls expanded records more efficiently if (a) the underlying API p
 1. Scroll expanded records and examine the Request URLs. Example:
 
     ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees?page=2&limit=3
-    GET: https://hagenhaus.com/api/famous/v1/trees/4
-    GET: https://hagenhaus.com/api/famous/v1/trees/5
-    GET: https://hagenhaus.com/api/famous/v1/trees/6
+    GET: https://hagenhaus.com/api/famous-trees?page=2&limit=3
+    GET: https://hagenhaus.com/api/famous-trees/4
+    GET: https://hagenhaus.com/api/famous-trees/5
+    GET: https://hagenhaus.com/api/famous-trees/6
     ```
 
     This is default HHDataList behavior. HHDataList does not assume that the `getRecords` operation of the underlying API can return all the fields that the `getRecord` operation can. So, when displaying a page of expanded records, HHDataList calls `getRecords` to build all the record titles on the page, and then it calls `getRecord` iteratively to populate the fields of each expanded record.
@@ -345,7 +345,7 @@ HHDataList scrolls expanded records more efficiently if (a) the underlying API p
 1. Scroll expanded records again and examine the request URLs. Example:
 
     ``` nonum
-    https://hagenhaus.com/api/famous/v1/trees?page=2&limit=3
+    https://hagenhaus.com/api/famous-trees?page=2&limit=3
     ```
 
     With parity enabled, HHDataList calls `getRecords` once to return the data needed to populate a page of expanded records. It does not call `getRecord` iteratively for each expanded record.
@@ -787,13 +787,13 @@ The steps below help you add the `fields` property of the [queryParams](/en/hhda
 1. Scroll and inspect API requests. Notice the `fields` query parameter. Here is an example:
 
     ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees?fields=id%2Cname&page=2&limit=3
+    GET: https://hagenhaus.com/api/famous-trees?fields=id%2Cname&page=2&limit=3
     ```
 
 1. In `manage` process mode, expand a record. Here is example output:
 
    ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees/4?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid
+    GET: https://hagenhaus.com/api/famous-trees/4?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid
     ```
 
 ### Example
@@ -838,7 +838,7 @@ This section helps you add the `filter` property of the [queryParams](/en/hhdata
 1. Notice the `filter` query parameter in request URLs. Example:
 
     ``` nonum
-    GET: https://hagenhaus.com/api/famous/v1/trees?fields=id%2Cname&filter=country%20like%20%22AUS%22&page=1&limit=3
+    GET: https://hagenhaus.com/api/famous-trees?fields=id%2Cname&filter=country%20like%20%22AUS%22&page=1&limit=3
     ```
 
 ### Example
@@ -964,7 +964,7 @@ This section helps you add "transform" to the Process tool dropdown by adding th
           { label: 'Nearby City', fieldName: 'city' },
           {
             label: 'Country', fieldName: 'country',
-            transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/devportals/v1/countries/${v}`)).data.name
+            transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/countries/${v}`)).data.name
           },
           {
             label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -1030,7 +1030,7 @@ This section helps you add "transform" to the Process tool dropdown by adding th
         { label: 'Nearby City', fieldName: 'city' },
         {
           label: 'Country', fieldName: 'country',
-          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
+          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/countries/${v}`)).data.name
         },
         {
           label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -1324,7 +1324,7 @@ new HHDataList({
       { label: 'Nearby City', fieldName: 'city' },
       {
         label: 'Country', fieldName: 'country',
-        transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/devportals/v1/countries/${v}`)).data.name
+        transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/countries/${v}`)).data.name
       },
       {
         label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -1382,7 +1382,7 @@ new HHDataList({
     numTotalRecords: (res) => res.data.metadata.numTotalRecords
   },
   themeDefinition: { name: 'dodger blue' },
-  url: 'https://hagenhaus.com/api/famous/v1/trees',
+  url: 'https://hagenhaus.com/api/famous-trees',
 });
 ```
 
@@ -1497,7 +1497,7 @@ var Endpoint_1_Options = class extends Api_1_Options {
         { label: 'Nearby City', fieldName: 'city' },
         {
           label: 'Country', fieldName: 'country',
-          transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/devportals/v1/countries/${v}`)).data.name
+          transformer: async (v) => (await HHDataList.get(`https://hagenhaus.com/api/countries/${v}`)).data.name
         },
         {
           label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -1529,7 +1529,7 @@ var Endpoint_1_Options = class extends Api_1_Options {
     this.queryParams.filter.placeholder = 'country like "AUS"';
     this.queryParams.order.default = 'name asc';
     this.recordTitle = { fields: ['name'], format: (f, r) => r[f[0]] };
-    this.url = 'https://hagenhaus.com/api/famous/v1/trees';
+    this.url = 'https://hagenhaus.com/api/famous-trees';
   }
 };
 ```

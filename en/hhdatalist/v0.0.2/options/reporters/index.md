@@ -231,9 +231,9 @@ new HHDataList({
 Below is example output:
 
 ``` js nonum
-GET: https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname&order=name%20asc&page=2&limit=3
-GET: https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname&order=name%20asc&page=3&limit=3
-GET: https://hagenhaus.com:3002/api/famous/v1/trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid
+GET: https://hagenhaus.com/api/famous-trees?fields=id%2Cname&order=name%20asc&page=2&limit=3
+GET: https://hagenhaus.com/api/famous-trees?fields=id%2Cname&order=name%20asc&page=3&limit=3
+GET: https://hagenhaus.com/api/famous-trees/1?fields=name%2Cspecies%2Cdescription%2Ccity%2Ccountry%2Clat%2Clng%2CbirthYear%2Cheight%2Clinks%2Cid
 ```
 
 ## Theme Reporter

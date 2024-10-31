@@ -579,10 +579,14 @@ window.signInListener = (event) => {
   });
   (async () => {
     try {
-      let res = await axios({ url: `${getHHApiDomain()}/api/v1/tokens`, method: 'post', data: data });
+      let res = await axios({ url: `${getHHApiDomain()}/api/tokens`, method: 'post', data: data });
       localStorage.setItem('user', JSON.stringify(res.data));
 
-      res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${res.data.userId}`, method: 'get' });
+      res = await axios({ 
+        headers: { authorization: window.getBearerToken() },
+        url: `${getHHApiDomain()}/api/users/${res.data.userId}`, 
+        method: 'get' 
+      });
       let firstNameForm = document.getElementById('first-name-form');
       firstNameForm.querySelector('input').value = res.data.firstName;
       let lasttNameForm = document.getElementById('last-name-form');
@@ -605,7 +609,7 @@ window.signUpListener = (event) => {
   });
   (async () => {
     try {
-      const res = await axios({ url: `${getHHApiDomain()}/api/v1/users`, method: 'post', data: data });
+      const res = await axios({ url: `${getHHApiDomain()}/api/users`, method: 'post', data: data });
       event.target.reset();
       reportInfo('Success', 'User account created successfully.');
       document.getElementById('sign-in-form').elements['email'].value = res.data.email;
@@ -630,7 +634,7 @@ window.updateAccountListener = (event) => {
       const user = localStorage.getItem('user');
       if (user) {
         const res = await axios({
-          url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`,
+          url: `${getHHApiDomain()}/api/users/${JSON.parse(user).userId}`,
           method: 'patch',
           headers: { authorization: `Bearer ${JSON.parse(user).token}` },
           data: { updates: `${input.name}="${input.value}"` }
@@ -648,7 +652,7 @@ window.deleteAccountListener = (event) => {
       try {
         const user = localStorage.getItem('user');
         if (user) {
-          const res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`, method: 'delete' });
+          const res = await axios({ url: `${getHHApiDomain()}/api/users/${JSON.parse(user).userId}`, method: 'delete' });
           localStorage.removeItem('user');
         }
         document.getElementById('account').style.display = 'none';

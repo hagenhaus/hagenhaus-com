@@ -125,7 +125,7 @@ new HHDataList({
 Then, it builds the query parameter (e.g. `fields=id%2Cname%2Cspecies%2Cdescription`), appends it to a URL, and executes the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=id%2Cname%2Cspecies%2Cdescription">https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=id%2Cname%2Cspecies%2Cdescription</a>
+<a href="https://hagenhaus.com/api/famous-trees/5?fields=id%2Cname%2Cspecies%2Cdescription">https://hagenhaus.com/api/famous-trees/5?fields=id%2Cname%2Cspecies%2Cdescription</a>
 ```
 
 HHDataList builds a new `fields.value` prior to each `GET` request based on the answers to the following questions:
@@ -138,7 +138,7 @@ HHDataList builds a new `fields.value` prior to each `GET` request based on the 
 For `getRecords` operations, HHDataList sets `fields.value` equal to the concatenation of [recordIdField](/en/hhdatalist/v0.0.2/options/recordidfield/) and the `fields` property of [recordTitle](/en/hhdatalist/v0.0.2/options/recordtitle/):
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname">https://hagenhaus.com:3002/api/famous/v1/trees?fields=id%2Cname</a>
+<a href="https://hagenhaus.com/api/famous-trees?fields=id%2Cname">https://hagenhaus.com/api/famous-trees?fields=id%2Cname</a>
 ```
 
 `recordIdField` enables HHDataList to obtain record IDs in anticipation of subsequent calls to `getRecord` should the user expand a record. And, `recordTitle.fields` enables HHDataList to build record titles:
@@ -154,7 +154,7 @@ For `getRecord` operations, if [processMode](/en/hhdatalist/v0.0.2/options/proce
 Here is the URL:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,girth,links,id">https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,girth,links,id</a>
+<a href="https://hagenhaus.com/api/famous-trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,girth,links,id">https://hagenhaus.com/api/famous-trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,girth,links,id</a>
 ```
 
 If [processMode](/en/hhdatalist/v0.0.2/options/processmode/) equals `transform`, HHDataList includes `recordIdField`, `recordTitle.fields`, and all field names that support checked labels:
@@ -164,13 +164,13 @@ If [processMode](/en/hhdatalist/v0.0.2/options/processmode/) equals `transform`,
 Here is the URL:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,links,id">https://hagenhaus.com:3002/api/famous/v1/trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,links,id</a>
+<a href="https://hagenhaus.com/api/famous-trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,links,id">https://hagenhaus.com/api/famous-trees/5?fields=name,species,description,city,country,lat,lng,birthYear,height,links,id</a>
 ```
 
 If [processMode](/en/hhdatalist/v0.0.2/options/processmode/) equals `copy`, HHDataList does not (and cannot) build a field list and assign it to `fields.value` because there are no [fieldDefinitions](/en/hhdatalist/v0.0.2/options/fielddefinitions/). So, HHDataList evaluates `fields.default`. If `null`, HHDataList does not include a *fields* query parameter in the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees/5">https://hagenhaus.com:3002/api/famous/v1/trees/5</a>
+<a href="https://hagenhaus.com/api/famous-trees/5">https://hagenhaus.com/api/famous-trees/5</a>
 ```
 
 If not `null`, (e.g. `fields: { default: * }`), HHDataList assigns `fields.default` to `fields.value`:
@@ -222,7 +222,7 @@ Otherwise, it displays an empty input box:
 When the user initiates a `getRecords` operation, HHDataList uses `filter.name` and `filter.value` to build the query parameter in the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees?filter=country%20like%20%27AUS%27">https://hagenhaus.com:3002/api/famous/v1/trees?filter=country%20like%20%27AUS%27</a>
+<a href="https://hagenhaus.com/api/famous-trees?filter=country%20like%20%27AUS%27">https://hagenhaus.com/api/famous-trees?filter=country%20like%20%27AUS%27</a>
 ```
 
 Note that the default value for `filter.default` is `filter.none`.
@@ -270,7 +270,7 @@ Otherwise, it displays an empty input box:
 When the user initiates a `getRecords` operation, HHDataList uses `order.name` and `order.value` to build the query parameter in the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees?order=name%20asc&limit=3">https://hagenhaus.com:3002/api/famous/v1/trees?order=name%20asc&limit=3</a>
+<a href="https://hagenhaus.com/api/famous-trees?order=name%20asc&limit=3">https://hagenhaus.com/api/famous-trees?order=name%20asc&limit=3</a>
 ```
 
 Note that the default value for `filter.default` is `null`.
@@ -346,7 +346,7 @@ new HHDataList({
 When the user initiates a `getRecords` operation, HHDataList uses `page.name`, `page.value`, `limit.name`, and `limit.value` to build the query parameter in the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees?page=1&limit=3">https://hagenhaus.com:3002/api/famous/v1/trees?page=1&limit=3</a>
+<a href="https://hagenhaus.com/api/famous-trees?page=1&limit=3">https://hagenhaus.com/api/famous-trees?page=1&limit=3</a>
 ```
 
 ## Limit
@@ -382,7 +382,7 @@ If not, HHDataList sets `limit.value` to `limit.choices[0]`.
 When the user initiates a `getRecords` operation, HHDataList uses `limit.name` and `limit.value` to build the query parameter in the request:
 
 ``` nonum
-<a href="https://hagenhaus.com:3002/api/famous/v1/trees?limit=3">https://hagenhaus.com:3002/api/famous/v1/trees?limit=3</a>
+<a href="https://hagenhaus.com/api/famous-trees?limit=3">https://hagenhaus.com/api/famous-trees?limit=3</a>
 ```
 
 Note that the default value for `limit.default` is `limit.choices[0]`.

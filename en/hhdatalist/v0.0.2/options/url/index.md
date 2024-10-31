@@ -8,7 +8,7 @@ The `url` option provides HHDataList with a single endpoint to be used in all AP
 
 ``` js nonum
 new HHDataList({
-  url: 'https://hagenhaus.com:3000/api/famous/v1/trees',
+  url: 'https://hagenhaus.com/api/famous-trees',
 });
 ```
 
@@ -16,11 +16,11 @@ HHDataList uses the `url` value for all API request types:
 
 ``` js nonum
 {
-  deleteRecord: `https://hagenhaus.com:3000/api/famous/v1/trees/${id}`;
-  getRecord: `https://hagenhaus.com:3000/api/famous/v1/trees/${id}`;
-  getRecords: `https://hagenhaus.com:3000/api/famous/v1/trees`;
-  patchRecord: `https://hagenhaus.com:3000/api/famous/v1/trees/${id}`;
-  postRecord: `https://hagenhaus.com:3000/api/famous/v1/trees`;
-  putRecord: `https://hagenhaus.com:3000/api/famous/v1/trees/${id}`;
+  deleteRecord: `https://hagenhaus.com/api/famous-trees/${id}`;
+  getRecord: `https://hagenhaus.com/api/famous-trees/${id}`;
+  getRecords: `https://hagenhaus.com/api/famous-trees`;
+  patchRecord: `https://hagenhaus.com/api/famous-trees/${id}`;
+  postRecord: `https://hagenhaus.com/api/famous-trees`;
+  putRecord: `https://hagenhaus.com/api/famous-trees/${id}`;
 }
 ```

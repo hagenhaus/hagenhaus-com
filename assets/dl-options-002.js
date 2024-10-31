@@ -217,7 +217,7 @@ class DLPlayersOptions002 extends DLBaseOptions002 {
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     };
-    this.url = `${getHHApiDomain()}/api/baseball/v1/players`;
+    this.url = `${getHHApiDomain()}/api/baseball/players`;
   }
 }
 
@@ -257,7 +257,7 @@ class DLSubjectsOptions002 extends DLBaseOptions002 {
 class DLTeamsOptions002 extends DLBaseOptions002 {
   constructor(id) {
     super(id);
-    this.descriptions.home = 'View baseball team records in the <a href="https://www.seanlahman.com/baseball-archive/statistics/">Lahman Baseball Dataset</a>.';
+    this.descriptions.home = 'View baseball team records in the <a href="http://seanlahman.com/">Lahman Baseball Dataset</a>.';
     this.fieldDefinitions = {
       manage: [
         { fieldName: 'ID', isChecked: false },
@@ -334,7 +334,7 @@ class DLTeamsOptions002 extends DLBaseOptions002 {
         numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
         numTotalRecords: (res) => res.data.metadata.numTotalRecords
       };
-    this.url = `${getHHApiDomain()}/api/baseball/v1/teams`;
+    this.url = `${getHHApiDomain()}/api/baseball/teams`;
   }
 }
 
@@ -382,7 +382,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
         { label: 'Nearby City', fieldName: 'city' },
         {
           label: 'Country', fieldName: 'country',
-          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/devportals/v1/countries/${v}`)).data.name
+          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/countries/${v}`)).data.name
         },
         {
           label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -426,7 +426,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     };
-    this.url = `${getHHApiDomain()}/api/famous/v1/trees`;
+    this.url = `${getHHApiDomain()}/api/famous-trees`;
   }
 
   popValues = new Map()

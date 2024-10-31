@@ -134,7 +134,7 @@ hasScrollbar: false
     try {
       const user = localStorage.getItem('user');
       if(user) {
-        const res = await axios({ url: `${getHHApiDomain()}/api/v1/users/${JSON.parse(user).userId}`, method: 'get' });
+        const res = await axios({ url: `${getHHApiDomain()}/api/users/${JSON.parse(user).userId}`, method: 'get' });
         const firstNameForm = document.getElementById('first-name-form');
         firstNameForm.querySelector('input').value = res.data.firstName;
         const lasttNameForm = document.getElementById('last-name-form');

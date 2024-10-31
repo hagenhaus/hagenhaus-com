@@ -6,7 +6,7 @@ The HHDataList constructor requires an argument of type object. This object is r
 new HHDataList({
   expand: { value: true, showTool: true },
   id: 'my-data-list',
-  url: 'https://hagenhaus.com:3002/api/famous/v1/trees',
+  url: 'https://hagenhaus.com/api/famous-trees',
 });
 ```
 

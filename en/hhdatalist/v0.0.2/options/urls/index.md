@@ -13,12 +13,12 @@ This example shows a fully specified option:
 ``` js nonum
 new HHDataList({
   urls: {
-    deleteRecord: (id) => `https://domain.com/api/v1/records/${id}`,
-    getRecord: (id) => `https://domain.com/api/v1/records/${id}`,
-    getRecords: 'https://domain.com/api/v1/records',
-    patchRecord: (id) => `https://domain.com/api/v1/records/${id}`,
-    postRecord: 'https://domain.com/api/v1/records',
-    putRecord: (id) => `https://domain.com/api/v1/records/${id}`
+    deleteRecord: (id) => `https://domain.com/api/records/${id}`,
+    getRecord: (id) => `https://domain.com/api/records/${id}`,
+    getRecords: 'https://domain.com/api/records',
+    patchRecord: (id) => `https://domain.com/api/records/${id}`,
+    postRecord: 'https://domain.com/api/records',
+    putRecord: (id) => `https://domain.com/api/records/${id}`
   },
 });
 ```

@@ -419,7 +419,7 @@ Field Definition with the transformer function:
 ``` js nonum
 {
   label: 'Country', fieldName: 'country',
-  transformer: async (country) => (await HHDataList.get(`https://hagenhaus.com:3002/api/devportals/v1/countries/${country}`)).data.name
+  transformer: async (country) => (await HHDataList.get(`https://hagenhaus.com/api/countries/${country}`)).data.name
 }
 ```
 
