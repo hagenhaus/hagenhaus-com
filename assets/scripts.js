@@ -579,22 +579,30 @@ window.signInListener = (event) => {
   });
   (async () => {
     try {
-      let res = await axios({ url: `${getHHApiDomain()}/api/tokens`, method: 'post', data: data });
-      localStorage.setItem('user', JSON.stringify(res.data));
+      let res = await axios({ 
+        url: `${getHHApiDomain()}/api/tokens`, 
+        method: 'post', 
+        data: data
+      });
+      window.storeUser(res.data);
 
       res = await axios({ 
         headers: { authorization: window.getBearerToken() },
         url: `${getHHApiDomain()}/api/users/${res.data.userId}`, 
         method: 'get' 
       });
-      let firstNameForm = document.getElementById('first-name-form');
-      firstNameForm.querySelector('input').value = res.data.firstName;
-      let lasttNameForm = document.getElementById('last-name-form');
-      lasttNameForm.querySelector('input').value = res.data.lastName;
-      let emailForm = document.getElementById('email-form');
-      emailForm.querySelector('input').value = res.data.email;
 
-      document.getElementById('sign-in').style.display = 'none';
+      document.getElementById('first-name-form').querySelector('input').value = res.data.firstName;
+      document.getElementById('last-name-form').querySelector('input').value = res.data.lastName;
+      document.getElementById('email-form').querySelector('input').value = res.data.email;
+      document.getElementById('password-form').querySelector('input').value = '';
+      document.getElementById('street-form').querySelector('input').value = res.data.street;
+      document.getElementById('city-form').querySelector('input').value = res.data.city;
+      document.getElementById('region-form').querySelector('input').value = res.data.region;
+      document.getElementById('country-form').querySelector('input').value = res.data.country;
+      document.getElementById('postal-code-form').querySelector('input').value = res.data.postalCode;
+
+      document.getElementById('sign-in-up').style.display = 'none';
       document.getElementById('account').style.display = 'block';
     } catch (error) { reportError(error); }
   })();
@@ -611,7 +619,7 @@ window.signUpListener = (event) => {
     try {
       const res = await axios({ url: `${getHHApiDomain()}/api/users`, method: 'post', data: data });
       event.target.reset();
-      reportInfo('Success', 'User account created successfully.');
+      reportInfo(0, 'Success', 'User account created successfully.');
       document.getElementById('sign-in-form').elements['email'].value = res.data.email;
     } catch (error) { reportError(error); }
   })();
@@ -620,9 +628,9 @@ window.signUpListener = (event) => {
 window.signOutListener = (event) => {
   event.preventDefault();
   confirm('Sign out', 'Click "Sign out" to sign out or "Cancel" to remain signed in.', 'Sign out', () => {
-    localStorage.removeItem('user');
+    window.unstoreUser();
     document.getElementById('account').style.display = 'none';
-    document.getElementById('sign-in').style.display = 'block';
+    document.getElementById('sign-in-up').style.display = 'block';
   });
 };
 
@@ -631,15 +639,17 @@ window.updateAccountListener = (event) => {
   (async () => {
     try {
       const input = event.target.querySelector('input');
-      const user = localStorage.getItem('user');
-      if (user) {
+      const [userId, bearerToken] = window.getUserIdAndBearerToken();
+      const data = {};
+      data[input.name] = input.value;
+      if (userId) {
         const res = await axios({
-          url: `${getHHApiDomain()}/api/users/${JSON.parse(user).userId}`,
           method: 'patch',
-          headers: { authorization: `Bearer ${JSON.parse(user).token}` },
-          data: { updates: `${input.name}="${input.value}"` }
+          url: `${getHHApiDomain()}/api/users/${userId}`,
+          headers: { authorization: `${bearerToken}` },
+          data: data
         });
-        reportInfo('Success', 'Field updated successfully.');
+        reportInfo(0, 'Success', 'Field updated successfully.');
       }
     } catch (error) { reportError(error); }
   })();
@@ -650,14 +660,18 @@ window.deleteAccountListener = (event) => {
   confirm('Delete my account', 'Click "Delete" to delete your account or "Cancel" to retain your account.', 'Delete', () => {
     (async () => {
       try {
-        const user = localStorage.getItem('user');
-        if (user) {
-          const res = await axios({ url: `${getHHApiDomain()}/api/users/${JSON.parse(user).userId}`, method: 'delete' });
-          localStorage.removeItem('user');
+        const [userId, bearerToken] = window.getUserIdAndBearerToken();
+        if (userId) {
+          const res = await axios({
+            method: 'delete',
+            url: `${getHHApiDomain()}/api/users/${userId}`,
+            headers: { authorization: `${bearerToken}` }
+          });
+          window.unstoreUser();
+          document.getElementById('account').style.display = 'none';
+          document.getElementById('sign-in-up').style.display = 'block';
+          reportInfo(0, 'Success', 'User account deleted successfully.');
         }
-        document.getElementById('account').style.display = 'none';
-        document.getElementById('sign-in').style.display = 'block';
-        reportInfo('Success', 'User account deleted successfully.');
       } catch (error) {
         reportError(error);
       }
@@ -669,10 +683,35 @@ window.deleteAccountListener = (event) => {
 * Local Storage
 ************************************************************************************************/
 
-// null means cancel. '' means no auth token.
+window.storeUser = (obj) => {
+  localStorage.setItem('user', JSON.stringify(obj));
+}
+
+window.unstoreUser = () => {
+  localStorage.removeItem('user');
+}
+
+window.getUserId = () => {
+  let user = localStorage.getItem('user');
+  return user ? JSON.parse(user).userId : '';
+};
+
+window.getToken = () => {
+  let user = localStorage.getItem('user');
+  return user ? JSON.parse(user).token : '';
+};
+
 window.getBearerToken = () => {
   let user = localStorage.getItem('user');
   return user ? `Bearer ${JSON.parse(user).token}` : '';
+};
+
+window.getUserIdAndBearerToken = () => {
+  let user = localStorage.getItem('user');
+  return [
+    user ? JSON.parse(user).userId : '',
+    user ? `Bearer ${JSON.parse(user).token}` : ''
+  ]
 };
 
 /************************************************************************************************
@@ -704,7 +743,7 @@ window.confirm = (title, detail, yesLabel, yesCb) => {
 window.showToast = (level, title, message) => {
   let toast = document.createElement('div');
   toast.classList.add('toast', 'fade', 'text-dark', 'bg-light', 'border-0');
-  toast.setAttribute('data-bs-autohide', 'false');
+  toast.setAttribute('data-bs-autohide', 'true');
   toast.setAttribute('role', 'alert');
   toast.setAttribute('aria-live', 'assertive');
   toast.setAttribute('aria-atomic', 'true');
