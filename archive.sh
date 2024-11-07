@@ -13,4 +13,4 @@ find ./en -name 'page.html' -exec tar -rvf website.tar {} \;
 find ./en -name 'index.html' -exec tar -rvf website.tar {} \;
 find ./en -name '*.png' -exec tar -rvf website.tar {} \;
 find ./en -name '*.webp' -exec tar -rvf website.tar {} \;
-find ./en -name 'hagenhaus-hagenhaus-api-1-resolved.json' -exec tar -rvf website.tar {} \;
+find ./en -name 'hagenhaus-hagenhaus-api-2-resolved.json' -exec tar -rvf website.tar {} \;
