@@ -692,7 +692,7 @@ table.options-table.h2 {
  Module Cards
 ************************************************/
 
-#page-col div.card {
+/* #page-col div.card {
   background: #cce7ff;
   border: 1px solid #cce7ff;
 }
@@ -715,7 +715,7 @@ table.options-table.h2 {
   -moz-box-shadow: 0 0 4px #7ec2ff;
   -webkit-box-shadow: 0 0 4px #7ec2ff;
   -o-box-shadow: 0 0 4px #7ec2ff;
-}
+} */
 
 /************************************************
  banish
