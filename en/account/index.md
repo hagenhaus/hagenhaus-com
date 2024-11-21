@@ -237,7 +237,7 @@ hasScrollbar: false
       if (userId) {
         const res = await axios({
           method: 'get',
-          url: `${getHHApiDomain()}/api/users/${userId}`,
+          url: `${getHHApiDomain()}/api/v2/users/${userId}`,
           headers: { authorization: `${bearerToken}` }
         });
 

@@ -1,136 +1,55 @@
 ---
 hasRefreshBtn: true
-publishedDate: November 7, 2024
 ---
 
 # Tools
 
-> This is a draft.
-
-|Name|Free|Owner|Website|
+|Name|Category|Owner|HQ|
 |-|-|-|-|
-|Apidog|||[apidog.com](https://apidog.com/)|
-|Apigee||Google||
-|Bruno||||
-|cURL||||
-|Document360||||
-|Firecamp||||
-|Hoppscotch||||
-|HTTPie||||
-|Insomnia||||
-|JMeter||||
-|Karate Labs||||
-|Katalon Studio||||
-|Kong||||
-|Mulesoft||||
-|Postman||||
-|RapidAPI for Mac||||
-|ReadyAPI||SmartBear||
-|SoapUI||SmartBear||
-|Stoplight||||
-|SwaggerHub||SmartBear||
-|Testsigma||||
-|Thunder Client||||
-|Tricentis||||
+|[Apidog](../terminology/#apidog)|||San Francisco|
+|[Apigee](../terminology/#apigee)||[Google](https://cloud.google.com/apigee)||
+|[APIMatic](../terminology/#apimatic)|||Auckland NZ|
+|[Bruno](../terminology/#bruno)||||
+|[cURL](../terminology/#curl)||||
+|[Document360](../terminology/#document360)||||
+|[Firecamp](../terminology/#firecamp)||||
+|[Hoppscotch](../terminology/#hoppscotch)||||
+|[HTTPie](../terminology/#httpie)||||
+|[Insomnia](../terminology/#insomnia)||||
+|[JMeter](../terminology/#jmeter)||||
+|[Karate Labs](../terminology/#karate-labs)||||
+|[Katalon Studio](../terminology/#katalon-studio)||||
+|[Kong](../terminology/#kong)||||
+|[Mulesoft](../terminology/#mulesoft)||||
+|[Paw](../terminology/#paw)||RapidAPI||
+|[Postman](../terminology/#postman)||||
+|[RapidAPI](../terminology/#rapidapi)||||
+|[ReadyAPI](../terminology/#readyapi)||SmartBear||
+|[SoapUI](../terminology/#soapui)||SmartBear||
+|[Stoplight](../terminology/#stoplight)||||
+|[SwaggerHub](../terminology/#swaggerhub)||SmartBear||
+|[Testsigma](../terminology/#testsimga)||||
+|[Thunder Client](../terminology/#thunder-client)||||
+|[Tricentis](../terminology/#tricentis)||||
 
-Key:
+# Features
 
-1. Which aspects of Lifecycle?
-1. Cloud-based? Local-based? Add-on?
+This section lists and describes tool features:
 
-# Apidog
+1. Cloud application
+1. Local application
+1. Cloud/Local synchronization
 
-* [apidog.com](https://apidog.com/)
+# Types
 
-# Apigee
+* Editors
+* Generators
+* Renderers
+* Converters
 
-* [cloud.google.com/apigee](https://cloud.google.com/apigee)
-* [docs.apigee.com](https://docs.apigee.com/)
+# Links
 
-# Bruno
-
-* [usebruno.com](https://www.usebruno.com/)
-
-# cURL
-
-* [curl.se](https://curl.se/)
-
-# Document360
-
-* [document360.com](https://document360.com/)
-
-# Firecamp
-
-* [firecamp.io](https://firecamp.io/)
-
-# Hoppscotch
-
-* [hoppscotch.io](https://hoppscotch.io/)
-
-# HTTPie
-
-* [httpie.io](https://httpie.io/)
-
-# Insomnia
-
-* [insomnia.rest](https://insomnia.rest/)
-
-# JMeter
-
-* [jmeter.apache.org](https://jmeter.apache.org/)
-
-# Karate Labs
-
-* [karatelabs.io](https://www.karatelabs.io/)
-
-# Katalon Studio
-
-* [katalon.com](https://katalon.com/)
-
-# Kong
-
-* [konghq.com](https://konghq.com/)
-
-# Mulesoft
-
-* [mulesoft.com](https://www.mulesoft.com/)
-
-# Postman
-
-* [postman.com](https://www.postman.com/)
-* [Fixing or ignoring response header issues](https://community.postman.com/t/fixing-or-ignoring-response-header-issues/53550)
-
-In a _responses_ section of an OpenApi document, if I include _content:application/json_ and a _Content-Type_ header, I see two of these headers in a live response. But, if I don't include this header, I don't see any in SwaggerHub.
-
-# RapidAPI for Mac
-
-* [rapidapi.com](https://rapidapi.com/)
-* [paw.cloud](https://paw.cloud/)
-
-# ReadyAPI
-
-* [smartbear.com/product/ready-api](https://smartbear.com/product/ready-api/)
-
-# SoapUI
-
-* [soapui.org](https://www.soapui.org/)
-
-# Stoplight
-
-* [stoplight.io](https://stoplight.io/)
-
-# SwaggerHub
-
-* [app.swaggerhub.com](https://app.swaggerhub.com)
-
-# Testsigma
-
-* [testsigma.com](https://testsigma.com/)
-
-# Thunder Client
-
-* [thunderclient.com](https://www.thunderclient.com/)
-
-# Tricentis
-
-* [tricentis.com](https://www.tricentis.com/)
+* https://tools.openapis.org/
+* https://openapi.tools/
+* https://tools.openapis.org/categories/gui-editors.html
+* https://openapidesigner.com/

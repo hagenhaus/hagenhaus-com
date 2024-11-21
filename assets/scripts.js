@@ -454,10 +454,13 @@ const followLink = async (href) => {
   let a = document.createElement('a');
   a.href = href;
 
+  // console.log(a.href);
   // console.log(typeof a.port);
   // if(a.hash) {console.log(a.hash)};
 
   if (a.pathname.endsWith('.pdf')) {
+    window.open(a.href, '_blank').focus();
+  } else if (a.pathname.endsWith('.yaml')) {
     window.open(a.href, '_blank').focus();
   } else if (a.hostname === window.location.hostname && (a.port === null || a.port === '' || a.port === '8080')) {
     if (currentPage.folder == a.pathname && a.hash) {
@@ -580,7 +583,7 @@ window.signInListener = (event) => {
   (async () => {
     try {
       let res = await axios({ 
-        url: `${getHHApiDomain()}/api/tokens`, 
+        url: `${getHHApiDomain()}/api/v2/tokens`, 
         method: 'post', 
         data: data
       });
@@ -588,7 +591,7 @@ window.signInListener = (event) => {
 
       res = await axios({ 
         headers: { authorization: window.getBearerToken() },
-        url: `${getHHApiDomain()}/api/users/${res.data.userId}`, 
+        url: `${getHHApiDomain()}/api/v2/users/${res.data.userId}`, 
         method: 'get' 
       });
 
@@ -617,7 +620,7 @@ window.signUpListener = (event) => {
   });
   (async () => {
     try {
-      const res = await axios({ url: `${getHHApiDomain()}/api/users`, method: 'post', data: data });
+      const res = await axios({ url: `${getHHApiDomain()}/api/v2/users`, method: 'post', data: data });
       event.target.reset();
       reportInfo(0, 'Success', 'User account created successfully.');
       document.getElementById('sign-in-form').elements['email'].value = res.data.email;
@@ -645,7 +648,7 @@ window.updateAccountListener = (event) => {
       if (userId) {
         const res = await axios({
           method: 'patch',
-          url: `${getHHApiDomain()}/api/users/${userId}`,
+          url: `${getHHApiDomain()}/api/v2/users/${userId}`,
           headers: { authorization: `${bearerToken}` },
           data: data
         });
@@ -664,7 +667,7 @@ window.deleteAccountListener = (event) => {
         if (userId) {
           const res = await axios({
             method: 'delete',
-            url: `${getHHApiDomain()}/api/users/${userId}`,
+            url: `${getHHApiDomain()}/api/v2/users/${userId}`,
             headers: { authorization: `${bearerToken}` }
           });
           window.unstoreUser();
@@ -794,12 +797,21 @@ window.showToast = (level, title, message) => {
   new bootstrap.Toast(toast, {}).show();
 };
 
+// function getTitleAndMessage(error) {
+//   let tm = { title: 'Unknown Error', message: 'Unknown Message' };
+//   if ('response' in error && 'statusText' in error.response && error.response.statusText) { tm.title = `${error.response.statusText}`; }
+//   else if ('message' in error && error.message) { tm.title = error.message; }
+//   if ('response' in error && 'data' in error.response && error.response.data) { tm.message = error.response.data; }
+//   else if ('name' in error && error.name) { tm.message = error.name; }
+//   return tm;
+// }
+
 function getTitleAndMessage(error) {
   let tm = { title: 'Unknown Error', message: 'Unknown Message' };
-  if ('response' in error && 'statusText' in error.response && error.response.statusText) { tm.title = `${error.response.statusText}`; }
-  else if ('message' in error && error.message) { tm.title = error.message; }
-  if ('response' in error && 'data' in error.response && error.response.data) { tm.message = error.response.data; }
-  else if ('name' in error && error.name) { tm.message = error.name; }
+  if ('response' in error && 'data' in error.response && error.response.data) {
+    tm.title = error.response.data.statusMsg;
+    tm.message = error.response.data.userMsg;
+  }
   return tm;
 }
 

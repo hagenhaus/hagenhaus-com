@@ -22,14 +22,15 @@
   <!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/fontawesome/css/all.css"> -->
   <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-  <!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/swagger/dist/swagger-ui.css"> -->
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui.css">
+  <link rel="stylesheet" type="text/css" href="http://localhost:8080/swagger/dist/swagger-ui.css">
+  <!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui.css"> -->
 
-  <!-- <link rel="stylesheet" type="text/css" href="/assets/styles.css?v=16"> -->
-  <link rel="stylesheet" type="text/css" href="/assets/styles.min.css?v=16">
+  <!-- <link rel="stylesheet" type="text/css" href="/assets/styles.css?v=18"> -->
+  <link rel="stylesheet" type="text/css" href="/assets/styles.min.css?v=18">
 
-  <!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist.css?v=16" id="hhstyle"> -->
-  <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.css?v=16" id="hhstyle">
+  <link rel="stylesheet" type="text/css" href="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist.css?v=18" id="hhstyle">
+  <!-- <link rel="stylesheet" type="text/css" href="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.css?v=18" id="hhstyle"> -->
 
   <title>Hagenhaus</title>
 </head>
@@ -45,9 +46,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a id="mi-about-my-site" class="nav-link follow" href="/en/about-my-site/"><span>About my site</span></a></li>
           <li class="nav-item"><a id="mi-hhdatalist" class="nav-link follow" href="/en/hhdatalist/v0.0.2/"><span>HHDataList</span></a></li>
-          <li class="nav-item"><a id="mi-about" class="nav-link follow" href="/en/about/"><span>About</span></a></li>
-          <li class="nav-item"><a id="mi-contact" class="nav-link follow" href="/en/contact/"><span>Contact</span></a></li>
+          <!-- <li class="nav-item"><a id="mi-about" class="nav-link follow" href="/en/about/"><span>About</span></a></li> -->
+          <li class="nav-item"><a id="mi-contact-me" class="nav-link follow" href="/en/contact-me/"><span>Contact me</span></a></li>
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item"><a id="mi-account" class="nav-link follow" href="/en/account/"><span id="account-icon"><i class="fas fa-user-alt"></i></span></a></li>
@@ -156,27 +158,28 @@
   <!-- <script src="http://localhost:8080/bootstrap/js/bootstrap.bundle.min.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- <script src="http://localhost:8080/swagger/dist/swagger-ui-bundle.js" crossorigin></script> -->
-  <script src="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui-bundle.js" crossorigin></script>
+  <script src="http://localhost:8080/swagger/dist/swagger-ui-bundle.js" crossorigin></script>
+  <!-- <script src="https://unpkg.com/swagger-ui-dist@4.12.0/swagger-ui-bundle.js" crossorigin></script> -->
+  <!-- <script src="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui-bundle.js" crossorigin></script> -->
 
-  <!-- <script src="/assets/scripts.js?v=16" type="module"></script> -->
-  <script src="/assets/scripts.min.js?v=16" type="module"></script>
+  <!-- <script src="/assets/scripts.js?v=18" type="module"></script> -->
+  <script src="/assets/scripts.min.js?v=18" type="module"></script>
   
-  <!-- <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist-palettes.js?v=16"></script> -->
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-palettes.js?v=16"></script>
+  <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist-palettes.js?v=18"></script>
+  <!-- <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-palettes.js?v=18"></script> -->
 
-  <!-- <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist-themes.js?v=16"></script> -->
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js?v=16"></script>
+  <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist-themes.js?v=18"></script>
+  <!-- <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist-themes.js?v=18"></script> -->
 
-  <!-- <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist.js?v=16"></script> -->
-  <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js?v=16"></script>
+  <script src="http://localhost:8080/hhdatalist/v0.0.2/source/hhdatalist.js?v=18"></script>
+  <!-- <script src="https://hagenhaus.com/cdn/hhdatalist/v0.0.2/hhdatalist.min.js?v=18"></script> -->
 
   <script>
     HHDataList.addAllStandardPalettes();
     HHDataList.addAllStandardThemes();
   </script>
 
-  <script src="/assets/dl-options-002.js?v=16"></script>
+  <script src="/assets/dl-options-002.js?v=18"></script>
 
 </body>
 

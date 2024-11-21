@@ -20,11 +20,11 @@ class DLBaseOptions002 {
     this.fieldDefinitions = {};
     this.id = id;
     this.info = reportInfo;
-    this.methods = {
-      deleteRecord: () => { reportInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
-      patchRecord: () => { reportInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
-      postRecord: () => { reportInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
-    };
+    // this.methods = {
+    //   deleteRecord: () => { reportInfo(1, 'Warning', 'Record deletion is disabled for this instance.'); },
+    //   patchRecord: () => { reportInfo(1, 'Warning', 'Record modification is disabled for this instance.'); },
+    //   postRecord: () => { reportInfo(1, 'Warning', 'Record creation is disabled for this instance.'); }
+    // };
     this.number = {};
     this.parity = { get: { value: false }, post: { value: false } };
     this.processMode = {};
@@ -217,7 +217,7 @@ class DLPlayersOptions002 extends DLBaseOptions002 {
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     };
-    this.url = `${getHHApiDomain()}/api/baseball/players`;
+    this.url = `${getHHApiDomain()}/api/v2/baseball/players`;
   }
 }
 
@@ -334,7 +334,7 @@ class DLTeamsOptions002 extends DLBaseOptions002 {
         numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
         numTotalRecords: (res) => res.data.metadata.numTotalRecords
       };
-    this.url = `${getHHApiDomain()}/api/baseball/teams`;
+    this.url = `${getHHApiDomain()}/api/v2/baseball/teams`;
   }
 }
 
@@ -382,7 +382,7 @@ class DLTreesOptions002 extends DLBaseOptions002 {
         { label: 'Nearby City', fieldName: 'city' },
         {
           label: 'Country', fieldName: 'country',
-          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/countries/${v}`)).data.name
+          transformer: async (v) => (await HHDataList.get(`${getHHApiDomain()}/api/v2/countries/${v}`)).data.name
         },
         {
           label: 'Coordinates', fieldNames: ['lat', 'lng'],
@@ -426,21 +426,21 @@ class DLTreesOptions002 extends DLBaseOptions002 {
       numMatchedRecords: (res) => res.data.metadata.numFilteredRecords,
       numTotalRecords: (res) => res.data.metadata.numTotalRecords
     };
-    this.url = `${getHHApiDomain()}/api/famous-trees`;
+    this.url = `${getHHApiDomain()}/api/v2/famous-trees`;
   }
 
   popValues = new Map()
-    .set('name', 'Koiwai Farm Ipponzakura')
-    .set('species', `{"link":"https://en.wikipedia.org/wiki/Prunus_serrulata","text":"Prunus serrulata"}`)
-    .set('description', `The solitary cherry tree stands in Koiwai Farm, a privately owned farm not far from Iwate's capital city Morioka (盛岡市 Morioka-shi). With over 500,000 visitors annually, the farm is immensely popular among the locals, and has been around since its establishment in 1891. In fact, the tree was said to be planted over 100 years ago too, and since then many people have visited the farm during different seasons just to see it. But among all the seasons, spring is often considered the best to see the tree in its full glory.`)
-    .set('city', 'Morioka')
-    .set('country', 'JPN')
-    .set('lat', '39.7560461061616')
-    .set('lng', '141.004011260734')
-    .set('birthYear', '1922')
-    .set('height', '0')
-    .set('girth', '0')
-    .set('links', `[{"link":"https://japanrailtimes.japanrailcafe.com.sg/web/article/seasons/sakura-series-4","text":"Japan Rail Cafe"},{"link":"https://www.koiwai.co.jp/makiba/","text":"Koiwai Farm"}]`);
+    .set('name', 'Sarv-e Abarqu')
+    .set('species', `{"link": "https://en.wikipedia.org/wiki/Cupressus_sempervirens", "text": "Cupressus sempervirens"}`)
+    .set('description', `The Cypress of Abarkuh (Persian: سرو ابرکوه Sarv-e Abarkuh), also called the Zoroastrian Sarv, is a Persian cypress (Cupressus sempervirens) tree in Abarkuh in Yazd Province of Iran. It is protected by the Cultural Heritage Organization of Iran as a national natural monument and is a major tourist attraction.`)
+    .set('city', 'Abarkuh')
+    .set('country', 'IRN')
+    .set('lat', '31.12264')
+    .set('lng', '53.27984')
+    .set('birthYear', '-2000')
+    .set('height', '82')
+    .set('girth', '37')
+    .set('links', `[{"link": "https://en.wikipedia.org/wiki/Sarv-e_Abarkuh", "text": "Wikipedia"},{"link": "https://www.monumentaltrees.com/en/irn/yazd/abarkuh/2941_sarveabarqu/", "text": "Monumental Trees"}]`);
 }
 
 /************************************************************************************************
