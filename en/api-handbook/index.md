@@ -17,3 +17,5 @@ hasRefreshBtn: true
 * [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 * [Best practices for API error handling](https://blog.postman.com/best-practices-for-api-error-handling/)
 * [GraphQL](https://graphql.org/)
+* [How to generate API Documentation using openapi-generator?](https://stackoverflow.com/questions/59727169/how-to-generate-api-documentation-using-openapi-generator)
+* [OpenAPI Generator](https://openapi-generator.tech/)

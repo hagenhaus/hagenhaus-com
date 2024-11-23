@@ -189,6 +189,8 @@ const setOtpItemToActive = (id) => {
 
 const getWebpage = async (folder, hash, shallUpdateHistory) => {
 
+  document.querySelector('div.hh-viewer').classList.remove('hh-shield');
+
   folder = folder.replace(/index\.html$/, '');
 
   folder = folder == '/' || folder == `/${lang}/` ? homepage : folder;
@@ -461,6 +463,8 @@ const followLink = async (href) => {
   if (a.pathname.endsWith('.pdf')) {
     window.open(a.href, '_blank').focus();
   } else if (a.pathname.endsWith('.yaml')) {
+    window.open(a.href, '_blank').focus();
+  } else if (a.pathname.endsWith('.json')) {
     window.open(a.href, '_blank').focus();
   } else if (a.hostname === window.location.hostname && (a.port === null || a.port === '' || a.port === '8080')) {
     if (currentPage.folder == a.pathname && a.hash) {

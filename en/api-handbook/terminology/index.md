@@ -191,6 +191,7 @@ The OpenAPI Specification provides a formal standard for describing HTTP APIs.
 * [SwaggerHub](https://app.swaggerhub.com)
 * [OpenAPI Specification v3.1](https://swagger.io/specification/)
 * [SwaggerHub Documentation](https://support.smartbear.com/swaggerhub/docs/)
+* [Format Swagger Text Descriptions](https://www.baeldung.com/swagger-format-descriptions)
 
 # Testsigma
 

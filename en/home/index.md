@@ -10,12 +10,12 @@ menuItem: mi-home
 
 # Matt Hagen
 
-_[Contact me](../contact-me/) for help in creating technical content for your developer community._
+_[Contact me](../contact-me/) for help in creating technical content for your company's developer community._
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col">
     <div class="card text-dark bg-light h-100">
-      <div class="card-header">Roles</div>
+      <div class="card-header">My Roles since 1987</div>
       <div class="card-body">
         <ul class="card-text">
           <li>Technical writer</li>
@@ -24,21 +24,20 @@ _[Contact me](../contact-me/) for help in creating technical content for your de
           <li>Software developer</li>
           <li>Developer relations engineer</li>
           <li>Developer advocate</li>
-          <li>Project management</li>
+          <li>Director of education</li>
         </ul>
       </div>
     </div>
   </div>
   <div class="col">
     <div class="card text-dark bg-light h-100">
-      <div class="card-header">Services</div>
+      <div class="card-header">My Services</div>
       <div class="card-body">
         <ul class="card-text">
-          <li>OpenAPI Documentation</li>
-          <li>Developer Portals</li>
-          <li>Developer Guides</li>
-          <li>SDK Documentation</li>
-          <li>Software Diagrams</li>
+          <li>OpenAPI documentation</li>
+          <li>Developer portals</li>
+          <li>Developer guides</li>
+          <li>Software diagrams</li>
           <li>Developer courseware</li>
           <li>Developer relations</li>
           <li>Training delivery</li>
