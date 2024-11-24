@@ -2,19 +2,19 @@ openapi: 3.0.0
 info:
   title: Hagenhaus API
   description: |
-    Designed as a data source for [HHDataList](https://hagenhaus.com/en/hhdatalist/v0.0.2/) development and testing, this REST API deals primarily with two separate topics: famous trees and baseball. The latter is a hosted copy of the [Lahman Baseball Dataset](http://seanlahman.com/).
+    Designed as a data source for [HHDataList](https://hagenhaus.com/en/hhdatalist/v0.0.2/) development and testing, this REST API deals primarily with two separate topics: baseball (a hosted copy of the [Lahman Baseball Dataset](http://seanlahman.com/)) and famous trees.
 
-    <h1 id="about-the-api">About the API</h1>
+    <h1 id="introduction">Introduction</h1>
 
     <h2 id="authentication">Authentication</h2>
 
-    The _createToken_ operation requires user credentials and returns a 137-character bearer-token string. Example:
+    The createToken operation requires user credentials and returns a bearer token. Example:
 
     ```
     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzMyMzA4MzU5LCJleHAiOjE3MzIzOTQ3NTl9.4BFo_RC4eYlYN6lkjF4L4LEirob8CcHfNM25dBHV1No
     ```
 
-    Several operations require such a token in the _Authorization_ request header like this:
+    Several operations require this token in the Authorization request header like this:
 
     ```
     curl -X 'DELETE' \
@@ -22,11 +22,15 @@ info:
       -H 'Authorization: Bearer abc123...'
     ```
 
-    Finally, _createUser_ requires a valid [Hagenhaus](https://hagenhaus.com) _partnerId_ in the request body.
+    Finally, createUser requires a valid [Hagenhaus](https://hagenhaus.com) partnerId in the request body. Example:
+
+    ```
+    abcd1234-1a1a-2b2b-3c3c-12345678abcd
+    ```
 
     <h2 id="query-parameters">Query Parameters</h2>
 
-    All GET operations support the _fields_ query parameter. Additionally, all GET operations that return multiple records (e.g. _getLeagues_) support all the parameters described below.
+    All GET operations support the fields query parameter. Additionally, all GET operations that return multiple records (e.g. getLeagues) support all the parameters described below.
 
     ### fields
 
@@ -34,12 +38,11 @@ info:
 
     ```
     /api/v2/famous-trees?fields=id,name,city,country,height
-    /api/v2/famous-trees/1?fields=id,name,city,country,height
     ```
 
     ### filter
 
-    This optional parameter limits the pool of returnable records to those records whose case-insensitive field values meet the specified criteria. If this parameter is not specified, all records are returnable. Example:
+    This optional parameter defines the pool of returnable records. If this parameter is not specified, all records are returnable. Example:
 
     ```
     /api/v2/famous-trees?filter=birthYear<0
@@ -50,7 +53,6 @@ info:
     This optional parameter establishes the order of returnable records. If this parameter is not specified, the order of returned records is random. Example:
 
     ```
-    /api/v2/famous-trees?order=birthYear%20desc
     /api/v2/baseball/players?order=birthYear%20desc%2CnameLast%20asc
     ```
 
@@ -72,7 +74,7 @@ info:
 
     ### hasFieldList
 
-    This optional parameter specifies whether the response will include an array of record fields called the _fieldList_. If this parameter is not specified, the _fieldList_ property is not included in the response data. Example:
+    This optional parameter specifies whether the response will include a property named fieldList containing an array of record fields. If this parameter is not specified, the response data will not include the fieldList property. Example:
 
     ```
     /api/v2/baseball/leagues?limit=2&hasFieldList=true&hasMetadata=false
@@ -92,7 +94,7 @@ info:
 
     ### hasMetadata
 
-    This optional parameter specifies whether the response will include a _metadata_ property with various counters. If this parameter is not specified, the response will include metadata. Example:
+    This optional parameter specifies whether the response will include a metadata property containing various counters. If this parameter is not specified, the response will include metadata. Example:
 
     ```
     /api/v2/baseball/players?fields=nameFirst%2CnameLast&filter=birthYear%3D1970&page=2&limit=2&hasMetadata=true
@@ -120,17 +122,17 @@ info:
 
     Here is the definition of each metadata property:
 
-    * _numTotalRecords_. Total number of records.
-    * _numFilteredRecords_. Total number of records in the pool of filtered records.
-    * _numResponseRecords_. Number of records in the response data.
-    * _page_. Current page.
-    * _limit_. Maximum number of records per page.
-    * _numTotalPages_. Total number of pages given the page and limit.
-    * _firstItemOnPage_. One-based ordinal number of the first item on the current page.
+    * numTotalRecords. Total number of records.
+    * numFilteredRecords. Total number of records in the pool of filtered records.
+    * numResponseRecords. Number of records in the response data.
+    * page. Current page.
+    * limit. Maximum number of records per page.
+    * numTotalPages. Total number of pages calculated from the page and limit values.
+    * firstItemOnPage. One-based ordinal number of the first item on the current page.
 
     ### hasRecords
 
-    This optional parameter specifies whether the response will include records. This parameter is useful if you want to return the _fieldList_ property and/or the _metadata_ property without the records. Example:
+    This optional parameter specifies whether the response will include records. This parameter is useful if you want to return only the fieldList property and/or the metadata property (and no records). Example:
 
     ```
     /api/v2/baseball/leagues?hasFieldList=true&hasRecords=false
@@ -156,9 +158,9 @@ info:
     }
     ```
 
-    <h2 id="request">Requests</h2>
+    <h2 id="requests">Requests</h2>
 
-    Methods include POST for creating records, GET for returning a single record or an array of records, PATCH for updating one or more record fields, and DELETE for deleting records. Request bodies are always JSON. Important request headers include _accept_ and, when required, _Authorization_. Example:
+    Methods include POST for creating records, GET for returning a single record or an array of records, PATCH for updating one or more record fields, and DELETE for deleting records. Request bodies are always JSON. Important request headers include accept and, when required, Authorization. Example:
 
     ```
     curl -X 'GET' \
@@ -178,7 +180,7 @@ info:
     * 401 for failures due to invalid credentials or tokens.
     * 500 for failures due to server errors.
 
-    All response data is JSON. Important response headers include _Access-Control-Allow-Origin_, _Content-Type_, and _Content-Length_.
+    All response data is JSON. Important response headers include Access-Control-Allow-Origin, Content-Type, and Content-Length.
 
     <h2 id="errors">Errors</h2>
 
@@ -196,9 +198,7 @@ info:
     }
     ```
 
-    The _userMsgId_ is useful if you want to display error messages in a different language. For details, see the _getApiMessages_ operation.
-
-    <h1 id="operators">Operators</h1>
+    userMsgId is useful if you want to display error messages in a different language. For details, see the getApiMessages operation.
   version: 2.0.0
 servers:
 - url: https://hagenhaus.com
@@ -221,13 +221,14 @@ tags:
     These operations deal with famous-tree data.
 - name: Users
   description: |
-    These operations deal with user data. The token passed to the GET, PATCH, and DELETE operations must be associated with the specified user ID.
+    These operations deal with user data.
 paths:
   /api:
     get:
       tags:
       - About
-      description: This operation returns the url to a website page describing the API.
+      description: |
+        This operation returns the url to a webpage describing the API.
       operationId: getApiDescription
       responses:
         "200":
@@ -253,13 +254,14 @@ paths:
                 $ref: '#/components/schemas/ApiInfo'
               example:
                 name: Hagenhaus API
-                description: See https://hagenhaus.com/en/about-my-site/hagenhaus-api/.
+                description: https://hagenhaus.com/en/about-this-site/swagger-ui
       security: []
   /api/v2/messages:
     get:
       tags:
       - About
-      description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: |
+        This operation returns an array of strings that appear in error messages. You can create an equivalent array for your application where each string is worded differently or translated into another human language. Then, when a request returns an error, rather than displaying the userMsg string (in the error) to the user, you can use the userMsgId integer (in the error) to index into your array, retrieve the equivalent string, and display it to the user instead.
       operationId: getApiMessages
       responses:
         "200":
@@ -315,7 +317,8 @@ paths:
     post:
       tags:
       - Authentication
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation sends user credentials and returns a bearer token to be used in the Authorization header of other operations that require a bearer token.
       operationId: createToken
       requestBody:
         content:
@@ -418,7 +421,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of league objects.
       operationId: getLeagues
       parameters:
       - name: fields
@@ -592,7 +596,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a league object.
       operationId: getLeague
       parameters:
       - name: id
@@ -688,7 +693,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of manager objects.
       operationId: getManagers
       parameters:
       - name: fields
@@ -880,7 +886,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a manager object.
       operationId: getManager
       parameters:
       - name: id
@@ -985,7 +992,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of park objects.
       operationId: getParks
       parameters:
       - name: fields
@@ -1165,7 +1173,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a park object.
       operationId: getPark
       parameters:
       - name: id
@@ -1264,7 +1273,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of player objects.
       operationId: getPlayers
       parameters:
       - name: fields
@@ -1481,7 +1491,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a player object.
       operationId: getPlayer
       parameters:
       - name: id
@@ -1602,7 +1613,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of team objects.
       operationId: getTeams
       parameters:
       - name: fields
@@ -1868,7 +1880,8 @@ paths:
     get:
       tags:
       - Baseball
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a team object.
       operationId: getTeam
       parameters:
       - name: id
@@ -2010,8 +2023,8 @@ paths:
     get:
       tags:
       - Countries
-      description: "This operation returns an array of [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) objects."
-      operationId: getCountries
+      description: |
+        This operation returns an array of [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) objects.
       parameters:
       - name: fields
         in: query
@@ -2184,7 +2197,8 @@ paths:
     get:
       tags:
       - Countries
-      description: "This operation returns a [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) object."
+      description: |
+        This operation returns an [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) object.
       operationId: getCountry
       parameters:
       - name: id
@@ -2268,7 +2282,8 @@ paths:
     get:
       tags:
       - Famous Trees
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns an array of tree objects.
       operationId: getFamousTrees
       parameters:
       - name: fields
@@ -2469,7 +2484,8 @@ paths:
     post:
       tags:
       - Famous Trees
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation creates and returns a tree object.
       operationId: createFamousTree
       requestBody:
         content:
@@ -2603,7 +2619,8 @@ paths:
     get:
       tags:
       - Famous Trees
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation returns a tree object.
       operationId: getFamousTree
       parameters:
       - name: id
@@ -2713,7 +2730,8 @@ paths:
     delete:
       tags:
       - Famous Trees
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation deletes the specified tree object.
       operationId: deleteFamousTree
       parameters:
       - name: id
@@ -2780,7 +2798,8 @@ paths:
     patch:
       tags:
       - Famous Trees
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation updates one or more fields in the specified tree object.
       operationId: updateFamousTree
       parameters:
       - name: id
@@ -2919,7 +2938,8 @@ paths:
     post:
       tags:
       - Users
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation creates and returns a user object. The request body must contain a valid Hagenhaus partnerId.
       operationId: createUser
       requestBody:
         content:
@@ -3058,8 +3078,9 @@ paths:
     get:
       tags:
       - Users
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-      operationId: getUsers
+      description: |
+        This operation returns a user object. The caller must specify the token and userId returned by createToken.
+      operationId: getUser
       parameters:
       - name: id
         in: path
@@ -3160,7 +3181,8 @@ paths:
     delete:
       tags:
       - Users
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation deletes a user object. The caller must specify the token and userId returned by createToken.
       operationId: deleteUser
       parameters:
       - name: id
@@ -3227,7 +3249,8 @@ paths:
     patch:
       tags:
       - Users
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      description: |
+        This operation updates one or more fields in a user object. The caller must specify the token and userId returned by createToken.
       operationId: updateUser
       parameters:
       - name: id

@@ -111,7 +111,7 @@ const scrollHandler = (event) => {
   } else {
     let found = false;
 
-    let arr = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2');
+    let arr = document.querySelectorAll('#page-col div.hh-viewer h1, #page-col div.hh-viewer h2, #page-col div.hh-viewer h3.opblock-tag, #page-col div.hh-viewer div.opblock');
 
     if (arr.length) {
       for (let i = arr.length - 1; i >= 0; i--) {

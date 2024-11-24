@@ -1,10 +1,10 @@
 ---
 hasEditBtn: true
 hasRefreshBtn: true
-menuItem: mi-about-my-site
+menuItem: mi-about-this-site
 ---
 
-# Hagenhaus OpenAPI
+# Hagenhaus API
 
 ### YAML
 

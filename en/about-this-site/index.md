@@ -1,13 +1,13 @@
 ---
-bookTitle: About my site
+bookTitle: About this site
 hasEditBtn: true
 hasOtp: true
 hasRefreshBtn: true
 hhdatalist: v0.0.2
-menuItem: mi-about-my-site
+menuItem: mi-about-this-site
 ---
 
-# About my site
+# About this site
 
 The diagram below illustrates the primary building blocks of my website:
 

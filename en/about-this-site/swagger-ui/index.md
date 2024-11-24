@@ -1,23 +1,25 @@
 ---
-hasEditBtn: false
+hasEditBtn: true
 hasOtp: true
-hasPageHeader: false
-hasRefreshBtn: false
-menuItem: mi-about-my-site
+hasPageHeader: true
+hasRefreshBtn: true
+menuItem: mi-about-this-site
 ---
 
-# Swagger
+# Swagger UI
 
 <style>
   div.swagger-ui div.information-container div.info {margin: 12px 0 12px 0;}
+  div.swagger-ui div.information-container div.info h1 {font-weight:500;font-size:1.50rem;}
   div.swagger-ui div.information-container div.info h2.title {font-size:24px;}
-  div.swagger-ui div.information-container div.info h2:not(.title) {font-weight:600;font-size:1.25rem;}
+  div.swagger-ui div.information-container div.info h2:not(.title) {font-weight:600;font-size:1.20rem;}
   div.swagger-ui div.information-container div.info h3 {
-    color:steelblue;
-    font-weight:600;
-    font-size:1.1rem;
+    color: #b37400;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 18px;
     margin-top: 1rem;
-    margin-bottom:0;
+    /* text-transform: uppercase; */
   }
   div.swagger-ui div.information-container div.info div.description pre code {
     background:#f2f6fa;
