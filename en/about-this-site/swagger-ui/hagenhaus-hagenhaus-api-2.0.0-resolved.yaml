@@ -6,7 +6,7 @@ info:
 
     <h1 id="introduction">Introduction</h1>
 
-    <h2 id="authentication">Authentication</h2>
+    <h2 id="security">Security</h2>
 
     The createToken operation requires user credentials and returns a bearer token. Example:
 
@@ -25,7 +25,13 @@ info:
     Finally, createUser requires a valid [Hagenhaus](https://hagenhaus.com) partnerId in the request body. Example:
 
     ```
-    abcd1234-1a1a-2b2b-3c3c-12345678abcd
+    {
+      "firstName": "Harry",
+      "lastName": "Hill",
+      "email": "harry@acme.com",
+      "password": "password",
+      "partnerId": "abcd1234-1a1a-2b2b-3c3c-12345678abcd"
+    }
     ```
 
     <h2 id="query-parameters">Query Parameters</h2>
@@ -199,6 +205,8 @@ info:
     ```
 
     userMsgId is useful if you want to display error messages in a different language. For details, see the getApiMessages operation.
+
+    <div id="servers-authorize" style="height:0;width:0;overflow:hidden;"></div>
   version: 2.0.0
 servers:
 - url: https://hagenhaus.com

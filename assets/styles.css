@@ -365,10 +365,10 @@ i.fas:hover {
 
 #page-col div.hh-viewer:not(.hh-shield) h3 {
   color: #b37400;
-  font-weight: bold;
+  font-weight: 600;
   font-style: normal;
-  font-size: 15px;
-  text-transform: uppercase;
+  font-size: 18px;
+  /* text-transform: uppercase; */
 }
 
 #page-col div.hh-viewer:not(.hh-shield) h4 {

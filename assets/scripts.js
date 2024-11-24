@@ -372,6 +372,8 @@ const getWebpage = async (folder, hash, shallUpdateHistory) => {
     document.querySelectorAll('#otp-col li.dynamic a').forEach(el => {
       el.addEventListener('click', (event) => {
         event.preventDefault();
+        updateHistory(event.target.hash.substring(1));
+        setOtpItemToActive(event.target.hash.substring(1));
         followLink(event.target.href);
       });
     });
@@ -547,6 +549,8 @@ document.querySelectorAll('header a.follow').forEach(el => {
 
 document.querySelector("#otp-col a[href='#on-this-page']").addEventListener('click', (event) => {
   event.preventDefault();
+  updateHistory('on-this-page');
+  setOtpItemToActive('on-this-page');
   followLink('#on-this-page');
 });
 
@@ -569,7 +573,7 @@ document.getElementById('about-this-book').addEventListener('click', (event) => 
 * onPageColScroll
 ************************************************************************************************/
 
-document.getElementById('page-col').addEventListener('scroll', scrollHandler);
+// document.getElementById('page-col').addEventListener('scroll', scrollHandler);
 
 /************************************************************************************************
 * Account page listeners
