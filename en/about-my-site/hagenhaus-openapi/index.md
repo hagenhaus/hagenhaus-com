@@ -4,7 +4,7 @@ hasRefreshBtn: true
 menuItem: mi-about-my-site
 ---
 
-# Hagenhaus API
+# Hagenhaus OpenAPI
 
 ### YAML
 

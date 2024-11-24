@@ -1,0 +1,4014 @@
+openapi: 3.0.0
+info:
+  title: Hagenhaus API
+  description: |
+    Designed as a data source for [HHDataList](https://hagenhaus.com/en/hhdatalist/v0.0.2/) development and testing, this REST API deals primarily with two separate topics: famous trees and baseball. The latter is a hosted copy of the [Lahman Baseball Dataset](http://seanlahman.com/).
+
+    <h1 id="about-the-api">About the API</h1>
+
+    <h2 id="authentication">Authentication</h2>
+
+    The _createToken_ operation requires user credentials and returns a 137-character bearer-token string. Example:
+
+    ```
+    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzMyMzA4MzU5LCJleHAiOjE3MzIzOTQ3NTl9.4BFo_RC4eYlYN6lkjF4L4LEirob8CcHfNM25dBHV1No
+    ```
+
+    Several operations require such a token in the _Authorization_ request header like this:
+
+    ```
+    curl -X 'DELETE' \
+      'https://hagenhaus/api/v2/famous-trees/49' \
+      -H 'Authorization: Bearer abc123...'
+    ```
+
+    Finally, _createUser_ requires a valid [Hagenhaus](https://hagenhaus.com) _partnerId_ in the request body.
+
+    <h2 id="query-parameters">Query Parameters</h2>
+
+    All GET operations support the _fields_ query parameter. Additionally, all GET operations that return multiple records (e.g. _getLeagues_) support all the parameters described below.
+
+    ### fields
+
+    This optional parameter specifies a list of comma-separated record fields to return. If this parameter is not specified, the operation returns all record fields. Example:
+
+    ```
+    /api/v2/famous-trees?fields=id,name,city,country,height
+    /api/v2/famous-trees/1?fields=id,name,city,country,height
+    ```
+
+    ### filter
+
+    This optional parameter limits the pool of returnable records to those records whose case-insensitive field values meet the specified criteria. If this parameter is not specified, all records are returnable. Example:
+
+    ```
+    /api/v2/famous-trees?filter=birthYear<0
+    ```
+
+    ### order
+
+    This optional parameter establishes the order of returnable records. If this parameter is not specified, the order of returned records is random. Example:
+
+    ```
+    /api/v2/famous-trees?order=birthYear%20desc
+    /api/v2/baseball/players?order=birthYear%20desc%2CnameLast%20asc
+    ```
+
+    ### page
+
+    This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any value that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records. Example:
+
+    ```
+    /api/v2/baseball/players?page=3
+    ```
+
+    ### limit
+
+    This optional parameter specifies the page size.  Negative values are invalid. If this parameter is not specified, the page size is 10. Example:
+
+    ```
+    /api/v2/baseball/players?limit=3
+    ```
+
+    ### hasFieldList
+
+    This optional parameter specifies whether the response will include an array of record fields called the _fieldList_. If this parameter is not specified, the _fieldList_ property is not included in the response data. Example:
+
+    ```
+    /api/v2/baseball/leagues?limit=2&hasFieldList=true&hasMetadata=false
+    ```
+
+    Here is the response:
+
+    ``` json
+    {
+      "fieldList": ["lgID", "league", "active"],
+      "records": [
+        {"lgID": "AA", "league": "American Association", "active": "N"},
+        {"lgID": "AL", "league": "American League", "active": "Y"}
+      ]
+    }
+    ```
+
+    ### hasMetadata
+
+    This optional parameter specifies whether the response will include a _metadata_ property with various counters. If this parameter is not specified, the response will include metadata. Example:
+
+    ```
+    /api/v2/baseball/players?fields=nameFirst%2CnameLast&filter=birthYear%3D1970&page=2&limit=2&hasMetadata=true
+    ```
+
+    Here is the response:
+
+    ```
+    {
+      "metadata": {
+        "numTotalRecords": 19889,
+        "numFilteredRecords": 180,
+        "numResponseRecords": 2,
+        "page": 2,
+        "limit": 2,
+        "numTotalPages": 90,
+        "firstItemOnPage": 3
+      },
+      "records": [
+        {"nameFirst": "Billy", "nameLast": "Ashley"},
+        {"nameFirst": "Derek", "nameLast": "Aucoin"}
+      ]
+    }
+    ```
+
+    Here is the definition of each metadata property:
+
+    * _numTotalRecords_. Total number of records.
+    * _numFilteredRecords_. Total number of records in the pool of filtered records.
+    * _numResponseRecords_. Number of records in the response data.
+    * _page_. Current page.
+    * _limit_. Maximum number of records per page.
+    * _numTotalPages_. Total number of pages given the page and limit.
+    * _firstItemOnPage_. One-based ordinal number of the first item on the current page.
+
+    ### hasRecords
+
+    This optional parameter specifies whether the response will include records. This parameter is useful if you want to return the _fieldList_ property and/or the _metadata_ property without the records. Example:
+
+    ```
+    /api/v2/baseball/leagues?hasFieldList=true&hasRecords=false
+    ```
+
+    Here is the result:
+
+    ```
+    {
+      "metadata": {
+        "numTotalRecords": 8,
+        "numFilteredRecords": 8,
+        "page": 1,
+        "limit": 10,
+        "numTotalPages": 1,
+        "firstItemOnPage": 1
+      },
+      "fieldList": [
+        "lgID",
+        "league",
+        "active"
+      ]
+    }
+    ```
+
+    <h2 id="request">Requests</h2>
+
+    Methods include POST for creating records, GET for returning a single record or an array of records, PATCH for updating one or more record fields, and DELETE for deleting records. Request bodies are always JSON. Important request headers include _accept_ and, when required, _Authorization_. Example:
+
+    ```
+    curl -X 'GET' \
+      'http://localhost:8081/api/v2/users/3' \
+      -H 'accept: application/json' \
+      -H 'Authorization: Bearer abc123...'
+    ```
+
+    <h2 id="responses">Responses</h2>
+
+    Response success status codes consist of the following:
+
+    * 200 for successful GET operations.
+    * 201 for successful POST operations.
+    * 204 for successful PATCH and DELETE operations.
+    * 400 for failures due to invalid query parameters or request bodies.
+    * 401 for failures due to invalid credentials or tokens.
+    * 500 for failures due to server errors.
+
+    All response data is JSON. Important response headers include _Access-Control-Allow-Origin_, _Content-Type_, and _Content-Length_.
+
+    <h2 id="errors">Errors</h2>
+
+    All errors return a JSON object with the same keys and different values. Example:
+
+    ```
+    {
+      "statusCode": 400,
+      "statusMsg": "Bad Request",
+      "userMsgId": 22,
+      "userMsg": "Invalid field",
+      "method": "GET",
+      "url": "https://hagenhaus.com/api/v2/famous-trees",
+      "timestamp": "2024-11-13T12:58:06.165Z"
+    }
+    ```
+
+    The _userMsgId_ is useful if you want to display error messages in a different language. For details, see the _getApiMessages_ operation.
+
+    <h1 id="operators">Operators</h1>
+  version: 2.0.0
+servers:
+- url: https://hagenhaus.com
+- url: http://localhost:8081
+tags:
+- name: About
+  description: |
+    These operations return information about the API.
+- name: Authentication
+  description: |
+    This operation returns a bearer token in exchange for user credentials.
+- name: Baseball
+  description: |
+    These operations access a hosted copy of the [Lahman Baseball Dataset](http://seanlahman.com/).
+- name: Countries
+  description: |
+    These operations return alpha-3 country codes and (English) names.
+- name: Famous Trees
+  description: |
+    These operations deal with famous-tree data.
+- name: Users
+  description: |
+    These operations deal with user data. The token passed to the GET, PATCH, and DELETE operations must be associated with the specified user ID.
+paths:
+  /api:
+    get:
+      tags:
+      - About
+      description: This operation returns the url to a website page describing the API.
+      operationId: getApiDescription
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiInfo'
+              example:
+                name: Hagenhaus API
+                description: See https://hagenhaus.com/en/about-my-site/hagenhaus-api/.
+      security: []
+  /api/v2/messages:
+    get:
+      tags:
+      - About
+      description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      operationId: getApiMessages
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiMessages'
+              example:
+              - Invalid credentials
+              - Email required
+              - Password required
+              - Malformed authorization header
+              - This operation requires authentication
+              - No Bearer in authorization header
+              - DB Connection Error
+              - DB Query Error
+              - No such user
+              - Invalid authentication token
+              - User ID in JWT !== User ID in request
+              - Valid token and valid user
+              - Undocumented error
+              - Server error
+              - Name required
+              - Url required
+              - Company Id required
+              - First name required
+              - Last name required
+              - Park name required
+              - Partner ID required
+              - Invalid Partner ID.
+              - Invalid field
+              - Invalid value or syntax in query parameter
+              - Error parsing request
+              - Invalid request
+      security: []
+  /api/v2/tokens:
+    post:
+      tags:
+      - Authentication
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: createToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+            example:
+              email: harry@acme.com
+              password: password
+      responses:
+        "201":
+          description: Created
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenUserId'
+              example:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzMxMTkyMDU1LCJleHAiOjE3MzEyNzg0NTV9.EHca_k6tGDpF5PyWhWjU1NFzziVOKVGk-Y1O2hYOaa8
+                userId: 45
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Email required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 1
+                    userMsg: Email required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/tokens
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Password required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 2
+                    userMsg: Password required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/tokens
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Error parsing request:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Error parsing request
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/tokens
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 401
+                statusMsg: Unauthorized
+                userMsgId: 0
+                userMsg: Invalid credentials
+                method: POST
+                url: https://hagenhaus.com/api/v2/tokens
+                timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: POST
+                url: https://hagenhaus.com/api/v2/tokens
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+  /api/v2/baseball/leagues:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getLeagues
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaguesResponse'
+              example:
+                metadata:
+                  numTotalRecords: 8
+                  numFilteredRecords: 8
+                  numResponseRecords: 2
+                  page: 1
+                  limit: 2
+                  numTotalPages: 4
+                  firstItemOnPage: 1
+                records:
+                - lgID: AA
+                  league: American Association
+                  active: "N"
+                - lgID: AL
+                  league: American League
+                  active: "Y"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/leagues
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/leagues
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/leagues
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/leagues/{id}:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getLeague
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/League'
+              example:
+                lgID: AA
+                league: American Association
+                active: "N"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/leagues/AA
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/leagues/AA
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/leagues/AA
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/managers:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getManagers
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagersResponse'
+              example:
+                metadata:
+                  numTotalRecords: 3536
+                  numFilteredRecords: 3536
+                  numResponseRecords: 2
+                  page: 1
+                  limit: 2
+                  numTotalPages: 1768
+                  firstItemOnPage: 1
+                records:
+                - ID: 1
+                  playerID: wrighha01
+                  yearID: 1871
+                  teamID: BS1
+                  team_ID: 1
+                  lgID: NA
+                  inseason: 1
+                  G: 31
+                  W: 20
+                  L: 10
+                  teamRank: 3
+                  plyrMgr: "Y"
+                - ID: 2
+                  playerID: woodji01
+                  yearID: 1871
+                  teamID: CH1
+                  team_ID: 2
+                  lgID: NA
+                  inseason: 1
+                  G: 28
+                  W: 19
+                  L: 9
+                  teamRank: 2
+                  plyrMgr: "Y"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/managers
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/managers
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/managers
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/managers/{id}:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getManager
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manager'
+              example:
+                ID: 1
+                playerID: wrighha01
+                yearID: 1871
+                teamID: BS1
+                team_ID: 1
+                lgID: NA
+                inseason: 1
+                G: 31
+                W: 20
+                L: 10
+                teamRank: 3
+                plyrMgr: "Y"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/managers/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/managers/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/managers/1
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/parks:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getParks
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParksResponse'
+              example:
+                metadata:
+                  numTotalRecords: 255
+                  numFilteredRecords: 255
+                  numResponseRecords: 2
+                  page: 1
+                  limit: 2
+                  numTotalPages: 128
+                  firstItemOnPage: 1
+                records:
+                - ID: 1
+                  parkkey: ALB01
+                  parkname: Riverside Park
+                  city: Albany
+                  state: NY
+                  country: US
+                - ID: 2
+                  parkkey: ALT01
+                  parkname: Columbia Park
+                  city: Altoona
+                  state: PA
+                  country: US
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/parks
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/parks
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/parks
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/parks/{id}:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getPark
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Park'
+              example:
+                ID: 1
+                parkkey: ALB01
+                parkname: Riverside Park
+                city: Albany
+                state: NY
+                country: US
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/parks/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/parks/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/parks/1
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/players:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getPlayers
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayersResponse'
+              example:
+                metadata:
+                  numTotalRecords: 19878
+                  numFilteredRecords: 19878
+                  numResponseRecords: 2
+                  page: 500
+                  limit: 2
+                  numTotalPages: 9939
+                  firstItemOnPage: 999
+                records:
+                - playerID: baumgha01
+                  birthYear: 1892
+                  birthMonth: 10
+                  birthDay: 6
+                  birthCountry: USA
+                  birthState: TN
+                  birthCity: South Pittsburg
+                  deathYear: 1930
+                  deathMonth: 12
+                  deathDay: 3
+                  deathCountry: USA
+                  deathState: GA
+                  deathCity: Augusta
+                  nameFirst: Harry
+                  nameLast: Baumgartner
+                  nameGiven: Harry Edward
+                  weight: 175
+                  height: 71
+                  bats: L
+                  throws: R
+                  debut: 1920-09-06
+                  finalGame: 1920-10-02
+                  retroID: baumh101
+                  bbrefID: baumgha01
+                  birth_date: 1892-10-06
+                  debut_date: 1920-09-06
+                  finalgame_date: 1920-10-02
+                  death_date: 1930-12-03
+                - playerID: baumgjo01
+                  birthYear: 1931
+                  birthMonth: 5
+                  birthDay: 29
+                  birthCountry: USA
+                  birthState: AL
+                  birthCity: Birmingham
+                  nameFirst: John
+                  nameLast: Baumgartner
+                  nameGiven: John Edward
+                  weight: 190
+                  height: 73
+                  bats: R
+                  throws: R
+                  debut: 1953-04-14
+                  finalGame: 1953-04-21
+                  retroID: baumj101
+                  bbrefID: baumgjo01
+                  birth_date: 1931-05-29
+                  debut_date: 1953-04-14
+                  finalgame_date: 1953-04-21
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/players
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/players
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/players
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/players/{id}:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getPlayer
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+              example:
+                playerID: baumgha01
+                birthYear: 1892
+                birthMonth: 10
+                birthDay: 6
+                birthCountry: USA
+                birthState: TN
+                birthCity: South Pittsburg
+                deathYear: 1930
+                deathMonth: 12
+                deathDay: 3
+                deathCountry: USA
+                deathState: GA
+                deathCity: Augusta
+                nameFirst: Harry
+                nameLast: Baumgartner
+                nameGiven: Harry Edward
+                weight: 175
+                height: 71
+                bats: L
+                throws: R
+                debut: 1920-09-06
+                finalGame: 1920-10-02
+                retroID: baumh101
+                bbrefID: baumgha01
+                birth_date: 1892-10-06
+                debut_date: 1920-09-06
+                finalgame_date: 1920-10-02
+                death_date: 1930-12-03
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/players/baumgha01
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/players/baumgha01
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/players/baumgha01
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/teams:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getTeams
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsResponse'
+              example:
+                metadata:
+                  numTotalRecords: 2925
+                  numFilteredRecords: 2925
+                  numResponseRecords: 2
+                  page: 800
+                  limit: 2
+                  numTotalPages: 1463
+                  firstItemOnPage: 1599
+                records:
+                - ID: 1599
+                  yearID: 1972
+                  lgID: NL
+                  teamID: HOU
+                  franchID: HOU
+                  divID: W
+                  div_ID: 5
+                  teamRank: 3
+                  G: 153
+                  Ghome: 77
+                  W: 84
+                  L: 69
+                  DivWin: "N"
+                  LgWin: "N"
+                  WSWin: "N"
+                  R: 708
+                  AB: 5267
+                  H: 1359
+                  "2B": 233
+                  "3B": 38
+                  HR: 134
+                  BB: 524
+                  SO: 907
+                  SB: 111
+                  CS: 56
+                  HBP: 32
+                  SF: 51
+                  RA: 636
+                  ER: 580
+                  ERA: 3.77
+                  CG: 38
+                  SHO: 14
+                  SV: 31
+                  IPouts: 4156
+                  HA: 1340
+                  HRA: 114
+                  BBA: 498
+                  SOA: 971
+                  E: 116
+                  DP: 151
+                  FP: 0.98
+                  name: Houston Astros
+                  park: Astrodome
+                  attendance: 1469247
+                  BPF: 98
+                  PPF: 97
+                  teamIDBR: HOU
+                  teamIDlahman45: HOU
+                  teamIDretro: HOU
+                - ID: 1600
+                  yearID: 1972
+                  lgID: AL
+                  teamID: KCA
+                  franchID: KCR
+                  divID: W
+                  div_ID: 2
+                  teamRank: 4
+                  G: 154
+                  Ghome: 77
+                  W: 76
+                  L: 78
+                  DivWin: "N"
+                  LgWin: "N"
+                  WSWin: "N"
+                  R: 580
+                  AB: 5167
+                  H: 1317
+                  "2B": 220
+                  "3B": 26
+                  HR: 78
+                  BB: 534
+                  SO: 711
+                  SB: 85
+                  CS: 44
+                  HBP: 34
+                  SF: 38
+                  RA: 545
+                  ER: 497
+                  ERA: 3.24
+                  CG: 44
+                  SHO: 16
+                  SV: 28
+                  IPouts: 4144
+                  HA: 1293
+                  HRA: 85
+                  BBA: 405
+                  SOA: 801
+                  E: 116
+                  DP: 164
+                  FP: 0.981
+                  name: Kansas City Royals
+                  park: Municipal Stadium II
+                  attendance: 707656
+                  BPF: 99
+                  PPF: 98
+                  teamIDBR: KCR
+                  teamIDlahman45: KCA
+                  teamIDretro: KCA
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/teams
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/teams
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/teams
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/baseball/teams/{id}:
+    get:
+      tags:
+      - Baseball
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getTeam
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+              example:
+                ID: 1599
+                yearID: 1972
+                lgID: NL
+                teamID: HOU
+                franchID: HOU
+                divID: W
+                div_ID: 5
+                teamRank: 3
+                G: 153
+                Ghome: 77
+                W: 84
+                L: 69
+                DivWin: "N"
+                LgWin: "N"
+                WSWin: "N"
+                R: 708
+                AB: 5267
+                H: 1359
+                "2B": 233
+                "3B": 38
+                HR: 134
+                BB: 524
+                SO: 907
+                SB: 111
+                CS: 56
+                HBP: 32
+                SF: 51
+                RA: 636
+                ER: 580
+                ERA: 3.77
+                CG: 38
+                SHO: 14
+                SV: 31
+                IPouts: 4156
+                HA: 1340
+                HRA: 114
+                BBA: 498
+                SOA: 971
+                E: 116
+                DP: 151
+                FP: 0.98
+                name: Houston Astros
+                park: Astrodome
+                attendance: 1469247
+                BPF: 98
+                PPF: 97
+                teamIDBR: HOU
+                teamIDlahman45: HOU
+                teamIDretro: HOU
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/teams/1599
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/baseball/teams/1599
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/baseball/teams/1599
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/countries:
+    get:
+      tags:
+      - Countries
+      description: "This operation returns an array of [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) objects."
+      operationId: getCountries
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountriesResponse'
+              example:
+                metadata:
+                  numTotalRecords: 249
+                  numFilteredRecords: 7
+                  numResponseRecords: 3
+                  page: 1
+                  limit: 3
+                  numTotalPages: 3
+                  firstItemOnPage: 1
+                records:
+                - id: AFG
+                  name: Afghanistan
+                - id: KAZ
+                  name: Kazakhstan
+                - id: KGZ
+                  name: Kyrgyzstan
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/countries
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/countries
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/countries
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/countries/{id}:
+    get:
+      tags:
+      - Countries
+      description: "This operation returns a [ISO-3 country-code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) object."
+      operationId: getCountry
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+              example:
+                id: AFG
+                name: Afghanistan
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                statusMsg: Bad Request
+                userMsgId: 22
+                userMsg: Invalid field
+                method: GET
+                url: https://hagenhaus.com/api/v2/countries/AFG
+                timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/countries/AFG
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/famous-trees:
+    get:
+      tags:
+      - Famous Trees
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getFamousTrees
+      parameters:
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      - name: filter
+        in: query
+        description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All records:
+            value: ""
+          Records where field is "abc":
+            value: field like "abc"
+          Records where field starts with "abc":
+            value: field like "abc%"
+          Records where field includes "abc":
+            value: field like "%abc%"
+          Records where field1 includes "abc" and field2 is "xyz":
+            value: field1 like "%abc%" and field2 like "xyz"
+      - name: order
+        in: query
+        description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          Default order:
+            value: ""
+          Order by field asc:
+            value: field asc
+          Order by field1 asc, then field2 desc:
+            value: "field1 asc, field2 desc"
+      - name: page
+        in: query
+        description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: hasFieldList
+        in: query
+        description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasMetadata
+        in: query
+        description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: hasRecords
+        in: query
+        description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreesResponse'
+              example:
+                metadata:
+                  numTotalRecords: 12
+                  numFilteredRecords: 2
+                  numResponseRecords: 2
+                  page: 1
+                  limit: 3
+                  numTotalPages: 1
+                  firstItemOnPage: 1
+                records:
+                - id: 4
+                  birthYear: 500
+                  city: Derby
+                  country: AUS
+                  description: The Baobab Prison Tree ...
+                  girth: 48
+                  height: 46
+                  lat: "-17.3507000"
+                  links:
+                  - link: https://en.wikipedia.org/...
+                    text: Wikipedia
+                  - link: https://www.monumentaltrees.com/...
+                    text: Monumental Trees
+                  lng: "123.6699000"
+                  name: Boab Prison Tree
+                  species:
+                    link: https://en.wikipedia.org/...
+                    text: Adansonia gregorii
+                - id: 10
+                  birthYear: 1780
+                  city: Durham
+                  country: AUS
+                  description: The Dig Tree is ...
+                  girth: 0
+                  height: 0
+                  lat: "-27.6237000"
+                  links:
+                  - link: https://en.wikipedia.org/...
+                    text: Wikipedia
+                  lng: "141.0758000"
+                  name: Burke and Wills Dig Tree
+                  species:
+                    link: https://en.wikipedia.org/...
+                    text: Eucalyptus
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/famous-trees
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value or syntax:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value or syntax in query parameter
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/famous-trees
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/famous-trees
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+    post:
+      tags:
+      - Famous Trees
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: createFamousTree
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreeRequest'
+            example:
+              birthYear: -2000
+              city: Abarkuh
+              country: IRN
+              description: The Cypress of Abarkuh (aka Sarv-e Abarkuh) is a Persian cypress tree.
+              girth: 37
+              height: 82
+              lat: 31.12264
+              links:
+              - link: https://en.wikipedia.org/wiki/Sarv-e_Abarkuh
+                text: Wikipedia
+              - link: https://www.monumentaltrees.com/en/irn/yazd/abarkuh/2941_sarveabarqu/
+                text: Monumental Trees
+              lng: 53.27984
+              name: Sarv-e Abarqu
+              species:
+                link: https://en.wikipedia.org/wiki/Cupressus_sempervirens
+                text: Cupressus sempervirens
+      responses:
+        "201":
+          description: Created
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tree'
+              example:
+                id: 607
+                birthYear: -2000
+                city: Abarkuh
+                country: IRN
+                description: The Cypress of Abarkuh (aka Sarv-e Abarkuh) is a Persian cypress tree.
+                girth: 37
+                height: 82
+                lat: "31.12264"
+                links:
+                - link: https://en.wikipedia.org/wiki/Sarv-e_Abarkuh
+                  text: Wikipedia
+                - link: https://www.monumentaltrees.com/en/irn/yazd/abarkuh/2941_sarveabarqu/
+                  text: Monumental Trees
+                lng: "53.27984"
+                name: Sarv-e Abarqu
+                species:
+                  link: https://en.wikipedia.org/wiki/Cupressus_sempervirens
+                  text: Cupressus sempervirens
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Name required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 14
+                    userMsg: Name required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/famous-trees
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Invalid field in request
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/famous-trees
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Error parsing request:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Error parsing request
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/famous-trees
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 401
+                statusMsg: Unauthorized
+                userMsgId: 9
+                userMsg: Invalid authentication token
+                method: POST
+                url: https://hagenhaus.com/api/v2/famous-trees
+                timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/famous-trees
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+  /api/v2/famous-trees/{id}:
+    get:
+      tags:
+      - Famous Trees
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getFamousTree
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tree'
+              example:
+                id: 5
+                birthYear: 400
+                city: Santa María del Tule
+                country: MEX
+                description: El Árbol del Tule is ...
+                girth: 46
+                height: 116
+                lat: "17.0465308"
+                links:
+                - link: https://en.wikipedia.org/...
+                  text: Wikipedia
+                - link: https://www.tripadvisor.com/...
+                  text: TripAdvisor
+                lng: "-96.6365872"
+                name: Árbol del Tule
+                species:
+                  link: https://en.wikipedia.org/...
+                  text: Taxodium mucronatum
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/famous-trees/1
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+    delete:
+      tags:
+      - Famous Trees
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: deleteFamousTree
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        "204":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Date:
+              $ref: '#/components/headers/date'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Token required:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 4
+                    userMsg: Token required
+                    method: DELETE
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Not your token:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 10
+                    userMsg: Not your token
+                    method: DELETE
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: DELETE
+                url: https://hagenhaus.com/api/v2/famous-trees/1
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Famous Trees
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: updateFamousTree
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TreeRequest'
+            examples:
+              example1:
+                value:
+                  name: Zoroastrian Sarv
+              example2:
+                value:
+                  name: Zoroastrian Sarv
+                  height: 86
+              example3:
+                value:
+                  name: Zoroastrian Sarv
+                  height: 86
+                  species:
+                    link: https://en.wikipedia.org/wiki/Cypress
+                    text: Cypress
+              example4:
+                value:
+                  birthYear: -2000
+                  city: Abarkuh
+                  country: IRN
+                  description: The Cypress of Abarkuh (aka Sarv-e Abarkuh) is a Persian cypress tree.
+                  girth: 37
+                  height: 82
+                  lat: 31.12264
+                  links:
+                  - link: https://en.wikipedia.org/wiki/Sarv-e_Abarkuh
+                    text: Wikipedia
+                  - link: https://www.monumentaltrees.com/en/irn/yazd/abarkuh/2941_sarveabarqu/
+                    text: Monumental Trees
+                  lng: 53.27984
+                  name: Sarv-e Abarqu
+                  species:
+                    link: https://en.wikipedia.org/wiki/Cupressus_sempervirens
+                    text: Cupressus sempervirens
+      responses:
+        "204":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Date:
+              $ref: '#/components/headers/date'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 26
+                    userMsg: Invalid ID
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid value:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 23
+                    userMsg: Invalid value
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Error parsing request:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Error parsing request
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/famous-trees/1
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 401
+                statusMsg: Unauthorized
+                userMsgId: 0
+                userMsg: Invalid credentials
+                method: PATCH
+                url: https://hagenhaus.com/api/v2/famous-trees/1
+                timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: PATCH
+                url: https://hagenhaus.com/api/v2/famous-trees/1
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+  /api/v2/users:
+    post:
+      tags:
+      - Users
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPostRequest'
+            example:
+              firstName: Harry
+              lastName: Hill
+              email: harry@acme.com
+              password: password
+              street: 7 Bagley Hill Road
+              city: Troy
+              region: ME
+              country: USA
+              postalCode: "04987"
+              partnerId: abcd1234-1a1a-2b2b-3c3c-12345678abcd
+      responses:
+        "201":
+          description: Created
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: 3
+                firstName: Harry
+                lastName: Hill
+                email: harry@acme.com
+                street: 7 Bagley Hill Road
+                city: Troy
+                region: ME
+                country: USA
+                postalCode: "04987"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                First name required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 17
+                    userMsg: First name required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Last name required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 18
+                    userMsg: Last name required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Email required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 1
+                    userMsg: Email required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Password required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 2
+                    userMsg: Password required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Partner ID required:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 20
+                    userMsg: Partner ID required
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Invalid Partner ID:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 20
+                    userMsg: Invalid Partner ID
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Error parsing request:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Error parsing request
+                    method: POST
+                    url: https://hagenhaus.com/api/v2/users
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: DELETE
+                url: https://hagenhaus.com/api/v2/users
+                timestamp: 2024-11-13T12:58:06.165Z
+      security: []
+  /api/v2/users/{id}:
+    get:
+      tags:
+      - Users
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: getUsers
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: fields
+        in: query
+        description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        examples:
+          All fields:
+            value: ""
+          field1:
+            value: field1
+          field1,field2,field3:
+            value: "field1,field2,field3"
+      responses:
+        "200":
+          description: Success
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Content-Length:
+              $ref: '#/components/headers/contentLength'
+            Content-Type:
+              $ref: '#/components/headers/contentType'
+            Date:
+              $ref: '#/components/headers/date'
+            ETag:
+              $ref: '#/components/headers/etag'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: 3
+                firstName: Harry
+                lastName: Hill
+                email: harry@acme.com
+                street: 7 Bagley Hill Road
+                city: Troy
+                region: ME
+                country: USA
+                postalCode: "04987"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Token required:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 4
+                    userMsg: Token required
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Not your token:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 10
+                    userMsg: Not your token
+                    method: GET
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: GET
+                url: https://hagenhaus.com/api/v2/users/3
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - Users
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        "204":
+          description: No Content
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Date:
+              $ref: '#/components/headers/date'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Token required:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 4
+                    userMsg: Token required
+                    method: DELETE
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Not your token:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 10
+                    userMsg: Not your token
+                    method: DELETE
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: DELETE
+                url: https://hagenhaus.com/api/v2/users/3
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Users
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        description: Record Identifier.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatchRequest'
+            examples:
+              example1:
+                value:
+                  street: 128 Ward Hill Road
+              example2:
+                value:
+                  firstName: Harold
+                  street: 128 Ward Hill Road
+              example3:
+                value:
+                  firstName: Harold
+                  email: harold@acme.com
+                  street: 128 Ward Hill Road
+              example4:
+                value:
+                  firstName: Harry
+                  lastName: Hill
+                  email: harry@acme.com
+                  password: password
+                  street: 7 Bagley Hill Road
+                  city: Troy
+                  region: ME
+                  country: USA
+                  postalCode: "04987"
+      responses:
+        "204":
+          description: No Content
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/accessControlAllowOrigin'
+            Date:
+              $ref: '#/components/headers/date'
+            Server:
+              $ref: '#/components/headers/server'
+            X-Powered-By:
+              $ref: '#/components/headers/xPoweredBy'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid field:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 22
+                    userMsg: Invalid field
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Error parsing request:
+                  value:
+                    statusCode: 400
+                    statusMsg: Bad Request
+                    userMsgId: 24
+                    userMsg: Error parsing request
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Token required:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 4
+                    userMsg: Token required
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+                Not your token:
+                  value:
+                    statusCode: 401
+                    statusMsg: Unauthorized
+                    userMsgId: 10
+                    userMsg: Not your token
+                    method: PATCH
+                    url: https://hagenhaus.com/api/v2/users/3
+                    timestamp: 2024-11-13T12:58:06.165Z
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 500
+                statusMsg: Internal Server Error
+                userMsgId: 13
+                userMsg: Server error
+                method: PATCH
+                url: https://hagenhaus.com/api/v2/users/3
+                timestamp: 2024-11-13T12:58:06.165Z
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    ApiInfo:
+      title: ApiInfo
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    ApiMessages:
+      title: ApiMessages
+      type: array
+      items:
+        type: string
+    Country:
+      title: Country
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CountryCode'
+        name:
+          type: string
+    CountryCode:
+      maxLength: 3
+      minLength: 3
+      pattern: "^[A-Z]{3}$"
+      type: string
+    Countries:
+      type: array
+      items:
+        $ref: '#/components/schemas/Country'
+    CountriesResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Countries'
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        statusMsg:
+          type: string
+        userMsgId:
+          type: integer
+        userMsg:
+          type: string
+        method:
+          type: string
+        url:
+          type: string
+        timestamp:
+          type: string
+    Id:
+      type: string
+      description: Record ID.
+    League:
+      type: object
+      properties:
+        lgID:
+          type: string
+        league:
+          type: string
+        active:
+          type: string
+    Leagues:
+      type: array
+      items:
+        $ref: '#/components/schemas/League'
+    LeaguesResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Leagues'
+    Link:
+      title: Link
+      type: object
+      properties:
+        link:
+          type: string
+          description: Url.
+        text:
+          type: string
+          description: Text.
+    Manager:
+      type: object
+      properties:
+        ID:
+          type: integer
+        playerID:
+          type: string
+        yearID:
+          type: integer
+        teamID:
+          type: string
+        team_ID:
+          type: integer
+        lgID:
+          type: string
+        inseason:
+          type: integer
+        G:
+          type: integer
+        W:
+          type: integer
+        L:
+          type: integer
+        teamRank:
+          type: integer
+        plyrMgr:
+          type: string
+    Managers:
+      type: array
+      items:
+        $ref: '#/components/schemas/Manager'
+    ManagersResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Managers'
+    Metadata:
+      type: object
+      properties:
+        numTotalRecords:
+          type: integer
+          description: Total number of records in the database.
+        numFilteredRecords:
+          type: integer
+          description: Total number of records in the database that match the filter.
+        numResponseRecords:
+          type: integer
+          description: Total number of records in this particular response body.
+        page:
+          type: integer
+          description: Current page (one-based)).
+        limit:
+          type: integer
+          description: Page size.
+        numTotalPages:
+          type: integer
+          description: Math.ceil( numFilteredRecords / limit ).
+        firstItemOnPage:
+          type: integer
+          description: Index of first item on page into numFilteredRecords (one-based).
+    Park:
+      type: object
+      properties:
+        ID:
+          type: integer
+        parkalias:
+          type: string
+        parkkey:
+          type: string
+        parkname:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+    Parks:
+      type: array
+      items:
+        $ref: '#/components/schemas/Park'
+    ParksResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Parks'
+    Player:
+      type: object
+      properties:
+        playerID:
+          type: string
+        birthYear:
+          type: integer
+        birthMonth:
+          type: integer
+        birthDay:
+          type: integer
+        birthCountry:
+          type: string
+        birthState:
+          type: string
+        birthCity:
+          type: string
+        deathYear:
+          type: integer
+        deathMonth:
+          type: integer
+        deathDay:
+          type: integer
+        deathCountry:
+          type: string
+        deathState:
+          type: string
+        deathCity:
+          type: string
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+        nameGiven:
+          type: string
+        weight:
+          type: integer
+        height:
+          type: integer
+        bats:
+          type: string
+        throws:
+          type: string
+        debut:
+          type: string
+        finalGame:
+          type: string
+        retroID:
+          type: string
+        bbrefID:
+          type: string
+        birth_date:
+          type: string
+        debut_date:
+          type: string
+        finalgame_date:
+          type: string
+        death_date:
+          type: string
+    Players:
+      type: array
+      items:
+        $ref: '#/components/schemas/Player'
+    PlayersResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Players'
+    Team:
+      type: object
+      properties:
+        ID:
+          type: integer
+        yearID:
+          type: integer
+        lgID:
+          type: string
+        teamID:
+          type: string
+        franchID:
+          type: string
+        divID:
+          type: string
+        div_ID:
+          type: integer
+        teamRank:
+          type: integer
+        G:
+          type: integer
+        Ghome:
+          type: integer
+        W:
+          type: integer
+        L:
+          type: integer
+        DivWin:
+          type: string
+        WCWin:
+          type: string
+        LgWin:
+          type: string
+        WSWin:
+          type: string
+        R:
+          type: integer
+        AB:
+          type: integer
+        H:
+          type: integer
+        "2B":
+          type: integer
+        "3B":
+          type: integer
+        HR:
+          type: integer
+        BB:
+          type: integer
+        SO:
+          type: integer
+        SB:
+          type: integer
+        CS:
+          type: integer
+        HBP:
+          type: integer
+        SF:
+          type: integer
+        RA:
+          type: integer
+        ER:
+          type: integer
+        ERA:
+          type: number
+        CG:
+          type: integer
+        SHO:
+          type: integer
+        SV:
+          type: integer
+        IPouts:
+          type: integer
+        HA:
+          type: integer
+        HRA:
+          type: integer
+        BBA:
+          type: integer
+        SOA:
+          type: integer
+        E:
+          type: integer
+        DP:
+          type: integer
+        FP:
+          type: number
+        name:
+          type: string
+        park:
+          type: string
+        attendance:
+          type: integer
+        BPF:
+          type: integer
+        PPF:
+          type: integer
+        teamIDBR:
+          type: string
+        teamIDlahman45:
+          type: string
+        teamIDretro:
+          type: string
+    Teams:
+      type: array
+      items:
+        $ref: '#/components/schemas/Team'
+    TeamsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Teams'
+    TokenUserId:
+      type: object
+      properties:
+        token:
+          type: string
+        userId:
+          type: string
+    TreeRequest:
+      type: object
+      properties:
+        birthYear:
+          type: integer
+        city:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCode'
+        description:
+          type: string
+        girth:
+          type: integer
+        height:
+          type: integer
+        lat:
+          type: number
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        lng:
+          type: number
+        name:
+          type: string
+        species:
+          $ref: '#/components/schemas/Link'
+    Tree:
+      type: object
+      properties:
+        id:
+          type: integer
+        birthYear:
+          type: integer
+        city:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCode'
+        description:
+          type: string
+        girth:
+          type: integer
+        height:
+          type: integer
+        lat:
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        lng:
+          type: string
+        name:
+          type: string
+        species:
+          $ref: '#/components/schemas/Link'
+    Trees:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tree'
+    TreesResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        records:
+          $ref: '#/components/schemas/Trees'
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        region:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCode'
+        postalCode:
+          type: string
+    UserPostRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        region:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCode'
+        postalCode:
+          type: string
+        partnerId:
+          type: string
+    UserPatchRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        region:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCode'
+        postalCode:
+          type: string
+  parameters:
+    CountryCodeInPath:
+      name: id
+      in: path
+      description: "[ISO-3 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)"
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/CountryCode'
+    Fields:
+      name: fields
+      in: query
+      description: "This optional parameter specifies a list of zero or more fields to return in each record. All field names must be valid and separated by commas without spaces or quotation marks. Field names are case-insensitive. If this parameter is not specified, the operation returns all record fields."
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: string
+      examples:
+        All fields:
+          value: ""
+        field1:
+          value: field1
+        field1,field2,field3:
+          value: "field1,field2,field3"
+    Filter:
+      name: filter
+      in: query
+      description: "This optional parameter limits the pool of returnable records to those whose case-insensitive field values meet specified characteristics. If this parameter is not specified, all records are returnable."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+      examples:
+        All records:
+          value: ""
+        Records where field is "abc":
+          value: field like "abc"
+        Records where field starts with "abc":
+          value: field like "abc%"
+        Records where field includes "abc":
+          value: field like "%abc%"
+        Records where field1 includes "abc" and field2 is "xyz":
+          value: field1 like "%abc%" and field2 like "xyz"
+    HasFieldList:
+      name: hasFieldList
+      in: query
+      description: "This optional parameter specifies whether the response will include an array of record fields. true means the response will include the fields. If this parameter is not specified, record fields are not included."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: boolean
+    HasMetadata:
+      name: hasMetadata
+      in: query
+      description: "This optional parameter specifies whether the response will include metadata. true means the response will include metadata. If this parameter is not specified, the response will include metadata."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: boolean
+    HasRecords:
+      name: hasRecords
+      in: query
+      description: "This optional parameter specifies whether the response will include records. true means the response will include records. If this parameter is not specified, the response will include records."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: boolean
+    Order:
+      name: order
+      in: query
+      description: "This optional parameter establishes the order of returnable records. Field names and \"asc\" and \"desc\" are case-insensitive. If this parameter is not specified, the order of returned records is random."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+      examples:
+        Default order:
+          value: ""
+        Order by field asc:
+          value: field asc
+        Order by field1 asc, then field2 desc:
+          value: "field1 asc, field2 desc"
+    IdInPath:
+      name: id
+      in: path
+      description: Record Identifier.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/Id'
+    Page:
+      name: page
+      in: query
+      description: "This optional parameter specifies which page of records to return. The value 1 means the first page. All positive page values are valid. Any that does not correspond to a page of records returns a zero-length array. Zero (i.e. 0) and all negative values are invalid. If this parameter is not specified, the operation returns the first page of records."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+    Limit:
+      name: limit
+      in: query
+      description: "This optional parameter specifies the page size. Negative values are invalid. If this parameter is not specified, the page size is 10."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+  headers:
+    accessControlAllowOrigin:
+      style: simple
+      explode: false
+      schema:
+        type: string
+    contentLength:
+      style: simple
+      explode: false
+      schema:
+        type: number
+    contentType:
+      style: simple
+      explode: false
+      schema:
+        type: string
+    date:
+      style: simple
+      explode: false
+      schema:
+        type: string
+    etag:
+      style: simple
+      explode: false
+      schema:
+        type: string
+    server:
+      style: simple
+      explode: false
+      schema:
+        type: string
+    xPoweredBy:
+      style: simple
+      explode: false
+      schema:
+        type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
