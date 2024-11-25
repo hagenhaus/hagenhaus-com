@@ -1,10 +1,10 @@
 ---
 author: ''
 hasOtp: false
-menuItem: mi-contact-me
+menuItem: mi-contact
 ---
 
-# Contact me
+# Contact
 
 * [LinkedIn](https://www.linkedin.com/in/matthewjosephhagen/)
 * [Upwork](https://www.upwork.com/freelancers/~012d439e8f89131bbb?viewMode=1)

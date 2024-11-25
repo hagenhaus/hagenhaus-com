@@ -10,7 +10,7 @@ menuItem: mi-home
 
 # Matt Hagen
 
-_[Contact me](../contact-me/) for help in creating **technical content** for your company's **developer community**._
+_[Contact](../contact/) me for help in creating **technical content** for your company's **developer community**._
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col">
