@@ -3,8 +3,10 @@
 !/index.html
 !base.html
 !book.html
-scripts.min.js
-styles.min.css
+assets/scripts.js
+assets/scripts.min.js
+assets/styles.css
+assets/styles.min.css
 node_modules/
 output.txt
 config.json
