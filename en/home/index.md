@@ -1,9 +1,9 @@
 ---
 author: ''
 hasOtp: false
-hasEditBtn: false
+hasEditBtn: true
 hasPageHeader: true
-hasRefreshBtn: false
+hasRefreshBtn: true
 hasScrollbar: false
 menuItem: mi-home
 ---
