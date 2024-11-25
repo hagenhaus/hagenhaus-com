@@ -1,6 +1,6 @@
 # Hagenhaus
 
-This repository contains the hagenhaus.com content.
+This repository contains hagenhaus.com content.
 
 All content is protected by the "Attribution-NoDerivatives 4.0 International" license. See the license.md file.
 
