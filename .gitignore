@@ -3,10 +3,6 @@
 !/index.html
 !base.html
 !book.html
-assets/scripts.js
-assets/scripts.min.js
-assets/styles.css
-assets/styles.min.css
 node_modules/
 output.txt
 config.json
@@ -21,3 +17,7 @@ hhdatalist
 swagger
 website.tar
 !en/maintenance.html
+assets/scripts.min.js
+assets/styles.min.css
+assets/styles.css
+assets/scripts.js
