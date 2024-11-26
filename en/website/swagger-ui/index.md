@@ -3,7 +3,7 @@ hasEditBtn: true
 hasOtp: true
 hasPageHeader: true
 hasRefreshBtn: true
-menuItem: mi-portfolio
+menuItem: mi-website
 ---
 
 # Swagger UI

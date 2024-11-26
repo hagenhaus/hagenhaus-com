@@ -1,13 +1,13 @@
 ---
-bookTitle: Portfolio
+bookTitle: Website
 hasEditBtn: true
 hasOtp: true
 hasRefreshBtn: true
 hhdatalist: v0.0.2
-menuItem: mi-portfolio
+menuItem: mi-website
 ---
 
-# Portfolio
+# Website
 
 The diagram below illustrates the primary building blocks of my website:
 

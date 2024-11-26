@@ -15,7 +15,25 @@ _[Contact](../contact/) me for help in creating **technical content** for your c
 <div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col">
     <div class="card text-dark bg-light h-100">
-      <div class="card-header">My Roles since 1987</div>
+      <div class="card-header">My Services</div>
+      <div class="card-body">
+        <ul class="card-text">
+          <li>API documentation</li>
+          <li>PaaS documentation</li>
+          <li>Developer guides</li>
+          <li>Developer portals</li>
+          <li>Software diagrams</li>
+          <li>REST API design</li>
+          <li>Developer courseware</li>
+          <li>Developer relations</li>
+          <li>Training delivery</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-dark bg-light h-100">
+      <div class="card-header">My Roles</div>
       <div class="card-body">
         <ul class="card-text">
           <li>Technical writer</li>
@@ -25,23 +43,6 @@ _[Contact](../contact/) me for help in creating **technical content** for your c
           <li>Developer relations engineer</li>
           <li>Developer advocate</li>
           <li>Director of education</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card text-dark bg-light h-100">
-      <div class="card-header">My Services</div>
-      <div class="card-body">
-        <ul class="card-text">
-          <li>OpenAPI documentation</li>
-          <li>Developer portals</li>
-          <li>Developer guides</li>
-          <li>Software diagrams</li>
-          <li>Developer courseware</li>
-          <li>Developer relations</li>
-          <li>Training delivery</li>
-          <li>REST API design</li>
         </ul>
       </div>
     </div>
