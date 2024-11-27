@@ -15,7 +15,7 @@ menuItem: mi-website
   div.swagger-ui div.information-container div.info h2:not(.title) {font-weight:600;font-size:1.20rem;}
   div.swagger-ui div.information-container div.info h3 {
     color: #b37400;
-    font-weight: 600;
+    font-weight: normal;
     font-style: normal;
     font-size: 18px;
     margin-top: 1rem;

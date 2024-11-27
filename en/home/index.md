@@ -10,7 +10,7 @@ menuItem: mi-home
 
 # Matt Hagen
 
-_[Contact](../contact/) me for help in creating **technical content** for your company's **developer community**._
+_[Contact](https://www.linkedin.com/in/matthewjosephhagen/) me for help in creating **technical content** for your company's **developer community**._
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col">
@@ -18,15 +18,11 @@ _[Contact](../contact/) me for help in creating **technical content** for your c
       <div class="card-header">My Services</div>
       <div class="card-body">
         <ul class="card-text">
-          <li>API documentation</li>
-          <li>PaaS documentation</li>
-          <li>Developer guides</li>
-          <li>Developer portals</li>
-          <li>Software diagrams</li>
-          <li>REST API design</li>
-          <li>Developer courseware</li>
-          <li>Developer relations</li>
-          <li>Training delivery</li>
+          <li><a href="/en/services/#api-docs-and-testing">API docs and testing</a></li>
+          <li><a href="/en/services/#guides-and-tutorials">Guides and tutorials</a></li>
+          <li><a href="/en/services/#developer-portals">Developer portals</a></li>
+          <li><a href="/en/services/#training-content-and-delivery">Training content and delivery</a></li>
+          <li><a href="/en/services/#supplemental-diagrams">Supplemental diagrams</a></li>
         </ul>
       </div>
     </div>
@@ -48,5 +44,3 @@ _[Contact](../contact/) me for help in creating **technical content** for your c
     </div>
   </div>
 </div>
-
-Visit my [Portfolio](/en/portfolio/) page.
