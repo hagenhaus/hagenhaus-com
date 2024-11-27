@@ -16,10 +16,28 @@ The diagram below illustrates the primary building blocks of my website:
     <div><img src="webapp-h.png" class="img-fluid d-block" width="900" height="376"; loading="lazy"></div>
   </div>
   <div class="d-md-none">
-    <div><img src="webapp-v1.png" class="img-fluid d-block" height="384"; loading="lazy"></div>
-    <div><img src="webapp-v2.png" class="img-fluid d-block" height="384"; loading="lazy"></div>
+    <div><img src="webapp-v1.png" class="img-fluid d-block" height="390"; loading="lazy"></div>
+    <div><img src="webapp-v2.png" class="img-fluid d-block" height="376"; loading="lazy"></div>
   </div>
 </div>
+
+The numbers in the diagram correspond to the following:
+
+1. Source Files. 
+
+1. HHPress Jamstack. 
+
+1. website.tar.
+
+1. Website Files. 
+
+1. HHDataList.
+
+1. Hagenhaus API.
+
+1. Hagenhaus API Server.
+
+1. Database.
 
 ### HHPress Jamstack
 
