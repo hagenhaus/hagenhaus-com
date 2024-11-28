@@ -13,11 +13,11 @@ The diagram below illustrates the primary building blocks of my website:
 
 <div class="mb-3">
   <div class="d-none d-md-block">
-    <div><img src="webapp-h.png" class="img-fluid d-block" width="900" height="318"; loading="lazy"></div>
+    <div><img src="webapp-h.png" class="img-fluid d-block" width="900" height="318" loading="lazy"></div>
   </div>
   <div class="d-md-none">
-    <div><img src="webapp-v1.png" class="img-fluid d-block" height="318"; loading="lazy"></div>
-    <div><img src="webapp-v2.png" class="img-fluid d-block" height="318"; loading="lazy"></div>
+    <div><img src="webapp-v1.png" class="img-fluid d-block" height="318" loading="lazy"></div>
+    <div><img src="webapp-v2.png" class="img-fluid d-block" height="318" loading="lazy"></div>
   </div>
 </div>
 
