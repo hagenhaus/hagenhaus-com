@@ -6,7 +6,11 @@ menuItem: mi-website
 
 # Database
 
+This [MariaDB Foundation](https://mariadb.org/) database includes _lamansbaseballdb_ which is a hosted copy of the [Lahman Baseball Dataset](http://seanlahman.com/) and _hagenhausdb_ consisting of the countries, trees, and users tables along with some interesting stored procedures. [HHDataList](/en/hhdatalist/v0.0.2/) uses the [Hagenhaus API](/en/website/hagenhaus-api/) to access these data.
+
 # Procedures
+
+These are generic procedures added to both _lamansbaseballdb_ and _hagenhausdb_.
 
 ## deleteRecord
 
