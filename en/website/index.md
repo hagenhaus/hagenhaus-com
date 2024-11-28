@@ -13,31 +13,27 @@ The diagram below illustrates the primary building blocks of my website:
 
 <div class="mb-3">
   <div class="d-none d-md-block">
-    <div><img src="webapp-h.png" class="img-fluid d-block" width="900" height="376"; loading="lazy"></div>
+    <div><img src="webapp-h.png" class="img-fluid d-block" width="900" height="318"; loading="lazy"></div>
   </div>
   <div class="d-md-none">
-    <div><img src="webapp-v1.png" class="img-fluid d-block" height="390"; loading="lazy"></div>
-    <div><img src="webapp-v2.png" class="img-fluid d-block" height="376"; loading="lazy"></div>
+    <div><img src="webapp-v1.png" class="img-fluid d-block" height="318"; loading="lazy"></div>
+    <div><img src="webapp-v2.png" class="img-fluid d-block" height="318"; loading="lazy"></div>
   </div>
 </div>
 
-The numbers in the diagram correspond to the following:
+In the diagram above, the website in the Browser box is the sum of many parts. Some are not shown in the diagram including [Bootstrap](https://getbootstrap.com/), [Fontawesome](https://fontawesome.com/), and [Axios](https://axios-http.com/). Others are numbered in the Amazon Lightsail box and described below.
 
-1. Source Files. 
+1. **Hagenhaus Files** include mostly html files and image files. The html files are the output from the HHPress Jamstack Generator. The input (i.e. source) files are markdown files like [this](https://github.com/hagenhaus/hagenhaus-com/blob/master/en/website/index.md).
 
-1. HHPress Jamstack. 
+1. **HHPress Files**
 
-1. website.tar.
+1. **HHDataList Files**
 
-1. Website Files. 
+1. **Hagenhaus API**
 
-1. HHDataList.
+1. **Hagenhaus API Server**
 
-1. Hagenhaus API.
-
-1. Hagenhaus API Server.
-
-1. Database.
+1. **Database**
 
 ### HHPress Jamstack
 
