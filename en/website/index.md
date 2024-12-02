@@ -25,7 +25,7 @@ In the diagram above, the website in the Browser box is the sum of many parts. S
 
 1. **Hagenhaus Files** include mostly html files and image files. The HHPress Generator converts markdown files like [this](https://github.com/hagenhaus/hagenhaus-com/blob/master/en/website/index.md) to these html files.
 
-1. **HHPress Files** include template html files, a CSS file, and a JS file. I created HHPress, a responsive Jamstack that also includes the HHPress Generator mentioned above. While it does not leverage [Angular](https://angular.dev/), [React](https://react.dev/), or [Vue](https://vuejs.org/), it does utilize a simple, unique technique for loading only page sections that are not already loaded. [Learn more](hhpress/).
+1. **HHPress Files** include template html files, a CSS file, and a JS file. I created HHPress, a responsive website platform that also includes the HHPress Generator mentioned above. While HHPress does not leverage [Angular](https://angular.dev/), [React](https://react.dev/), or [Vue](https://vuejs.org/), it does utilize a simple, unique technique for loading only page sections that are not already loaded. [Learn more](hhpress/).
 
 1. **HHDataList Files** include a CSS file and a handful of JS files. I created HHDataList, a UI component that access data from any REST API and display it on a page using an html `<div>` tag and a configurable JS object like this:
 

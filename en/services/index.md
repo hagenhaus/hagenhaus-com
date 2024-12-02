@@ -46,7 +46,7 @@ Working with your team, I can establish a developer portal, organize it, create 
 
 * Using the [ReadMe](https://readme.com/) developer hub, I created the [ReadyRemit Developer Portal](https://developer.readyremit.com/) and all the original content for [Brightwell](https://www.brightwell.com/), a fintech company that makes a cross-border payment platform.
 
-* I created hagenhaus.com including a custom JamStack, UI Component, REST API, API server, and database. See [Website](/en/website/).
+* I created hagenhaus.com including a website platform, UI Component, REST API, API server, and database. See [Website](/en/website/).
 
 ## Training content and delivery
 
