@@ -1,0 +1,68 @@
+<ul>
+  <li class="dynamic"><a href="#swagger">Swagger</a></li>
+  <li class="dynamic">
+    <a href="#introduction">Introduction</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#security">Security</a></li>
+      <li class="dynamic"><a href="#query-parameters">Query Parameters</a></li>
+      <li class="dynamic"><a href="#requests">Requests</a></li>
+      <li class="dynamic"><a href="#responses">Responses</a></li>
+      <li class="dynamic"><a href="#errors">Errors</a></li>
+    </ul>
+  </li>
+  <li class="dynamic"><a href="#servers-authorize">Choose server & authorize</a></li>
+  <li class="dynamic">
+    <a href="#operations-tag-About">About</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-About-getApiDescription">getApiDescription</a></li>
+      <li class="dynamic"><a href="#operations-About-getApiMessages">getApiMessages</a></li>
+    </ul>
+  </li>
+  <li class="dynamic">
+    <a href="#operations-tag-Authentication">Authentication</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-Authentication-createToken">createToken</a></li>
+    </ul>
+  </li>
+  <li class="dynamic">
+    <a href="#operations-tag-Baseball">Baseball</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-Baseball-getLeagues">getLeagues</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getLeague">getLeague</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getManagers">getManagers</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getManager">getManager</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getParks">getParks</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getPark">getPark</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getPlayers">getPlayers</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getPlayer">getPlayer</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getTeams">getTeams</a></li>
+      <li class="dynamic"><a href="#operations-Baseball-getTeam">getTeam</a></li>
+    </ul>
+  </li>
+  <li class="dynamic">
+    <a href="#operations-tag-Countries">Countries</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-Countries-getCountries">getCountries</a></li>
+      <li class="dynamic"><a href="#operations-Countries-getCountry">getCountry</a></li>
+    </ul>
+  </li>
+  <li class="dynamic">
+    <a href="#operations-tag-Famous_Trees">Famous Trees</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-Famous_Trees-createFamousTree">createFamousTree</a></li>
+      <li class="dynamic"><a href="#operations-Famous_Trees-getFamousTrees">getFamousTrees</a></li>
+      <li class="dynamic"><a href="#operations-Famous_Trees-getFamousTree">getFamousTree</a></li>
+      <li class="dynamic"><a href="#operations-Famous_Trees-updateFamousTree">updateFamousTree</a></li>
+      <li class="dynamic"><a href="#operations-Famous_Trees-deleteFamousTree">deleteFamousTree</a></li>
+    </ul>
+  </li>
+  <li class="dynamic">
+    <a href="#operations-tag-Users">Users</a>
+    <ul class="dynamic">
+      <li class="dynamic"><a href="#operations-Users-createUser">createUser</a></li>
+      <li class="dynamic"><a href="#operations-Users-getUser">getUser</a></li>
+      <li class="dynamic"><a href="#operations-Users-updateUser">updateUser</a></li>
+      <li class="dynamic"><a href="#operations-Users-deleteUser">deleteUser</a></li>
+    </ul>
+  </li>
+</ul>

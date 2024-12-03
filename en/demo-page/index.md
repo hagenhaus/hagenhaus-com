@@ -30,16 +30,16 @@ Here are the possiblities:
 
 ## HL Num Loaded Ranged
 
-``` js
+<!-- ``` js
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
 range: 8-10
-```
+``` -->
 
 ## HL Num Loaded
 
-``` js
+<!-- ``` js
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
-```
+``` -->
 
 ## HL Num
 
@@ -61,16 +61,16 @@ let square2 = randomSquare(myCanvas.ctx);
 
 ## HL Loaded Ranged
 
-``` js nonum
+<!-- ``` js nonum
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
 range: 8-10
-```
+``` -->
 
 ## HL Loaded
 
-``` js nonum
+<!-- ``` js nonum
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
-```
+``` -->
 
 ## HL
 
@@ -92,16 +92,16 @@ let square2 = randomSquare(myCanvas.ctx);
 
 ## Num Loaded Ranged
 
-```
+<!-- ```
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
 range: 8-10
-```
+``` -->
 
 ## Num Loaded
 
-```
+<!-- ```
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
-```
+``` -->
 
 ## Num
 
@@ -123,16 +123,16 @@ let square2 = randomSquare(myCanvas.ctx);
 
 ## Loaded Ranged
 
-``` nonum
+<!-- ``` nonum
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
 range: 8-10
-```
+``` -->
 
 ## Loaded
 
-``` nonum
+<!-- ``` nonum
 load: https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/main.js
-```
+``` -->
 
 ## Simple
 

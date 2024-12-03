@@ -1,5 +1,6 @@
 .DS_Store
 *.html
+!/index.html
 !base.html
 !book.html
 node_modules/
