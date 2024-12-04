@@ -163,5 +163,3 @@ This file contains page-specific configuration information used by the HHPress `
   "title": "HHPress"
 }
 ```
-
-# Loading pages
